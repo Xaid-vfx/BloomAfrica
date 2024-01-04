@@ -41,7 +41,7 @@ export default function About() {
                         <h1 className="text-4xl xl:text-5xl text-[#000000] font-bold">
                             <span className="text-[#5baaa7]">How</span> we do?
                         </h1>
-                        <p className="my-5 text-base font-light lg:text-lg">By partnering with Africa's top universities and global education and tech leaders, we create the best education programs available, even on the global standard. We then merge these programs with our job board platform to provide informal workers and MSME owners with easy access to the best education, empowering them to upskill themselves, grow their businesses, and connect with a world of employment opportunities</p>
+                        <p className="my-5 text-base font-light lg:text-lg">By partnering with Africa&apos;s top universities and global education and tech leaders, we create the best education programs available, even on the global standard. We then merge these programs with our job board platform to provide informal workers and MSME owners with easy access to the best education, empowering them to upskill themselves, grow their businesses, and connect with a world of employment opportunities</p>
                     </div>
                 </div>
                 <div className="bg-[#] py-16 xl:py-20">
@@ -75,7 +75,7 @@ export default function About() {
                             <span className="text-[#a98eba]">u</span>
                             <span className="text-[#5baaa7]">r </span> Values</h1>
                         <p className="my-6 opacity-70 font-light text-base xl:px-10 xl:text-xl xl:w-1/2">
-                            Our team at Bloom are convinced that we can harness Africa's informal economy to entirely reshape the global narrative. Our company's growth presents an exciting opportunity, but it also requires our commitment. To ensure we remain true to our mission, we have established five enduring values that shape our work culture and influence our daily choices.
+                            Our team at Bloom are convinced that we can harness Africas informal economy to entirely reshape the global narrative. Our company&apos;s growth presents an exciting opportunity, but it also requires our commitment. To ensure we remain true to our mission, we have established five enduring values that shape our work culture and influence our daily choices.
                         </p>
                     </div>
                 </div>

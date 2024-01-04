@@ -50,7 +50,7 @@ export default function Demo() {
                     <div className="lg:px-20 lg:pr-40">
                         <h1 className="overflow-hidden text-2xl text-[#5baaa7] mt-10 font-medium lg:mt-0 lg:text-2xl"><div className="SlideUp">Found a fit?</div></h1>
                         <h2 className="overflow-hidden my-5 text-xl font-medium lg:text-3xl"><div className="SlideUp">Apply!</div></h2>
-                        <p className="text-[#727272] font-light">Once you've found a listing that piques your interest, delve into the job description and the course description to assess whether it aligns with your aspirations.
+                        <p className="text-[#727272] font-light">Once you&apos;ve found a listing that piques your interest, delve into the job description and the course description to assess whether it aligns with your aspirations.
                             <br /><br />
                             Our application process is very easy. We have an acceptance rate of 100% all you need is your basic job application details. get hired, get educated, become a guru.
                         </p>
