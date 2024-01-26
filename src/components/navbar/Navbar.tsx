@@ -12,11 +12,11 @@ export default function Navbar() {
   const [currentPage, setCurrentPage] = useState("")
 
   const url = reverseString(globalThis.window?.location.href)
-  const page = url.split("/")
+  const page = url?.split("/")
   console.log(page);
 
   function reverseString(str: string) {
-    var splitString = str.split("");
+    var splitString = str?.split("");
     var reverseArray = splitString.reverse();
     var joinArray = reverseArray.join("");
     return joinArray;
