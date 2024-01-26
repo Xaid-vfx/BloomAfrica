@@ -11,7 +11,7 @@ export default function Navbar() {
   const [navbarIsVisible, setnavbarIsVisible] = useState(false)
   const [currentPage, setCurrentPage] = useState("")
 
-  const url = reverseString(window.location.href)
+  const url = reverseString(globalThis.window?.location.href)
   const page = url.split("/")
   console.log(page);
 
