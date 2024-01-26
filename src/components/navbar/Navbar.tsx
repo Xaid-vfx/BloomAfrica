@@ -33,7 +33,7 @@ export default function Navbar() {
 
   if (navbarIsVisible) {
     return (
-      <div className="h-[100vh] px-8 overflow-hidden fixed top-0 bg-white z-10">
+      <div className="h-screen w-screen px-8 overflow-hidden fixed top-0 bg-white z-10">
         <div className="flex items-center justify-between py-6">
           <div className="font-medium text-2xl cursor-pointer" onClick={() => { setnavbarIsVisible(false) }}>X</div>
           <Image src={LogoText} alt="logo" className="w-2/5" />
