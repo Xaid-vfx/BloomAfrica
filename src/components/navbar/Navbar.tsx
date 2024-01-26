@@ -61,10 +61,10 @@ export default function Navbar() {
 
       <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full">
         <div className="flex items-center">
-          <div className="hidden lg:flex lg:items-center lg:gap-2 lg:px-10">
+          <a href="/" className="hidden lg:flex lg:items-center lg:gap-2 lg:px-10">
             <Image src={Logo} alt="" width={50} />
             <h1 className="text-3xl font-medium">Bloom</h1>
-          </div>
+          </a>
 
           <div className="hidden lg:flex lg:pl-10">
             <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all`}>Home</a>

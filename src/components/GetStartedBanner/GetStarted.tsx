@@ -10,7 +10,7 @@ export default function GetStarted() {
             <p className="text-xs leading-6 text-center lg:text-sm lg:w-2/3">
                 Join Bloom today and become part of a community committed to continuous learning and professional excellence. Your future self will thank you!
             </p>
-            <button className="mt-10 text-black bg-white px-6 py-3 font-medium rounded-3xl">Join Waitlist</button>
+            <a href="/" className="mt-10 text-black bg-white px-6 py-3 font-medium rounded-3xl">Join Waitlist</a>
             <div className="absolute top-0 left-0 lg:hidden">
                 <Image src={VBall} alt="balls" width={60} className="rotate-180 " />
             </div>
