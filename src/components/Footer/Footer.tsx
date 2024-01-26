@@ -1,39 +1,42 @@
-import { FaRocket, FaXTwitter } from "react-icons/fa6";
+import { FaLinkedinIn, FaRocket, FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { RiLinksFill } from "react-icons/ri";
+import Logo from "../../assets/images/Logo.png"
+import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div className="bg-[rgb(25,25,25)] text-[#949494] px-10 py-20 lg:flex lg:justify-around w-full items-center">
-      <div>
-        <div>
-          <h1 className="font-semibold text-3xl flex items-center gap-2">Bloom <FaRocket /></h1>
-          <p className="py-3 text-base">Turn regular Jobs into Apprenticeships</p>
-        </div>
-        <div className="py-6">
-          <div className="flex flex-col gap-4">
-            <input type="email" className="px-6 py-3 rounded-md w-full lg:w-auto" placeholder="ENTER EMAIL" />
-            <button className="rounded-md w-full border py-3 lg:w-auto">GET STARTED</button>
+    <div>
+      <div className="bg-[#171c1f] px-8 py-10 text-white lg:flex lg:justify-between lg:px-24 lg:bg-[#1D1B1B]">
+        <div className="lg:w-1/3">
+          <div className="flex items-center gap-2">
+            <Image src={Logo} alt="logo" width={40} />
+            <h1 className="text-xl lg:text-3xl">Bloom</h1>
           </div>
-        </div></div>
-      <div className="py-6">
-        <h2 className="text-lg text-center py-4">Follow us</h2>
-        <div className="flex justify-center gap-4 text-sm">
-          <a href="https://x.com/_bloomAfrica" className="border border-[#949494] rounded-full p-2"><FaXTwitter /></a>
-          <div className="border border-[#949494] rounded-full p-2"><FaLinkedin /></div>
-          <div className="border border-[#949494] rounded-full p-2"><RiLinksFill /></div>
-        </div>
-        <div className="line border-[#949494] border-t-[1px] my-4"></div>
-        <div>
-          <div className="flex text-sm gap-4 justify-center mb-2">
-            <p>
-              Terms & Conditions
-            </p>
-            <p>Privacy Policy</p>
+          <p className="text-xs leading-6 mt-2 lg:text-sm lg:mt-4 lg:leading-7">Join Bloom today and become part of a community committed to continuous learning and professional excellence.</p>
+
+          <div className="socialicons mt-5 mb-8 flex gap-4 lg:mt-6">
+            <a href="https://x.com/_bloomAfrica" className="bg-black p-3 rounded-full cursor-pointer"><FaXTwitter /></a>
+            <a className="bg-black p-3 rounded-full cursor-pointer"><FaLinkedinIn /></a>
           </div>
-          <p className="text-xs text-center">All Rights Reserved</p>
+        </div>
+
+        <div className="lg:flex lg:w-1/2 lg:justify-evenly">
+          <div>
+            <h2 className="text-lg font-medium lg:text-xl lg:font-medium">Company</h2>
+            <p className="text-sm font-light my-3">About</p>
+            <p className="text-sm font-light my-3">Pricing</p>
+          </div>
+
+          <div className="mt-12 lg:mt-0">
+            <h2 className="text-lg font-medium lg:text-xl lg:font-medium">Legal</h2>
+            <p className="text-sm font-light my-3">Privacy Policy</p>
+            <p className="text-sm font-light my-3">Terms of Use</p>
+          </div>
         </div>
       </div>
+      <hr className="border-[#505050]" />
+      <div className="py-6 bg-[#1D1B1B] text-center text-white font-light">Bloom 2024. All Rights Reserved</div>
     </div>
   )
 }

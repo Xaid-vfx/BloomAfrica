@@ -1,30 +1,82 @@
+'use client'
 import { RxHamburgerMenu } from "react-icons/rx";
-import Logo from "../../assets/images/Logo.jpeg"
+import LogoText from "../../assets/images/BloomLogo.png"
+import Logo from "../../assets/images/Logo.png"
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
+
+  const [navbarIsVisible, setnavbarIsVisible] = useState(false)
+  const [currentPage, setCurrentPage] = useState("")
+
+  const url = reverseString(window.location.href)
+  const page = url.split("/")
+  console.log(page);
+
+  function reverseString(str: string) {
+    var splitString = str.split("");
+    var reverseArray = splitString.reverse();
+    var joinArray = reverseArray.join("");
+    return joinArray;
+  }
+
+  useEffect(() => {
+    if (reverseString(page[0]) == 'about') {
+      setCurrentPage("about")
+    }
+    else if (reverseString(page[0]) == '') {
+      setCurrentPage("home")
+    }
+  }, [])
+
+  if (navbarIsVisible) {
+    return (
+      <div className="h-[100vh] px-8 overflow-hidden fixed top-0 bg-white z-10">
+        <div className="flex items-center justify-between py-6">
+          <div className="font-medium text-2xl cursor-pointer" onClick={() => { setnavbarIsVisible(false) }}>X</div>
+          <Image src={LogoText} alt="logo" className="w-2/5" />
+        </div>
+        <div>
+          <a href="/"><div className="my-4 font-medium cursor-pointer">Home</div></a>
+          <hr />
+          <a href="/about"><div className="my-4 font-medium">About</div></a>
+          <hr />
+        </div>
+        <button className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl" onClick={() => { setnavbarIsVisible(false) }}>Join Waitlist</button>
+      </div>
+    )
+  }
+
   return (
-    <div className="py-1 px-2 xl:px-4 pr-6 w-full flex justify-between items-center">
-      <div className="flex items-center w-1/2">
-        <Link href='/'><Image src={Logo} height={100} width={60} alt="logo" /></Link>
-        <div className="xl:flex xl:items-baseline">
-          <p className="text-3xl font-bold tracking-tight mr-16">bloom</p>
-          <div className="menuitems gap-12 hidden xl:flex xl:items-center">
-            <Link href='/about'><div className="tracking-wide">About</div></Link>
-            <div className="tracking-wide">Products</div>
-            <div className="tracking-wide">Resources</div>
-            <div className="tracking-wide">Pricing</div>
+    <div className="px-6 py-5 flex justify-between items-center lg:justify-normal">
+
+      <div className="lg:hidden">
+        <Image src={LogoText} alt="logo" width={120} />
+      </div>
+      <div className="menu text-2xl lg:hidden">
+        <RxHamburgerMenu onClick={() => { setnavbarIsVisible(true) }} />
+      </div>
+
+      <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full">
+        <div className="flex items-center">
+          <div className="hidden lg:flex lg:items-center lg:gap-2 lg:px-10">
+            <Image src={Logo} alt="" width={50} />
+            <h1 className="text-3xl font-medium">Bloom</h1>
+          </div>
+
+          <div className="hidden lg:flex lg:pl-10">
+            <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all`}>Home</a>
+            <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>About</a>
+            <p className="text-sm mx-6 font-medium hover:-translate-y-[2px] transition-all">Pricing</p>
+            <p className="text-sm mx-6 font-medium hover:-translate-y-[2px] transition-all">FAQs</p>
           </div>
         </div>
+
+        <button className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Join Waitlist</button>
       </div>
-      <div className="menu text-2xl xl:hidden">
-        <RxHamburgerMenu />
-      </div>
-      <div className='hidden gap-2 my-4 xl:flex'>
-        <button className='border rounded-xl text-sm px-5 py-2 bg-black text-white '>Sign In</button>
-        <button className='border border-[#c4c4c4] rounded-xl text-sm px-5 py-2'>Find Jobs</button>
-      </div>
+
     </div>
   )
 }

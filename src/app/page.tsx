@@ -10,11 +10,9 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex flex-col gradient">
       <Navbar />
       <Hero />
-      <Demo />
-      <Footer />
     </main>
   )
 }
