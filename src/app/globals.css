@@ -103,11 +103,11 @@ body {
 
 .SlideIn{
   transform: translateY(-100%);
-  animation: slide-in .7s forwards;
+  animation: slide-in .5s forwards;
 }
 .SlideOut{
   transform: translateY(0%);
-  animation: slide-out .8s forwards;
+  animation: slide-out .5s forwards;
 }
 
 @keyframes slide-in {
