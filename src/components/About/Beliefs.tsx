@@ -5,7 +5,7 @@ import Value from "../../assets/images/Value.png"
 
 export default function Beliefs() {
     return (
-        <div className="bg-[#171c1f] text-white py-20 lg:h-[100vh]">
+        <div className="bg-[#171c1f] text-white py-20">
             <p className="text-center text-xl lg:text-4xl lg:font-semibold">We are driven by <br className="md:hidden" />our beliefs</p>
 
             <div className="px-6 flex flex-col my-10 lg:flex-row lg:mt-20 lg:mx-16">

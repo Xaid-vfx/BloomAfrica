@@ -13,7 +13,6 @@ export default function Navbar() {
 
   const url = reverseString(globalThis.window?.location.href)
   const page = url?.split("/")
-  console.log(page);
 
   function reverseString(str: string) {
     var splitString = str?.split("");
@@ -33,9 +32,14 @@ export default function Navbar() {
 
   if (navbarIsVisible) {
     return (
-      <div className="h-[200vh] w-screen px-8 overflow-hidden fixed top-0 bg-white z-10">
+      <div className="h-[200vh] w-screen px-8 overflow-hidden fixed top-0 bg-white z-10 SlideIn">
         <div className="flex items-center justify-between py-6">
-          <div className="font-medium text-2xl cursor-pointer" onClick={() => { setnavbarIsVisible(false) }}>X</div>
+          <div className="font-medium text-2xl cursor-pointer" onClick={() => {
+            document.getElementsByClassName('SlideIn')[0].classList.add('SlideOut')
+            setTimeout(() => {
+              setnavbarIsVisible(false)
+            }, 200);
+          }}>X</div>
           <Image src={LogoText} alt="logo" className="w-2/5" />
         </div>
         <div>

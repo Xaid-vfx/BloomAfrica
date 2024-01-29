@@ -22,13 +22,13 @@ export default function Footer() {
         </div>
 
         <div className="lg:flex lg:w-1/2 lg:justify-evenly">
-          <div>
+          <div className="flex flex-col">
             <h2 className="text-lg font-medium lg:text-xl lg:font-medium">Company</h2>
-            <p className="text-sm font-light my-3">About</p>
-            <p className="text-sm font-light my-3">Pricing</p>
+            <a href="/" className="text-sm font-light my-3">Home</a>
+            <a href="/about" className="text-sm font-light my-3">About</a>
           </div>
 
-          <div className="mt-12 lg:mt-0">
+          <div className="mt-12 lg:mt-0 flex flex-col">
             <h2 className="text-lg font-medium lg:text-xl lg:font-medium">Legal</h2>
             <p className="text-sm font-light my-3">Privacy Policy</p>
             <p className="text-sm font-light my-3">Terms of Use</p>

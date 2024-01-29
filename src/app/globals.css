@@ -100,3 +100,19 @@ body {
 .gradient{
   background: linear-gradient(45deg, rgba(250,244,236,1) 0%, rgba(240,240,251,1) 100%);
 }
+
+.SlideIn{
+  transform: translateY(-100%);
+  animation: slide-in .7s forwards;
+}
+.SlideOut{
+  transform: translateY(0%);
+  animation: slide-out .8s forwards;
+}
+
+@keyframes slide-in {
+  100% { transform: translateY(0%); }
+}
+@keyframes slide-out {
+  100% { transform: translateY(-100%); }
+}

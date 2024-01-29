@@ -15,7 +15,6 @@ export default function AboutHero() {
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                console.log(entry);
 
                 if (entry.isIntersecting) {
                     entry.target.classList.add('ShowAnimation')
@@ -33,7 +32,7 @@ export default function AboutHero() {
 
 
     return (
-        <div className="lg:flex lg:px-20 lg:h-screen lg:items-center lg:justify-between lg:bg-[#f0f0fb]">
+        <div className="lg:flex lg:px-20 lg:items-center lg:justify-between lg:bg-[#f0f0fb]">
             <div className="lg:w-6/12 px-6">
                 <h1 className="mt-14 font-semibold text-xl lg:text-5xl HiddenAnimationStats lg:mt-0">
                     Bloom Africa’s New Frontier
