@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
                 <h1 className="text-3xl font-medium text-center">Bloom Privacy Policy</h1>
                 <p className="text-sm my-4 text-center ">Last Updated: 4th January, 2024</p>
                 <p className="text-sm my-10">
-                    Welcome to Bloom! These Terms of Service ("Terms") outline the terms and conditions governing your use of the Bloom platform. By accessing or using Bloom, you agree to comply with and be bound by these Terms. If you do not agree with these Terms, please do not use our platform.
+                    Welcome to Bloom! These Terms of Service ({'"'}Terms{'"'}) outline the terms and conditions governing your use of the Bloom platform. By accessing or using Bloom, you agree to comply with and be bound by these Terms. If you do not agree with these Terms, please do not use our platform.
                 </p>
                 <h2 className="font-medium text-xl">1. Acceptance of Terms</h2>
                 <div className="text-sm flex flex-col">

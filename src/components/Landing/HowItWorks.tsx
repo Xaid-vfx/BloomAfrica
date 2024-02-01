@@ -37,7 +37,7 @@ export default function HowItWorks() {
                         Explore Our Opportunities Learning
                     </h2>
                     <p className="text-xs leading-6">
-                        Simply browse our expansive job listings and carefully review each opportunity's description. When you discover a position that aligns with your aspirations, seamlessly apply through our user-friendly platform.
+                        Simply browse our expansive job listings and carefully review each opportunity{"'"}s description. When you discover a position that aligns with your aspirations, seamlessly apply through our user-friendly platform.
                     </p>
                 </div>
                 <div className="text-center flex flex-col items-center py-2 pt-10 lg:w-1/3 lg:mx-4">
@@ -46,7 +46,7 @@ export default function HowItWorks() {
                     <h3 className="font-medium text-sm text-[#4A2C84] lg:text-lg lg:font-semibold">Step 3</h3>
                     <h2 className="my-3 font-medium text-base lg:font-semibold">Job-integrated learning </h2>
                     <p className="text-xs leading-6">
-                        Upon securing employment, our services don't end there. We offer a unique apprenticeship program that allows you to continue learning and growing alongside your professional development. This structured program seamlessly integrates theoretical knowledge with practical experience, leading to the completion of a diploma or lower degree.
+                        Upon securing employment, our services don{"'"}t end there. We offer a unique apprenticeship program that allows you to continue learning and growing alongside your professional development. This structured program seamlessly integrates theoretical knowledge with practical experience, leading to the completion of a diploma or lower degree.
                     </p>
                 </div>
             </div>
