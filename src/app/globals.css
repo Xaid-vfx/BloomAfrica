@@ -98,7 +98,7 @@ body {
 }
 
 .gradient{
-  background: linear-gradient(45deg, rgba(250,244,236,1) 0%, rgba(240,240,251,1) 100%);
+  background: linear-gradient(45deg, rgb(247, 237, 224) 0%, rgb(218, 218, 250) 100%);
 }
 
 .SlideIn{
@@ -115,4 +115,8 @@ body {
 }
 @keyframes slide-out {
   100% { transform: translateY(-100%); }
+}
+
+.box_shadow2{
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
 }

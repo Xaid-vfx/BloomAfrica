@@ -2,15 +2,48 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect } from "react"
-import StatsBox from "../About/StatsBox/StatsBox"
-import SearchIcon from "../../assets/images/searchicon.png";
-import CoursesIcon from "../../assets/images/coursesicon.png";
-import CertificationIcon from "../../assets/images/certifcationicon.png";
-import DHero from "../../assets/images/Man.png"
-import Star from "../../assets/images/Star.png"
+import { useEffect, useState } from "react"
+import StatsBox from "../../About/StatsBox/StatsBox"
+import SearchIcon from "../../../assets/images/searchicon.png";
+import CoursesIcon from "../../../assets/images/coursesicon.png";
+import CertificationIcon from "../../../assets/images/certifcationicon.png";
+import DHero from "../../../assets/images/Man.png"
+import Star from "../../../assets/images/Star.png"
+import { error, log } from "console"
+import { addDoc, collection } from "firebase/firestore"
+import { db } from "@/app/firebase.config"
 
 export default function Hero() {
+
+    const [email, setemail] = useState('')
+
+    function validateEmail(value: string) {
+        var input = document.createElement('input');
+
+        input.type = 'email';
+        input.required = true;
+        input.value = value;
+
+        return typeof input.checkValidity === 'function' ? input.checkValidity() : /\S+@\S+\.\S+/.test(value);
+    }
+
+    async function inputWaitlist() {
+        if (!validateEmail(email))
+            alert('Please enter a valid email')
+        else {
+            try {
+                const docref = await addDoc(collection(db, "waitlist"), {
+                    Email: email
+                });
+                alert("Email added")
+                console.log(docref.id);
+            }
+            catch (err) {
+                alert("Some issue")
+                console.log(err);
+            }
+        }
+    }
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -34,7 +67,7 @@ export default function Hero() {
     }, [])
 
     return (
-        <div className='lg:flex lg:items-center lg:h-screen lg:px-12'>
+        <div className='lg:flex lg:items-center lg:h-screen lg:px-12 gradient'>
             <div className="lg:w-7/12">
                 <div className="px-4 mt-20 flex flex-col justify-center items-center lg:items-start lg:mt-0">
                     <div className="lg:flex lg:items-center lg:w-full lg:justify-between lg:pr-12">
@@ -46,16 +79,16 @@ export default function Hero() {
                         and <br className="hidden lg:block" />Own your
                         <span className="text-[#4A2C84]"> Career</span>
                     </h1>
-                    <p className="text-xs leading-6 mt-2 text-center lg:text-left lg:mt-4 lg:text-base lg:w-4/5 HiddenAnimation">
+                    <p className="text-xs text-[#8A8A8A] leading-6 mt-2 text-center lg:text-left lg:mt-4 lg:text-base lg:w-4/5 HiddenAnimation">
                         Unleash your potential with our digital apprenticeship platform that seamlessly blends hands-on work experience with personalized learning.
                     </p>
 
                 </div>
                 <div className=" px-10 flex flex-col justify-center items-center lg:items-start lg:px-0">
                     <div className="w-full relative mt-12 flex rounded-2xl items-center bg-white lg:w-2/3 lg:rounded-full">
-                        <input type="string" className="w-2/3 rounded-2xl  px-4 py-2 placeholder:text-xs focus:outline-none lg:w-3/4 lg:rounded-full" placeholder="Enter email" />
+                        <input type="string" className="w-2/3 rounded-2xl  px-4 py-2 placeholder:text-xs focus:outline-none lg:w-3/4 lg:rounded-full" placeholder="Enter email" onChange={(e) => { setemail(e.target.value) }} />
 
-                        <button className=" m-1 w-1/3 right-2 top-2 text-xs px-2 py-2 rounded-2xl bg-purple-900 text-white lg:w-1/4 lg:py-4 lg:rounded-full">Join waitlist</button>
+                        <button className=" m-1 w-1/3 right-2 top-2 text-xs px-2 py-2 rounded-2xl bg-purple-900 text-white lg:w-1/4 lg:py-4 lg:rounded-full" onClick={() => { inputWaitlist() }}>Join waitlist</button>
                     </div>
                     <p className="text-xs text-center font-light my-2 lg:pl-4">Reserve your spot on the waitlist*</p>
                 </div>

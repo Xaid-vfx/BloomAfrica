@@ -28,6 +28,12 @@ export default function Navbar() {
     else if (reverseString(page[0]) == '') {
       setCurrentPage("home")
     }
+    else if (reverseString(page[0]) == 'pricing') {
+      setCurrentPage("pricing")
+    }
+    else if (reverseString(page[0]) == 'faqs') {
+      setCurrentPage("faqs")
+    }
   }, [])
 
   if (navbarIsVisible) {
@@ -54,7 +60,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className="px-6 py-5 flex justify-between items-center lg:justify-normal">
+    <div className="px-6 py-5 flex justify-between items-center lg:justify-normal box_shadow">
 
       <div className="lg:hidden">
         <Image src={LogoText} alt="logo" width={120} />
@@ -73,12 +79,12 @@ export default function Navbar() {
           <div className="hidden lg:flex lg:pl-10">
             <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all`}>Home</a>
             <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>About</a>
-            <p className="text-sm mx-6 font-medium hover:-translate-y-[2px] transition-all">Pricing</p>
-            <p className="text-sm mx-6 font-medium hover:-translate-y-[2px] transition-all">FAQs</p>
+            <a href="/pricing" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Pricing</a>
+            <a href="/faqs" className={`${currentPage == "faqs" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>FAQs</a>
           </div>
         </div>
 
-        <button className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Join Waitlist</button>
+        <a href="/" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Join Waitlist</a>
       </div>
 
     </div>

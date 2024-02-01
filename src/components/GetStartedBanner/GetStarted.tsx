@@ -4,7 +4,7 @@ import VBallDesktop from "../../assets/images/VBallsDesktop.png";
 
 export default function GetStarted() {
     return (
-        <div className=" relative rounded-3xl bg-[#171c1f] text-white px-5 py-24 flex flex-col justify-center items-center overflow-hidden lg:mx-20 lg:py-28">
+        <div className=" relative rounded-[3rem] bg-[#171c1f] text-white px-5 py-24 flex flex-col justify-center items-center overflow-hidden lg:mx-20 lg:py-28">
 
             <h2 className="text-lg font-medium mb-8 lg:text-2xl">Get Started with Bloom</h2>
             <p className="text-xs leading-6 text-center lg:text-sm lg:w-2/3">
