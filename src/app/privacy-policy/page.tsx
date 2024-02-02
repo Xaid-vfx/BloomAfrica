@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
     return (
         <div>
             <Navbar />
-            <div className="py-20  px-32">
+            <div className="py-20 px-6 lg:px-32">
                 <h1 className="text-3xl font-medium text-center">Bloom Privacy Policy</h1>
                 <p className="text-sm my-4 text-center ">Last Updated: 4th January, 2024</p>
                 <p className="text-sm my-10">

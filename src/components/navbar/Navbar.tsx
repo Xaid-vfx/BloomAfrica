@@ -66,9 +66,9 @@ export default function Navbar() {
   return (
     <div className="px-6 py-5 flex justify-between items-center lg:justify-normal box_shadow">
 
-      <div className="lg:hidden">
+      <a href="/" className="lg:hidden">
         <Image src={LogoText} alt="logo" width={120} />
-      </div>
+      </a>
       <div className="menu text-2xl lg:hidden">
         <RxHamburgerMenu onClick={() => { setnavbarIsVisible(true) }} />
       </div>
