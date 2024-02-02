@@ -1,4 +1,4 @@
-import { FaLinkedinIn, FaRocket, FaXTwitter } from "react-icons/fa6";
+import { FaFacebook, FaLinkedinIn, FaRocket, FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { RiLinksFill } from "react-icons/ri";
 import Logo from "../../assets/images/Logo.png"
@@ -17,7 +17,8 @@ export default function Footer() {
 
           <div className="socialicons mt-5 mb-8 flex gap-4 lg:mt-6">
             <a href="https://x.com/_bloomAfrica" className="bg-black p-3 rounded-full cursor-pointer"><FaXTwitter /></a>
-            <a className="bg-black p-3 rounded-full cursor-pointer"><FaLinkedinIn /></a>
+            <a href="https://www.linkedin.com/company/bloomafrica1" className="bg-black p-3 rounded-full cursor-pointer"><FaLinkedinIn /></a>
+            <a href="https://facebook.com/BloomApprenticeships1" className="bg-black p-3 rounded-full cursor-pointer"><FaFacebook /></a>
           </div>
         </div>
 
