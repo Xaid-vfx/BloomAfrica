@@ -10,14 +10,14 @@ type Props = {
 export default function PricingCard(props: Props) {
 
     function planColor() {
-        if (props.name == "Free") return "#897DD3";
-        else if (props.name == "Basic") return "#1B2124";
-        else if (props.name == "Premium") return "#84BBCF";
+        if (props.name == "Free") return "bg-[#897DD3]";
+        else if (props.name == "Basic") return "bg-[#1B2124]";
+        else if (props.name == "Premium") return "bg-[#84BBCF]";
     }
 
     return (
         <div className="my-8 rounded-xl text-left text-[#97999B] box_shadow lg:w-1/3 lg:mx-6">
-            <div className={`rounded-t-xl px-10 py-6 bg-[${planColor()}] text-white`}>
+            <div className={`rounded-t-xl px-10 py-6 ${planColor()} text-white`}>
                 <p className="pb-4 text-lg lg:text-2xl lg:font-medium">Basic</p>
                 <p className="lg:text-xl">Free Basic Plan</p>
             </div>
