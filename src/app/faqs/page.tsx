@@ -2,6 +2,11 @@ import Footer from "@/components/Footer/Footer";
 import GetStarted from "@/components/GetStartedBanner/GetStarted";
 import EYNTK from "@/components/Landing/EYNTK";
 import Navbar from "@/components/navbar/Navbar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'FAQs | Bloom'
+}
 
 export default function Faqs() {
     return (

@@ -99,16 +99,16 @@ export default function Hero() {
                     <Image src={DHero} alt="hero" className="" />
                 </div>
                 <div className="absolute top-[42%] HiddenAnimationStats">
-                    <StatsBox image="" content="6k+ Candidates got jobs" />
+                    <StatsBox image="" content="Easy Apprenticeships" />
                 </div>
                 <div className="absolute top-[10%] left-0 HiddenAnimationStats">
                     <StatsBox image={SearchIcon} content="Customized Job Board" />
                 </div>
                 <div className="absolute top-[36%] right-0 HiddenAnimationStats">
-                    <StatsBox image={CoursesIcon} content="Unlimited online courses" />
+                    <StatsBox image={CoursesIcon} content="Quality online courses" />
                 </div>
                 <div className="absolute bottom-[5%] right-12 HiddenAnimationStats">
-                    <StatsBox image={CertificationIcon} content="Free Certification" />
+                    <StatsBox image={CertificationIcon} content="Professional Certification" />
                 </div>
             </div>
         </div>

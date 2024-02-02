@@ -23,8 +23,7 @@ export default function Home() {
       <HowItWorks />
       <HowItWorks2 />
       <MoreReasons />
-      <EYNTK />
-      <div className="px-4 pb-16 bg-[#f0f0fb]"><GetStarted /></div>
+      <div className="px-4 pb-16 bg-[#ffffff]"><GetStarted /></div>
       <Footer />
     </main>
   )

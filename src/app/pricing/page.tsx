@@ -3,6 +3,7 @@ import Footer from "@/components/Footer/Footer";
 import GetStarted from "@/components/GetStartedBanner/GetStarted";
 import PricingCard from "@/components/Pricing/PricingCard";
 import Navbar from "@/components/navbar/Navbar";
+import { Metadata } from "next";
 import { useState } from "react";
 
 export default function Pricing() {

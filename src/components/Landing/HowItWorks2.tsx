@@ -12,9 +12,9 @@ export default function HowItWorks2() {
                 <div className='w-[45%]'>
                     <h1 className='text-3xl font-medium w-4/5'>Get the job that’s right for you</h1>
                     <p className='text-sm my-2 flex items-center gap-2'>
-                        <Image src={check} alt='check' width={15} />Access to millions of job seekers</p>
+                        <Image src={check} alt='check' width={15} />Access to millions of apprenticeship opportunities</p>
                     <p className='text-sm my-2 flex items-center gap-2'>
-                        <Image src={check} alt='check' width={15} />Post unlimited jobs for free—all from one place</p>
+                        <Image src={check} alt='check' width={15} />Unlock your career potential through industry connections</p>
                     <p className='text-sm my-2 flex items-center gap-2'>
                         <Image src={check} alt='check' width={15} />Facilitates faster professional development and career advancement.</p>
                     <p className='text-sm my-2 flex items-center gap-2'>

@@ -53,6 +53,10 @@ export default function Navbar() {
           <hr />
           <a href="/about"><div className="my-4 font-medium">About</div></a>
           <hr />
+          <a href="/pricing"><div className="my-4 font-medium">Pricing</div></a>
+          <hr />
+          <a href="/faqs"><div className="my-4 font-medium">FAQs</div></a>
+          <hr />
         </div>
         <button className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl" onClick={() => { setnavbarIsVisible(false) }}>Join Waitlist</button>
       </div>
