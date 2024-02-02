@@ -25,17 +25,17 @@ export default function PricingHero() {
                 {
                     (activeTab == 1) ?
                         <div className="mt-10 lg:flex lg:justify-between lg:px-10">
-                            <PricingCard color="#897DD3" name="Basic" description="Free Basic Plan" />
+                            <PricingCard color="#897DD3" name="Free" description="Free Basic Plan" />
                             <PricingCard color="#1B2124" name="Basic" description="Free Basic Plan" />
-                            <PricingCard color="#84BBCF" name="Basic" description="Free Basic Plan" />
+                            <PricingCard color="#1B2124" name="Premium" description="Free Basic Plan" />
                         </div> : ""
                 }
 
                 {
                     (activeTab == 2) ? <div className="mt-10 lg:flex lg:justify-between lg:px-10">
-                        <PricingCard color="#897DD3" name="Basic" description="Free Basic Plan" />
+                        <PricingCard color="#897DD3" name="Free" description="Free Basic Plan" />
                         <PricingCard color="#1B2124" name="Basic" description="Free Basic Plan" />
-                        <PricingCard color="#84BBCF" name="Basic" description="Free Basic Plan" />
+                        <PricingCard color="#1B2124" name="Premium" description="Free Basic Plan" />
                     </div> : ""
                 }
 
