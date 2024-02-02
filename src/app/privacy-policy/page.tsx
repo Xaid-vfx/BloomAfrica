@@ -1,6 +1,11 @@
 import Footer from "@/components/Footer/Footer";
 import GetStarted from "@/components/GetStartedBanner/GetStarted";
 import Navbar from "@/components/navbar/Navbar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Policies | Bloom'
+}
 
 export default function PrivacyPolicy() {
     return (
