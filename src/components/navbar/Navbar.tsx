@@ -64,7 +64,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className="px-6 py-5 flex justify-between items-center lg:justify-normal box_shadow">
+    <div className="px-6 py-5 flex justify-between items-center lg:justify-normal">
 
       <a href="/" className="lg:hidden">
         <Image src={LogoText} alt="logo" width={120} />
@@ -88,7 +88,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        <a href="/" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Join Waitlist</a>
+        <a href="/signup" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign In</a>
       </div>
 
     </div>

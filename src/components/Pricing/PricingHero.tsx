@@ -16,8 +16,8 @@ export default function PricingHero() {
                     </h1>
 
                     <div className="flex rounded-3xl justify-center lg:mt-14 box_shadow p-1">
-                        <button className={`text-sm px-6 py-2 rounded-3xl lg:font-medium lg:px-10 ${activeTab == 1 ? "text-white bg-[#4A2C84]" : ""}`} onClick={() => { setActiveTab(1) }}>Monthly</button>
-                        <button className={`text-sm px-6 py-2 rounded-3xl lg:font-medium lg:px-10 ${activeTab == 2 ? "text-white bg-[#4A2C84]" : ""}`} onClick={() => { setActiveTab(2) }}>Yearly</button>
+                        <button className={`text-sm px-6 py-2 rounded-3xl lg:font-medium lg:px-10 ${activeTab == 1 ? "text-white bg-[#4A2C84]" : ""}`} onClick={() => { setActiveTab(1) }}>Apprentice</button>
+                        <button className={`text-sm px-6 py-2 rounded-3xl lg:font-medium lg:px-10 ${activeTab == 2 ? "text-white bg-[#4A2C84]" : ""}`} onClick={() => { setActiveTab(2) }}>Employers</button>
                     </div>
                 </div>
 
@@ -25,17 +25,17 @@ export default function PricingHero() {
                 {
                     (activeTab == 1) ?
                         <div className="mt-10 lg:flex lg:justify-between lg:px-10">
-                            <PricingCard color="#897DD3" name="Free" description="Free Basic Plan" />
-                            <PricingCard color="#1B2124" name="Basic" description="Free Basic Plan" />
-                            <PricingCard color="#1B2124" name="Premium" description="Free Basic Plan" />
+                            <PricingCard color="#897DD3" name="Basic" description="Free Basic Plan" />
+                            <PricingCard color="#1B2124" name="Silver" description="Silver Plan" />
+                            <PricingCard color="#1B2124" name="Gold" description="Gold Plan" />
                         </div> : ""
                 }
 
                 {
                     (activeTab == 2) ? <div className="mt-10 lg:flex lg:justify-between lg:px-10">
-                        <PricingCard color="#897DD3" name="Free" description="Free Basic Plan" />
-                        <PricingCard color="#1B2124" name="Basic" description="Free Basic Plan" />
-                        <PricingCard color="#1B2124" name="Premium" description="Free Basic Plan" />
+                        <PricingCard color="#897DD3" name="Basic" description="Free Basic Plan" />
+                        <PricingCard color="#1B2124" name="Silver" description="Silver Plan" />
+                        <PricingCard color="#1B2124" name="Gold" description="Gold Plan" />
                     </div> : ""
                 }
 
