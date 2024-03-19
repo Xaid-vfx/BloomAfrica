@@ -10,21 +10,21 @@ import { useRouter, useSearchParams } from "next/navigation";
 export default function verify() {
     const [token, settoken] = useState('')
 
-    const supabase = createClientComponentClient()
-    const searchParams = useSearchParams()
-    const router = useRouter()
+    // const supabase = createClientComponentClient()
+    // const searchParams = useSearchParams()
+    // const router = useRouter()
 
-    async function verifyOTP() {
-        const email = searchParams.get('email') as string
-        const { data, error } = await supabase.auth.verifyOtp({ email, token, type: 'email' })
+    // async function verifyOTP() {
+    //     const email = searchParams.get('email') as string
+    //     const { data, error } = await supabase.auth.verifyOtp({ email, token, type: 'email' })
 
-        if (error) return console.log('Error verifying OTP:', error.message)
-        console.log(data)
+    //     if (error) return console.log('Error verifying OTP:', error.message)
+    //     console.log(data)
 
-        if (data?.session?.access_token != null) {
-            router.push('/all-jobs')
-        }
-    }
+    //     if (data?.session?.access_token != null) {
+    //         router.push('/all-jobs')
+    //     }
+    // }
 
     useEffect(() => {
 
@@ -43,20 +43,20 @@ export default function verify() {
                             <Image src={sideImage} alt="" width={500} />
                         </div>
                     </div>
-                    {/* <div className="flex items-center justify-center w-[55%]">
+                    <div className="flex items-center justify-center w-[55%]">
                         <div className="w-1/2 flex flex-col justify-center items-center">
                             <Image src={EmailSent} alt="" width={300} />
                             <h1 className="font-semibold text-2xl text-center my-4">Verify your email address</h1>
                             <p className="text-center text-sm font-light">
                                 We have sent an email to
-                                <span className="text-[#4A2C84] font-medium"> {searchParams.get('email')}</span>, Please  click on the button in
+                                {/* <span className="text-[#4A2C84] font-medium"> {searchParams.get('email')}</span>, Please  click on the button in */}
                                 that email to verify your email address.
                             </p>
                             <input type="text" className="border px-2 py-2" onChange={(e) => { settoken(e.target.value) }} />
-                            <button onClick={() => { verifyOTP() }}>Verify</button>
+                            {/* <button onClick={() => { verifyOTP() }}>Verify</button> */}
                         </div>
 
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </Suspense>
