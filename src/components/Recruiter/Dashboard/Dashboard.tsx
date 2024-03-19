@@ -74,7 +74,6 @@ export default function Dashboard(props: Props) {
                     </div>
                 </div>
             </div>
-
             <div className="bg-white rounded-xl">
                 <h1 className="font-semibold text-2xl px-10 pt-6 pb-3">Recent Applications</h1>
                 {applications?.length > 0 ? <StickyHeadTable applications={applications} /> :
