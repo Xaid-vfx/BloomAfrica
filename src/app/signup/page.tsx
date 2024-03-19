@@ -44,7 +44,7 @@ export default function signIn() {
         })
         console.log(res);
         if (res?.data?.user?.aud == "authenticated") {
-            router.push(`signin/verify?email=${email}`)
+            router.push(`signup/verify?email=${email}`)
         }
         router.refresh()
     }
