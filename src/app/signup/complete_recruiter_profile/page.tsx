@@ -10,6 +10,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import CountryList from "@/lib/CountryList/CountryList";
 import PhoneInput from 'react-phone-number-input'
 import Year from "@/lib/Years/Years";
+import getUser from "@/lib/getUser/getUser";
 
 export default function CompleteRecruiterProfile() {
 

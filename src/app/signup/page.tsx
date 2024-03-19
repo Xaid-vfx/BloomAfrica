@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Image from "next/image"
 import SideImage from '../../assets/images/SignIn/LeftIllustration.png'
 import Logo from '../../assets/images/Logo.png'
@@ -20,6 +20,11 @@ export default function signIn() {
     const router = useRouter()
     const supabase = createClientComponentClient()
     const [user, setuser] = useState([])
+
+    const currentUrl = globalThis.window?.location.href
+    console.log(currentUrl);
+
+
 
     const handleSignUp = async () => {
 
@@ -57,7 +62,7 @@ export default function signIn() {
                     access_type: 'offline',
                     prompt: 'consent',
                 },
-                redirectTo: signUpUserTypeTab == "seeker" ? 'http://localhost:3000/signup/complete_profile' : 'http://localhost:3000/signup/complete_recruiter_profile'
+                redirectTo: signUpUserTypeTab == "seeker" ? currentUrl + '/complete_profile' : currentUrl + '/complete_recruiter_profile'
             },
 
         })
