@@ -1,13 +1,17 @@
 'use client'
+import OptionsInput from "@/components/Input/Options";
 import TextInput from "@/components/Input/Text";
-import CountryList from "@/lib/CountryList/CountryList";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
+import CountryList from "@/lib/CountryList/CountryList";
+import PhoneInput from 'react-phone-number-input'
 import Year from "@/lib/Years/Years";
+import getUser from "@/lib/getUser/getUser";
 
-export default function RightColumnSeeker() {
+export default function RightColomnRecruiter() {
     const [step, setStep] = useState(1);
     const supabase = createClientComponentClient()
     const router = useRouter()
@@ -28,22 +32,16 @@ export default function RightColumnSeeker() {
     const [gradYear, setgradYear] = useState('')
 
     const [companyName, setcompanyName] = useState('')
-    const [jobTitle, setjobTitle] = useState('')
-    const [startDate, setstartDate] = useState('')
-    const [endDate, setendDate] = useState('')
+    const [type, settype] = useState('')
+    const [url, seturl] = useState('')
+    const [desc, setdesc] = useState('')
+
 
 
     const countryList = CountryList()
     const [stateList, setstateList] = useState([])
     const year = Year()
     const [currentUser, setcurrentUser] = useState({})
-
-
-
-    async function getUser() {
-        const { data: { user } } = await supabase.auth.getUser()
-        return user;
-    }
 
     async function fetchStates(countryName: string) {
         const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
@@ -63,42 +61,34 @@ export default function RightColumnSeeker() {
     }
 
     async function handleFirstNext() {
+        setStep(2);
         if (name == "" || email == "" || number == "" || date == "" || gender == "" || country == "" || state == "") {
             console.log(country + state);
             alert("Please fill all fields");
         }
-        setStep(2);
-    }
-    async function handleSecondNext() {
-        console.log(level + schoolName + field + gradYear);
-        if (level == "" || schoolName == "" || field == "" || gradYear == "") {
-            console.log(level + schoolName + field + gradYear);
-            alert("Please fill all fields");
-            return
-        }
-        setStep(3)
     }
 
     async function step1() {
         const { data, error } = await supabase
-            .from('Seekers')
+            .from('Recruiters')
             .upsert({ name: name, email: currentUser?.email, number: number, dob: date, gender: gender, country: country, state: state })
-            .select('unique_id')
+            .select('uniqueid')
 
         if (error) {
             console.log(error);
         }
         if (data) return data[0]?.unique_id;
+
+        console.log(error);
+        console.log(data);
     }
 
-    async function step2(uuid: string) {
+    async function step2(uuid: any) {
         const { data, error } = await supabase
-            .from('Education')
-            .insert({ unique_id: uuid, level: level, school_name: schoolName, field: field, year: gradYear })
-
-        if (error) {
-            console.log(error);
-        }
+            .from('CompanyInfo')
+            .insert({ unique_id: uuid, name: name, type: type, website: url, description: desc })
+        console.log(error);
+        console.log(data);
     }
 
     async function handleFinish() {
@@ -109,29 +99,30 @@ export default function RightColumnSeeker() {
 
         const { data, error } = await supabase
             .from('users')
-            .insert({ name: name, email: currentUser?.email, type: "seeker" })
+            .insert({ name: name, email: currentUser?.email, type: "recruiter" })
 
         if (error) {
             console.log(error);
         }
 
-        router.push('/all-jobs')
+        router.push('/recruiter')
     }
 
+
     useEffect(() => {
-        getUser().then(user => {
-            setcurrentUser(user);
-        })
+
     }, [])
+
+
     return (
         <div className="lg:w-[55%]">
             {
                 (step == 1) &&
-                <div className="px-10 lg:px-14 py-10 overflow-scroll">
+                <div className="px-10 w-full lg:px-14 py-10 overflow-scroll lg:block flex flex-col justify-center">
                     <FaArrowLeft onClick={() => { router.push('/signup') }} className="cursor-pointer text-2xl mb-4" />
                     <div className="flex justify-between items-baseline">
-                        <h2 className="text-xl font-semibold">Create a Job Seeker Account</h2>
-                        <p className="text-xs font-semibold text-[#515B6F]">Step 1 of 3</p>
+                        <h2 className="text-xl font-semibold">Create a Recruiter Account</h2>
+                        <p className="text-xs font-semibold text-[#515B6F]">Step 1 of 2</p>
                     </div>
                     <div className="">
                         <div className="my-4">
@@ -140,11 +131,9 @@ export default function RightColumnSeeker() {
                             }} />
                         </div>
                         <div className="my-4">
-                            <TextInput value={currentUser?.email}
-                                extra="read"
-                                field="Email" type="text" placeholder="Enter your email" handleChange={(e: any) => {
-                                    setemail(e.target.value)
-                                }} />
+                            <TextInput value={email} field="Email" type="text" placeholder="Enter your email" handleChange={(e: any) => {
+                                setemail(e.target.value)
+                            }} />
                         </div>
                         <div className="my-4">
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">Phone Number</p>
@@ -203,83 +192,33 @@ export default function RightColumnSeeker() {
             }
             {
                 (step == 2) &&
-                <div className="px-10 w-full lg:px-14 py-10  overflow-scroll lg:block flex flex-col justify-center">
+                <div className="px-10 w-full lg:px-14 py-10 lg:w-[55%] overflow-scroll lg:block flex flex-col justify-center">
                     <FaArrowLeft onClick={() => { setStep(1) }} className="cursor-pointer text-2xl mb-4" />
                     <div className="flex justify-between items-baseline">
-                        <h2 className="text-xl font-semibold">Education</h2>
-                        <p className="text-xs font-semibold text-[#515B6F]">Step 2 of 3</p>
-                    </div>
-                    <div className="">
-                        <div>
-                            <p className="font-semibold text-xs my-1 text-[#515B6F]">Highest Level of Education</p>
-                            <select className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full" onChange={(e) => { setlevel(e.target.value) }}>
-                                <option>Select option</option>
-                                <option value="High School">High School</option>
-                                <option value="Secondary School">Secondary School</option>
-                                <option value="Graduation">Graduation</option>
-                            </select>
-                        </div>
-                        <div className="my-4">
-                            <TextInput field="School/University Name" type="text" placeholder="Enter School" handleChange={(e: any) => { setschoolName(e.target.value) }} />
-                        </div>
-                        <div className="my-4">
-                            <TextInput field="Field of Study" type="text" placeholder="Enter your field of study" handleChange={(e: any) => { setfield(e.target.value) }} />
-                        </div>
-                        <div>
-                            <p className="font-semibold text-xs my-1 text-[#515B6F]">Graduation Year</p>
-                            <select className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full" onChange={(e) => { setgradYear(e.target.value) }}>
-                                <option>Select year</option>
-                                {
-                                    year.map((year) => {
-                                        return <option value={year}>{year}</option>
-                                    })
-                                }
-                            </select>
-                        </div>
-                        <button className="my-4 text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs" onClick={() => { handleSecondNext() }}>Next</button>
-                    </div>
-                </div>
-            }
-            {
-                (step == 3) &&
-                <div className="px-10 w-full lg:px-14 py-10 overflow-scroll lg:block flex flex-col justify-center">
-                    <FaArrowLeft onClick={() => { setStep(2) }} className="cursor-pointer text-2xl mb-4" />
-                    <div className="flex justify-between items-baseline">
-
-                        <h2 className="text-xl font-semibold flex items-center gap-2">Work Experience  <span className="text-xs font-normal"> (optional)</span></h2>
-                        <p className="text-xs font-semibold text-[#515B6F]">Step 3 of 3</p>
+                        <h2 className="text-xl font-semibold flex items-center gap-2">Company Information</h2>
+                        <p className="text-xs font-semibold text-[#515B6F]">Step 2 of 2</p>
                     </div>
                     <div className="">
                         <div className="my-4">
-                            <TextInput field="Company Name" type="text" placeholder="Enter your company Name" handleChange={() => { }} />
+                            <TextInput field="Company Name" type="text" placeholder="Enter your company Name" handleChange={(e) => { setcompanyName(e.target.value) }} />
                         </div>
                         <div className="my-4">
-                            <TextInput field="Job Title" type="text" placeholder="Enter job title" handleChange={() => { }} />
+                            <TextInput field="Type of Employer" type="text" placeholder="Enter Type" handleChange={(e) => { settype(e.target.value) }} />
                         </div>
                         <div className="my-4">
-                            <p className="font-semibold text-xs my-1 text-[#515B6F]">Start date</p>
-                            <input value={startDate} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="date" placeholder="Enter Start Date" onChange={(e) => { setstartDate(e.target.value) }} />
+                            <TextInput field="Company Website (Optional)" type="text" placeholder="example.com" handleChange={(e) => { seturl(e.target.value) }} />
                         </div>
                         <div className="my-4">
-                            <p className="font-semibold text-xs my-1 text-[#515B6F]">End date</p>
-                            <input value={endDate} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="date" placeholder="Enter End Date" onChange={(e) => { setendDate(e.target.value) }} />
+                            <TextInput field="Company Description" type="text" placeholder="example.com" handleChange={(e) => { setdesc(e.target.value) }} />
                         </div>
 
                         <div className="my-4">
-                            <p className="font-semibold text-xs my-1 mb-4 text-[#515B6F]">Resume/CV Upload</p>
+                            <p className="font-semibold text-xs my-1 mb-4 text-[#515B6F]">Company Logo {"(Optional)"}</p>
                             <label htmlFor="cvupload" className="cursor-pointer text-xs px-6 py-4 rounded-lg bg-[#D6DDEB] my-4">Choose file
                                 <input type="file" id="cvupload" hidden />
                             </label>
-                            <p className="text-xs mt-5 text-[#A8ADB7]">Optionally upload a CV no larger than 10MB for file types .pdf .doc .docx
-                                Please note: You will need to upload a CV to apply for jobs, however
-                                you can skip the CV upload on sign up.</p>
-                        </div>
-                        <div className="my-4">
-                            <p className="font-semibold text-xs my-1 mb-4 text-[#515B6F]">Cover letter Upload</p>
-                            <label htmlFor="cvupload" className="cursor-pointer text-xs px-6 py-4 rounded-lg bg-[#D6DDEB] my-4">Choose file
-                                <input type="file" id="cvupload" hidden />
-                            </label>
-                            <p className="text-xs mt-5 text-[#A8ADB7]">Optionally upload a Cover letter no larger than 10MB for file types .pdf .doc .docx . Please note: You will need to upload a Cover letter to apply for jobs, however you can skip the CV upload on sign up.</p>
+                            <p className="text-xs mt-5 text-[#A8ADB7]">Optionally upload a logo no larger than 10MB for file types .pdf .doc .docx
+                                .</p>
                         </div>
 
                         <button onClick={() => { handleFinish() }} className=" text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs" >Finish</button>
@@ -289,5 +228,5 @@ export default function RightColumnSeeker() {
                 </div>
             }
         </div>
-    )
+    );
 }
