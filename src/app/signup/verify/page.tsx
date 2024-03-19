@@ -3,7 +3,7 @@ import Image from "next/image";
 import sideImage from "../../../assets/images/SignIn/Mail sent-pana 1.png"
 import Logo from '../../../assets/images/Logo.png'
 import EmailSent from '../../../assets/images/SignIn/Emails-amico 1.png'
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -31,32 +31,34 @@ export default function verify() {
     }), []
 
     return (
-        <div className="h-screen w-full">
-            <div className="flex h-full">
-                <div className="py-8 px-10 bg-[#F5F5F5] w-[45%] flex flex-col">
-                    <div className="flex items-center">
-                        <Image src={Logo} alt="" width={60} />
-                        <p className="text-3xl">Bloom</p>
+        <Suspense>
+            <div className="h-screen w-full">
+                <div className="flex h-full">
+                    <div className="py-8 px-10 bg-[#F5F5F5] w-[45%] flex flex-col">
+                        <div className="flex items-center">
+                            <Image src={Logo} alt="" width={60} />
+                            <p className="text-3xl">Bloom</p>
+                        </div>
+                        <div className="py-10 flex justify-center">
+                            <Image src={sideImage} alt="" width={500} />
+                        </div>
                     </div>
-                    <div className="py-10 flex justify-center">
-                        <Image src={sideImage} alt="" width={500} />
-                    </div>
-                </div>
-                <div className="flex items-center justify-center w-[55%]">
-                    <div className="w-1/2 flex flex-col justify-center items-center">
-                        <Image src={EmailSent} alt="" width={300} />
-                        <h1 className="font-semibold text-2xl text-center my-4">Verify your email address</h1>
-                        <p className="text-center text-sm font-light">
-                            We have sent an email to
-                            <span className="text-[#4A2C84] font-medium"> {searchParams.get('email')}</span>, Please  click on the button in
-                            that email to verify your email address.
-                        </p>
-                        <input type="text" className="border px-2 py-2" onChange={(e) => { settoken(e.target.value) }} />
-                        <button onClick={() => { verifyOTP() }}>Verify</button>
-                    </div>
+                    <div className="flex items-center justify-center w-[55%]">
+                        <div className="w-1/2 flex flex-col justify-center items-center">
+                            <Image src={EmailSent} alt="" width={300} />
+                            <h1 className="font-semibold text-2xl text-center my-4">Verify your email address</h1>
+                            <p className="text-center text-sm font-light">
+                                We have sent an email to
+                                <span className="text-[#4A2C84] font-medium"> {searchParams.get('email')}</span>, Please  click on the button in
+                                that email to verify your email address.
+                            </p>
+                            <input type="text" className="border px-2 py-2" onChange={(e) => { settoken(e.target.value) }} />
+                            <button onClick={() => { verifyOTP() }}>Verify</button>
+                        </div>
 
+                    </div>
                 </div>
             </div>
-        </div>
+        </Suspense>
     )
 }

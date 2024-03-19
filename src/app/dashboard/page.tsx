@@ -1,6 +1,5 @@
 'use client'
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { useSearchParams } from "next/navigation"
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
 

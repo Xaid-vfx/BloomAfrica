@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Image from "next/image"
 import SideImage from '../../assets/images/SignIn/LeftIllustration.png'
 import Logo from '../../assets/images/Logo.png'
@@ -20,7 +20,6 @@ export default function signIn() {
     const router = useRouter()
     const supabase = createClientComponentClient()
     const [user, setuser] = useState([])
-    const searchParams = useSearchParams()
 
     const handleSignUp = async () => {
 
@@ -79,22 +78,22 @@ export default function signIn() {
     }
 
     useEffect(() => {
-        console.log(searchParams.get('type'));
+        // console.log(searchParams.get('type'));
 
-        async function fetchUser() {
-            const user = await getUser()
-            return user
-        }
-        fetchUser().then(data => {
-            if (data[0]) {
-                if (data[1] == "seeker" || searchParams.get('type') == "seeker") {
-                    router.push('/all-jobs')
-                }
-                else if (data[1] == "recruiter" || searchParams.get('type') == "recruiter") {
-                    router.push('/recruiter')
-                }
-            }
-        })
+        // async function fetchUser() {
+        //     const user = await getUser()
+        //     return user
+        // }
+        // fetchUser().then(data => {
+        //     if (data[0]) {
+        //         if (data[1] == "seeker" || searchParams.get('type') == "seeker") {
+        //             router.push('/all-jobs')
+        //         }
+        //         else if (data[1] == "recruiter" || searchParams.get('type') == "recruiter") {
+        //             router.push('/recruiter')
+        //         }
+        //     }
+        // })
     }, [])
 
 
