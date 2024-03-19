@@ -6,7 +6,6 @@ import EmailSent from '../../../assets/images/SignIn/Emails-amico 1.png'
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
-import getUser from "@/lib/getUser/getUser";
 
 export default function verify() {
     const [token, settoken] = useState('')
@@ -28,8 +27,6 @@ export default function verify() {
     }
 
     useEffect(() => {
-        getUser()
-
 
     }), []
 
