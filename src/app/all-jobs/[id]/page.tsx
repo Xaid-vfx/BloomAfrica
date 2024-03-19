@@ -5,7 +5,6 @@ import Logo from '../../../assets/images/Jobs/Company Logo.png'
 import getAJob from "@/lib/getAJob/getAJob";
 import { createClientComponentClient, createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Button from "@/components/Button/Button";
-import { cookies } from "next/headers";
 import getUser from "@/lib/getUser/getUser";
 
 
