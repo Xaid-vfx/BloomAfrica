@@ -43,7 +43,7 @@ export default function verify() {
                             <Image src={sideImage} alt="" width={500} />
                         </div>
                     </div>
-                    <div className="flex items-center justify-center w-[55%]">
+                    {/* <div className="flex items-center justify-center w-[55%]">
                         <div className="w-1/2 flex flex-col justify-center items-center">
                             <Image src={EmailSent} alt="" width={300} />
                             <h1 className="font-semibold text-2xl text-center my-4">Verify your email address</h1>
@@ -56,7 +56,7 @@ export default function verify() {
                             <button onClick={() => { verifyOTP() }}>Verify</button>
                         </div>
 
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </Suspense>
