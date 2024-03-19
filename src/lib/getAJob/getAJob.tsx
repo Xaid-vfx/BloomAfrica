@@ -2,6 +2,7 @@ import { createClientComponentClient, createServerComponentClient } from "@supab
 import { cookies } from "next/headers";
 
 export default async function getAJob(jobid: string) {
+    cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
     const { data, error } = await supabase
         .from('Jobs')
