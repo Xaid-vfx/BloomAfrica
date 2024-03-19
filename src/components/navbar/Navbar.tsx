@@ -17,7 +17,7 @@ export default function Navbar() {
   function reverseString(str: string) {
     var splitString = str?.split("");
     var reverseArray = splitString?.reverse();
-    var joinArray = reverseArray.join("");
+    var joinArray = reverseArray?.join("");
     return joinArray;
   }
 
