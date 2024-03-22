@@ -12,8 +12,8 @@ export default function Header(props: Props) {
                     <p className="text-sm">Company</p>
                     <p className="font-semibold">{props.name}</p>
                 </div>
-                <Link href={'/recruiter/post-a-job'}>
-                    <button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold">+ Post a Job</button></Link>
+                <a href="recruiter/post-a-job"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold">+ Post a Job</button></a>
+
 
             </div>
             <hr className="h-px bg-gray-200 border-0"></hr>

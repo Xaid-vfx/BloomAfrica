@@ -9,13 +9,14 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 type Props = {
     user: any
     company: any
+    recruiter: any
 }
 
 export default function RecruiterContent(props: Props) {
     console.log(props.user);
 
     const supabase = createClientComponentClient()
-    const [jobs, setjobs] = useState([])
+    const [jobs, setjobs]: any = useState([])
 
     const [currTabIndex, setcurrTabIndex] = useState(0);
     function handleChangeTabIndex(index: any) {
@@ -46,7 +47,7 @@ export default function RecruiterContent(props: Props) {
                 <Header name={props.company ? props.company[0]?.name : ""} />
 
                 {currTabIndex == 0 ?
-                    <Dashboard user={props.user} company={props.company} jobs={jobs} /> : ""}
+                    <Dashboard user={props.user} company={props.company} jobs={jobs} recruiter={props.recruiter} /> : ""}
                 {currTabIndex == 1 ?
                     <div className="border h-screen p-20">Messages</div>
                     : ""}

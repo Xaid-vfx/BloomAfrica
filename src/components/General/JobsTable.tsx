@@ -9,9 +9,10 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Image from 'next/image';
 import User from '../../assets/images/user.jpg'
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
 interface Column {
-    id: 'name' | 'status' | 'date' | 'action';
+    id: 'title' | 'applicants' | 'date' | 'action';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -19,18 +20,18 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-    { id: 'name', label: 'CANDIDATES', minWidth: 170 },
-    { id: 'status', label: 'STATUS', minWidth: 100 },
+    { id: 'title', label: 'TITLE', minWidth: 170 },
+    { id: 'applicants', label: 'APPLICANTS', minWidth: 100 },
     {
         id: 'date',
-        label: 'APPLIED DATE',
+        label: 'CREATED ON',
         minWidth: 170,
         format: (value: number) => value.toLocaleString('en-US'),
     },
     {
         id: 'action',
         label: 'ACTION',
-        minWidth: 170,
+        minWidth: 100,
         align: 'center',
         format: (value: number) => value.toLocaleString('en-US'),
     },
@@ -38,21 +39,21 @@ const columns: readonly Column[] = [
 
 interface Data {
     id: number,
-    name: string;
-    status: string;
+    title: string;
+    applicants: number;
     date: string;
     action: string;
 }
 
 function createData(
     id: number,
-    name: string,
-    status: string,
+    title: string,
+    applicants: number,
     date: string,
     action: string,
 ): Data {
 
-    return { id, name, status, date, action };
+    return { id, title, applicants, date, action };
 }
 
 // const rows = [
@@ -73,17 +74,17 @@ function createData(
 //     createData('Brazil', 'BR', 210147125, 8515767),
 // ];
 
-export default function StickyHeadTable(props: any) {
-    console.log(props.applications);
+export default function JobsTable(props: any) {
+    console.log(props.jobs);
 
-    const rows = [...props.applications.map((app: any) => {
-        return createData(app.id, app.name, "Active", app.created_at.substring(0, app.created_at.indexOf('T')), "View");
+    const rows = [...props.jobs.map((job: any) => {
+        return createData(job.id, job.title, 0, job.created_at.substring(0, job.created_at.indexOf('T')), "...");
     })];
 
     rows.sort((a, b) => b.id - a.id);
 
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(2);
+    const [rowsPerPage, setRowsPerPage] = React.useState(3);
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -95,7 +96,7 @@ export default function StickyHeadTable(props: any) {
     };
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <Paper sx={{ width: '100%', overflow: 'hidden', borderBottomLeftRadius: "12px", borderBottomRightRadiusRadius: "12px", boxShadow: "none" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -108,10 +109,11 @@ export default function StickyHeadTable(props: any) {
                                     sx={{
                                         color: '#7C8493',
                                         fontWeight: '400',
-                                        fontSize: '15px'
+                                        fontSize: '15px',
+                                        borderTop: '1px solid #e5e7eb'
                                     }}
                                 >
-                                    {column.id == "name" ? <div className='pl-6'>{column.label}</div> : column.label}
+                                    {column.id == "title" ? <div className='pl-6'>{column.label}</div> : column.label}
                                 </TableCell>
                             ))}
                         </TableRow>
@@ -126,24 +128,25 @@ export default function StickyHeadTable(props: any) {
                                             const value = row[column.id];
                                             return (
                                                 <TableCell key={column.id} align={column.align}>
-                                                    {column.id === 'name' ? (
-                                                        <div className='flex items-center gap-3 pr-10 pl-6'>
-                                                            <Image src={User} alt='' width={40} className='border rounded-full p-1' />
-                                                            <div>
-                                                                <h2 className='font-[500] font-sans text-lg'>{value}</h2>
-                                                                <p className='text-sm text-[#4A2C84]'>Product Designer</p>
-                                                                <p className='text-sm text-[#7C8493]'>Yaba, Lagos</p>
-                                                            </div>
+                                                    {column.id === 'title' ? (
+                                                        <div className='flex-col gap-3 pr-10 pl-6'>
+
+
+                                                            <h2 className='font-[500] font-sans text-lg'>{value}</h2>
+                                                            <p className='flex gap-1 items-baseline text-sm text-[#4A2C84]'><HiOutlineLocationMarker /> Yaba, Lagos</p>
+
                                                         </div>
                                                     ) : ""}
 
+                                                    {column.id === 'applicants' ? <div className='text-sm font-light font-sans text-[#7C8493]'>{value} Applicant('s')</div> : ""}
+
                                                     {column.id === 'date' ? <div className='text-base text-[#7C8493]'>{value}</div> : ""}
 
-                                                    {column.id === 'status' ? <div className='text-base'>{value}</div> : ""}
-
-                                                    {column.id === 'action' ? <div className='flex justify-center'>
-                                                        <div className='bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
-                                                            View Application</div>
+                                                    {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
+                                                        <button className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
+                                                            View Applicants</button>
+                                                        <button className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-3xl'>
+                                                            Delete</button>
                                                     </div> : ""}
                                                 </TableCell>
                                             );

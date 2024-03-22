@@ -29,10 +29,10 @@ export default function Sidebar(props: Props) {
                         <BiHomeAlt2 className="text-xl" />
                         <p className="text-sm ">Dashboard</p>
                     </div>
-                    <div onClick={() => { props.handleChangeTabIndex(1) }} className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 1 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                    {/* <div onClick={() => { props.handleChangeTabIndex(1) }} className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 1 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                         <TbMessage className="text-xl" />
                         <p className="text-sm ">Messages</p>
-                    </div>
+                    </div> */}
                     <div onClick={() => { props.handleChangeTabIndex(2) }} className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 2 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                         <PiBuildings className="text-xl" />
                         <p className="text-sm ">Company Profile</p>

@@ -63,9 +63,9 @@ export default function RightColumnSeeker() {
     }
 
     async function handleFirstNext() {
-        if (name == "" || email == "" || number == "" || date == "" || gender == "" || country == "" || state == "") {
-            console.log(country + state);
+        if (name == "" || number == "" || date == "" || gender == "" || country == "" || state == "") {
             alert("Please fill all fields");
+            return;
         }
         setStep(2);
     }

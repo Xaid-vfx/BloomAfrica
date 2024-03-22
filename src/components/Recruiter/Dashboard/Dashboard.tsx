@@ -11,12 +11,14 @@ type Props = {
     user: any
     company: any
     jobs: any
+    recruiter: any
 }
 
 export default function Dashboard(props: Props) {
 
     const supabase = createClientComponentClient()
-    const [applications, setapplications] = useState()
+    const [applications, setapplications] = useState(null)
+    const [jobs, setjobs] = useState([])
 
     useEffect(() => {
         async function fetchJobs() {
@@ -24,34 +26,34 @@ export default function Dashboard(props: Props) {
                 .from('Jobs')
                 .select()
                 .eq('recruiter', props.user.id)
-            console.log(data);
 
             return data;
         }
         async function fetchApplications(jobs) {
-            const { data, error } = await supabase
-                .from('Applicants')
-                .select()
-                .eq('job_id', jobs[0].uid)
-
-            return data;
+            if (jobs.length > 0) {
+                const { data, error } = await supabase
+                    .from('Applicants')
+                    .select()
+                    .eq('job_id', jobs[0].uid)
+                return data;
+            }
+            return [];
         }
         fetchJobs().then(data => {
-            console.log(data);
+            setjobs(data)
             fetchApplications(data).then(application => {
                 setapplications(application)
-                console.log(application);
             })
 
         })
     }, [])
 
     return (
-        <div className="pt-10 px-10 bg-[#F5F5F5] h-[95%] w-full">
-            <h1 className="font-semibold text-2xl">Good Morning,
-                {/* {props.company[0]?.name.slice(0, props.company[0]?.name.indexOf(' '))} */}
+        <div className="pt-8 px-8 bg-[#F5F5F5] h-[95%] w-full">
+            <h1 className="font-semibold text-xl ml-4">Good Morning,
+                {' ' + props.recruiter?.name}
             </h1>
-            <div className="flex justify-between my-10">
+            <div className="flex justify-between mt-6 mb-8">
                 <div className="py-4 px-4 mx-2 bg-white rounded-md w-1/3 flex items-center gap-6">
                     <Image src={Posted} alt="" width={60} />
                     <div>
@@ -76,9 +78,16 @@ export default function Dashboard(props: Props) {
             </div>
             <div className="bg-white rounded-xl">
                 <h1 className="font-semibold text-2xl px-10 pt-6 pb-3">Recent Applications</h1>
-                {applications?.length > 0 ? <StickyHeadTable applications={applications} /> :
+
+                {
+                    applications == null ? <div className="flex justify-center items-center h-[250px]">
+                        <MoonLoader color="#4A2C84" /> </div> : applications?.length > 0 ? <StickyHeadTable applications={applications} /> : <div className="flex justify-center items-center h-[200px]">
+                            No applications found!
+                        </div>
+                }
+                {/* {applications?.length > 0 ? <StickyHeadTable applications={applications} /> :
                     <div className="flex justify-center items-center h-[300px]">
-                        <MoonLoader color="#4A2C84" /> </div>}
+                        <MoonLoader color="#4A2C84" /> </div>} */}
             </div>
         </div>
     )

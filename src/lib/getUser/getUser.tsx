@@ -5,6 +5,6 @@ export default async function getUser() {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
     const { data: { user } } = await supabase.auth.getUser()
-    console.log(user);
+    // console.log(user);
     return user;
 }
