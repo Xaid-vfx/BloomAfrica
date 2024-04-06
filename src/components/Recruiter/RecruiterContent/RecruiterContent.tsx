@@ -6,6 +6,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import Dashboard from "../Dashboard/Dashboard";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import EditRecruiter from "./EditRecruiter";
+import Post from "@/app/recruiter/post-a-job/page";
 
 type Props = {
     user: any
@@ -45,7 +46,9 @@ export default function RecruiterContent(props: Props) {
             }} currTabIndex={currTabIndex} />
 
             <div className="w-full flex flex-col h-screen">
-                <Header name={props.company ? props.company?.name : ""} />
+                <Header handleChangeTabIndex={(e: any) => {
+                    handleChangeTabIndex(e)
+                }} name={props.company ? props.company?.name : ""} />
 
                 {currTabIndex == 0 ?
                     <Dashboard user={props.user} company={props.company} jobs={jobs} recruiter={props.recruiter} /> : ""}
@@ -58,6 +61,7 @@ export default function RecruiterContent(props: Props) {
                 {currTabIndex == 3 ?
                     <Listing user={props.user} jobs={jobs} />
                     : ""}
+                {currTabIndex == 4 ? <Post /> : ""}
             </div>
         </div>
     )

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 type Props = {
     name: string
+    handleChangeTabIndex: any
 }
 
 export default function Header(props: Props) {
@@ -12,7 +13,7 @@ export default function Header(props: Props) {
                     <p className="text-sm">Company</p>
                     <p className="font-semibold">{props.name}</p>
                 </div>
-                <a href="recruiter/post-a-job"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold">+ Post a Job</button></a>
+                <a onClick={() => { props.handleChangeTabIndex(4) }}><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold">+ Post a Job</button></a>
 
 
             </div>

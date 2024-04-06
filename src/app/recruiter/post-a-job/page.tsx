@@ -35,9 +35,7 @@ export default function Post() {
 
     return (
         <div className="flex justify-between w-full overflow-hidden h-screen">
-            <Sidebar />
-            <div className="w-[82%] h-screen overflow-auto">
-                <Header />
+            <div className="w-full h-screen overflow-auto">
                 <div className="">
                     <div className="py-10 px-10">
                         <div className="flex gap-4 items-center">

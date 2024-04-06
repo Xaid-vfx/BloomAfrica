@@ -8,20 +8,17 @@ import { TbMessage } from "react-icons/tb";
 import { PiBuildings } from "react-icons/pi";
 import { SignOut } from "@/lib/Signout/Signout";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Props = {
     handleChangeTabIndex: any;
     currTabIndex: number;
 }
 
-
-function handleClickLogout() {
-    SignOut()
-}
-
 export default function Sidebar(props: Props) {
 
     const [currentPage, setCurrentPage] = useState("")
+    const router = useRouter()
 
     const url = reverseString(globalThis.window?.location.href)
     const page = url?.split("/")
@@ -31,6 +28,12 @@ export default function Sidebar(props: Props) {
         var reverseArray = splitString?.reverse();
         var joinArray = reverseArray?.join("");
         return joinArray;
+    }
+
+
+    function handleClickLogout() {
+        SignOut()
+        router.push('/signup')
     }
 
     useEffect(() => {
