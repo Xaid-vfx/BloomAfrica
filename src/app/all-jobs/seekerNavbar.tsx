@@ -53,13 +53,13 @@ export default function SeekerNavbar(props: any) {
           <Image src={LogoText} alt="logo" className="w-2/5" />
         </div>
         <div>
-          <a href="/"><div className="my-4 font-medium cursor-pointer">Home</div></a>
+          <a href="/all-jobs"><div className="my-4 font-medium cursor-pointer">Home</div></a>
           <hr />
-          <a href="/about"><div className="my-4 font-medium">Saved Jobs</div></a>
+          <a href="/seeker/saved"><div className="my-4 font-medium">Saved Jobs</div></a>
           <hr />
-          <a href="/pricing"><div className="my-4 font-medium">My Jobs</div></a>
+          <a href="/seeker/applied"><div className="my-4 font-medium">My Jobs</div></a>
           <hr />
-          <a href="/faqs"><div className="my-4 font-medium">FAQs</div></a>
+          <a href="/seeker/edit"><div className="my-4 font-medium">Profile</div></a>
           <hr />
         </div>
         <button className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl" onClick={() => { setnavbarIsVisible(false) }}>Join Waitlist</button>
@@ -86,9 +86,10 @@ export default function SeekerNavbar(props: any) {
 
           <div className="hidden lg:flex lg:pl-10">
             <a href="/all-jobs" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all`}>Home</a>
-            <a href="/seeker/saved" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Saved Jobs</a>
-            <a href="/seeker/applied" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>My Jobs</a>
-            {/* <a href="/faqs" className={`${currentPage == "faqs" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>FAQs</a> */}
+            <a href="/seeker/edit" className={`${currentPage == "faqs" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Profile</a>
+            <a href="/seeker/saved" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Saved</a>
+            <a href="/seeker/applied" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Applications</a>
+
           </div>
         </div>
 
