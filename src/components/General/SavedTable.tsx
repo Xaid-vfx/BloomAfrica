@@ -7,12 +7,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Image from 'next/image';
-import User from '../../assets/images/user.jpg'
 import { HiOutlineLocationMarker } from "react-icons/hi";
 
 interface Column {
-    id: 'title' | 'applicants' | 'date' | 'action';
+    id: 'title' | 'location' | 'date' | 'action';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -21,7 +19,7 @@ interface Column {
 
 const columns: readonly Column[] = [
     { id: 'title', label: 'TITLE', minWidth: 170 },
-    { id: 'applicants', label: 'APPLICANTS', minWidth: 100 },
+    { id: 'location', label: 'LOCATION', minWidth: 100 },
     {
         id: 'date',
         label: 'CREATED ON',
@@ -40,45 +38,29 @@ const columns: readonly Column[] = [
 interface Data {
     id: number,
     title: string;
-    applicants: number;
+    location: string;
     date: string;
     action: string;
+    uid: string
 }
 
 function createData(
     id: number,
     title: string,
-    applicants: number,
+    location: string,
     date: string,
     action: string,
+    uid: string
 ): Data {
 
-    return { id, title, applicants, date, action };
+    return { id, title, location, date, action, uid };
 }
 
-// const rows = [
-//     createData('India', 'IN', 1324171354, 3287263),
-//     createData('China', 'CN', 1403500365, 9596961),
-//     createData('Italy', 'IT', 60483973, 301340),
-//     createData('United States', 'US', 327167434, 9833520),
-//     createData('Canada', 'CA', 37602103, 9984670),
-//     createData('Australia', 'AU', 25475400, 7692024),
-//     createData('Germany', 'DE', 83019200, 357578),
-//     createData('Ireland', 'IE', 4857000, 70273),
-//     createData('Mexico', 'MX', 126577691, 1972550),
-//     createData('Japan', 'JP', 126317000, 377973),
-//     createData('France', 'FR', 67022000, 640679),
-//     createData('United Kingdom', 'GB', 67545757, 242495),
-//     createData('Russia', 'RU', 146793744, 17098246),
-//     createData('Nigeria', 'NG', 200962417, 923768),
-//     createData('Brazil', 'BR', 210147125, 8515767),
-// ];
-
-export default function JobsTable(props: any) {
+export default function SavedTable(props: any) {
     console.log(props.jobs);
 
     const rows = [...props.jobs.map((job: any) => {
-        return createData(job.id, job.title, 0, job.created_at.substring(0, job.created_at.indexOf('T')), "...");
+        return createData(job.id, job.title, job.location, job.created_at.substring(0, job.created_at.indexOf('T')), "...", job.uid);
     })];
 
     rows.sort((a, b) => b.id - a.id);
@@ -113,7 +95,7 @@ export default function JobsTable(props: any) {
                                         borderTop: '1px solid #e5e7eb'
                                     }}
                                 >
-                                    {column.id == "title" ? <div className='pl-6'>{column.label}</div> : column.label}
+                                    {column.id === "title" ? <div className='pl-6'>{column.label}</div> : column.label}
                                 </TableCell>
                             ))}
                         </TableRow>
@@ -123,28 +105,25 @@ export default function JobsTable(props: any) {
                             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                                         {columns.map((column) => {
                                             const value = row[column.id];
                                             return (
                                                 <TableCell key={column.id} align={column.align}>
                                                     {column.id === 'title' ? (
                                                         <div className='flex-col gap-3 pr-10 pl-6'>
-
-
                                                             <h2 className='font-[500] font-sans text-lg'>{value}</h2>
                                                             <p className='flex gap-1 items-baseline text-sm text-[#4A2C84]'><HiOutlineLocationMarker /> Yaba, Lagos</p>
-
                                                         </div>
                                                     ) : ""}
 
-                                                    {column.id === 'applicants' ? <div className='text-sm font-light font-sans text-[#7C8493]'>{value} Applicant('s')</div> : ""}
+                                                    {column.id === 'location' ? <div className='text-base  text-[#7C8493]'>{value}</div> : ""}
 
                                                     {column.id === 'date' ? <div className='text-base text-[#7C8493]'>{value}</div> : ""}
 
                                                     {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
-                                                        <button className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
-                                                            View Applicants</button>
+                                                        <a href={`/all-jobs/job?id=${row.uid}`} className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
+                                                            View Job</a>
                                                         <button onClick={() => { props.delete(row.id) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-3xl'>
                                                             Delete</button>
                                                     </div> : ""}
@@ -158,7 +137,6 @@ export default function JobsTable(props: any) {
                 </Table>
             </TableContainer>
             <TablePagination
-                // rowsPerPageOptions={[10, 25, 100]}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}

@@ -48,6 +48,18 @@ export default function signIn() {
             },
         })
         console.log(res);
+        if (signUpUserTypeTab == "seeker") {
+            console.log(res);
+
+            const { data, error } = await supabase.from('Seekers').insert([{ "unique_id": res?.data?.user?.id, "email": email }])
+            console.log(data);
+            console.log(error);
+        }
+        else {
+            const { data, error } = await supabase.from('Recruiters').insert([{ "uniqueid": res?.data?.user?.id, "email": email }])
+            console.log(data);
+            console.log(error);
+        }
         if (res?.data?.user?.aud == "authenticated") {
             router.push(`signup/verify?email=${email}`)
         }
@@ -66,7 +78,8 @@ export default function signIn() {
             },
 
         })
-        //insert in users table
+        console.log("data" + data);
+        console.log("error" + error);
     }
 
     const handleSignIn = async () => {
@@ -77,7 +90,23 @@ export default function signIn() {
         console.log(res);
 
         if (res?.data?.user?.aud == "authenticated") {
-            router.push("/all-jobs")
+            const id = res.data.user.id;
+            const { data: d1, error: e1 } = await supabase.from('Seekers').select().eq('unique_id', id).single()
+            const { data: d2, error: e2 } = await supabase.from('Recruiters').select().eq('uniqueid', id).single()
+
+            console.log(d1);
+            console.log(d2);
+
+            if (d1) {
+                router.push("/signup/complete_profile")
+            }
+            else if (d2) {
+                router.push("/signup/complete_recruiter_profile")
+            }
+            else {
+                console.log(e1);
+                console.log(e2);
+            }
         }
         router.refresh()
     }
@@ -118,7 +147,8 @@ export default function signIn() {
                             </div>
                         }
                         <div onClick={() => { signInWithGoogle() }} className="border rounded-lg py-2 text-xs text-center flex items-center justify-center gap-2 cursor-pointer"><FcGoogle />
-                            {currentPage == "signin" ? "Login" : "Sign Up"} with Google</div>
+                            {/* currentPage == "signin" ? "Login" : "Sign Up"} */}
+                            Continue with Google</div>
                         <p className="text-xs text-[#97999B] my-5 text-center">Or {currentPage == "signin" ? "Login" : "sign up"} with email</p>
 
                         <div>

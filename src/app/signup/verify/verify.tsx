@@ -21,8 +21,10 @@ export default function verify() {
         if (error) return console.log('Error verifying OTP:', error.message)
         console.log(data)
 
+        alert('Account Created!! Please Sign in')
+
         if (data?.session?.access_token != null) {
-            router.push('/all-jobs')
+            router.push('/signup')
         }
     }
 
@@ -47,12 +49,14 @@ export default function verify() {
                         <Image src={EmailSent} alt="" width={300} />
                         <h1 className="font-semibold text-2xl text-center my-4">Verify your email address</h1>
                         <p className="text-center text-sm font-light">
-                            We have sent an email to
-                            <span className="text-[#4A2C84] font-medium"> {searchParams.get('email')}</span>, Please  click on the button in
-                            that email to verify your email address.
+                            We have sent a verification code to the email
+                            <span className="text-[#4A2C84] font-medium"> {searchParams.get('email')}</span>
                         </p>
-                        <input type="text" className="border px-2 py-2" onChange={(e) => { settoken(e.target.value) }} />
-                        <button onClick={() => { verifyOTP() }}>Verify</button>
+                        <p className="text-center text-sm font-light my-2">
+                            Enter the code below
+                        </p>
+                        <input type="text" className="border px-2 py-2 mb-4 rounded-xl text-center text-sm" onChange={(e) => { settoken(e.target.value) }} />
+                        <button className="bg-[#4A2C84] text-white rounded-lg px-4 py-2 text-sm" onClick={() => { verifyOTP() }}>Verify</button>
                     </div>
 
                 </div>

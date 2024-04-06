@@ -7,11 +7,11 @@ export function middleware(request) {
   console.log('auth', isAuthenticated)
 
   // If the user is authenticated, continue as normal
-  if (request.url == "/signup/complete_profile") {
-    if (isAuthenticated) {
-      NextResponse.redirect(new URL('/all-jobs', request.url))
-    }
-  }
+  // if (request.url == "/signup/complete_profile") {
+  //   if (isAuthenticated) {
+  //     NextResponse.redirect(new URL('/all-jobs', request.url))
+  //   }
+  // }
 
   // Redirect to login page if not authenticated
   return NextResponse.redirect(new URL('/signup', request.url))

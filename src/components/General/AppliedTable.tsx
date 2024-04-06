@@ -12,7 +12,7 @@ import User from '../../assets/images/user.jpg'
 import { HiOutlineLocationMarker } from "react-icons/hi";
 
 interface Column {
-    id: 'title' | 'applicants' | 'date' | 'action';
+    id: 'title' | 'location' | 'date' | 'action';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -21,10 +21,10 @@ interface Column {
 
 const columns: readonly Column[] = [
     { id: 'title', label: 'TITLE', minWidth: 170 },
-    { id: 'applicants', label: 'APPLICANTS', minWidth: 100 },
+    { id: 'location', label: 'LOCATION', minWidth: 100 },
     {
         id: 'date',
-        label: 'CREATED ON',
+        label: 'APPLIED ON',
         minWidth: 170,
         format: (value: number) => value.toLocaleString('en-US'),
     },
@@ -40,7 +40,7 @@ const columns: readonly Column[] = [
 interface Data {
     id: number,
     title: string;
-    applicants: number;
+    location: string;
     date: string;
     action: string;
 }
@@ -48,12 +48,12 @@ interface Data {
 function createData(
     id: number,
     title: string,
-    applicants: number,
+    location: string,
     date: string,
     action: string,
 ): Data {
 
-    return { id, title, applicants, date, action };
+    return { id, title, location, date, action };
 }
 
 // const rows = [
@@ -74,11 +74,11 @@ function createData(
 //     createData('Brazil', 'BR', 210147125, 8515767),
 // ];
 
-export default function JobsTable(props: any) {
+export default function AppliedTable(props: any) {
     console.log(props.jobs);
 
     const rows = [...props.jobs.map((job: any) => {
-        return createData(job.id, job.title, 0, job.created_at.substring(0, job.created_at.indexOf('T')), "...");
+        return createData(job.id, job.title, job.location, job.created_at.substring(0, job.created_at.indexOf('T')), "...");
     })];
 
     rows.sort((a, b) => b.id - a.id);
@@ -138,15 +138,15 @@ export default function JobsTable(props: any) {
                                                         </div>
                                                     ) : ""}
 
-                                                    {column.id === 'applicants' ? <div className='text-sm font-light font-sans text-[#7C8493]'>{value} Applicant('s')</div> : ""}
+                                                    {column.id === 'location' ? <div className='text-base  text-[#7C8493]'>{value}</div> : ""}
 
                                                     {column.id === 'date' ? <div className='text-base text-[#7C8493]'>{value}</div> : ""}
 
                                                     {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
                                                         <button className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
-                                                            View Applicants</button>
-                                                        <button onClick={() => { props.delete(row.id) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-3xl'>
-                                                            Delete</button>
+                                                            View Application</button>
+                                                        {/* <button onClick={() => { props.delete(row.id) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-3xl'>
+                                                            Delete</button> */}
                                                     </div> : ""}
                                                 </TableCell>
                                             );

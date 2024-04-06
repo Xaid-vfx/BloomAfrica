@@ -1,0 +1,75 @@
+'use client'
+import Image from "next/image";
+import Bloom from '../../assets/images/BloomLogo.png'
+import { useEffect, useState } from "react";
+import { BiHomeAlt2 } from "react-icons/bi";
+import { LuClipboardList } from "react-icons/lu";
+import { TbMessage } from "react-icons/tb";
+import { PiBuildings } from "react-icons/pi";
+import { SignOut } from "@/lib/Signout/Signout";
+import Link from "next/link";
+
+type Props = {
+    handleChangeTabIndex: any;
+    currTabIndex: number;
+}
+
+
+function handleClickLogout() {
+    SignOut()
+}
+
+export default function Sidebar(props: Props) {
+
+    const [currentPage, setCurrentPage] = useState("")
+
+    const url = reverseString(globalThis.window?.location.href)
+    const page = url?.split("/")
+
+    function reverseString(str: string) {
+        var splitString = str?.split("");
+        var reverseArray = splitString?.reverse();
+        var joinArray = reverseArray?.join("");
+        return joinArray;
+    }
+
+    useEffect(() => {
+        if (reverseString(page[0]) == 'applied') {
+            setCurrentPage("applied")
+        }
+        else if (reverseString(page[0]) == 'saved') {
+            setCurrentPage("saved")
+        }
+        else if (reverseString(page[0]) == 'edit') {
+            setCurrentPage("edit")
+        }
+    }, [currentPage])
+
+    return (
+        <div className="w-[20%] h-screen bg-[#F8F8FD] flex justify-between">
+            <div className=" py-10 px-5 w-full">
+                <Image src={Bloom} width={120} height={100} />
+
+                <div className="flex flex-col justify-center my-6">
+                    <Link href="/seeker/applied" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'applied' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                        <BiHomeAlt2 className="text-xl" />
+                        <p className="text-sm ">Applied Jobs</p>
+                    </Link>
+
+                    <Link href="/seeker/saved" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'saved' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                        <PiBuildings className="text-xl" />
+                        <p className="text-sm ">Saved Jobs</p>
+                    </Link>
+
+                    <Link href="/seeker/edit" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'edit' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                        <LuClipboardList className="text-xl" />
+                        <p className="text-sm ">Edit Profile</p>
+                    </Link>
+                </div>
+                <button onClick={() => { handleClickLogout() }} className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold ml-10 absolute bottom-10">Log out</button>
+            </div>
+            <div
+                className="h-full min-h-[1em] w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20"></div>
+        </div>
+    )
+}

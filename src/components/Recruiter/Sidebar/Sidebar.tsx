@@ -6,6 +6,7 @@ import { LuClipboardList } from "react-icons/lu";
 import { TbMessage } from "react-icons/tb";
 import { PiBuildings } from "react-icons/pi";
 import { SignOut } from "@/lib/Signout/Signout";
+import { useRouter } from "next/navigation";
 
 type Props = {
     handleChangeTabIndex: any;
@@ -13,11 +14,12 @@ type Props = {
 }
 
 
-function handleClickLogout() {
-    SignOut()
-}
-
 export default function Sidebar(props: Props) {
+    const router = useRouter()
+    function handleClickLogout() {
+        SignOut()
+        router.push('/signup')
+    }
 
     return (
         <div className="w-[20%] h-screen bg-[#F8F8FD] flex justify-between">

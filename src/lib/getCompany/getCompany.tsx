@@ -8,6 +8,7 @@ export default async function getCompany(id: string) {
         .from('CompanyInfo')
         .select()
         .eq('unique_id', id)
+        .single()
 
     return data;
 }

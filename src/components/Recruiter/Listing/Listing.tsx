@@ -3,6 +3,8 @@ import JobListingCard from "../JobListingCard/JobListingCard";
 import { useEffect, useState } from "react";
 import getJobs from "@/lib/getJobs/getJobs";
 import JobsTable from "@/components/General/JobsTable";
+import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 
 
 type Props = {
@@ -11,6 +13,28 @@ type Props = {
 }
 
 export default function Listing(props: Props) {
+
+    const router = useRouter()
+
+    async function deleteJob(id: string) {
+        console.log(id);
+        const supabase = createClientComponentClient()
+        const { data, error } = await supabase
+            .from('Jobs')
+            .delete()
+            .eq('id', id)
+
+
+        console.log(data);
+        if (error) {
+            console.log(error);
+        }
+        else {
+            alert("Job Deleted Successfully! Refresh")
+        }
+        router.refresh()
+
+    }
 
     return (
         <div className="px-8 pt-8 w-full h-full bg-[#F5F5F5]">
@@ -25,7 +49,7 @@ export default function Listing(props: Props) {
                     <h1 className="font-semibold text-2xl pb-4 pl-8">All Jobs</h1>
 
                     {
-                        props.jobs.length > 0 ? <JobsTable jobs={props.jobs} /> : <div className="flex justify-center items-center h-[200px]">
+                        props.jobs.length > 0 ? <JobsTable delete={deleteJob} jobs={props.jobs} /> : <div className="flex justify-center items-center h-[200px]">
                             No Jobs found!
                         </div>
                     }

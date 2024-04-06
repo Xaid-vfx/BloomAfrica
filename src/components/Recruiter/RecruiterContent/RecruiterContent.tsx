@@ -5,6 +5,7 @@ import Listing from "../Listing/Listing";
 import Sidebar from "../Sidebar/Sidebar";
 import Dashboard from "../Dashboard/Dashboard";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import EditRecruiter from "./EditRecruiter";
 
 type Props = {
     user: any
@@ -44,7 +45,7 @@ export default function RecruiterContent(props: Props) {
             }} currTabIndex={currTabIndex} />
 
             <div className="w-full flex flex-col h-screen">
-                <Header name={props.company ? props.company[0]?.name : ""} />
+                <Header name={props.company ? props.company?.name : ""} />
 
                 {currTabIndex == 0 ?
                     <Dashboard user={props.user} company={props.company} jobs={jobs} recruiter={props.recruiter} /> : ""}
@@ -52,7 +53,7 @@ export default function RecruiterContent(props: Props) {
                     <div className="border h-screen p-20">Messages</div>
                     : ""}
                 {currTabIndex == 2 ?
-                    <div className="border h-screen p-20">Company Profile</div>
+                    <EditRecruiter user={props.user} recruiter={props.recruiter} company={props.company} />
                     : ""}
                 {currTabIndex == 3 ?
                     <Listing user={props.user} jobs={jobs} />

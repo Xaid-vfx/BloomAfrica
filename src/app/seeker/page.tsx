@@ -1,15 +1,15 @@
-import RecruiterContent from "@/components/Recruiter/RecruiterContent/RecruiterContent";
 import getCompany from "@/lib/getCompany/getCompany";
 import getUser from "@/lib/getUser/getUser";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import SeekerContent from "./SeekerContent";
 
-async function fetchRecruiter(id: string) {
+async function fetchSeeker(id: string) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
-    const { data, error } = await supabase.from('Recruiters').select().eq('uniqueid', id).single()
+    const { data, error } = await supabase.from('Seekers').select().eq('unique_id', id).single()
 
-    console.log(error);
+    console.log(data);
 
     return data;
 }
@@ -18,11 +18,11 @@ async function fetchRecruiter(id: string) {
 export default async function Recruiter() {
     const user = await getUser();
     const company = await getCompany(user?.id)
-    const recruiter = await fetchRecruiter(user?.id)
+    const seeker = await fetchSeeker(user?.id)
 
     return (
         <div>
-            <RecruiterContent user={user} recruiter={await recruiter} company={await company} />
+            <SeekerContent user={user} seeker={await seeker} company={await company} />
         </div>
     )
 }

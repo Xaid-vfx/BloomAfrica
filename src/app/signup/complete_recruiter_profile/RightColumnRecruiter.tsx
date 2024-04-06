@@ -61,11 +61,12 @@ export default function RightColomnRecruiter() {
     }
 
     async function handleFirstNext() {
-        setStep(2);
         if (name == "" || email == "" || number == "" || date == "" || gender == "" || country == "" || state == "") {
             console.log(country + state);
             alert("Please fill all fields");
+            return
         }
+        setStep(2);
     }
 
     async function step1() {
@@ -96,7 +97,6 @@ export default function RightColomnRecruiter() {
             step2(data);
             console.log(data);
         });
-
         const { data, error } = await supabase
             .from('users')
             .insert({ name: name, email: currentUser?.email, type: "recruiter" })
@@ -104,13 +104,18 @@ export default function RightColomnRecruiter() {
         if (error) {
             console.log(error);
         }
-
         router.push('/recruiter')
     }
 
-
+    async function getUser() {
+        const { data: { user } } = await supabase.auth.getUser()
+        return user;
+    }
     useEffect(() => {
-
+        getUser().then(user => {
+            router.refresh();
+            setcurrentUser(user);
+        })
     }, [])
 
 
@@ -192,7 +197,7 @@ export default function RightColomnRecruiter() {
             }
             {
                 (step == 2) &&
-                <div className="px-10 w-full lg:px-14 py-10 lg:w-[55%] overflow-scroll lg:block flex flex-col justify-center">
+                <div className="px-10 w-full lg:px-14 py-10 overflow-scroll lg:block flex flex-col justify-center">
                     <FaArrowLeft onClick={() => { setStep(1) }} className="cursor-pointer text-2xl mb-4" />
                     <div className="flex justify-between items-baseline">
                         <h2 className="text-xl font-semibold flex items-center gap-2">Company Information</h2>
