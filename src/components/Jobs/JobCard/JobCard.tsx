@@ -47,7 +47,7 @@ export default function JobCard(props: Props) {
             </div>
             <div className="">
                 <div className="flex gap-2">
-                    <button className=" text-black border border-black py-3 text-center font-medium rounded-3xl px-14" >Save</button><button onClick={() => { handleJobCardClick(props.id) }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14 hover:bg-[#2f185e]" >Apply</button>
+                    <button className=" text-black border border-black py-3 text-center font-medium rounded-3xl px-14" >Save</button><a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14 hover:bg-[#2f185e]" >Apply</a>
                 </div>
 
                 <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">
