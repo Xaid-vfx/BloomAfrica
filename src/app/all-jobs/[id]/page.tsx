@@ -9,6 +9,7 @@ import SaveButton from "@/components/Button/SaveButton";
 import SeekerNavbar from "../seekerNavbar";
 import TestComp from "./TestComp";
 
+export const dynamic = 'force-dynamic';
 
 export default async function Page({ params,
     searchParams,
