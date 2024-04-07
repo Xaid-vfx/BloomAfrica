@@ -3,11 +3,11 @@ import Navbar from "@/components/navbar/Navbar";
 import Image from "next/image";
 import Logo from '../../../assets/images/Jobs/Company Logo.png'
 import getAJob from "@/lib/getAJob/getAJob";
-import { createClientComponentClient, createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Button from "@/components/Button/Button";
 import getUser from "@/lib/getUser/getUser";
 import SaveButton from "@/components/Button/SaveButton";
 import SeekerNavbar from "../seekerNavbar";
+import TestComp from "./TestComp";
 
 
 export default async function Page({ params,
@@ -19,11 +19,11 @@ export default async function Page({ params,
 
     const job = await getAJob(searchParams?.id)
     const user = await getUser()
-    const supabase = createClientComponentClient()
 
     return (
         <div>
             <SeekerNavbar user={user} />
+            <TestComp job={job} pr={searchParams.id} />
             {job != null ? <div>
                 <div className=" items-center justify-between border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
                     <div className="flex flex-col">
@@ -104,4 +104,4 @@ export default async function Page({ params,
         </div>
     )
 
-}
+} 
