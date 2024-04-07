@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import Footer from "@/components/Footer/Footer";
 import Navbar from "@/components/navbar/Navbar";
 import Image from "next/image";
