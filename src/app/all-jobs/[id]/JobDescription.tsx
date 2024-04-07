@@ -12,7 +12,7 @@ import getUser from "@/lib/getUser/getUser";
 import SaveButton from "@/components/Button/SaveButton";
 import SeekerNavbar from "../seekerNavbar";
 import TestComp from "./TestComp";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 async function getJob(userid: string) {
     const supabase = createClientComponentClient()
@@ -28,15 +28,20 @@ async function getJob(userid: string) {
     return data;
 }
 
-export default async function JobDescription(props) {
+export default function JobDescription(props) {
     const search = useSearchParams()
     const id = search.get('id')
-    const job = await getJob(search.get('id'))
+    const [job, setjob] = useState([])
     console.log(job);
     console.log(id);
 
-
-
+    useEffect(() => {
+        async function fetchJob() {
+            const data = await getJob(id)
+            setjob(data)
+        }
+        fetchJob()
+    }, [])
     return (
         <div>
             {job != null ? <div>
