@@ -25,7 +25,7 @@ export default async function Page({ params,
     return (
         <div>
             <SeekerNavbar user={user} />
-            <TestComp job={job} pr={params?.id} />
+            <TestComp job={job} pr={searchParams?.id} />
             {job != null ? <div>
                 <div className=" items-center justify-between border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
                     <div className="flex flex-col">
