@@ -8,6 +8,8 @@ import getUser from "@/lib/getUser/getUser";
 import SaveButton from "@/components/Button/SaveButton";
 import SeekerNavbar from "../seekerNavbar";
 import TestComp from "./TestComp";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function Page({ params,
     searchParams,
@@ -22,7 +24,7 @@ export default async function Page({ params,
     return (
         <div>
             <SeekerNavbar user={user} />
-            <TestComp job={job} pr={searchParams?.id} />
+            <TestComp job={job} pr={params?.id} />
             {job != null ? <div>
                 <div className=" items-center justify-between border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
                     <div className="flex flex-col">
