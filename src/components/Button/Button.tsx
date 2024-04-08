@@ -12,23 +12,43 @@ export default function Button(props: Props) {
 
 
     async function checkifSeekerisRegistered() {
-        console.log(props.user);
+
 
         const { data, error } = await supabase
             .from('Seekers')
             .select()
             .eq('unique_id', props.user)
 
+        if (error) {
+            console.log(error);
+            return false;
+        }
+        else {
 
-        console.log(error);
-        console.log(data);
+            if (data.length > 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    async function checkifSeekerisAlreadyApplied() {
+        console.log(props.user);
+
+        const { data, error } = await supabase
+            .from('Applicants')
+            .select()
+            .eq('seeker_id', props.user)
+            .eq('job_id', props.id)
 
         if (error) {
             console.log(error);
             return false;
         }
         else {
-            console.log(data);
+            console.log(data.length);
             if (data.length > 0) {
                 return true;
             }
@@ -43,8 +63,11 @@ export default function Button(props: Props) {
             alert("Please register as a seeker to apply for a job")
             return
         }
+        if (await checkifSeekerisAlreadyApplied()) {
+            alert("Already Applied!!")
+            return
+        }
         else {
-
             const { data: seekerData, error: seekerError } = await supabase
                 .from('Seekers')
                 .select()
