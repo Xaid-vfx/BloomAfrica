@@ -68,10 +68,10 @@ export default function JobDescription(props) {
             </div>
             <div className="py-10 lg:hidden flex flex-col justify-center items-center bg-[#F8F8FD]">
                 <Image src={Logo} alt="logo" width={100} />
-                <h1 className="text-xl font-semibold">{job != null && job[0]?.title}</h1>
+                <h1 className="text-xl font-semibold">{job != null ? job[0]?.title : <Skeleton width={200} />}</h1>
                 <div className="flex text-sm text-[#515B6F] gap-1 items-baseline">
                     <p>Bloom</p>
-                    <p>. {job != null && job[0]?.location}</p>
+                    <p>. {job != null ? job[0]?.location : <Skeleton width={100} />}</p>
                 </div>
                 <div className="flex gap-2 mt-6">
                     <SaveButton user={props.user?.id} id={id}></SaveButton>
