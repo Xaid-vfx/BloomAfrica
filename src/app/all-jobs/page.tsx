@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import getJobs from "@/lib/getJobs/getJobs";
 import Search from "./Search";
 import ShowFilters from "./ShowFilters";
+import DesktopViewJobs from "./DesktopViewJobs";
 
 type JobProps = {
     uid: string;
@@ -24,6 +25,7 @@ type JobProps = {
     responsibilities: string;
     who_you_are: string;
     extras: string;
+    category: string
 }
 
 export default async function AllJobs({ params,
@@ -84,6 +86,7 @@ export default async function AllJobs({ params,
                                 return <MobileCard
                                     id={job.uid}
                                     title={job.title}
+                                    category={job.category}
                                     location={job.location}
                                     salary={job.salary}
                                     type={job.type}
@@ -100,45 +103,7 @@ export default async function AllJobs({ params,
 
                 {/* Desktop view starts */}
 
-                <div className="hidden lg:block w-full border-t">
-                    <div className="flex justify-between py-10 px-10 font-medium">
-                        <p>Showing 1-9 of {renderJobs?.length} results</p>
-                        <div className="flex text-[#979ca6] font-light gap-2">
-                            <p className="text-xs rounded-3xl px-10 py-3 border border-[#D6DDEB]">Default</p>
-                            <p className="text-xs rounded-3xl px-10 py-3 border border-[#D6DDEB]">9 per page</p>
-                        </div>
-                    </div>
-                    <div className="flex w-full">
-                        <div className=" w-[20%]">
-                            <FilterSidebar />
-                        </div>
-                        <div className=" w-[80%] pl-6 pr-20">
-                            <div className="flex justify-between items-center">
-                                <div>
-                                    <h1 className="text-3xl font-semibold">All Jobs</h1>
-                                    <p className="my-2 text-[#7C8493]">Showing {renderJobs?.length} results for {search == '' ? ' ' : search}  jobs {location == '' ? '' : ' in ' + location}</p>
-                                </div>
-                                <div><span className="text-[#7C8493]">Sort by:</span> Most relevant</div>
-                            </div>
-                            <div className="my-8">
-                                {renderJobs?.map((job: JobProps) => {
-                                    if (job.type.toLowerCase().includes(type1?.toLowerCase()) || job.type.toLowerCase().includes(type2?.toLowerCase()) || (type1 == undefined && type2 == undefined))
-                                        return <JobCard
-                                            id={job.uid}
-                                            title={job.title}
-                                            location={job.location}
-                                            salary={job.salary}
-                                            type={job.type}
-                                            description={job.description}
-                                            extras={job.extras}
-                                            responsibilities={job.responsibilities}
-                                            who_you_are={job.who_you_are}
-                                        />
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <DesktopViewJobs search={search} location={location} renderjobs={await renderJobs} />
 
             </div>
             <Footer />

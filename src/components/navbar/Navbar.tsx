@@ -93,7 +93,7 @@ export default function Navbar() {
             <h1 className="text-3xl font-medium">Bloom</h1>
           </a>
 
-          <div className="hidden lg:flex lg:pl-10">
+          <div className="hidden text-[16px] lg:flex lg:pl-10">
             <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all`}>Home</a>
             <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>About</a>
             <a href="/pricing" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Pricing</a>

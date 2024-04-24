@@ -2,9 +2,8 @@
 
 import { useState } from "react"
 
-export default function FilterSidebar() {
-    const [Categories, setCategories]: [string[], any] = useState([])
-    const [type, settype]: [string[], any] = useState([])
+export default function FilterSidebar(props: any) {
+
     return (
         <div className="px-10">
             <div className="flex flex-col gap-3">
@@ -12,16 +11,12 @@ export default function FilterSidebar() {
                 <div className="text-[#515B6F] flex flex-col gap-4">
                     <div className='flex'>
                         <input type='checkbox' value="Full Time" onChange={(e) => {
-                            if (e.target.checked) settype([...type, e.target.value]);
-                            else settype(type.filter(element => element !== e.target.value));
-                            console.log(type);
+                            props.handleTypeChange("Full Time")
                         }} /><p className="ml-3">Full Time</p>
                     </div>
                     <div className='flex'>
                         <input type='checkbox' value="Part Time" onChange={(e) => {
-                            if (e.target.checked) settype([...type, e.target.value]);
-                            else settype(type.filter(element => element !== e.target.value));
-                            console.log(type);
+                            props.handleTypeChange("Part Time")
                         }} /><p className="ml-3">Part Time</p>
                     </div>
                 </div>
@@ -29,24 +24,45 @@ export default function FilterSidebar() {
                 <p className="font-semibold mt-8">Categories</p>
                 <div className="text-[#515B6F] flex flex-col gap-4">
                     <div className='flex'>
-                        <input type='checkbox' value="Software" onChange={(e) => {
-                            if (e.target.checked) setCategories([...Categories, e.target.value]);
-                            else setCategories(Categories.filter(element => element !== e.target.value));
-                            console.log(Categories);
-                        }} /><p className="ml-3">Software </p>
+                        <input type='checkbox' value={'Electrical Engineering'} onChange={() => props.handleCategoryChange('Electrical Engineering')}
+                        /><p className="ml-3">Electrical Engineering </p>
                     </div>
                     <div className='flex'>
-                        <input type='checkbox' value="Electronics" onChange={(e) => {
-                            if (e.target.checked) setCategories([...Categories, e.target.value]);
-                            else setCategories(Categories.filter(element => element !== e.target.value));
-                            console.log(Categories);
-                        }} /><p className="ml-3">Electronics </p>
+                        <input type='checkbox' value="Mechanical Engineering" onChange={(e) => {
+                            props.handleCategoryChange("Mechanical Engineering")
+                        }} /><p className="ml-3">Mechanical Engineering </p>
                     </div>
-
+                    <div className='flex'>
+                        <input type='checkbox' value="Construction & Civil Engineering" onChange={(e) => {
+                            props.handleCategoryChange("Construction & Civil Engineering")
+                        }} /><p className="ml-3">Construction & Civil Engineering </p>
+                    </div>
+                    <div className='flex'>
+                        <input type='checkbox' value="Business Entreprenuership" onChange={(e) => {
+                            props.handleCategoryChange("Business Entreprenuership")
+                        }} /><p className="ml-3">Business Entreprenuership</p>
+                    </div>
+                    <div className='flex'>
+                        <input type='checkbox' value="Cosmetology" onChange={(e) => {
+                            props.handleCategoryChange("Cosmetology")
+                        }} /><p className="ml-3">Cosmetology </p>
+                    </div>
+                    <div className='flex'>
+                        <input type='checkbox' value="Hospitality" onChange={(e) => {
+                            props.handleCategoryChange("Hospitality")
+                        }} /><p className="ml-3">Hospitality </p>
+                    </div>
+                    <div className='flex'>
+                        <input type='checkbox' value="Fashion" onChange={(e) => {
+                            props.handleCategoryChange("Fashion")
+                        }} /><p className="ml-3">Fashion </p>
+                    </div>
+                    <div className='flex'>
+                        <input type='checkbox' value="Food & Cullinary" onChange={(e) => {
+                            props.handleCategoryChange("Food & Cullinary")
+                        }} /><p className="ml-3">Food & Cullinary </p>
+                    </div>
                 </div>
-            </div>
-            <div className="my-4 flex w-full">
-                <a href={'?' + type.map((type, index) => `type${index + 1}=${type}`).join('&') + '&' + Categories.map((category, index) => `category${index + 1}=${category}`).join('&')} className="text-sm bg-[#4A2C84] text-white px-4 py-2 mx-2 w-full text-center rounded-lg">Apply</a>
             </div>
         </div >
     )

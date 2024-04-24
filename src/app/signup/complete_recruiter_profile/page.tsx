@@ -5,7 +5,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { redirect } from "next/navigation";
 import getUser from "@/lib/getUser/getUser";
 
-async function checkIfUserExists(id: string) {
+async function checkIfUserExists(id: string | undefined) {
     console.log("Inside function")
     console.log(id);
     cookies().getAll()
@@ -23,7 +23,7 @@ async function checkIfUserExists(id: string) {
 
 export default async function CompleteRecruiterProfile() {
     const user = await getUser();
-    const result = await checkIfUserExists(await user?.id)
+    const result = await checkIfUserExists(user?.id)
     console.log(result);
 
     if (result?.unique_id) {

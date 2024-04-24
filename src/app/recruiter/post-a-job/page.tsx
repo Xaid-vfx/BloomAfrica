@@ -11,6 +11,7 @@ export default function Post() {
     const [title, settitle] = useState("")
     const [desc, setdesc] = useState("")
     const [type, settype] = useState("")
+    const [category, setcategory] = useState("")
     const [loc, setloc] = useState("")
     const [res, setres] = useState("")
     const [wya, setwya] = useState("")
@@ -22,7 +23,7 @@ export default function Post() {
     async function handleSubmit() {
         const { data, error } = await supabase
             .from('Jobs')
-            .upsert({ title: title, description: desc, type: type, location: loc, responsibilities: res, who_you_are: wya, extras: extras, salary: salary })
+            .upsert({ title: title, description: desc, type: type, category: category, location: loc, responsibilities: res, who_you_are: wya, extras: extras, salary: salary })
 
         if (error) {
             console.log(error);
@@ -59,6 +60,23 @@ export default function Post() {
                         <TextInput field="Type" type="text" placeholder="Enter  type" handleChange={(e: any) => {
                             settype(e.target.value)
                         }} />
+                        <div className="">
+                            <p className="font-semibold text-xs my-1 text-[#515B6F]">Category</p>
+                            <select onChange={(e) => {
+                                setcategory(e.target.value)
+                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
+                                <option>Select category</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Electrical Engineering">Electrical Engineering</option>
+                                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                <option value="Construction & Civil Engineering">Construction & Civil Engineering</option>
+                                <option value="Business & Entreprenuership">Business & Entreprenuership</option>
+                                <option value="Cosmetology">Cosmetology</option>
+                                <option value="Hospitality">Hospitality</option>
+                                <option value="Fashion">Fashion</option>
+                                <option value="Food & Cullinary">Food & Cullinary</option>
+                            </select>
+                        </div>
                         <TextInput field="Location" type="text" placeholder="Enter  loc" handleChange={(e: any) => {
                             setloc(e.target.value)
                         }} />

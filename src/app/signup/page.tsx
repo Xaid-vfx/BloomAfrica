@@ -72,13 +72,13 @@ export default function signIn() {
             options: {
                 queryParams: {
                     access_type: 'offline',
-                    prompt: 'consent',
+                    prompt: 'consent'
                 },
-                redirectTo: signUpUserTypeTab == "seeker" ? currentUrl + '/complete_profile' : currentUrl + '/complete_recruiter_profile'
+                redirectTo: signUpUserTypeTab == "seeker" ? 'http://localhost:3000/auth/callback?next=/signup/complete_profile' : 'http://localhost:3000/auth/callback?next=/signup/complete_recruiter_profile'
             },
 
         })
-        console.log("data" + data);
+        console.log(data);
         console.log("error" + error);
     }
 

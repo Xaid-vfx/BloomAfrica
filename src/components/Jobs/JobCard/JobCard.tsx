@@ -14,12 +14,12 @@ type Props = {
     responsibilities: string;
     who_you_are: string;
     extras: string;
+    category: string;
 }
 
 export default function JobCard(props: Props) {
 
     const router = useRouter()
-
     const handleJobCardClick = (id: string) => {
         router.push("all-jobs/job?id=" + id)
     }
@@ -41,8 +41,8 @@ export default function JobCard(props: Props) {
                     <div className="rounded-3xl text-sm  px-3 py-2 bg-[#ebfffa] text-[#56CDAD]">{props.type}</div>
                     <div
                         className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
-                    <div className="rounded-3xl px-3 py-2 border border-[#FFB836] text-sm text-[#FFB836]">Marketing</div>
-                    <div className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84]">Design</div>
+                    {/* <div className="rounded-3xl px-3 py-2 border border-[#FFB836] text-sm text-[#FFB836]">Marketing</div> */}
+                    {props.category && <div className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84]">{props.category}</div>}
                 </div>
             </div>
             <div className="">

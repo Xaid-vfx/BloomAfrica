@@ -120,7 +120,6 @@ export default function RightColumnSeeker() {
 
     useEffect(() => {
         getUser().then(user => {
-            router.refresh();
             setcurrentUser(user);
         })
     }, [])

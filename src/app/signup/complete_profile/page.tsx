@@ -2,14 +2,17 @@ import LeftColomn from "@/components/SignUp/LeftColomn/LeftColomn";
 import RightColumnSeeker from "@/components/SignUp/RightColomnSeeker/RightColomnSeeker";
 import getUser from "@/lib/getUser/getUser";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { log } from "console";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+
+cookies().getAll()
+const supabase = createServerComponentClient({ cookies })
 
 async function checkIfUserExists(id: string) {
     console.log("Inside function")
     console.log(id);
-    cookies().getAll()
-    const supabase = createServerComponentClient({ cookies })
     const { data, error } = await supabase
         .from('Seekers')
         .select()
@@ -22,18 +25,20 @@ async function checkIfUserExists(id: string) {
 }
 
 export default async function CompleteProfile() {
-    const user = await getUser();
+    const session = await supabase.auth.getSession();
+
+    const user = session.data.session?.user
+
+
+
     const result = await checkIfUserExists(await user?.id)
-    console.log(result);
 
 
 
-    if (result?.unique_id) {
+    if (await result) {
         redirect('/all-jobs')
     }
     else {
-        console.log("Complete profile")
-
         return (
             <div className="flex h-screen">
                 <LeftColomn />
@@ -41,4 +46,5 @@ export default async function CompleteProfile() {
             </div>
         )
     }
+
 }
