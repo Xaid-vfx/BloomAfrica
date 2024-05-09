@@ -42,6 +42,7 @@ interface Data {
     status: string;
     date: string;
     action: string;
+    uid: string
 }
 
 function createData(
@@ -50,9 +51,10 @@ function createData(
     status: string,
     date: string,
     action: string,
+    uid: string
 ): Data {
 
-    return { id, name, status, date, action };
+    return { id, name, status, date, action, uid };
 }
 
 // const rows = [
@@ -77,7 +79,7 @@ export default function StickyHeadTable(props: any) {
     console.log(props.applications);
 
     const rows = [...props.applications.map((app: any) => {
-        return createData(app.id, app.name, "Active", app.created_at.substring(0, app.created_at.indexOf('T')), "View");
+        return createData(app.id, app.name, "Active", app.created_at.substring(0, app.created_at.indexOf('T')), "View", app.seeker_id);
     })];
 
     rows.sort((a, b) => b.id - a.id);
@@ -142,7 +144,10 @@ export default function StickyHeadTable(props: any) {
                                                     {column.id === 'status' ? <div className='text-base'>{value}</div> : ""}
 
                                                     {column.id === 'action' ? <div className='flex justify-center'>
-                                                        <div className='bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
+                                                        <div onClick={() => {
+                                                            console.log(row);
+                                                            props.fetchApplicantDetails(row.uid)
+                                                        }} className='bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
                                                             View Application</div>
                                                     </div> : ""}
                                                 </TableCell>

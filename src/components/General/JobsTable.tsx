@@ -43,6 +43,7 @@ interface Data {
     applicants: number;
     date: string;
     action: string;
+    uid: string
 }
 
 function createData(
@@ -51,9 +52,10 @@ function createData(
     applicants: number,
     date: string,
     action: string,
+    uid: string
 ): Data {
 
-    return { id, title, applicants, date, action };
+    return { id, title, applicants, date, action, uid };
 }
 
 // const rows = [
@@ -78,7 +80,7 @@ export default function JobsTable(props: any) {
     console.log(props.jobs);
 
     const rows = [...props.jobs.map((job: any) => {
-        return createData(job.id, job.title, 0, job.created_at.substring(0, job.created_at.indexOf('T')), "...");
+        return createData(job.id, job.title, 0, job.created_at.substring(0, job.created_at.indexOf('T')), "...", job.uid);
     })];
 
     rows.sort((a, b) => b.id - a.id);
@@ -143,7 +145,9 @@ export default function JobsTable(props: any) {
                                                     {column.id === 'date' ? <div className='text-base text-[#7C8493]'>{value}</div> : ""}
 
                                                     {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
-                                                        <button className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
+                                                        <button onClick={() => {
+                                                            props.ApplicationsForSelectedJob(row.uid)
+                                                        }} className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
                                                             View Applicants</button>
                                                         <button onClick={() => { props.delete(row.id) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-3xl'>
                                                             Delete</button>

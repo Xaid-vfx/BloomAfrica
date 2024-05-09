@@ -103,7 +103,7 @@ export default async function AllJobs({ params,
 
                 {/* Desktop view starts */}
 
-                <DesktopViewJobs search={search} location={location} renderjobs={await renderJobs} />
+                <DesktopViewJobs search={search} location={location} renderjobs={renderJobs} />
 
             </div>
             <Footer />
