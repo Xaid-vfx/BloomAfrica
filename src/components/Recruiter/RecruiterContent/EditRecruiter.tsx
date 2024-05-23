@@ -4,6 +4,7 @@ import EditInput from "./EditInput"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import CountryList from "@/lib/CountryList/CountryList"
 import { useRouter } from "next/navigation"
+import { IoMdArrowRoundBack } from "react-icons/io"
 
 
 type Props = {
@@ -81,20 +82,22 @@ export default function EditRecruiter(props: Props) {
     }, [])
 
     return (
-        <div className="py-8 px-8 bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
-            <h1 className="font-semibold text-xl ml-4">Edit Profile
+        <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
+            <h1 className="font-semibold text-xl ml-4 hidden lg:block">Edit Profile
             </h1>
+            <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Edit Profile</p>
+            <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
             <div>
-                <div className="bg-white rounded-xl p-6 mt-6">
+                <div className="bg-white rounded-xl p-6 lg:mt-6">
                     <div>
                         <h1 className="text-2xl font-semibold text-[#4A2C84]">Personal Information</h1>
                         <div className="my-6">
-                            <div className="flex gap-2 w-full">
-                                <div className="w-1/2">
+                            <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-full">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Name</h2>
                                     <input onChange={(e) => { setname(e.target.value); handleChange() }} value={name} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <p className="font-semibold text-sm my-1 text-[#515B6F]">Gender</p>
                                     <select value={gender} onChange={(e) => {
                                         setgender(e.target.value)
@@ -105,9 +108,7 @@ export default function EditRecruiter(props: Props) {
                                         <option value="female">Female</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div className="flex gap-2 w-full my-3">
-                                <div className="w-1/2">
+                                <div className="">
                                     <p className="font-semibold text-xs my-1 text-[#515B6F]">Country</p>
                                     <select value={country} onChange={(e) => {
                                         setcountry(e.target.value)
@@ -122,7 +123,7 @@ export default function EditRecruiter(props: Props) {
                                         }
                                     </select>
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <p className="font-semibold text-xs my-1 text-[#515B6F]">State</p>
                                     <select value={state} onChange={(e) => {
                                         setstate(e.target.value)
@@ -148,28 +149,25 @@ export default function EditRecruiter(props: Props) {
                     <div className="mt-10">
                         <h1 className="text-2xl font-semibold text-[#4A2C84]">Company Information</h1>
                         <div className="my-6">
-                            <div className="flex gap-2 w-full">
-                                <div className="w-1/2">
+                            <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-full">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Company Name</h2>
                                     <input onChange={(e) => { setcname(e.target.value); setshowSave2(true) }} value={cname} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Type</h2>
                                     <input onChange={(e) => { setctype(e.target.value); setshowSave2(true) }} value={ctype} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                            </div>
-                            <div className="flex gap-2 w-full my-4">
-                                <div className="w-1/2">
+
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Website</h2>
                                     <input onChange={(e) => { setcwebsite(e.target.value); setshowSave2(true) }} value={cwebsite} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Description</h2>
                                     <input onChange={(e) => { setsdesc(e.target.value); setshowSave2(true) }} value={cdesc} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                            </div>
-                            <div className="flex gap-2 w-full my-3">
-                                <div className="w-1/2">
+                                <div className="">
                                     <h2 className="mb-1 font-medium ">Logo</h2>
                                     <input type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>

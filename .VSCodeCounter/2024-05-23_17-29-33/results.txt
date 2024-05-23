@@ -1,0 +1,191 @@
+Date : 2024-05-23 17:29:33
+Directory : /Users/zaid/Bloom/bloom/src
+Total : 99 files,  5929 codes, 182 comments, 730 blanks, all 6841 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| TypeScript JSX |         95 |      5,722 |        174 |        698 |      6,594 |
+| CSS            |          1 |        154 |          0 |         23 |        177 |
+| TypeScript     |          3 |         53 |          8 |          9 |         70 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                       | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                          |         99 |      5,929 |        182 |        730 |      6,841 |
+| app                                                                                        |         36 |      2,167 |         51 |        310 |      2,528 |
+| app (Files)                                                                                |          4 |        244 |          7 |         38 |        289 |
+| app/about                                                                                  |          1 |         36 |          0 |          2 |         38 |
+| app/all-jobs                                                                               |          8 |        511 |         16 |         72 |        599 |
+| app/all-jobs (Files)                                                                       |          5 |        338 |         12 |         56 |        406 |
+| app/all-jobs/[id]                                                                          |          3 |        173 |          4 |         16 |        193 |
+| app/auth                                                                                   |          1 |         34 |          2 |          4 |         40 |
+| app/auth/callback                                                                          |          1 |         34 |          2 |          4 |         40 |
+| app/dashboard                                                                              |          1 |         30 |          0 |          6 |         36 |
+| app/faqs                                                                                   |          1 |         18 |          0 |          2 |         20 |
+| app/pricing                                                                                |          1 |         20 |          0 |          2 |         22 |
+| app/privacy-policy                                                                         |          1 |         58 |          0 |          5 |         63 |
+| app/recruiter                                                                              |          2 |        173 |          5 |         25 |        203 |
+| app/recruiter (Files)                                                                      |          1 |         22 |          0 |          6 |         28 |
+| app/recruiter/post-a-job                                                                   |          1 |        151 |          5 |         19 |        175 |
+| app/seeker                                                                                 |         10 |        550 |          1 |         73 |        624 |
+| app/seeker (Files)                                                                         |          4 |        122 |          0 |         21 |        143 |
+| app/seeker/applied                                                                         |          2 |         55 |          0 |         10 |         65 |
+| app/seeker/edit                                                                            |          2 |        290 |          0 |         30 |        320 |
+| app/seeker/saved                                                                           |          2 |         83 |          1 |         12 |         96 |
+| app/signup                                                                                 |          6 |        493 |         20 |         81 |        594 |
+| app/signup (Files)                                                                         |          1 |        143 |         16 |         23 |        182 |
+| app/signup/complete_profile                                                                |          1 |         36 |          0 |         14 |         50 |
+| app/signup/complete_recruiter_profile                                                      |          2 |        246 |          0 |         32 |        278 |
+| app/signup/verify                                                                          |          2 |         68 |          4 |         12 |         84 |
+| components                                                                                 |         55 |      3,488 |        131 |        402 |      4,021 |
+| components/About                                                                           |          7 |        215 |          0 |         37 |        252 |
+| components/About (Files)                                                                   |          6 |        198 |          0 |         35 |        233 |
+| components/About/StatsBox                                                                  |          1 |         17 |          0 |          2 |         19 |
+| components/Button                                                                          |          2 |        191 |          0 |         43 |        234 |
+| components/Demo                                                                            |          1 |         55 |          0 |          6 |         61 |
+| components/Footer                                                                          |          1 |         39 |          0 |          4 |         43 |
+| components/General                                                                         |          4 |        543 |         56 |         69 |        668 |
+| components/GetStartedBanner                                                                |          1 |         26 |          0 |          2 |         28 |
+| components/Input                                                                           |          2 |         38 |          0 |          4 |         42 |
+| components/Jobs                                                                            |          4 |        171 |          2 |         14 |        187 |
+| components/Jobs/FilterSidebar                                                              |          1 |         65 |          0 |          4 |         69 |
+| components/Jobs/JobCard                                                                    |          1 |         54 |          1 |          6 |         61 |
+| components/Jobs/JobTag                                                                     |          1 |         13 |          0 |          1 |         14 |
+| components/Jobs/MobileCard                                                                 |          1 |         39 |          1 |          3 |         43 |
+| components/Landing                                                                         |         15 |        608 |         31 |         53 |        692 |
+| components/Landing (Files)                                                                 |         14 |        506 |         31 |         39 |        576 |
+| components/Landing/Hero                                                                    |          1 |        102 |          0 |         14 |        116 |
+| components/Loading                                                                         |          1 |          8 |          0 |          0 |          8 |
+| components/Pricing                                                                         |          2 |         77 |          0 |         15 |         92 |
+| components/Recruiter                                                                       |          9 |        792 |         38 |         65 |        895 |
+| components/Recruiter/Dashboard                                                             |          1 |        109 |          3 |          9 |        121 |
+| components/Recruiter/Header                                                                |          1 |         82 |          0 |          6 |         88 |
+| components/Recruiter/JobListingCard                                                        |          1 |         18 |          0 |          1 |         19 |
+| components/Recruiter/Listing                                                               |          2 |        283 |          1 |         16 |        300 |
+| components/Recruiter/RecruiterContent                                                      |          3 |        256 |         30 |         28 |        314 |
+| components/Recruiter/Sidebar                                                               |          1 |         44 |          4 |          5 |         53 |
+| components/SignUp                                                                          |          2 |        280 |          0 |         30 |        310 |
+| components/SignUp/LeftColomn                                                               |          1 |         16 |          0 |          1 |         17 |
+| components/SignUp/RightColomnSeeker                                                        |          1 |        264 |          0 |         29 |        293 |
+| components/navbar                                                                          |          1 |         91 |          4 |         14 |        109 |
+| components/ui                                                                              |          3 |        354 |          0 |         46 |        400 |
+| lib                                                                                        |          8 |        274 |          0 |         18 |        292 |
+| lib (Files)                                                                                |          1 |          5 |          0 |          2 |          7 |
+| lib/CountryList                                                                            |          1 |        202 |          0 |          1 |        203 |
+| lib/Signout                                                                                |          1 |          7 |          0 |          3 |         10 |
+| lib/Years                                                                                  |          1 |          7 |          0 |          3 |         10 |
+| lib/getAJob                                                                                |          1 |         14 |          0 |          3 |         17 |
+| lib/getCompany                                                                             |          1 |         12 |          0 |          2 |         14 |
+| lib/getJobs                                                                                |          1 |         17 |          0 |          3 |         20 |
+| lib/getUser                                                                                |          1 |         10 |          0 |          1 |         11 |
++--------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                   | language       | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| /Users/zaid/Bloom/bloom/src/app/about/page.tsx                                             | TypeScript JSX |         36 |          0 |          2 |         38 |
+| /Users/zaid/Bloom/bloom/src/app/all-jobs/DesktopViewJobs.tsx                               | TypeScript JSX |        109 |          3 |         16 |        128 |
+| /Users/zaid/Bloom/bloom/src/app/all-jobs/Search.tsx                                        | TypeScript JSX |         30 |          1 |          9 |         40 |
+| /Users/zaid/Bloom/bloom/src/app/all-jobs/ShowFilters.tsx                                   | TypeScript JSX |         23 |          0 |          2 |         25 |
+| /Users/zaid/Bloom/bloom/src/app/all-jobs/[id]/JobDescription.tsx                           | TypeScript JSX |        132 |          4 |         10 |        146 |
+| /Users/zaid/Bloom/bloom/src/app/all-jobs/[id]/TestComp.tsx                                 | TypeScript JSX |         11 |          0 |          3 |         14 |
+| /Users/zaid/Bloom/bloom/src/app/all-jobs/[id]/page.tsx                                     | TypeScript JSX |         30 |          0 |          3 |         33 |
+| /Users/zaid/Bloom/bloom/src/app/all-jobs/page.tsx                                          | TypeScript JSX |         89 |          8 |         15 |        112 |
+| /Users/zaid/Bloom/bloom/src/app/all-jobs/seekerNavbar.tsx                                  | TypeScript JSX |         87 |          0 |         14 |        101 |
+| /Users/zaid/Bloom/bloom/src/app/auth/callback/route.ts                                     | TypeScript     |         34 |          2 |          4 |         40 |
+| /Users/zaid/Bloom/bloom/src/app/dashboard/page.tsx                                         | TypeScript JSX |         30 |          0 |          6 |         36 |
+| /Users/zaid/Bloom/bloom/src/app/faqs/page.tsx                                              | TypeScript JSX |         18 |          0 |          2 |         20 |
+| /Users/zaid/Bloom/bloom/src/app/firebase.config.ts                                         | TypeScript     |         14 |          6 |          3 |         23 |
+| /Users/zaid/Bloom/bloom/src/app/globals.css                                                | CSS            |        154 |          0 |         23 |        177 |
+| /Users/zaid/Bloom/bloom/src/app/layout.tsx                                                 | TypeScript JSX |         35 |          0 |         10 |         45 |
+| /Users/zaid/Bloom/bloom/src/app/page.tsx                                                   | TypeScript JSX |         41 |          1 |          2 |         44 |
+| /Users/zaid/Bloom/bloom/src/app/pricing/page.tsx                                           | TypeScript JSX |         20 |          0 |          2 |         22 |
+| /Users/zaid/Bloom/bloom/src/app/privacy-policy/page.tsx                                    | TypeScript JSX |         58 |          0 |          5 |         63 |
+| /Users/zaid/Bloom/bloom/src/app/recruiter/page.tsx                                         | TypeScript JSX |         22 |          0 |          6 |         28 |
+| /Users/zaid/Bloom/bloom/src/app/recruiter/post-a-job/page.tsx                              | TypeScript JSX |        151 |          5 |         19 |        175 |
+| /Users/zaid/Bloom/bloom/src/app/seeker/Header.tsx                                          | TypeScript JSX |         17 |          0 |          1 |         18 |
+| /Users/zaid/Bloom/bloom/src/app/seeker/SeekerContent.tsx                                   | TypeScript JSX |         17 |          0 |          2 |         19 |
+| /Users/zaid/Bloom/bloom/src/app/seeker/Sidebar.tsx                                         | TypeScript JSX |         66 |          0 |         12 |         78 |
+| /Users/zaid/Bloom/bloom/src/app/seeker/applied/Applied.tsx                                 | TypeScript JSX |         12 |          0 |          1 |         13 |
+| /Users/zaid/Bloom/bloom/src/app/seeker/applied/page.tsx                                    | TypeScript JSX |         43 |          0 |          9 |         52 |
+| /Users/zaid/Bloom/bloom/src/app/seeker/edit/Edit.tsx                                       | TypeScript JSX |        247 |          0 |         22 |        269 |
+| /Users/zaid/Bloom/bloom/src/app/seeker/edit/page.tsx                                       | TypeScript JSX |         43 |          0 |          8 |         51 |
+| /Users/zaid/Bloom/bloom/src/app/seeker/page.tsx                                            | TypeScript JSX |         22 |          0 |          6 |         28 |
+| /Users/zaid/Bloom/bloom/src/app/seeker/saved/Saved.tsx                                     | TypeScript JSX |         42 |          0 |          6 |         48 |
+| /Users/zaid/Bloom/bloom/src/app/seeker/saved/page.tsx                                      | TypeScript JSX |         41 |          1 |          6 |         48 |
+| /Users/zaid/Bloom/bloom/src/app/signup/complete_profile/page.tsx                           | TypeScript JSX |         36 |          0 |         14 |         50 |
+| /Users/zaid/Bloom/bloom/src/app/signup/complete_recruiter_profile/RightColumnRecruiter.tsx | TypeScript JSX |        211 |          0 |         26 |        237 |
+| /Users/zaid/Bloom/bloom/src/app/signup/complete_recruiter_profile/page.tsx                 | TypeScript JSX |         35 |          0 |          6 |         41 |
+| /Users/zaid/Bloom/bloom/src/app/signup/page.tsx                                            | TypeScript JSX |        143 |         16 |         23 |        182 |
+| /Users/zaid/Bloom/bloom/src/app/signup/verify/page.tsx                                     | TypeScript JSX |         12 |          4 |          2 |         18 |
+| /Users/zaid/Bloom/bloom/src/app/signup/verify/verify.tsx                                   | TypeScript JSX |         56 |          0 |         10 |         66 |
+| /Users/zaid/Bloom/bloom/src/components/About/AboutHero.tsx                                 | TypeScript JSX |         58 |          0 |          9 |         67 |
+| /Users/zaid/Bloom/bloom/src/components/About/BeliefCard.tsx                                | TypeScript JSX |         15 |          0 |          2 |         17 |
+| /Users/zaid/Bloom/bloom/src/components/About/Beliefs.tsx                                   | TypeScript JSX |         16 |          0 |          2 |         18 |
+| /Users/zaid/Bloom/bloom/src/components/About/FoundingCard.tsx                              | TypeScript JSX |         23 |          0 |          3 |         26 |
+| /Users/zaid/Bloom/bloom/src/components/About/FoundingTeam.tsx                              | TypeScript JSX |         19 |          0 |          1 |         20 |
+| /Users/zaid/Bloom/bloom/src/components/About/Milestones.tsx                                | TypeScript JSX |         67 |          0 |         18 |         85 |
+| /Users/zaid/Bloom/bloom/src/components/About/StatsBox/StatsBox.tsx                         | TypeScript JSX |         17 |          0 |          2 |         19 |
+| /Users/zaid/Bloom/bloom/src/components/Button/Button.tsx                                   | TypeScript JSX |         85 |          0 |         20 |        105 |
+| /Users/zaid/Bloom/bloom/src/components/Button/SaveButton.tsx                               | TypeScript JSX |        106 |          0 |         23 |        129 |
+| /Users/zaid/Bloom/bloom/src/components/Demo/Demo.tsx                                       | TypeScript JSX |         55 |          0 |          6 |         61 |
+| /Users/zaid/Bloom/bloom/src/components/Footer/Footer.tsx                                   | TypeScript JSX |         39 |          0 |          4 |         43 |
+| /Users/zaid/Bloom/bloom/src/components/General/AppliedTable.tsx                            | TypeScript JSX |        132 |         20 |         19 |        171 |
+| /Users/zaid/Bloom/bloom/src/components/General/JobsTable.tsx                               | TypeScript JSX |        138 |         18 |         19 |        175 |
+| /Users/zaid/Bloom/bloom/src/components/General/SavedTable.tsx                              | TypeScript JSX |        134 |          0 |         15 |        149 |
+| /Users/zaid/Bloom/bloom/src/components/General/Table.tsx                                   | TypeScript JSX |        139 |         18 |         16 |        173 |
+| /Users/zaid/Bloom/bloom/src/components/GetStartedBanner/GetStarted.tsx                     | TypeScript JSX |         26 |          0 |          2 |         28 |
+| /Users/zaid/Bloom/bloom/src/components/Input/Options.tsx                                   | TypeScript JSX |         19 |          0 |          2 |         21 |
+| /Users/zaid/Bloom/bloom/src/components/Input/Text.tsx                                      | TypeScript JSX |         19 |          0 |          2 |         21 |
+| /Users/zaid/Bloom/bloom/src/components/Jobs/FilterSidebar/FilterSidebar.tsx                | TypeScript JSX |         65 |          0 |          4 |         69 |
+| /Users/zaid/Bloom/bloom/src/components/Jobs/JobCard/JobCard.tsx                            | TypeScript JSX |         54 |          1 |          6 |         61 |
+| /Users/zaid/Bloom/bloom/src/components/Jobs/JobTag/JobTag.tsx                              | TypeScript JSX |         13 |          0 |          1 |         14 |
+| /Users/zaid/Bloom/bloom/src/components/Jobs/MobileCard/MobileCard.tsx                      | TypeScript JSX |         39 |          1 |          3 |         43 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/Banner.tsx                                  | TypeScript JSX |         25 |          0 |          2 |         27 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/CategoryCard.tsx                            | TypeScript JSX |         28 |          0 |          6 |         34 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/CenterMode.tsx                              | TypeScript JSX |         40 |          7 |          2 |         49 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/EYNTK.tsx                                   | TypeScript JSX |         18 |          0 |          1 |         19 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/ExploreCategory.tsx                         | TypeScript JSX |         58 |          0 |          3 |         61 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/FeaturedCard.tsx                            | TypeScript JSX |         37 |          1 |          4 |         42 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/FeaturedJobs.tsx                            | TypeScript JSX |         57 |          0 |          3 |         60 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/ForSeekersRecruiters.tsx                    | TypeScript JSX |         61 |          0 |          4 |         65 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/Hero/Hero.tsx                               | TypeScript JSX |        102 |          0 |         14 |        116 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/HowItWorks.tsx                              | TypeScript JSX |         56 |         23 |          1 |         80 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/HowItWorks2.tsx                             | TypeScript JSX |         28 |          0 |          3 |         31 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/MoreReasons.tsx                             | TypeScript JSX |         24 |          0 |          1 |         25 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/QuestionsCard.tsx                           | TypeScript JSX |         38 |          0 |          5 |         43 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/ReasonCard.tsx                              | TypeScript JSX |         17 |          0 |          2 |         19 |
+| /Users/zaid/Bloom/bloom/src/components/Landing/Testimonials.tsx                            | TypeScript JSX |         19 |          0 |          2 |         21 |
+| /Users/zaid/Bloom/bloom/src/components/Loading/Loading.tsx                                 | TypeScript JSX |          8 |          0 |          0 |          8 |
+| /Users/zaid/Bloom/bloom/src/components/Pricing/PricingCard.tsx                             | TypeScript JSX |         37 |          0 |          6 |         43 |
+| /Users/zaid/Bloom/bloom/src/components/Pricing/PricingHero.tsx                             | TypeScript JSX |         40 |          0 |          9 |         49 |
+| /Users/zaid/Bloom/bloom/src/components/Recruiter/Dashboard/Dashboard.tsx                   | TypeScript JSX |        109 |          3 |          9 |        121 |
+| /Users/zaid/Bloom/bloom/src/components/Recruiter/Header/Header.tsx                         | TypeScript JSX |         82 |          0 |          6 |         88 |
+| /Users/zaid/Bloom/bloom/src/components/Recruiter/JobListingCard/JobListingCard.tsx         | TypeScript JSX |         18 |          0 |          1 |         19 |
+| /Users/zaid/Bloom/bloom/src/components/Recruiter/Listing/ApplicantDisplay.tsx              | TypeScript JSX |        112 |          0 |          2 |        114 |
+| /Users/zaid/Bloom/bloom/src/components/Recruiter/Listing/Listing.tsx                       | TypeScript JSX |        171 |          1 |         14 |        186 |
+| /Users/zaid/Bloom/bloom/src/components/Recruiter/RecruiterContent/EditInput.tsx            | TypeScript JSX |         10 |          0 |          2 |         12 |
+| /Users/zaid/Bloom/bloom/src/components/Recruiter/RecruiterContent/EditRecruiter.tsx        | TypeScript JSX |        172 |          0 |         15 |        187 |
+| /Users/zaid/Bloom/bloom/src/components/Recruiter/RecruiterContent/RecruiterContent.tsx     | TypeScript JSX |         74 |         30 |         11 |        115 |
+| /Users/zaid/Bloom/bloom/src/components/Recruiter/Sidebar/Sidebar.tsx                       | TypeScript JSX |         44 |          4 |          5 |         53 |
+| /Users/zaid/Bloom/bloom/src/components/SignUp/LeftColomn/LeftColomn.tsx                    | TypeScript JSX |         16 |          0 |          1 |         17 |
+| /Users/zaid/Bloom/bloom/src/components/SignUp/RightColomnSeeker/RightColomnSeeker.tsx      | TypeScript JSX |        264 |          0 |         29 |        293 |
+| /Users/zaid/Bloom/bloom/src/components/navbar/Navbar.tsx                                   | TypeScript JSX |         91 |          4 |         14 |        109 |
+| /Users/zaid/Bloom/bloom/src/components/ui/button.tsx                                       | TypeScript JSX |         51 |          0 |          6 |         57 |
+| /Users/zaid/Bloom/bloom/src/components/ui/card.tsx                                         | TypeScript JSX |         71 |          0 |          9 |         80 |
+| /Users/zaid/Bloom/bloom/src/components/ui/carousel.tsx                                     | TypeScript JSX |        232 |          0 |         31 |        263 |
+| /Users/zaid/Bloom/bloom/src/lib/CountryList/CountryList.tsx                                | TypeScript JSX |        202 |          0 |          1 |        203 |
+| /Users/zaid/Bloom/bloom/src/lib/Signout/Signout.tsx                                        | TypeScript JSX |          7 |          0 |          3 |         10 |
+| /Users/zaid/Bloom/bloom/src/lib/Years/Years.tsx                                            | TypeScript JSX |          7 |          0 |          3 |         10 |
+| /Users/zaid/Bloom/bloom/src/lib/getAJob/getAJob.tsx                                        | TypeScript JSX |         14 |          0 |          3 |         17 |
+| /Users/zaid/Bloom/bloom/src/lib/getCompany/getCompany.tsx                                  | TypeScript JSX |         12 |          0 |          2 |         14 |
+| /Users/zaid/Bloom/bloom/src/lib/getJobs/getJobs.tsx                                        | TypeScript JSX |         17 |          0 |          3 |         20 |
+| /Users/zaid/Bloom/bloom/src/lib/getUser/getUser.tsx                                        | TypeScript JSX |         10 |          0 |          1 |         11 |
+| /Users/zaid/Bloom/bloom/src/lib/utils.ts                                                   | TypeScript     |          5 |          0 |          2 |          7 |
+| Total                                                                                      |                |      5,929 |        182 |        730 |      6,841 |
++--------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+

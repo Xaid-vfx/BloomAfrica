@@ -6,8 +6,8 @@ export default function ApplicantDisplay(props) {
     const [currTabIndex, setcurrTabIndex] = useState(0)
 
     return (
-        <div className="flex items-start gap-6 h-full">
-            <div className="w-[30%] bg-white p-4 px-6">
+        <div className="lg:flex items-start gap-6 h-full">
+            <div className="lg:w-[30%] bg-white p-4 pb-2 px-6">
                 <div>
                     <h1 className="text-xl text-[#25324B]">{props.applicant?.name}</h1>
                     <p className="text-[#7C8493] text-sm mt-2">Experience</p>
@@ -22,7 +22,7 @@ export default function ApplicantDisplay(props) {
                             <a href={`mailto:${props.applicant?.email}`} className=" text-[#25324B]">{props.applicant?.email}</a>
                         </div>
                     </div>
-                    <div className="flex gap-2 my-6 items-stretch text-[#7C8493]">
+                    <div className="flex gap-2 my-2 items-stretch text-[#7C8493]">
                         <MdPhoneIphone className="text-lg pt-[2px]" />
                         <div className="text-sm">
                             <div className="mb-1">Phone</div>
@@ -31,7 +31,8 @@ export default function ApplicantDisplay(props) {
                     </div>
                 </div>
             </div>
-            <div className="bg-white w-[70%]">
+            <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+            <div className="bg-white lg:w-[70%]">
                 <div className="flex gap-10  text-sm">
                     <div onClick={() => { setcurrTabIndex(0) }} className={`cursor-pointer pb-3 pt-5 px-5 font-semibold ${currTabIndex == 0 ? "border-b-[3px] border-[#4640DE]  text-black" : "text-[#7C8493]"} `}>Applicant Profile</div>
                     <div onClick={() => { setcurrTabIndex(1) }} className={`cursor-pointer pb-3 pt-5 px-5 font-semibold ${currTabIndex == 1 ? "border-b-[3px] border-[#4640DE] text-black" : "text-[#7C8493]"} `}>Resume</div>

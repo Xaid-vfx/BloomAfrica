@@ -168,3 +168,10 @@ body {
 .FadeInAnimation:nth-child(2) {
   transition-delay: 400ms;
 }
+#sideBar{
+  animation: slidein .2s forwards;
+}
+@keyframes slidein {
+  0% { transform: translateX(-15%); }
+  100% { transform: translateX(0%);opacity: 1; }
+}

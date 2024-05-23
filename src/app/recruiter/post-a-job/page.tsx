@@ -18,33 +18,56 @@ export default function Post() {
     const [res, setres] = useState("")
     const [wya, setwya] = useState("")
     const [extras, setextras] = useState("")
-    const [salary, setsalary] = useState("")
+    const [deadline, setdeadline] = useState("")
+    const [minsalary, setminsalary] = useState("")
+    const [maxsalary, setmaxsalary] = useState("")
     const [skills, setskills] = useState("")
     const [duration, setduration] = useState("")
+    const [loading, setLoading] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const supabase = createClientComponentClient()
     const router = useRouter()
 
     async function handleSubmit() {
-        const { data, error } = await supabase
-            .from('Jobs')
-            .upsert({ title: title, description: desc, type: type, category: category, location: loc, responsibilities: res, who_you_are: wya, extras: extras, salary: salary })
+        // Check if any parameter is empty
+        if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration || !deadline) {
+            setErrorMessage("Please fill in all fields");
+            return;
+        }
 
-        if (error) {
-            console.log(error);
+        setLoading(true);
+        try {
+            const { data, error } = await supabase
+                .from('Jobs')
+                .upsert({ title, description: desc, type, category, location: loc, responsibilities: res, who_we_are: wya, minsalary: minsalary, maxsalary: maxsalary, skills, duration, deadline });
+
+            if (error) {
+                setErrorMessage("An error occurred while posting the job.");
+                console.error(error);
+            } else {
+                setSuccessMessage("Job posted successfully!");
+                setErrorMessage("");
+                router.refresh();
+            }
+            console.log(data);
+        } catch (error) {
+            setErrorMessage("An error occurred while posting the job.");
+            setSuccessMessage("");
+            console.error(error);
         }
-        else {
-            alert("Success!!")
-            router.refresh()
-        }
-        console.log(data);
+        setLoading(false);
     }
 
+
     return (
-        <div className="py-8 px-8 bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
-            <p className="mb-4 hover:underline cursor-pointer text-sm flex items-center gap-1"><IoMdArrowRoundBack className="text-xl" />Back to job listing</p>
+        <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
+            <p className="mb-4 hover:underline cursor-pointer text-sm lg:flex items-center gap-1 hidden"><IoMdArrowRoundBack className="text-xl" />Back to job listing</p>
+            <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Post a Job</p>
+            <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
             <div>
-                <div className="bg-white rounded-xl p-6 mt-6">
+                <div className="bg-white rounded-xl p-6 lg:mt-6">
 
                     <h1 className="text-2xl font-semibold text-[#4A2C84]">General</h1>
 
@@ -81,11 +104,11 @@ export default function Post() {
                         <h1 className="text-2xl font-semibold text-[#4A2C84]">Information</h1>
 
 
-                        <div className="grid grid-cols-2 items-center gap-x-4">
+                        <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-4">
                             <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Job Type *</p>
+                                <p className="font-[550] text-lg my-1">Job Category *</p>
                                 <select onChange={(e) => {
-                                    settype(e.target.value)
+                                    setcategory(e.target.value)
                                 }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
                                     <option>Select category</option>
                                     <option value="Technology">Technology</option>
@@ -101,22 +124,22 @@ export default function Post() {
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Application Deadline Date *</p>
-                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="date" onChange={(e) => { }} />
+                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="date" onChange={(e) => { setdeadline(e.target.value) }} />
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Min Salary {"(Optional)"}</p>
-                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Minimum Salary" onChange={(e) => { setsalary(e.target.value) }} />
+                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Minimum Salary" onChange={(e) => { setminsalary(e.target.value) }} />
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Max Salary {"(Optional)"}</p>
-                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Maximum Salary" onChange={(e) => { }} />
+                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Maximum Salary" onChange={(e) => { setmaxsalary(e.target.value) }} />
                             </div>
                             <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Category</p>
+                                <p className="font-[550] text-lg my-1">Type *</p>
                                 <select onChange={(e) => {
-                                    setcategory(e.target.value)
+                                    settype(e.target.value)
                                 }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                    <option>Select category</option>
+                                    <option>Select type</option>
                                     <option value="Full Time">Full Time</option>
                                     <option value="Part Time">Part Time</option>
                                 </select>
@@ -129,14 +152,23 @@ export default function Post() {
                                 <p className="font-[550] text-lg my-1">Job Location *</p>
                                 <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Location" type="text" onChange={(e) => { setloc(e.target.value) }} />
                             </div>
-                            <div className="my-2">
+                            <div className="mt-2">
                                 <p className="font-[550] text-lg my-1">Duration *</p>
                                 <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Duration" type="text" onChange={(e) => { setduration(e.target.value) }} />
                             </div>
                         </div>
                     </div>
                 </div>
-                <button type="submit" className="border rounded-lg py-2 px-3 my-2 text-white bg-[#4A2C84]" onClick={() => { handleSubmit() }}>Submit</button>
+                {errorMessage && <p className="text-red-500 text-sm mt-4">{errorMessage}</p>}
+                <button
+                    type="submit"
+                    className={`border rounded-lg py-2 mx-4 lg:mx-0 text-sm font-semibold px-16 lg:my-4 mb-6 text-white bg-[#4A2C84] ${loading ? "cursor-not-allowed" : ""}`}
+                    onClick={handleSubmit}
+                    disabled={loading}
+                    style={{ pointerEvents: loading ? "none" : "auto" }}>
+                    {loading ? "Posting..." : "Post Job"}
+                </button>
+                {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
             </div>
         </div>
     )
