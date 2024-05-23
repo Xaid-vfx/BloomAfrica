@@ -22,7 +22,7 @@ export default function Sidebar(props: Props) {
     }
 
     return (
-        <div className="w-[20%] h-screen bg-[#F8F8FD] flex justify-between">
+        <div className="w-[20%] h-screen bg-[#F8F8FD] hidden lg:flex justify-between">
             <div className=" py-10 px-5 w-full">
                 <Image src={Bloom} width={120} height={100} />
 

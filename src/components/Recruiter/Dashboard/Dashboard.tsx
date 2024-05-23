@@ -6,6 +6,8 @@ import { MoonLoader, PropagateLoader } from 'react-spinners'
 import Posted from '../../../assets/images/Recruiter/Job Open.png'
 import Applications from '../../../assets/images/Recruiter/Job Open(1).png'
 import Shortlisted from '../../../assets/images/Recruiter/Job Open(2).png'
+import { IoLocationOutline } from "react-icons/io5";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 type Props = {
     user: any
@@ -19,6 +21,12 @@ export default function Dashboard(props: Props) {
     const supabase = createClientComponentClient()
     const [applications, setapplications] = useState(null)
     const [jobs, setjobs] = useState([])
+
+    function handleJobCardClick(id) {
+        console.log(id);
+        props.getJobId(id)
+        props.handleChangeTabIndex(3)
+    }
 
     useEffect(() => {
         async function fetchJobs() {
@@ -49,34 +57,53 @@ export default function Dashboard(props: Props) {
     }, [])
 
     return (
-        <div className="pt-8 px-8 bg-[#F5F5F5] h-[95%] w-full">
-            <h1 className="font-semibold text-xl ml-4">Good Morning,
+        <div className="lg:pt-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
+            <h1 className="lg:font-semibold my-4 lg:my-0 text-base lg:text-xl px-3 lg:px-0 lg:ml-4 ">Good Morning,
                 {' ' + props.recruiter?.name}
             </h1>
-            <div className="flex justify-between mt-6 mb-8">
-                <div className="py-4 px-4 mx-2 bg-white rounded-md w-1/3 flex items-center gap-6">
+            <div className="flex flex-col lg:flex-row gap-3 lg:gap-0 px-3 lg:px-0 justify-between lg:mt-6 mb-8">
+                <div className="py-4 px-4 lg:mx-2 border rounded-lg bg-white lg:w-1/3 flex items-center lg:gap-6 gap-3">
                     <Image src={Posted} alt="" width={60} />
                     <div>
-                        <div className="text-2xl text-semibold">{props.jobs.length}</div>
-                        <div className="text-[#7C8493]">Posted Jobs</div>
+                        <div className="text-xl lg:text-2xl font-medium">{props.jobs.length}</div>
+                        <div className="text-[#7C8493] text-sm lg:text-base">Posted Jobs</div>
                     </div>
                 </div>
-                <div className="py-4 px-4 mx-2 bg-white rounded-md w-1/3 flex items-center gap-6">
+                <div className="py-4 px-4 lg:mx-2 border rounded-lg bg-white lg:w-1/3 flex items-center lg:gap-6 gap-3">
                     <Image src={Applications} alt="" width={60} />
                     <div>
-                        <div className="text-2xl text-semibold">{applications?.length}</div>
-                        <div className="text-[#7C8493]">Applications</div>
+                        <div className="text-xl lg:text-2xl font-medium">{applications?.length}</div>
+                        <div className="text-[#7C8493] text-sm lg:text-base">Applications</div>
                     </div>
                 </div>
-                <div className="py-4 px-4 mx-2 bg-white rounded-md w-1/3 flex items-center gap-6">
+                <div className="py-4 px-4 lg:mx-2 border rounded-lg bg-white lg:w-1/3 flex items-center lg:gap-6 gap-3">
                     <Image src={Shortlisted} alt="" width={60} />
                     <div>
-                        <div className="text-2xl text-semibold">0</div>
-                        <div className="text-[#7C8493]">Shorlisted</div>
+                        <div className="text-xl lg:text-2xl font-medium">0</div>
+                        <div className="text-[#7C8493] text-sm lg:text-base">Shorlisted</div>
                     </div>
                 </div>
             </div>
-            <div className="bg-white rounded-xl">
+            <div className="px-4 mb-6 lg:hidden">
+                <h1 className="font-medium text-lg">Recent Listings</h1>
+                <div className="my-4 flex flex-col gap-3">
+                    {jobs && jobs.slice(0, 4).map((job: any) => {
+                        return (
+                            <div onClick={() => {
+                                handleJobCardClick(job.uid)
+                            }} className="border rounded-md flex items-center gap-2 justify-between px-5 py-4">
+                                <div className="">
+                                    <p className="font-semibold mb-1">{job?.title}</p>
+                                    <div className="text-sm text-[#4A2C84] flex item gap-1"><IoLocationOutline className="text-xl" /> {job?.location}</div>
+                                </div>
+                                <div className="min-w-fit rounded text-white text-xs py-2 px-2 bg-[#897DD3]">Show more</div>
+                            </div>
+                        )
+                    })}
+                </div>
+                <div onClick={() => { props.handleChangeTabIndex(3) }} className="flex items-center text-[#4A2C84] gap-2 my-2 justify-center cursor-pointer hover:underline">View All <FaArrowRightLong /></div>
+            </div>
+            <div className="hidden lg:block bg-white rounded-xl">
                 <h1 className="font-semibold text-2xl px-10 pt-6 pb-3">Recent Applications</h1>
 
                 {

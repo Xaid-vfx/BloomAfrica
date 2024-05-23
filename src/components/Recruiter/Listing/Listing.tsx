@@ -9,15 +9,17 @@ import StickyHeadTable from "@/components/General/Table";
 import { MoonLoader } from "react-spinners";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import ApplicantDisplay from "./ApplicantDisplay";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { IoLocationOutline } from "react-icons/io5";
 
 
 type Props = {
     user: any
     jobs: any
+    job_id: string
 }
 
 export default function Listing(props: Props) {
-
 
     const [showJobApplications, setshowJobApplications] = useState(false)
     const [showApplicantDetails, setshowApplicantDetails] = useState(false)
@@ -35,7 +37,6 @@ export default function Listing(props: Props) {
             .delete()
             .eq('id', id)
 
-
         console.log(data);
         if (error) {
             console.log(error);
@@ -45,6 +46,7 @@ export default function Listing(props: Props) {
         }
         router.refresh()
     }
+
     async function ApplicationsForSelectedJob(id: string) {
         console.log(id);
         setloading(true)
@@ -86,44 +88,88 @@ export default function Listing(props: Props) {
         }
     }
 
+    useEffect(() => {
+        console.log(props.job_id);
+        if (props.job_id != "")
+            ApplicationsForSelectedJob(props.job_id)
+
+    }, [])
     return (
-        <div className="px-8 py-8 w-full h-full bg-[#F5F5F5] overflow-scroll">
+        <div className="lg:px-8 lg:py-8 w-full h-full lg:bg-[#F5F5F5] overflow-scroll">
             <div className="">
 
                 {showJobApplications ?
                     <div>
                         {
                             showApplicantDetails ?
-                                <div>
-                                    <p onClick={() => { setshowApplicantDetails(false) }} className="mb-4 hover:underline cursor-pointer text-sm flex items-center gap-1"><IoMdArrowRoundBack className="text-xl" />Back to Applications</p>
+                                <div className="">
+                                    <p onClick={() => { setshowApplicantDetails(false) }} className="hidden lg:flex mb-4 hover:underline cursor-pointer text-sm  items-center gap-1"><IoMdArrowRoundBack className="text-xl" />Back to Applications</p>
+
+                                    <p onClick={() => { setshowApplicantDetails(false) }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4"><IoMdArrowRoundBack className="text-xl" />Applicant Details</p>
+                                    <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                                     <div>
                                         <ApplicantDisplay experience={experience} applicant={applicant} />
                                     </div>
                                 </div> :
-                                <div>
+                                <div className="px-4 my-6 lg:m-0">
                                     <p onClick={() => { setshowJobApplications(false) }} className="mb-4 hover:underline cursor-pointer text-sm flex items-center gap-1"><IoMdArrowRoundBack className="text-xl" />Back to Job listings</p>
-                                    <div className="bg-white rounded-xl pt-8">
+                                    <p className="lg:hidden text-lg font-semibold">All Applicants</p>
+                                    <div className="lg:hidden my-4 flex flex-col gap-4">
+                                        {applications && applications.map((job: any) => {
+                                            return (
+                                                <div className="border rounded-md px-5 py-4 bg-white">
+                                                    <div className="">
+                                                        <p className="font-semibold ">{job?.name}</p>
+                                                        <div className="text-sm my-1 text-[#4A2C84] flex item gap-1">Product Designer </div>
+                                                        <div className="text-sm text-[#7C8493] flex item gap-1">Yaba, Lagos </div>
+                                                    </div>
+                                                    <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                                                    <div className="text-[#7C8493] text-sm">Date Applied</div>
+                                                    <div>{job.created_at.substring(0, job.created_at.indexOf('T'))}</div>
+                                                    <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                                                    <button onClick={() => { fetchApplicantDetails(job.seeker_id) }} className="text-sm text-white px-4 rounded-full py-2 bg-[#4A2C84]">View Application</button>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                    <div className="bg-white rounded-xl pt-8 hidden lg:block">
                                         <h1 className="font-semibold text-2xl pb-4 pl-8">Applications</h1>
-
                                         {
                                             loading ? <div className="flex justify-center items-center h-[300px]">
                                                 <MoonLoader color="#4A2C84" /> </div> : applications?.length > 0 ? <StickyHeadTable fetchApplicantDetails={fetchApplicantDetails} applications={applications} /> : <div className="flex justify-center items-center h-[200px]">
                                                     No applications found!
                                                 </div>
                                         }
-
                                     </div>
                                 </div>
                         }
                     </div> :
-                    <div className="jobs flex flex-col gap-6">
-                        <div>
-                            <h1 className="font-semibold text-lg pb-2 pl-4">Manage Jobs</h1>
-                            <div className="bg-white rounded-xl py-6 px-6">
+                    <div className="jobs flex flex-col gap-6 py-8 lg:py-0">
+                        <div className="px-4 lg:px-0">
+                            <h1 className="font-semibold text-lg pb-2 lg:pl-4">Manage Jobs</h1>
+                            <div className="bg-white rounded-xl lg:py-6 lg:px-6">
                                 <h1 className="font-semibold text-lg flex items-center gap-2"><p>Total jobs:</p> <span className="text-xs text-white bg-[#4A2C84] rounded-full py-1 px-2 font-normal">{props.jobs.length}</span></h1>
                             </div>
                         </div>
-                        <div className="bg-white rounded-xl pt-8">
+                        <div className="px-4 mb-6 lg:hidden">
+                            {/* <h1 className="font-medium text-lg">Recent Listings</h1> */}
+                            <div className="flex flex-col gap-3">
+                                {props.jobs && props.jobs.map((job: any) => {
+                                    return (
+                                        <div onClick={() => {
+                                            ApplicationsForSelectedJob(job.uid)
+                                        }} className="border rounded-md flex items-center gap-2 justify-between px-5 py-4 bg-white">
+                                            <div className="">
+                                                <p className="font-semibold mb-1">{job?.title}</p>
+                                                <div className="text-sm text-[#4A2C84] flex item gap-1"><IoLocationOutline className="text-xl" /> {job?.location}</div>
+                                            </div>
+                                            <div className="min-w-fit rounded text-white text-xs py-2 px-2 bg-[#897DD3]">Show more</div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                        <div className="bg-white rounded-xl pt-8 hidden lg:block">
 
                             <h1 className="font-semibold text-2xl pb-4 pl-8">All Jobs</h1>
 
@@ -132,7 +178,8 @@ export default function Listing(props: Props) {
                                     No Jobs found!
                                 </div>
                             }
-                        </div></div>}
+                        </div>
+                    </div>}
             </div>
         </div>
     )
