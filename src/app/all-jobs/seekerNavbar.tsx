@@ -1,5 +1,5 @@
 'use client'
-import { RxHamburgerMenu } from "react-icons/rx";
+import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
 import LogoText from "../../assets/images/BloomLogo.png"
 import Logo from "../../assets/images/Logo.png"
 import Image from "next/image";
@@ -42,27 +42,35 @@ export default function SeekerNavbar(props: any) {
 
   if (navbarIsVisible) {
     return (
-      <div className="h-[200vh] w-screen px-8 overflow-hidden fixed top-0 bg-white z-10 SlideIn">
-        <div className="flex items-center justify-between py-6">
-          <div className="font-medium text-2xl cursor-pointer" onClick={() => {
-            document.getElementsByClassName('SlideIn')[0].classList.add('SlideOut')
-            setTimeout(() => {
-              setnavbarIsVisible(false)
-            }, 200);
-          }}>X</div>
-          <Image src={LogoText} alt="logo" className="w-2/5" />
+      <div className="h-[200vh] w-screen px-6 overflow-hidden fixed top-0 bg-white z-10">
+        <div className="py-5 flex justify-between items-center lg:justify-normal">
+          <a href="/" className="lg:hidden">
+            <Image src={LogoText} alt="logo" width={120} />
+          </a>
+          <div className="menu text-2xl lg:hidden cursor-pointer">
+            <RxCross1 onClick={() => {
+              document.getElementsByClassName('SlideIn')[0].classList.add('SlideOut'); setTimeout(() => {
+                setnavbarIsVisible(false);
+              }, 200);
+            }} />
+          </div>
         </div>
-        <div>
-          <a href="/all-jobs"><div className="my-4 font-medium cursor-pointer">Home</div></a>
-          <hr />
-          <a href="/seeker/saved"><div className="my-4 font-medium">Saved Jobs</div></a>
-          <hr />
-          <a href="/seeker/applied"><div className="my-4 font-medium">My Jobs</div></a>
-          <hr />
-          <a href="/seeker/edit"><div className="my-4 font-medium">Profile</div></a>
-          <hr />
+        <div className="SlideIn">
+          <div className="px-4">
+            <a href="/"><div className="my-4 font-medium cursor-pointer">Home</div></a>
+            <hr className="" />
+            <a href="/seeker/saved"><div className="my-4 font-medium">Saved</div></a>
+            <hr />
+            <a href="/seeker/applied"><div className="my-4 font-medium">Applied</div></a>
+            <hr />
+            <a href="/seeker/edit"><div className="my-4 font-medium">Profile</div></a>
+            <hr />
+          </div>
+          {
+            props.user ? <button onClick={() => { SignOut(); router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign out</button> :
+              <button onClick={() => { router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign In</button>
+          }
         </div>
-        <button className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl" onClick={() => { setnavbarIsVisible(false) }}>Join Waitlist</button>
       </div>
     )
   }
