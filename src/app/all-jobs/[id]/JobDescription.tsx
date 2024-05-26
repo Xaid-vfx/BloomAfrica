@@ -1,6 +1,5 @@
 'use client'
 import { createClientComponentClient, createServerComponentClient } from "@supabase/auth-helpers-nextjs"
-import { cookies } from "next/headers";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Footer from "@/components/Footer/Footer";
