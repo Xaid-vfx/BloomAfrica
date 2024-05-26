@@ -133,7 +133,7 @@ export default function JobDescription(props) {
                     </div>
                     <div className="mt-8">
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Skills Required</h1>
-                        <p className="flex gap-2">{job != null ? job[0]?.skills.split(',').map((word, index) => (
+                        <p className="flex gap-2">{job != null ? job[0]?.skills?.split(',').map((word, index) => (
                             <span className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit" key={index}>{word.trim()}</span>
                         )) : <Skeleton width={150} />}</p>
                     </div>

@@ -146,7 +146,7 @@ export default function Listing(props: Props) {
                     </div> :
                     <div className="jobs flex flex-col gap-6 py-8 lg:py-0">
                         <div className="px-4 lg:px-0">
-                            <h1 className="font-semibold text-lg pb-2 lg:pl-4">Manage Jobs</h1>
+                            <h1 className="hidden lg:block font-semibold text-lg pb-2 lg:pl-4">Manage Jobs</h1>
                             <div className="bg-white rounded-xl lg:py-6 lg:px-6">
                                 <h1 className="font-semibold text-lg flex items-center gap-2"><p>Total jobs:</p> <span className="text-xs text-white bg-[#4A2C84] rounded-full py-1 px-2 font-normal">{props.jobs.length}</span></h1>
                             </div>

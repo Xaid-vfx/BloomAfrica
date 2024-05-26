@@ -85,6 +85,7 @@ export default async function AllJobs({ params,
                             if (job.type.toLowerCase().includes(type1?.toLowerCase()) || job.type.toLowerCase().includes(type2?.toLowerCase()) || (type1 == undefined && type2 == undefined))
                                 return <MobileCard
                                     id={job.uid}
+                                    logo={job.logo}
                                     title={job.title}
                                     category={job.category}
                                     location={job.location}

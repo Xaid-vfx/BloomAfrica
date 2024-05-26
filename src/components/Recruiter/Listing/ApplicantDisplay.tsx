@@ -70,7 +70,7 @@ export default function ApplicantDisplay(props) {
                             <h1 className="font-semibold text-lg mb-4">Professional Info</h1>
                             <div>
                                 <p className="text-[#7C8493] text-sm">About me</p>
-                                <p className="text-sm mt-1 font-[450] leading-6">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque est eveniet explicabo aliquam nam suscipit repellendus totam rem modi libero blanditiis rerum quas, ipsam architecto error iusto at cum eligendi!</p>
+                                <p className="text-sm mt-1 font-[450] leading-6">{props.applicant?.bio}</p>
                             </div>
                             <div className="grid mt-4 grid-cols-2 gap-y-4">
                                 <div>

@@ -20,6 +20,7 @@ export default function EditRecruiter(props: Props) {
     const [showSave2, setshowSave2] = useState(false)
     const [country, setcountry] = useState(props.recruiter?.country)
     const [state, setstate] = useState(props.recruiter?.state)
+    const [logo, setlogo] = useState<File | null>(null);
     const countryList = CountryList()
 
     const [cname, setcname] = useState(props.company?.name)
@@ -66,6 +67,7 @@ export default function EditRecruiter(props: Props) {
     }
 
     async function handleSave2() {
+        if (logo) uploadFiles()
         const supabase = createClientComponentClient()
         const { data, error } = await supabase
             .from('CompanyInfo')
@@ -75,6 +77,21 @@ export default function EditRecruiter(props: Props) {
         console.log(error);
         console.log(data);
         router.refresh()
+    }
+    async function uploadFiles() {
+        const supabase = createClientComponentClient()
+        const { data: uploadData, error: uploadError } = await supabase.storage.from('Docs').upload(`/CompanyLogo/logo-${props.user.id}`, logo)
+
+        const { data } = supabase
+            .storage
+            .from('Docs')
+            .getPublicUrl(`/CompanyLogo/logo-${props.user.id}`)
+
+        const { data: insertData, error: insertError } = await supabase.from('Recruiters').upsert({ 'logo': data.publicUrl }).eq('uniqueid', props.user.id)
+        console.log(insertData);
+        console.log(insertError);
+        console.log(uploadData);
+
     }
 
     useEffect(() => {
@@ -169,7 +186,10 @@ export default function EditRecruiter(props: Props) {
                                 </div>
                                 <div className="">
                                     <h2 className="mb-1 font-medium ">Logo</h2>
-                                    <input type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
+                                    <input onChange={(e) => {
+                                        console.log(e.target.files[0]);
+                                        setlogo(e.target.files[0]); setshowSave2(true)
+                                    }} type="file" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
                             </div>
                             {
