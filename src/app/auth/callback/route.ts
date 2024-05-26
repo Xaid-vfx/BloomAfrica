@@ -8,7 +8,6 @@ import { cache } from 'react'
 // export const createServerClient = cache(() => {
 //   const cookieStore = cookies()
 //   return createServerComponentClient({
-
 //       cookies: {
 //         get(name: string) {
 //           return cookieStore.get(name)?.value
@@ -31,23 +30,24 @@ export async function GET(request: Request) {
   const next = searchParams.get('next') ?? '/'
 
   if (code) {
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return cookieStore.get(name)?.value
-          },
-          set(name: string, value: string, options: CookieOptions) {
-            cookieStore.set({ name, value, ...options })
-          },
-          remove(name: string, options: CookieOptions) {
-            cookieStore.delete({ name, ...options })
-          },
-        },
-      }
-    )
+    const supabase = createServerComponentClient({ cookies })
+    // const supabase = createServerClient(
+    //   process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    //   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    //   {
+    //     cookies: {
+    //       get(name: string) {
+    //         return cookieStore.get(name)?.value
+    //       },
+    //       set(name: string, value: string, options: CookieOptions) {
+    //         cookieStore.set({ name, value, ...options })
+    //       },
+    //       remove(name: string, options: CookieOptions) {
+    //         cookieStore.delete({ name, ...options })
+    //       },
+    //     },
+    //   }
+    // )
 
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
