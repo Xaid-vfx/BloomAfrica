@@ -13,6 +13,7 @@ type Props = {
 }
 export default function EditSeeker(props: Props) {
     const [name, setname] = useState(props.seeker?.name)
+    const [bio, setbio] = useState(props.seeker?.bio)
     const [gender, setgender] = useState(props.seeker?.gender)
     const [stateList, setstateList] = useState([])
     const [country, setcountry] = useState(props.seeker?.country)
@@ -122,20 +123,22 @@ export default function EditSeeker(props: Props) {
     }, [])
 
     return (
-        <div className="py-8 px-8 bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
-            <h1 className="font-semibold text-xl ml-4">Edit Profile
+        <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
+            <h1 className="font-semibold text-xl ml-4 hidden lg:block">Edit Profile
             </h1>
+            <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Edit Profile</p>
+            <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
             <div>
-                <div className="bg-white rounded-xl p-6 mt-6">
+                <div className="bg-white rounded-xl p-6 lg:mt-6">
                     <div>
                         <h1 className="text-2xl font-semibold text-[#4A2C84]">Personal Information</h1>
                         <div className="my-6">
-                            <div className="flex gap-2 w-full">
-                                <div className="w-1/2">
+                            <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-fullflex gap-2 w-full">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Name</h2>
                                     <input onChange={(e) => { setname(e.target.value); handleChange() }} value={name} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <p className="font-semibold text-sm my-1 text-[#515B6F]">Gender</p>
                                     <select value={gender} onChange={(e) => {
                                         setgender(e.target.value)
@@ -146,9 +149,8 @@ export default function EditSeeker(props: Props) {
                                         <option value="female">Female</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div className="flex gap-2 w-full my-3">
-                                <div className="w-1/2">
+
+                                <div className="">
                                     <p className="font-semibold text-xs my-1 text-[#515B6F]">Country</p>
                                     <select value={country} onChange={(e) => {
                                         setcountry(e.target.value)
@@ -163,7 +165,7 @@ export default function EditSeeker(props: Props) {
                                         }
                                     </select>
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <p className="font-semibold text-xs my-1 text-[#515B6F]">State</p>
                                     <select value={state} onChange={(e) => {
                                         setstate(e.target.value)
@@ -177,6 +179,10 @@ export default function EditSeeker(props: Props) {
                                         }
                                     </select>
                                 </div>
+                                <div className="">
+                                    <h2 className="mb-1 text-sm font-medium ">Bio</h2>
+                                    <textarea rows={6} onChange={(e) => { setbio(e.target.value); handleChange() }} value={bio} placeholder="Add a short summary" type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
+                                </div>
                             </div>
                         </div>
                         {
@@ -189,22 +195,20 @@ export default function EditSeeker(props: Props) {
                     <div className="mt-10">
                         <h1 className="text-2xl font-semibold text-[#4A2C84]">Education</h1>
                         <div className="my-6">
-                            <div className="flex gap-2 w-full">
-                                <div className="w-1/2">
+                            <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-full">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">School Name</h2>
                                     <input onChange={(e) => { setename(e.target.value); setshowSave2(true) }} value={ename} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Field</h2>
                                     <input onChange={(e) => { setefield(e.target.value); setshowSave2(true) }} value={efield} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                            </div>
-                            <div className="flex gap-2 w-full my-4">
-                                <div className="w-1/2">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Year</h2>
                                     <input onChange={(e) => { seteyear(e.target.value); setshowSave2(true) }} value={eyear} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Level</h2>
                                     <input onChange={(e) => { setelevel(e.target.value); setshowSave2(true) }} value={elevel} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
@@ -221,35 +225,32 @@ export default function EditSeeker(props: Props) {
                     <div className="mt-10">
                         <h1 className="text-2xl font-semibold text-[#4A2C84]">Work experience</h1>
                         <div className="my-6">
-                            <div className="flex gap-2 w-full">
-                                <div className="w-1/2">
+                            <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-full">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Company Name</h2>
                                     <input onChange={(e) => { setcname(e.target.value); setshowSave3(true) }} value={cname} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Title</h2>
                                     <input onChange={(e) => { setctitle(e.target.value); setshowSave3(true) }} value={ctitle} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                            </div>
-                            <div className="flex gap-2 w-full my-4">
-                                <div className="w-1/2">
+
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Start date</h2>
                                     <input type="date" onChange={(e) => { setsdate(e.target.value); setshowSave3(true) }} value={sdate} className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">End Date</h2>
                                     <input type="date" onChange={(e) => { setedate(e.target.value); setshowSave3(true) }} value={edate} className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                            </div>
-                            <div className="flex gap-2 w-full my-4">
-                                <div className="w-1/2">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">CV</h2>
                                     <input type="file" onChange={(e) => {
                                         console.log(e.target.files[0]);
                                         setcv(e.target.files[0]); setshowSave3(true)
                                     }} className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
-                                <div className="w-1/2">
+                                <div className="">
                                     <h2 className="mb-1 text-sm font-medium ">Cover letter</h2>
                                     <input type="file" onChange={(e) => { setcover(e.target.files); setshowSave3(true) }} className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>

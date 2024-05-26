@@ -49,25 +49,25 @@ export default function Sidebar(props: Props) {
     }, [currentPage])
 
     return (
-        <div className="w-[20%] h-screen bg-[#F8F8FD] flex justify-between">
+        <div className="hidden lg:flex w-[20%] h-screen bg-[#F8F8FD]  justify-between">
             <div className=" py-10 px-5 w-full">
                 <Image src={Bloom} width={120} height={100} />
 
                 <div className="flex flex-col justify-center my-6">
-                    <Link href="/seeker/applied" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'applied' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                    <a href="/seeker/applied" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'applied' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                         <BiHomeAlt2 className="text-xl" />
                         <p className="text-sm ">Applied Jobs</p>
-                    </Link>
+                    </a>
 
-                    <Link href="/seeker/saved" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'saved' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                    <a href="/seeker/saved" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'saved' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                         <PiBuildings className="text-xl" />
                         <p className="text-sm ">Saved Jobs</p>
-                    </Link>
+                    </a>
 
-                    <Link href="/seeker/edit" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'edit' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                    <a href="/seeker/edit" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'edit' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                         <LuClipboardList className="text-xl" />
                         <p className="text-sm ">Edit Profile</p>
-                    </Link>
+                    </a>
                 </div>
                 <button onClick={() => { handleClickLogout() }} className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold ml-10 absolute bottom-10">Log out</button>
             </div>
