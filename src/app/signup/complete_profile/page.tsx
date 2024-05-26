@@ -7,6 +7,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 async function checkIfUserExists(id: string) {
+    cookies().getAll()
+    const supabase = createServerComponentClient({ cookies })
     console.log("Inside function")
     console.log(id);
     const { data, error } = await supabase
