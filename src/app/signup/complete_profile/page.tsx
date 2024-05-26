@@ -28,12 +28,9 @@ export default async function CompleteProfile() {
     const session = await supabase.auth.getSession();
 
     const user = session.data.session?.user
-
-
+    console.log(user);
 
     const result = await checkIfUserExists(await user?.id)
-
-
 
     if (await result) {
         redirect('/all-jobs')
