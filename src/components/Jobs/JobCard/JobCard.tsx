@@ -28,7 +28,7 @@ export default function JobCard(props: Props) {
         <div className="flex items-center justify-between border-2 rounded-2xl px-6 py-4 my-6">
             <div className="flex flex-col">
                 <div className="flex items-center gap-6">
-                    <Image src={Logo} alt="logo" width={75} />
+                    <Image src={props.logo ? props.logo : Logo} alt="logo" width={70} height={50} />
                     <div className="">
                         <h1 className="text-xl font-medium mt-2">{props.title}</h1>
                         <div className="flex mt-2 text-base text-[#515B6F] gap-2 items-baseline">

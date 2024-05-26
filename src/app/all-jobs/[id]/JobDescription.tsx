@@ -48,7 +48,7 @@ export default function JobDescription(props) {
             <div className=" items-center justify-between border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
                 <div className="flex flex-col">
                     <div className="flex items-center gap-6">
-                        <Image src={Logo} alt="logo" width={70} />
+                        <Image src={job != null ? job[0]?.companylogo != null ? job[0].companylogo : Logo : Logo} alt="logo" width={70} height={100} />
                         <div className="flex flex-col justify-center ">
                             <h1 className="text-xl font-semibold">{job != null ? job[0]?.title : <Skeleton width={200} height={30} className="mb-2" />}</h1>
                             <div className="flex text-sm text-[#515B6F] gap-2 items-baseline">
@@ -66,7 +66,7 @@ export default function JobDescription(props) {
                 </div>
             </div>
             <div className="py-10 lg:hidden flex flex-col justify-center items-center bg-[#F8F8FD]">
-                <Image src={job != null ? job[0]?.companylogo : ""} alt="logo" width={100} height={50} />
+                <Image src={job != null ? job[0]?.companylogo != null ? job[0].companylogo : Logo : Logo} alt="logo" width={100} height={50} />
                 <h1 className="text-xl font-semibold mt-2">{job != null ? job[0]?.title : <Skeleton width={200} />}</h1>
                 <div className="flex text-sm text-[#515B6F] gap-1 items-baseline">
                     <p>Bloom</p>
