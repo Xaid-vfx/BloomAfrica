@@ -25,12 +25,12 @@ async function fetchSavedJobs(id: string) {
 }
 
 export default async function page() {
+    const supabase = createServerComponentClient({ cookies })
     const user = await getUser();
     const company = await getCompany(user?.id)
     const seeker = await fetchSeeker(user?.id)
     const savedjobsid = await fetchSavedJobs(user?.id)
     const savedjobs = await Promise.all(savedjobsid?.map(async (job) => {
-        const supabase = createServerComponentClient({ cookies })
         const { data, error } = await supabase.from('Jobs').select().eq('uid', job.job_id).single();
         return data;
     }));
