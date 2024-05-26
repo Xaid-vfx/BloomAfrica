@@ -50,10 +50,10 @@ export default function JobCard(props: Props) {
                     <button className=" text-black border border-black py-3 text-center font-medium rounded-3xl px-14" >Save</button><a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14 hover:bg-[#2f185e]" >Apply</a>
                 </div>
 
-                <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">
+                {/* <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">
                     <div className=" bg-green-500 h-1.5 rounded-full w-1/2"></div>
                 </div>
-                <p className="text-sm text-[#7C8493]"><span className="text-black font-semibold">5 Applied</span> of 10 capacity</p>
+                <p className="text-sm text-[#7C8493]"><span className="text-black font-semibold">5 Applied</span> of 10 capacity</p> */}
             </div>
 
         </div>
