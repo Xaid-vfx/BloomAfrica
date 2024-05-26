@@ -6,10 +6,6 @@ import { log } from "console";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-
-cookies().getAll()
-const supabase = createServerComponentClient({ cookies })
-
 async function checkIfUserExists(id: string) {
     console.log("Inside function")
     console.log(id);
@@ -25,6 +21,8 @@ async function checkIfUserExists(id: string) {
 }
 
 export default async function CompleteProfile() {
+    cookies().getAll()
+    const supabase = createServerComponentClient({ cookies })
     const session = await supabase.auth.getSession();
 
     const user = session.data.session?.user
