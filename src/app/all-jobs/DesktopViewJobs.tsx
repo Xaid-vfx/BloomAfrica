@@ -104,6 +104,7 @@ export default function DesktopViewJobs(props: any) {
                             return (
                                 <JobCard
                                     id={job.uid}
+                                    logo={job.companylogo}
                                     key={job.uid}
                                     title={job.title}
                                     location={job.location}
