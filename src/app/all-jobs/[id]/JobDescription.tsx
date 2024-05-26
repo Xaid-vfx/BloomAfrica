@@ -67,8 +67,8 @@ export default function JobDescription(props) {
                 </div>
             </div>
             <div className="py-10 lg:hidden flex flex-col justify-center items-center bg-[#F8F8FD]">
-                <Image src={Logo} alt="logo" width={100} />
-                <h1 className="text-xl font-semibold">{job != null ? job[0]?.title : <Skeleton width={200} />}</h1>
+                <Image src={job != null ? job[0]?.companylogo : ""} alt="logo" width={100} height={50} />
+                <h1 className="text-xl font-semibold mt-2">{job != null ? job[0]?.title : <Skeleton width={200} />}</h1>
                 <div className="flex text-sm text-[#515B6F] gap-1 items-baseline">
                     <p>Bloom</p>
                     <p>. {job != null ? job[0]?.location : <Skeleton width={100} />}</p>
@@ -102,14 +102,14 @@ export default function JobDescription(props) {
                         <h1 className="text-2xl font-semibold mb-6 text-[#25324B]">About this Role</h1>
 
 
-                        <div className="bg-[#F8F8FD] py-2 px-2 my-2">
+                        {/* <div className="bg-[#F8F8FD] py-2 px-2 my-2">
                             <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">
                                 <div className=" bg-green-500 h-1.5 rounded-full w-1/2"></div>
                             </div>
                             <p className="text-sm text-[#7C8493]"><span className="text-black font-semibold">5 Applied</span> of 10 capacity</p>
-                        </div>
+                        </div> */}
 
-                        <div className="flex justify-between mt-8">
+                        <div className="flex justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Compensation</p>
                             <p className="text-sm font-semibold">{job != null ? job[0]?.minsalary + "-" + job[0]?.maxsalary : <Skeleton width={150} />}</p>
                         </div>

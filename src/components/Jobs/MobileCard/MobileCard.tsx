@@ -21,7 +21,7 @@ export default function MobileCard(props: Props) {
 
     return (
         <div className="py-8 px-6 border rounded-lg">
-            <Image src={props.logo} alt="logo" width={50} />
+            <Image src={props.logo ? props.logo : Logo} alt="logo" width={50} height={100} />
             <h1 className="text-lg font-medium mt-4">{props.title}</h1>
             <div className="flex mt-2 text-sm text-[#515B6F] gap-2 items-baseline">
                 <p>TechMe</p>

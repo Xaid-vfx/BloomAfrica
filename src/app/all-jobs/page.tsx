@@ -80,22 +80,25 @@ export default async function AllJobs({ params,
 
                     {/* Cards */}
 
-                    <div className="flex flex-col lg:hidden my-6">
+                    <div className="flex flex-col gap-4 lg:hidden my-6">
                         {renderJobs?.map((job: JobProps) => {
                             if (job.type.toLowerCase().includes(type1?.toLowerCase()) || job.type.toLowerCase().includes(type2?.toLowerCase()) || (type1 == undefined && type2 == undefined))
-                                return <MobileCard
-                                    id={job.uid}
-                                    logo={job.logo}
-                                    title={job.title}
-                                    category={job.category}
-                                    location={job.location}
-                                    salary={job.salary}
-                                    type={job.type}
-                                    description={job.description}
-                                    extras={job.extras}
-                                    responsibilities={job.responsibilities}
-                                    who_you_are={job.who_you_are}
-                                />
+
+                                console.log();
+
+                            return <MobileCard
+                                id={job.uid}
+                                logo={job.companylogo}
+                                title={job.title}
+                                category={job.category}
+                                location={job.location}
+                                salary={job.salary}
+                                type={job.type}
+                                description={job.description}
+                                extras={job.extras}
+                                responsibilities={job.responsibilities}
+                                who_you_are={job.who_you_are}
+                            />
                         })}
                     </div>
                 </div>

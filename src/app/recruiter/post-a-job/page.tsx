@@ -9,7 +9,7 @@ import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
-export default function Post() {
+export default function Post(props) {
     const [title, settitle] = useState("")
     const [desc, setdesc] = useState("")
     const [type, settype] = useState("")
@@ -39,9 +39,15 @@ export default function Post() {
 
         setLoading(true);
         try {
+            const { data: recruiterdata, error: recruitererror } = await supabase
+                .from('Recruiters')
+                .select()
+                .eq('uniqueid', props.user.id)
+                .single()
+
             const { data, error } = await supabase
                 .from('Jobs')
-                .upsert({ title, description: desc, type, category, location: loc, responsibilities: res, who_we_are: wya, minsalary: minsalary, maxsalary: maxsalary, skills, duration, deadline });
+                .upsert({ title, description: desc, type, category, location: loc, responsibilities: res, who_we_are: wya, minsalary: minsalary, maxsalary: maxsalary, skills, duration, deadline, companylogo: recruiterdata.logo });
 
             if (error) {
                 setErrorMessage("An error occurred while posting the job.");
