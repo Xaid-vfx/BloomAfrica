@@ -7,8 +7,6 @@ import Header from "../Header";
 import AppliedTable from "@/components/General/AppliedTable";
 import Applied from "./Applied";
 
-const supabase = createServerComponentClient({ cookies })
-
 async function fetchSeeker(id: string) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
@@ -28,6 +26,8 @@ async function fetchAppliedJobs(id: string) {
 }
 
 export default async function page() {
+    cookies().getAll()
+    const supabase = createServerComponentClient({ cookies })
     const user = await getUser();
     const company = await getCompany(user?.id)
     const seeker = await fetchSeeker(user?.id)
