@@ -13,6 +13,7 @@ import getJobs from "@/lib/getJobs/getJobs";
 import Search from "./Search";
 import ShowFilters from "./ShowFilters";
 import DesktopViewJobs from "./DesktopViewJobs";
+import MobileViewJobs from "./MobileViewJobs";
 
 type JobProps = {
     uid: string;
@@ -39,11 +40,6 @@ export default async function AllJobs({ params,
     const user = await getUser()
     const search = searchParams?.search ? searchParams?.search : ''
     const location = searchParams?.location ? searchParams?.location : ''
-    const category1 = searchParams?.category1 ? searchParams?.category1 : ''
-    const category2 = searchParams?.category2 ? searchParams?.category2 : ''
-    const type1 = searchParams?.type1
-    const type2 = searchParams?.type2
-
 
     const renderJobs = jobs?.filter(job => {
         // Check if the title includes the search query (case-insensitive)
@@ -68,41 +64,7 @@ export default async function AllJobs({ params,
                 </div>
 
                 {/* Mobile view starts */}
-                <div className="py-10 flex flex-col w-full px-4 lg:hidden">
-                    <div className="flex justify-between w-full items-center">
-                        <h1 className="text-xl">All Jobs</h1>
-                        {/* <p className="text-sm">Most relevant</p> */}
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <p className="text-left my-2 font-light text-sm text-[#7C8493]">Showing {renderJobs?.length} results</p>
-                        <ShowFilters />
-                    </div>
-
-                    {/* Cards */}
-
-                    <div className="flex flex-col gap-4 lg:hidden my-6">
-                        {renderJobs?.map((job: JobProps) => {
-                            if (job.type.toLowerCase().includes(type1?.toLowerCase()) || job.type.toLowerCase().includes(type2?.toLowerCase()) || (type1 == undefined && type2 == undefined))
-
-                                console.log();
-
-                            return <MobileCard
-                                id={job.uid}
-                                logo={job.companylogo}
-                                title={job.title}
-                                category={job.category}
-                                location={job.location}
-                                salary={job.salary}
-                                type={job.type}
-                                description={job.description}
-                                extras={job.extras}
-                                responsibilities={job.responsibilities}
-                                who_you_are={job.who_you_are}
-                            />
-                        })}
-                    </div>
-                </div>
-                <div className="px-4 lg:hidden"><GetStarted /></div>
+                <MobileViewJobs search={search} location={location} renderjobs={renderJobs} />
                 {/* Mobile view ends */}
 
                 {/* Desktop view starts */}
