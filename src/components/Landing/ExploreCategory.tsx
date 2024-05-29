@@ -15,7 +15,7 @@ export default function ExploreCategory() {
                 <p className="flex items-center gap-2 justify-end text-[#4A2C84] text-sm text-right  px-8"><a href="/all-jobs" className="hover:underline cursor-pointer">Show all Jobs </a><FaArrowRightLong /></p>
                 <div className="hidden lg:grid grid-cols-4 justify-center px-8">
                     {
-                        ["Design", "Developer", "Electrical", "Education", "Design", "Design", "Design", "Design",].map(e => {
+                        ["Mechanical Engineering", "Electrical Engineering", "Construction & Civil Engineering", "Business & Entrepreneurship", "Fashion", "Cosmetology", "Hospitality", "Food & Culnilary"].map(e => {
                             return (
                                 <CategoryCard
                                     id="1"

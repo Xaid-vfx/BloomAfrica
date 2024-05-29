@@ -81,7 +81,7 @@ export default function Hero() {
                         Discover Exciting <span className="Apprentice pb-4 lg:pb-3 text-[#4A2C84]">Apprenticeship </span>
                         Opportunities With Bloom
                     </h1>
-                    <p className="text-sm text-[#515B6F] leading-7 mt-2 text-center px-2 lg:px-0 lg:text-left lg:mt-4 lg:text-base lg:w-4/5 HiddenAnimation">
+                    <p className="text-sm text-[#1A202C] leading-7 mt-2 text-center px-2 lg:px-0 lg:text-left lg:mt-4 lg:text-base lg:w-4/5 HiddenAnimation">
                         Bloom connects aspiring professionals with a wide range of apprenticeship opportunities across various industries and sectors.
                     </p>
 

@@ -87,21 +87,27 @@ export default function Navbar() {
       </div>
 
       <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full">
-        <div className="flex items-center">
+        <div className="flex justify-between items-center relative w-[75%]">
           <a href="/" className="hidden lg:flex lg:items-center lg:gap-2 lg:px-10">
             <Image src={Logo} alt="" width={50} />
             <h1 className="text-3xl font-medium">Bloom</h1>
           </a>
 
-          <div className="hidden text-[16px] lg:flex lg:pl-10">
-            <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all`}>Home</a>
-            <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>About</a>
-            <a href="/pricing" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Pricing</a>
-            <a href="/faqs" className={`${currentPage == "faqs" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>FAQs</a>
+          <div className="hidden text-[16px] lg:flex lg:pl-10 pr-10 min-w-max">
+            <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2 hover:border-purple-800 transition-all`}>Home</a>
+            <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>About</a>
+            <a href="/faqs" className={`${currentPage == "faqs" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>FAQs</a>
+            <a href="/pricing" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>Recruiting? <span className="text-[#4A2C84]">Post a Job</span></a>
+            <a href="/pricing" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>Get Certified</a>
+            <p className="text-white bg-[#897DD3] rounded-full px-1 py-1 right-0 text-[0.5rem] absolute top-0">Coming Soon</p>
+
           </div>
         </div>
 
-        <a href="/signup" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign In</a>
+        <div className="flex gap-2">
+          <a href="/all-jobs" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-semibold rounded-3xl">Find Jobs</a>
+          <a href="/signup" className="text-sm text-[#4A2C84] border border-[#4A2C84] px-6 py-3 font-semibold rounded-3xl">Sign In</a>
+        </div>
       </div>
 
     </div>
