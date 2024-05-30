@@ -1,17 +1,15 @@
-import BeliefCard from "./BeliefCard";
-import Mission from "../../assets/images/Mission.png"
-import Vision from "../../assets/images/Vision.png"
-import Value from "../../assets/images/Value.png"
+import Image from "next/image"
+import Girl from "../../assets/images/SmilingWoman.png"
 
 export default function Beliefs() {
     return (
-        <div className="bg-[#171c1f] text-white py-20">
-            <p className="text-center text-xl lg:text-4xl lg:font-semibold">We are driven by <br className="md:hidden" />our beliefs</p>
-
-            <div className="px-6 flex flex-col my-10 lg:flex-row lg:mt-20 lg:mx-16">
-                <BeliefCard image={Mission} name="Mission" para="Our mission is to empower Africans by creating accessible local opportunities for personal and economic growth." />
-                <BeliefCard image={Vision} name="Vision" para="Our vision is to become the global leader in providing innovative education solutions that empower informal workers and MSME owners in emerging economies to unlock their full potential. " />
-                <BeliefCard image={Value} name="Value" para="We believe in creating opportunities for professionals from all backgrounds. Inclusivity is not just a goal; it's a fundamental principle that guides our platform." />
+        <div className="bg-[#171c1f] text-white flex w-full">
+            <div className="bg-[#897DD3] flex justify-center py-6 w-[45%]">
+                <Image src={Girl} alt="girl" width={500} height={100} />
+            </div>
+            <div className="w-[55%] text-center flex flex-col gap-10 px-20 justify-center items-center">
+                <h1 className="text-4xl font-semibold">Our Mission</h1>
+                <p className="text-sm leading-7">At Bloom, our mission is to empower young Nigerians by connecting them with valuable apprenticeship opportunities that pave the way for fulfilling and successful careers. We believe in the transformative power of hands-on experience and mentorship, and we are dedicated to bridging the gap between aspiring professionals and leading organizations across various industries. Our mission is to empower Africans by creating accessible local opportunities for personal and economic growth.</p>
             </div>
         </div>
     )

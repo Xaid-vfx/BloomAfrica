@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function About() {
     return (
         <div className="bg-[#F0F0FB]">
-            <Navbar />
+            <Navbar color="white" />
             <div className="">
                 <AboutHero />
             </div>

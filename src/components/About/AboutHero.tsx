@@ -1,14 +1,8 @@
 'use client'
-
-import Image from "next/image";
-import Hero from "../../assets/images/AboutHero.png"
-import DHero from "../../assets/images/Man.png"
-import StatsBox from "./StatsBox/StatsBox";
+import Image from 'next/image';
+import Scribble from '../../assets/images/AboutScribble.png'
+import Scribble2 from '../../assets/images/AboutScribble2.png'
 import { useEffect } from "react";
-import SearchIcon from "../../assets/images/searchicon.png";
-import CoursesIcon from "../../assets/images/coursesicon.png";
-import CertificationIcon from "../../assets/images/certifcationicon.png";
-
 
 export default function AboutHero() {
 
@@ -32,36 +26,20 @@ export default function AboutHero() {
 
 
     return (
-        <div className="lg:flex lg:px-20 lg:items-center lg:justify-between lg:bg-[#f0f0fb]">
-            <div className="lg:w-6/12 px-6">
-                <h1 className="mt-14 font-semibold text-xl lg:text-5xl HiddenAnimationStats lg:mt-0">
-                    Bloom Africa’s New Frontier
-                    of Education
-                </h1>
-                <p className="hidden lg:block my-4 font-light leading-7 text-sm HiddenAnimationStats">
-                    Bloom is an online platform that allows workers to turn ordinary job opportunities into valuable, exciting apprenticeships that leads to recognized qualifications, accelerating career growth and fostering skilled professionals.Our vision is to become the global leader in providing innovative education solutions that empower informal workers and MSME owners in emerging economies to unlock their full potential. Our platform will serve as the catalyst for change, enabling users to upskill themselves, grow their businesses, and connect with a world of employment opportunities.
-                </p>
-                <p className="lg:hidden my-4 font-light leading-7 text-sm">
-                    Explore job opportunities on the platform that align with your current job and chosen qualification. Explore job opportunities on the platform that align with your current job and chosen qualification. Explore job opportunities on the platform that align with your current job and chosen qualification.
-                </p>
-            </div>
-            <div className="my-10 mx-4 lg:w-5/12 relative">
-                <div className="p-8 lg:p-4">
-                    <Image src={DHero} alt="hero" className="" />
-                </div>
-                <div className="absolute top-[42%] HiddenAnimationStats">
-                    <StatsBox image="" content=" Easy Apprenticeships" />
-                </div>
-                <div className="absolute top-[10%] left-0 HiddenAnimationStats">
-                    <StatsBox image={SearchIcon} content="Customized Job Board" />
-                </div>
-                <div className="absolute top-[36%] right-0 HiddenAnimationStats">
-                    <StatsBox image={CoursesIcon} content="Quality online courses" />
-                </div>
-                <div className="absolute bottom-[5%] right-12 HiddenAnimationStats">
-                    <StatsBox image={CertificationIcon} content="Professional Certification" />
-                </div>
-            </div>
+        <div className="lg:px-20 py-24 lg:bg-[#F8F8FD] relative">
+            <Image src={Scribble} alt="scribble" width={100} className="hidden lg:block absolute top-0 left-0" />
+            <Image src={Scribble2} alt="scribble" width={100} className="hidden lg:block absolute bottom-0 right-0" />
+
+            <h1 className="mt-14 font-semibold text-center text-xl lg:text-5xl HiddenAnimationStats lg:leading-[1.5] lg:mt-0">
+                Discover Exciting <span className="text-[#4A2C84]">Apprenticeship</span> Opportunities with Bloom
+            </h1>
+            <p className="hidden leading-9 lg:block text-center my-4 font-light text-sm HiddenAnimationStats">
+                Bloom is an online platform that allows workers to turn ordinary job opportunities into valuable, exciting apprenticeships that leads to recognized qualifications, accelerating career growth and fostering skilled professionals.Our vision is to become the global leader in providing innovative education solutions that empower informal workers and MSME owners in emerging economies to unlock their full potential. Our platform will serve as the catalyst for change, enabling users to upskill themselves, grow their businesses, and connect with a world of employment opportunities.
+            </p>
+            <p className="lg:hidden my-4 font-light leading-7 text-sm">
+                Explore job opportunities on the platform that align with your current job and chosen qualification. Explore job opportunities on the platform that align with your current job and chosen qualification. Explore job opportunities on the platform that align with your current job and chosen qualification.
+            </p>
+
         </div>
     )
 }
