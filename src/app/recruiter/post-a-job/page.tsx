@@ -3,6 +3,7 @@ import TextInput from "@/components/Input/Text";
 import Header from "@/components/Recruiter/Header/Header";
 import Sidebar from "@/components/Recruiter/Sidebar/Sidebar";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { DocumentReference } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -55,6 +56,20 @@ export default function Post(props) {
             } else {
                 setSuccessMessage("Job posted successfully!");
                 setErrorMessage("");
+                settitle("");
+                setdesc("");
+                settype("");
+                setcategory("");
+                setloc("");
+                setres("");
+                setwya("");
+                setskills("");
+                setduration("");
+                setdeadline("");
+                setminsalary("");
+                setmaxsalary("");
+                setextras("");
+                props.handleChangeTabIndex(4)
                 router.refresh();
             }
             console.log(data);
@@ -81,23 +96,23 @@ export default function Post(props) {
                     <div className="flex flex-col gap-2 my-4">
                         <div className="mb-1">
                             <p className="font-[550] text-lg my-1">Job Title *</p>
-                            <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="e.g. Software Engineer" onChange={(e) => { settitle(e.target.value) }} />
+                            <input value={title} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="e.g. Software Engineer" onChange={(e) => { settitle(e.target.value) }} />
                         </div>
 
                         <div className="my-2">
                             <p className="font-[550] text-lg my-1">Job Description *</p>
-                            <textarea rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Description" onChange={(e) => { setdesc(e.target.value) }}></textarea>
+                            <textarea value={desc} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Description" onChange={(e) => { setdesc(e.target.value) }}></textarea>
                         </div>
 
 
                         <div className="my-2">
                             <p className="font-[550] text-lg my-1">Job Responsibilities *</p>
-                            <textarea rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Responsibilities" onChange={(e) => { setres(e.target.value) }}></textarea>
+                            <textarea value={res} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Responsibilities" onChange={(e) => { setres(e.target.value) }}></textarea>
                         </div>
 
                         <div className="my-2">
                             <p className="font-[550] text-lg my-1">Who we are *</p>
-                            <textarea rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Who we are" onChange={(e) => { setwya(e.target.value) }}></textarea>
+                            <textarea value={wya} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Who we are" onChange={(e) => { setwya(e.target.value) }}></textarea>
                         </div>
 
                         {/* <div className="my-1">
@@ -113,7 +128,7 @@ export default function Post(props) {
                         <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-4">
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Job Category *</p>
-                                <select onChange={(e) => {
+                                <select value={category} onChange={(e) => {
                                     setcategory(e.target.value)
                                 }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
                                     <option>Select category</option>
@@ -130,19 +145,19 @@ export default function Post(props) {
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Application Deadline Date *</p>
-                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="date" onChange={(e) => { setdeadline(e.target.value) }} />
+                                <input value={deadline} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="date" onChange={(e) => { setdeadline(e.target.value) }} />
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Min Salary {"(Optional)"}</p>
-                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Minimum Salary" onChange={(e) => { setminsalary(e.target.value) }} />
+                                <input value={minsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Minimum Salary" onChange={(e) => { setminsalary(e.target.value) }} />
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Max Salary {"(Optional)"}</p>
-                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Maximum Salary" onChange={(e) => { setmaxsalary(e.target.value) }} />
+                                <input value={maxsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Maximum Salary" onChange={(e) => { setmaxsalary(e.target.value) }} />
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Type *</p>
-                                <select onChange={(e) => {
+                                <select value={type} onChange={(e) => {
                                     settype(e.target.value)
                                 }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
                                     <option>Select type</option>
@@ -152,15 +167,15 @@ export default function Post(props) {
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Required Skills*</p>
-                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Required Skills" type="text" onChange={(e) => { setskills(e.target.value) }} />
+                                <input value={skills} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Required Skills" type="text" onChange={(e) => { setskills(e.target.value) }} />
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Job Location *</p>
-                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Location" type="text" onChange={(e) => { setloc(e.target.value) }} />
+                                <input value={loc} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Location" type="text" onChange={(e) => { setloc(e.target.value) }} />
                             </div>
                             <div className="mt-2">
                                 <p className="font-[550] text-lg my-1">Duration *</p>
-                                <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Duration" type="text" onChange={(e) => { setduration(e.target.value) }} />
+                                <input value={duration} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Duration" type="text" onChange={(e) => { setduration(e.target.value) }} />
                             </div>
                         </div>
                     </div>

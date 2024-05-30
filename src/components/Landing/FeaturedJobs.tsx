@@ -2,6 +2,71 @@ import FeaturedCard from "./FeaturedCard";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function FeaturedJobs() {
+    const jobs = [
+        {
+            title: "Auto Mechanic",
+            location: "Abuja, FCT",
+            type: "Full Time",
+            company: "Gear Master Garage",
+            diploma: "Diploma in Mechanical Engineering",
+            description: "Auto Mechanic Apprentice needed in Abuja. Learn under experienced mentors, gain hands-on experience in vehicle repair and maintenance."
+        },
+        {
+            title: "",
+            location: "",
+            type: "",
+            company: "",
+            diploma: "",
+            description: ""
+        },
+        {
+            title: "",
+            location: "",
+            type: "",
+            company: "",
+            diploma: "",
+            description: ""
+        },
+        {
+            title: "",
+            location: "",
+            type: "",
+            company: "",
+            diploma: "",
+            description: ""
+        },
+        {
+            title: "",
+            location: "",
+            type: "",
+            company: "",
+            diploma: "",
+            description: ""
+        },
+        {
+            title: "",
+            location: "",
+            type: "",
+            company: "",
+            diploma: "",
+            description: ""
+        },
+        {
+            title: "",
+            location: "",
+            type: "",
+            company: "",
+            diploma: "",
+            description: ""
+        }, {
+            title: "",
+            location: "",
+            type: "",
+            company: "",
+            diploma: "",
+            description: ""
+        },
+    ]
     return (
         <div className="bg-[#F8F8FD] py-10 px-4 relative lg:py-16">
             <div className="text-center">

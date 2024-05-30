@@ -94,7 +94,7 @@ export default function Hero() {
                 </div>
             </div>
 
-            <div className="lg:my-10 mt-4 mx-4 lg:w-[40%] relative">
+            <div className="lg:my-10 lg:block hidden mt-4 mx-4 lg:w-[40%] relative">
                 <div className="lg:p-8 p-4 lg:py-10 flex justify-center">
                     <Image src={DHero} alt="hero" className="w-[80%]" />
                 </div>
