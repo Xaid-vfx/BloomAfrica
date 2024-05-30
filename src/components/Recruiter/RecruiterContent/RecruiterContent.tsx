@@ -108,7 +108,9 @@ export default function RecruiterContent(props: Props) {
                 {currTabIndex == 3 ?
                     <Listing job_id={jobid} user={props.user} jobs={jobs} />
                     : ""}
-                {currTabIndex == 4 ? <Post user={props.user} /> : ""}
+                {currTabIndex == 4 ? <Post user={props.user} handleChangeTabIndex={(e: any) => {
+                    handleChangeTabIndex(e)
+                }} /> : ""}
             </div>
         </div>
     )

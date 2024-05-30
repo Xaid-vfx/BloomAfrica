@@ -21,7 +21,7 @@ type Props = {
 
 export default function FeaturedCard(props: Props) {
     return (
-        <div className="py-8 px-6 my-4 mx-2 box_shadow bg-white rounded-lg">
+        <div className="py-8 px-6 my-4 mx-2 box_shadow bg-white rounded-xl">
             <div className="flex items-center">
                 <Image src={Logo} alt=" " width={50} className="bg-[#E9EBFD] rounded-lg" />
                 <div className="rounded-3xl font-semibold px-3 py-2 text-[#4A2C84]">{props.title}</div>

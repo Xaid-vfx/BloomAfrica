@@ -104,7 +104,9 @@ export default function RightColomnRecruiter() {
         if (error) {
             console.log(error);
         }
-        router.push('/recruiter')
+        else {
+            router.push('/recruiter')
+        }
     }
 
     async function getUser() {
