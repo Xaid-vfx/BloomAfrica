@@ -46,48 +46,48 @@ export default function About() {
                     <span className="text-4xl lg:text-6xl font-semibold text-[#4A2C84]">GOALS</span>
                 </h1>
                 <div className="lg:px-14 px-4 flex flex-wrap mt-10 gap-x-3 gap-y-8">
-                    <div className="bg-[#E5243B] p-2 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
+                    <div className="bg-[#E5243B] p-2 lg:p-6 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
                         <p className="text-white mb-2">NO <br /> POVERTY</p>
                         <Image src={Poverty} alt="sdg" width={100} className="hidden lg:block" />
                         <Image src={Poverty} alt="sdg" width={40} className=" lg:hidden" />
                     </div>
-                    <div className="bg-[#FF3A21] p-2 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
+                    <div className="bg-[#FF3A21] p-2 lg:p-6 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
                         <p className="text-white mb-2">GENDER <br /> EQUALITY</p>
                         <Image src={Gender} alt="sdg" width={50} className="hidden lg:block" />
                         <Image src={Gender} alt="sdg" width={20} className=" lg:hidden" />
                     </div>
-                    <div className="bg-[#C5192D] min-w-max p-2 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
+                    <div className="bg-[#C5192D] min-w-max p-2 lg:p-6 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
                         <p className="text-white mb-2">QUALITY <br /> EDUCATION</p>
                         <Image src={Education} alt="sdg" width={50} className="hidden lg:block" />
                         <Image src={Education} alt="sdg" width={30} className=" lg:hidden" />
                     </div>
 
-                    <div className="bg-[#FCC30B] min-w-fit p-2 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
+                    <div className="bg-[#FCC30B] min-w-fit p-2 lg:p-6 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
                         <p className="text-white mb-2">AFFORDABLE & <br /> CLEAN ENERGY</p>
                         <Image src={Energy} alt="sdg" width={50} className="hidden lg:block" />
                         <Image src={Energy} alt="sdg" width={30} className=" lg:hidden" />
                     </div>
-                    <div className="bg-[#A21942] p-2 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
+                    <div className="bg-[#A21942] p-2 lg:p-6 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
                         <p className="text-white mb-2">DECENT WORK AND  ECONOMIC GROWTH</p>
                         <Image src={Economic} alt="sdg" width={50} className="hidden lg:block" />
                         <Image src={Economic} alt="sdg" width={30} className=" lg:hidden" />
                     </div>
-                    <div className="bg-[#FD6925] p-2 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
+                    <div className="bg-[#FD6925] p-2 lg:p-6 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
                         <p className="text-white mb-2">INDUSTRY  INNOVATION & INFRASTRUCTURE</p>
                         <Image src={Industry} alt="sdg" width={50} className="hidden lg:block" />
                         <Image src={Industry} alt="sdg" width={30} className=" lg:hidden" />
                     </div>
-                    <div className="bg-[#DD1367] p-2 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
+                    <div className="bg-[#DD1367] p-2 lg:p-6 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
                         <p className="text-white mb-2">REDUCED <br /> INEQUALITIES</p>
                         <Image src={Inequality} alt="sdg" width={50} className="hidden lg:block" />
                         <Image src={Inequality} alt="sdg" width={30} className=" lg:hidden" />
                     </div>
-                    <div className="bg-[#3F7E44] p-2 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
+                    <div className="bg-[#3F7E44] p-2 lg:p-6 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
                         <p className="text-white mb-2">CLIMATE <br /> ACTIONS</p>
                         <Image src={Climate} alt="sdg" width={50} className="hidden lg:block" />
                         <Image src={Climate} alt="sdg" width={30} className=" lg:hidden" />
                     </div>
-                    <div className="bg-[#00689D] p-2 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
+                    <div className="bg-[#00689D] p-2 lg:p-6 lg:text-sm text-[0.45rem]  lg:w-[190px] w-[80px]  rounded-lg">
                         <p className="text-white mb-2">PEACE JUSTICE & <br /> STRONG INSTITUTIONS</p>
                         <Image src={Peace} alt="sdg" width={50} className="hidden lg:block" />
                         <Image src={Peace} alt="sdg" width={30} className=" lg:hidden" />
