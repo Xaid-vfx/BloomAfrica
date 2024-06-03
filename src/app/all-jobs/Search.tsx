@@ -4,6 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaSearch, FaSearchLocation } from "react-icons/fa";
 import { animateScroll } from 'react-scroll';
+import { CiSearch } from "react-icons/ci";
+import { CiLocationOn } from "react-icons/ci";
+import { GoLocation } from "react-icons/go";
+import { LuSearch } from "react-icons/lu";
 
 export default function Search() {
     const [query, setquery] = useState('')
@@ -27,13 +31,17 @@ export default function Search() {
     }
 
     return (
-        <div className="lg:bg-white lg:flex items-center box_shadow x lg:p-2 lg:pl-8 lg:rounded-3xl max-lg:shadow-none">
-            <div className="hidden lg:block"><FaSearch /></div>
-            <input onKeyDown={(e) => { e.key == "Enter" ? handleSearch() : "" }} onChange={(e) => { setquery(e.target.value) }} type="text" className="px-4 py-4 rounded-3xl placeholder:text-xs placeholder:font-medium mb-4 w-full text-sm box_shadow lg:shadow-none lg:mb-0 lg:rounded-r-none lg:placeholder:font-light lg:placeholder:text-sm lg:w-auto outline-none" placeholder="Job title or keywords" />
-            <div className="hidden lg:block"><FaSearchLocation /></div>
-            <input onKeyDown={(e) => { e.key == "Enter" ? handleSearch() : "" }} onChange={(e) => { setlocation(e.target.value) }} type="text" className="px-4 py-4 rounded-3xl outline-none placeholder:text-xs placeholder:font-medium mb-4 w-full text-sm box_shadow lg:shadow-none lg:mb-0 lg:rounded-l-none lg:rounded-r-none lg:placeholder:font-light lg:placeholder:text-sm lg:w-auto" placeholder="Lagos, Nigeria" />
+        <div className="bg-white p-4 mx-10 w-[80%] lg:w-auto lg:mx-0 rounded-2xl lg:flex items-center box_shadow x lg:p-2 lg:pl-8 lg:rounded-3xl">
+            <div className="flex gap-1 lg:items-center">
+                <CiSearch className="text-3xl" />
+                <input onKeyDown={(e) => { e.key == "Enter" ? handleSearch() : "" }} onChange={(e) => { setquery(e.target.value) }} type="text" className="border-b-[1px] lg:mx-2 px-4 pt-2 pb-1  placeholder:text-sm mb-4 w-full text-sm  lg:shadow-none lg:mb-0 lg:rounded-r-none lg:placeholder:font-light placeholder:text-[#7C8493] lg:placeholder:text-sm lg:w-auto outline-none" placeholder="Job title or keywords" />
+            </div>
+            <div className="flex gap-1 lg:items-center">
+                <GoLocation className="text-2xl" />
+                <input onKeyDown={(e) => { e.key == "Enter" ? handleSearch() : "" }} onChange={(e) => { setlocation(e.target.value) }} type="text" className="border-b-[1px] lg:mx-2 px-4 pt-2 pb-1 placeholder:text-sm mb-4 w-full text-sm  lg:shadow-none lg:mb-0 lg:rounded-r-none lg:placeholder:font-light placeholder:text-[#7C8493] lg:placeholder:text-sm lg:w-auto outline-none" placeholder="Lagos, Nigeria" />
+            </div>
 
-            <button onClick={handleSearch} className=" text-white py-4 text-center bg-[#4A2C84] w-full  rounded-3xl font-semibold text-xs lg:text-sm lg:py-4 lg:px-10" >Search Job</button>
+            <button onClick={handleSearch} className="min-w-max text-white py-4 text-center bg-[#4A2C84] w-full  rounded-3xl font-semibold text-xs lg:text-sm lg:py-4 lg:px-10" >Search Job</button>
 
         </div>
     )

@@ -87,7 +87,7 @@ export default function Hero() {
 
                 </div>
                 <div className="px-6 flex flex-col justify-center items-center lg:items-start lg:px-0">
-                    <div className="w-full relative mt-8 flex rounded-2xl items-center  lg:rounded-full">
+                    <div className="w-full relative mt-8 flex rounded-2xl lg:justify-normal justify-center items-center  lg:rounded-full">
                         <Search />
                     </div>
                     <p className="text-xs text-center font-light my-2 lg:pl-4">Popular: Designer, Developer</p>
