@@ -12,14 +12,14 @@ type Props = {
 
 export default function FoundingCard(props: Props) {
     return (
-        <div className="bg-white my-3 lg:my-10 mx-2 flex flex-col justify-center items-center py-10 rounded-xl box_shadow lg:px-24 lg:py-12 lg:w-1/3">
-            <Image src={props.image} alt="" width={120} className="border rounded-full mb-4" />
-            <h2 className="font-medium text-xl lg:text-2xl lg:mb-3">{props.name}</h2>
-            <p className="text-sm mt-1 text-[#97999B]">{props.designation}</p>
-            <div className="mt-5 flex gap-2 text-white lg:mt-2">
-                <a href={props.twitter} className="bg-black p-3 text-xs rounded cursor-pointer"><FaXTwitter /></a>
-                <a href={props.linkedin} className="bg-black p-3 text-xs rounded cursor-pointer"><FaLinkedinIn /></a>
-
+        <div className="bg-white my-3 lg:my-4 mx-2 flex flex-col justify-center items-center py-6 rounded-xl box_shadow lg:px-24 lg:py-12 lg:w-[30%]">
+            <Image src={props.image} alt="" width={120} className="lg:block hidden border rounded-full mb-4" />
+            <Image src={props.image} alt="" width={70} className="lg:hidden border rounded-full mb-4" />
+            <h2 className="font-medium text-center lg:text-2xl lg:mb-3">{props.name}</h2>
+            <p className="text-xs lg:text-sm mt-1 text-[#97999B]">{props.designation}</p>
+            <div className="mt-2 flex gap-2 text-white lg:mt-2">
+                <a href={props.twitter} className="bg-black p-1 lg:p-3 text-xs rounded cursor-pointer"><FaXTwitter /></a>
+                <a href={props.linkedin} className="bg-black p-1 lg:p-3 text-xs rounded cursor-pointer"><FaLinkedinIn /></a>
             </div>
         </div>
     )

@@ -37,7 +37,7 @@ export default function Home() {
       <ForSeekersRecruiters />
       <Testimonials />
       {/* <MoreReasons /> */}
-      <div className="px-4 py-16 bg-[#ffffff]"><GetStarted /></div>
+      <div className="px-4 bg-[#ffffff]"><GetStarted /></div>
       <Footer />
     </main>
   )
