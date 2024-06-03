@@ -4,6 +4,8 @@ import LogoText from "../../assets/images/BloomLogo.png"
 import Logo from "../../assets/images/Logo.png"
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { CgMenuRightAlt } from "react-icons/cg";
+import { CiMenuFries } from "react-icons/ci";
 
 export default function Navbar(props: { color: string }) {
 
@@ -40,7 +42,7 @@ export default function Navbar(props: { color: string }) {
   if (navbarIsVisible) {
 
     return (
-      <div className="h-[200vh] w-screen px-6 overflow-hidden fixed top-0 gradient z-10">
+      <div className="h-[200vh] w-screen px-4 overflow-hidden fixed top-0 gradient z-10">
         <div className="py-6 flex justify-between items-center lg:justify-normal">
           <a href="/" className="lg:hidden">
             <Image src={LogoText} alt="logo" width={120} />
@@ -73,13 +75,14 @@ export default function Navbar(props: { color: string }) {
   }
 
   return (
-    <div className={`px-6 py-6 flex justify-between items-center lg:justify-normal ${props.color == "white" ? 'bg-white' : ''}`}>
+    <div className={`px-4 py-6 flex justify-between items-center lg:justify-normal ${props.color == "white" ? 'bg-white' : ''}`}>
 
       <a href="/" className="lg:hidden">
         <Image src={LogoText} alt="logo" width={120} />
       </a>
-      <div className="menu text-2xl lg:hidden">
-        <RxHamburgerMenu onClick={() => {
+      <div className="menu gap-4 items-center flex text-3xl lg:hidden">
+        <a href="/signup" className="text-sm text-[#4A2C84]">Sign in</a>
+        <CgMenuRightAlt onClick={() => {
           setnavbarIsVisible(true)
         }} />
       </div>

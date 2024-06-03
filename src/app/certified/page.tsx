@@ -2,6 +2,7 @@ import Navbar from "@/components/navbar/Navbar"
 import { Metadata } from "next"
 import Image from "next/image"
 import Woman from '../../assets/images/SmilingWoman2.png'
+import WomanMobile from '../../assets/images/Smilingwomanmobile.png'
 import Accreditors from "./Accreditors"
 import GetStarted from "@/components/GetStartedBanner/GetStarted"
 import Footer from "@/components/Footer/Footer"
@@ -28,10 +29,10 @@ export default function About() {
                     </p>
                     <div className="bg-[#4A2C84] font-semibold text-sm text-white rounded-full px-6 py-4">Explore courses</div>
                 </div>
-                <div className=" lg:w-[40%] flex justify-center py-6 bg-[#C8AFEC]">
-                    <Image src={Woman} alt="woman" width={400} className="hidden lg:block" />
-                    <Image src={Woman} alt="woman" width={300} className=" lg:hidden" />
+                <div className="hidden lg:block lg:w-[40%] justify-center py-6 bg-[#C8AFEC]">
+                    <Image src={Woman} alt="woman" width={400} />
                 </div>
+                <Image src={WomanMobile} alt="woman" className=" lg:hidden" />
             </div>
             <Accreditors />
             <Qualifications />
