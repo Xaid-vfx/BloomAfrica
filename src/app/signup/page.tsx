@@ -74,7 +74,7 @@ export default function signIn() {
                     access_type: 'offline',
                     prompt: 'consent'
                 },
-                redirectTo: signUpUserTypeTab == "seeker" ? 'https://bloom-africa-test.vercel.app/auth/callback?next=/signup/complete_profile' : 'https://bloom-africa-test.vercel.app/auth/callback?next=/signup/complete_recruiter_profile'
+                redirectTo: signUpUserTypeTab == "seeker" ? 'https://www.bloom.africa/auth/callback?next=/signup/complete_profile' : 'https://www.bloom.africa/auth/callback?next=/signup/complete_recruiter_profile'
             },
 
         })
