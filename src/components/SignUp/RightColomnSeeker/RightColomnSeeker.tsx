@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import Year from "@/lib/Years/Years";
 
-export default function RightColumnSeeker() {
+export default function RightColumnSeeker(props: { redirectUrl: string }) {
     const [step, setStep] = useState(1);
     const supabase = createClientComponentClient()
     const router = useRouter()
@@ -114,8 +114,9 @@ export default function RightColumnSeeker() {
         if (error) {
             console.log(error);
         }
-
-        router.push('/all-jobs')
+        if (props.redirectUrl != "null")
+            router.push('/all-jobs' + props.redirectUrl)
+        else router.push('/all-jobs')
     }
 
     useEffect(() => {
