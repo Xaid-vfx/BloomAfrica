@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Image from "next/image"
 import SideImage from '../../assets/images/SignIn/LeftIllustration.png'
 import Logo from '../../assets/images/Logo.png'
@@ -22,8 +22,9 @@ export default function signIn() {
     const [user, setuser] = useState([])
 
     const currentUrl = globalThis.window?.location.href
-    console.log(currentUrl);
-
+    const search = useSearchParams()
+    const redirectUrl = search.get('continue')
+    console.log(redirectUrl);
 
 
     const handleSignUp = async () => {
@@ -74,7 +75,7 @@ export default function signIn() {
                     access_type: 'offline',
                     prompt: 'consent'
                 },
-                redirectTo: signUpUserTypeTab == "seeker" ? 'https://www.bloom.africa/auth/callback?next=/signup/complete_profile' : 'https://www.bloom.africa/auth/callback?next=/signup/complete_recruiter_profile'
+                redirectTo: signUpUserTypeTab == "seeker" ? 'https://www.bloom.africa/auth/callback?type=/signup/complete_profile&next=' + redirectUrl : 'https://www.bloom.africa/auth/callback?type=/signup/complete_recruiter_profile'
             },
 
         })

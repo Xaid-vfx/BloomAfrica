@@ -1,7 +1,7 @@
 'use client'
 import { createClientComponentClient, createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Footer from "@/components/Footer/Footer";
 import Navbar from "@/components/navbar/Navbar";
 import Logo from '../../../assets/images/Jobs/Company Logo.png'
@@ -30,11 +30,101 @@ async function getJob(userid: string) {
 }
 
 export default function JobDescription(props) {
+    const supabase = createClientComponentClient()
     const search = useSearchParams()
     const id = search.get('id')
     const [job, setjob] = useState()
+    const router = useRouter()
     console.log(job);
     console.log(id);
+    async function checkifSeekerisRegistered() {
+        console.log(props.user?.id);
+        const { data, error } = await supabase
+            .from('Seekers')
+            .select()
+            .eq('unique_id', props.user?.id)
+
+        if (error) {
+            console.log(error);
+            return false;
+        }
+        else {
+            if (data.length > 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    async function checkifSeekerisAlreadyApplied() {
+        console.log(props.user?.id);
+        const { data, error } = await supabase
+            .from('Applicants')
+            .select()
+            .eq('seeker_id', props.user?.id)
+            .eq('job_id', id)
+
+        if (error) {
+            console.log(error);
+            return false;
+        }
+        else {
+            console.log(data.length);
+            if (data.length > 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    async function handleApplyJob() {
+        if (props.user == null) {
+            router.push('/signup?continue=/job?id=' + id)
+            return
+        }
+        if (!await checkifSeekerisRegistered()) {
+            alert("Please register as a seeker to apply for a job")
+            return
+        }
+        if (await checkifSeekerisAlreadyApplied()) {
+            alert("Already Applied!!")
+            return
+        }
+        else {
+            const { data: seekerData, error: seekerError } = await supabase
+                .from('Seekers')
+                .select()
+                .eq('unique_id', props.user?.id)
+                .single()
+
+
+            if (seekerError) {
+                console.error('Error fetching Seeker:', seekerError.message);
+                return;
+            }
+
+            if (!seekerData) {
+                console.error('Seeker not found');
+                return;
+            }
+
+
+            const { data, error } = await supabase
+                .from('Applicants')
+                .insert({ job_id: id, name: seekerData.name })
+
+            if (error) {
+                console.log(error);
+            }
+            else
+                alert("Applied for the job!");
+            console.log(data);
+        }
+    }
 
     useEffect(() => {
         async function fetchJob() {
@@ -61,7 +151,7 @@ export default function JobDescription(props) {
                 <div className="">
                     <div className="flex gap-6">
                         <SaveButton user={props.user?.id} id={id}></SaveButton>
-                        <Button user={props.user?.id} id={id}></Button>
+                        <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14" >Apply</button>
                     </div>
                 </div>
             </div>
@@ -74,7 +164,7 @@ export default function JobDescription(props) {
                 </div>
                 <div className="flex gap-2 mt-6">
                     <SaveButton user={props.user?.id} id={id}></SaveButton>
-                    <Button user={props.user?.id} id={id}></Button>
+                    <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14" >Apply</button>
                 </div>
             </div>
             <div className="flex flex-col-reverse lg:flex-row lg:flex justify-between px-6 lg:px-20 pb-20">
