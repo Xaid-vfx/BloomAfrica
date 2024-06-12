@@ -11,9 +11,9 @@ async function checkIfUserExists(id: string | undefined) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
     const { data, error } = await supabase
-        .from('Seekers')
+        .from('Recruiters')
         .select()
-        .eq('unique_id', id)
+        .eq('uniqueid', id)
         .single()
 
     if (error) { console.log(error); }
@@ -26,7 +26,7 @@ export default async function CompleteRecruiterProfile() {
     const result = await checkIfUserExists(user?.id)
     console.log(result);
 
-    if (result?.unique_id) {
+    if (result?.uniqueid) {
         redirect('/recruiter')
     }
 
