@@ -10,7 +10,7 @@ export default function Banner() {
     return (
         <div className="">
             <h1 className="hidden lg:block text-center font-semibold">
-                Endorsed by experts in leading Institutions & Organizations
+                Supported by Researchers at
             </h1>
             <h1 className="lg:hidden text-[#7C8493] text-sm text-center font-medium">
                 Supported by Researchers at
