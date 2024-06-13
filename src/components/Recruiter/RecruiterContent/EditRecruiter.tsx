@@ -168,11 +168,11 @@ export default function EditRecruiter(props: Props) {
                         <div className="my-6">
                             <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-full">
                                 <div className="">
-                                    <h2 className="mb-1 text-sm font-medium ">Company Name</h2>
+                                    <h2 className="mb-1 text-sm font-medium ">Employer Name</h2>
                                     <input onChange={(e) => { setcname(e.target.value); setshowSave2(true) }} value={cname} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
                                 <div className="">
-                                    <h2 className="mb-1 text-sm font-medium ">Type</h2>
+                                    <h2 className="mb-1 text-sm font-medium ">Position in Company</h2>
                                     <input onChange={(e) => { setctype(e.target.value); setshowSave2(true) }} value={ctype} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
 
