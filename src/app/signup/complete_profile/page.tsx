@@ -9,8 +9,6 @@ import { redirect } from "next/navigation";
 async function checkIfUserExists(id: string) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
-    console.log("Inside function")
-    console.log(id);
     const { data, error } = await supabase
         .from('Seekers')
         .select()
@@ -22,24 +20,31 @@ async function checkIfUserExists(id: string) {
     return data;
 }
 
-export default async function CompleteProfile() {
+export default async function CompleteProfile({
+    params,
+    searchParams,
+}: {
+    params: { slug: string };
+    searchParams?: { [key: string]: string | string[] | undefined };
+}) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
     const session = await supabase.auth.getSession();
 
     const user = session.data.session?.user
-    console.log(user);
 
     const result = await checkIfUserExists(await user?.id)
 
     if (await result) {
-        redirect('/all-jobs')
+        if (searchParams?.continue != "null")
+            redirect('/all-jobs' + searchParams?.continue)
+        else redirect('/all-jobs')
     }
     else {
         return (
             <div className="flex h-screen">
                 <LeftColomn />
-                <RightColumnSeeker />
+                <RightColumnSeeker redirectUrl={searchParams?.continue} />
             </div>
         )
     }
