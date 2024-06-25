@@ -19,7 +19,7 @@ export default function Post(props) {
     const [res, setres] = useState("")
     const [wya, setwya] = useState("")
     const [extras, setextras] = useState("")
-    const [deadline, setdeadline] = useState("")
+    // const [deadline, setdeadline] = useState("")
     const [minsalary, setminsalary] = useState("")
     const [maxsalary, setmaxsalary] = useState("")
     const [skills, setskills] = useState("")
@@ -33,7 +33,7 @@ export default function Post(props) {
 
     async function handleSubmit() {
         // Check if any parameter is empty
-        if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration || !deadline) {
+        if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration) {
             setErrorMessage("Please fill in all fields");
             return;
         }
@@ -48,7 +48,7 @@ export default function Post(props) {
 
             const { data, error } = await supabase
                 .from('Jobs')
-                .upsert({ title, description: desc, type, category, location: loc, responsibilities: res, who_we_are: wya, minsalary: minsalary, maxsalary: maxsalary, skills, duration, deadline, companylogo: recruiterdata.logo });
+                .upsert({ title, description: desc, type, category, location: loc, responsibilities: res, who_we_are: wya, minsalary: minsalary, maxsalary: maxsalary, skills, duration, companylogo: recruiterdata.logo });
 
             if (error) {
                 setErrorMessage("An error occurred while posting the job.");
@@ -65,7 +65,6 @@ export default function Post(props) {
                 setwya("");
                 setskills("");
                 setduration("");
-                setdeadline("");
                 setminsalary("");
                 setmaxsalary("");
                 setextras("");
@@ -144,10 +143,6 @@ export default function Post(props) {
                                 </select>
                             </div>
                             <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Application Deadline Date *</p>
-                                <input value={deadline} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="date" onChange={(e) => { setdeadline(e.target.value) }} />
-                            </div>
-                            <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Min Salary {"(Optional)"}</p>
                                 <input value={minsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Minimum Salary" onChange={(e) => { setminsalary(e.target.value) }} />
                             </div>
@@ -167,7 +162,7 @@ export default function Post(props) {
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Required Skills*</p>
-                                <input value={skills} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Required Skills" type="text" onChange={(e) => { setskills(e.target.value) }} />
+                                <input value={skills} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Required Skills E.g.  Mathematics, English language, Sales" type="text" onChange={(e) => { setskills(e.target.value) }} />
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Job Location *</p>

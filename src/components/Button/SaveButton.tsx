@@ -1,6 +1,7 @@
 "use client"
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 type Props = {
@@ -11,7 +12,7 @@ type Props = {
 export default function SaveButton(props: Props) {
     const supabase = createClientComponentClient()
     const [saved, setsaved] = useState(false)
-
+    const router = useRouter()
 
     async function checkifSeekerisRegistered() {
         console.log(props.user);
@@ -65,6 +66,10 @@ export default function SaveButton(props: Props) {
     }
 
     async function handleApplyJob() {
+        if (props.user == null) {
+            router.push('/signup?continue=/job?id=' + props.id)
+            return
+        }
         if (!await checkifSeekerisRegistered()) {
             alert("Please register as a seeker to Save this job")
             return

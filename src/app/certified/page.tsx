@@ -29,7 +29,7 @@ export default function About() {
                     </p>
                     <div className="bg-[#4A2C84] font-semibold text-sm text-white rounded-full px-6 py-4">Explore courses</div>
                 </div>
-                <div className="hidden lg:block lg:w-[40%] justify-center py-6 bg-[#C8AFEC]">
+                <div className="hidden lg:flex lg:w-[40%] justify-center py-6 bg-[#C8AFEC]">
                     <Image src={Woman} alt="woman" width={400} />
                 </div>
                 <Image src={WomanMobile} alt="woman" className=" lg:hidden" />
