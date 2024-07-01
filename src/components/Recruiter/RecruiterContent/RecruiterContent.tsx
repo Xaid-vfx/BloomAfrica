@@ -13,6 +13,8 @@ import { BiHomeAlt2 } from "react-icons/bi";
 import { PiBuildings } from "react-icons/pi";
 import Bloom from '../../../assets/images/BloomLogo.png'
 import { LuClipboardList } from "react-icons/lu";
+import ChatClient from "../../Chat/Chat";
+import Messages from "../Messages/Messages";
 
 type Props = {
     user: any
@@ -111,6 +113,7 @@ export default function RecruiterContent(props: Props) {
                 {currTabIndex == 4 ? <Post user={props.user} handleChangeTabIndex={(e: any) => {
                     handleChangeTabIndex(e)
                 }} /> : ""}
+                {currTabIndex == 5 ? <Messages user={props.user} recruiter={props.recruiter} /> : ""}
             </div>
         </div>
     )
