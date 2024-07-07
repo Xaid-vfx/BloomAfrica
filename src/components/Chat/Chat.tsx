@@ -3,12 +3,13 @@ import { useEffect, useState, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { IoMdSend } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa6";
+import { IoChevronBackCircle } from "react-icons/io5";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const client = createClient(supabaseUrl, supabaseAnonKey);
 
-export default function ChatClient({ sender, receiver, conversation_id }) {
+export default function ChatClient({ back, sender, receiver, conversation_id }) {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const messagesEndRef = useRef(null);
@@ -99,8 +100,9 @@ export default function ChatClient({ sender, receiver, conversation_id }) {
     }
 
     return (
-        <div className="h-full w-3/4 flex flex-col bg-[#ededed]">
-            <div className="flex flex-col justify-center items-center bg-white py-6 px-4 font-medium">
+        <div className="h-full w-full lg:w-3/4 flex flex-col bg-[#ededed]">
+            <div className="flex lg:justify-center gap-4 items-center bg-white py-4 lg:py-6 px-4 font-medium">
+                <IoChevronBackCircle onClick={() => { back() }} className="cursor-pointer text-2xl" />
                 <p className="">{receiver.Seekers?.name}{receiver.Recruiters?.name}</p>
             </div>
             <div ref={messagesEndRef} className="overflow-scroll h-full">
