@@ -47,7 +47,7 @@ export default function SeekerMessages(props) {
     }, [])
     return (
         <div className="lg:px-8 lg:py-8 flex w-full h-full lg:bg-[#F5F5F5] overflow-scroll">
-            <div className={`${showChat ? 'w-[40%]' : 'w-full'}  bg-white p-4`}>
+            <div className={`${showChat ? 'w-[40%] hidden lg:block' : 'w-full'}  bg-white p-4`}>
                 {props.relations?.map((relation) => {
                     return (
                         <div onClick={() => {
@@ -70,7 +70,9 @@ export default function SeekerMessages(props) {
                     )
                 })}
             </div>
-            {showChat && <ChatClient sender={props.user} receiver={selectedUser} conversation_id={selectedConvo} />}
+            {showChat && <ChatClient back={() => {
+                setshowChat(false)
+            }} sender={props.user} receiver={selectedUser} conversation_id={selectedConvo} />}
         </div>
     )
 }
