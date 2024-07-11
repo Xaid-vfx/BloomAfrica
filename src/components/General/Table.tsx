@@ -9,9 +9,10 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Image from 'next/image';
 import User from '../../assets/images/user.jpg'
+import { DialogDemo } from '../Modal/Modal';
 
 interface Column {
-    id: 'name' | 'status' | 'date' | 'action';
+    id: 'name' | 'status' | 'date' | 'action' | 'chat';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -30,6 +31,13 @@ const columns: readonly Column[] = [
     {
         id: 'action',
         label: 'ACTION',
+        minWidth: 170,
+        align: 'center',
+        format: (value: number) => value.toLocaleString('en-US'),
+    },
+    {
+        id: 'chat',
+        label: 'Chat applicant',
         minWidth: 170,
         align: 'center',
         format: (value: number) => value.toLocaleString('en-US'),
@@ -150,6 +158,11 @@ export default function StickyHeadTable(props: any) {
                                                         }} className='bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
                                                             View Application</div>
                                                     </div> : ""}
+                                                    {column.id === 'chat' ? <div className='flex justify-center'>
+                                                        <DialogDemo seeker_id={row.uid} name={row.name} user_id={props.user.id} />
+                                                    </div> : ""
+                                                    }
+
                                                 </TableCell>
                                             );
                                         })}
