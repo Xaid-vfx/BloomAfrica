@@ -130,7 +130,10 @@ export default function Listing(props: Props) {
                                                     <div className="text-[#7C8493] text-sm">Date Applied</div>
                                                     <div>{job.created_at.substring(0, job.created_at.indexOf('T'))}</div>
                                                     <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-                                                    <button onClick={() => { fetchApplicantDetails(job.seeker_id) }} className="text-sm text-white px-4 rounded-full py-2 bg-[#4A2C84]">View Application</button>
+                                                    <div className="flex gap-2">
+                                                        <button onClick={() => { fetchApplicantDetails(job.seeker_id) }} className="text-sm text-white px-4 rounded-full py-2 bg-[#4A2C84]">View Application</button>
+                                                        <DialogDemo />
+                                                    </div>
                                                 </div>
                                             )
                                         })}

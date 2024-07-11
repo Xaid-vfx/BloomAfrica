@@ -102,7 +102,7 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
     return (
         <div className="h-full w-full lg:w-3/4 flex flex-col bg-[#ededed]">
             <div className="flex lg:justify-center gap-4 items-center bg-white py-4 lg:py-6 px-4 font-medium">
-                <IoChevronBackCircle onClick={() => { back() }} className="cursor-pointer text-2xl" />
+                <IoChevronBackCircle onClick={() => { back() }} className="lg:hidden cursor-pointer text-2xl" />
                 <p className="">{receiver.Seekers?.name}{receiver.Recruiters?.name}</p>
             </div>
             <div ref={messagesEndRef} className="overflow-scroll h-full">
@@ -116,7 +116,7 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
                 ))}
                 <div ref={newMessageRef} />
             </div>
-            <div className="w-full flex bg-white border">
+            <div className="lg:w-full flex bg-white border m-1 lg:m-0">
                 <input
                     value={message}
                     placeholder="Write a message"

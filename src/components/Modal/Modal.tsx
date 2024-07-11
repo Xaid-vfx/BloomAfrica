@@ -78,11 +78,11 @@ export function DialogDemo(props) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div className='bg-[#E9EBFD] cursor-pointer text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
+                <div className='bg-[#E9EBFD] text-sm font-medium cursor-pointer text-[#4A2C84] px-4 py-2 lg:font-semibold rounded-3xl'>
                     Send a message
                 </div>
             </DialogTrigger>
-            <DialogContent className="w-[50%] max-w-none">
+            <DialogContent className="lg:w-[50%] w-[80%] max-w-none">
                 <DialogHeader>
                     <DialogTitle>Send a Message to {props.name}</DialogTitle>
                 </DialogHeader>
