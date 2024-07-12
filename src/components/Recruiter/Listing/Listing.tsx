@@ -118,21 +118,21 @@ export default function Listing(props: Props) {
                                     <p onClick={() => { setshowJobApplications(false) }} className="mb-4 hover:underline cursor-pointer text-sm flex items-center gap-1"><IoMdArrowRoundBack className="text-xl" />Back to Job listings</p>
                                     <p className="lg:hidden text-lg font-semibold">All Applicants</p>
                                     <div className="lg:hidden my-4 flex flex-col gap-4">
-                                        {applications && applications.map((job: any) => {
+                                        {applications && applications.map((app: any) => {
                                             return (
                                                 <div className="border rounded-md px-5 py-4 bg-white">
                                                     <div className="">
-                                                        <p className="font-semibold ">{job?.name}</p>
+                                                        <p className="font-semibold ">{app?.name}</p>
                                                         <div className="text-sm my-1 text-[#4A2C84] flex item gap-1">Product Designer </div>
                                                         <div className="text-sm text-[#7C8493] flex item gap-1">Yaba, Lagos </div>
                                                     </div>
                                                     <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                                                     <div className="text-[#7C8493] text-sm">Date Applied</div>
-                                                    <div>{job.created_at.substring(0, job.created_at.indexOf('T'))}</div>
+                                                    <div>{app.created_at.substring(0, app.created_at.indexOf('T'))}</div>
                                                     <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                                                     <div className="flex gap-2">
-                                                        <button onClick={() => { fetchApplicantDetails(job.seeker_id) }} className="text-sm text-white px-4 rounded-full py-2 bg-[#4A2C84]">View Application</button>
-                                                        <DialogDemo />
+                                                        <button onClick={() => { fetchApplicantDetails(app.seeker_id) }} className="text-sm text-white px-4 rounded-full py-2 bg-[#4A2C84]">View Application</button>
+                                                        <DialogDemo seeker_id={app.seeker_id} name={app.name} user_id={props.user.id} />
                                                     </div>
                                                 </div>
                                             )
