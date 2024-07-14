@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { TagsInput } from "react-tag-input-component";
 
 export default function Post(props) {
     const [title, settitle] = useState("")
@@ -22,8 +23,12 @@ export default function Post(props) {
     // const [deadline, setdeadline] = useState("")
     const [minsalary, setminsalary] = useState("")
     const [maxsalary, setmaxsalary] = useState("")
-    const [skills, setskills] = useState("")
+    const [skills, setskills] = useState([])
     const [duration, setduration] = useState("")
+    const [paymenttype, setpaymenttype] = useState("")
+    const [signupfee, setsignupfee] = useState("")
+    const [accomodation, setaccomodation] = useState("")
+
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -48,7 +53,7 @@ export default function Post(props) {
 
             const { data, error } = await supabase
                 .from('Jobs')
-                .upsert({ title, description: desc, type, category, location: loc, responsibilities: res, who_we_are: wya, minsalary: minsalary, maxsalary: maxsalary, skills, duration, companylogo: recruiterdata.logo });
+                .upsert({ title, description: desc, type, category, location: loc, responsibilities: res, who_we_are: wya, minsalary: minsalary, maxsalary: maxsalary, skills, duration, company_logo: recruiterdata.logo, payment_type: paymenttype, accomodation: accomodation, signup_fee: signupfee });
 
             if (error) {
                 setErrorMessage("An error occurred while posting the job.");
@@ -63,7 +68,7 @@ export default function Post(props) {
                 setloc("");
                 setres("");
                 setwya("");
-                setskills("");
+                setskills([]);
                 setduration("");
                 setminsalary("");
                 setmaxsalary("");
@@ -143,12 +148,14 @@ export default function Post(props) {
                                 </select>
                             </div>
                             <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Min Salary {"(Optional)"}</p>
-                                <input value={minsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Minimum Salary" onChange={(e) => { setminsalary(e.target.value) }} />
-                            </div>
-                            <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Max Salary {"(Optional)"}</p>
-                                <input value={maxsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Maximum Salary" onChange={(e) => { setmaxsalary(e.target.value) }} />
+                                <p className="font-[550] text-lg my-1">Do you provide accomodation?</p>
+                                <select value={accomodation} onChange={(e) => {
+                                    setaccomodation(e.target.value)
+                                }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
+                                    <option>Select</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
                             </div>
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Type *</p>
@@ -161,16 +168,55 @@ export default function Post(props) {
                                 </select>
                             </div>
                             <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Required Skills*</p>
-                                <input value={skills} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Required Skills E.g.  Mathematics, English language, Sales" type="text" onChange={(e) => { setskills(e.target.value) }} />
-                            </div>
-                            <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Job Location *</p>
                                 <input value={loc} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Location" type="text" onChange={(e) => { setloc(e.target.value) }} />
                             </div>
                             <div className="mt-2">
                                 <p className="font-[550] text-lg my-1">Duration *</p>
                                 <input value={duration} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Duration" type="text" onChange={(e) => { setduration(e.target.value) }} />
+                            </div>
+                            <div className="my-2">
+                                <p className="font-[550] text-lg my-1">Payment Type *</p>
+                                <select value={paymenttype} onChange={(e) => {
+                                    setpaymenttype(e.target.value)
+                                }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
+                                    <option>Select payment type</option>
+                                    <option value="Settlement">Settlement</option>
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Unpaid">Unpaid</option>
+                                </select>
+                            </div>
+                            {(paymenttype == "Settlement" || paymenttype == "Monthly") ?
+                                <>
+                                    <div className="mt-2">
+                                        <p className="font-[550] text-lg my-1">Minimum Salary {"(optional)"}</p>
+                                        <input value={minsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Minimum Salary" type="number" onChange={(e) => { setminsalary(e.target.value) }} />
+                                    </div>
+                                    <div className="mt-2">
+                                        <p className="font-[550] text-lg my-1">Maximum Salary {"(optional)"}</p>
+                                        <input value={maxsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Maximum Salary" type="number" onChange={(e) => { setmaxsalary(e.target.value) }} />
+                                    </div>
+                                </>
+                                : ""}
+                            <div className="mt-2">
+                                <p className="font-[550] text-lg my-1">Signup Fee {"(optional)"}</p>
+                                <input value={signupfee} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Signup Fee" type="number" onChange={(e) => {
+                                    console.log(e.target.value);
+                                    setsignupfee(e.target.value)
+                                }} />
+                            </div>
+                            <div className="mt-2">
+                                <p className="font-[550] text-lg my-1">Required Skills*</p>
+                                <TagsInput
+                                    value={skills}
+                                    onChange={setskills}
+                                    name="Skills"
+                                    placeHolder="Enter Required Skills"
+                                    classNames={{
+                                        input: '!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full',
+                                        tag: 'text-xs'
+                                    }}
+                                />
                             </div>
                         </div>
                     </div>
