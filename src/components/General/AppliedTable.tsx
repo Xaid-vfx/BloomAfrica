@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Image from 'next/image';
 import User from '../../assets/images/user.jpg'
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import PaymentComponent from '../Payment/Payment';
 
 interface Column {
     id: 'title' | 'location' | 'date' | 'action';
@@ -145,9 +146,20 @@ export default function AppliedTable(props: any) {
                                                     {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
                                                         <button className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
                                                             View Application</button>
+                                                        <PaymentComponent />
+                                                        {/* <button onClick={() => {
+                                                            props.startPayment(props.jobs[props.jobs.map(
+                                                                (job: any) => {
+                                                                    return job.id;
+                                                                }).indexOf(row.id)])
+                                                        }
+                                                        } className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
+                                                            Pay</button> */}
                                                         {/* <button onClick={() => { props.delete(row.id) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-3xl'>
                                                             Delete</button> */}
                                                     </div> : ""}
+
+
                                                 </TableCell>
                                             );
                                         })}
