@@ -44,6 +44,7 @@ interface Data {
     location: string;
     date: string;
     action: string;
+    signup_fee: number;
 }
 
 function createData(
@@ -52,9 +53,10 @@ function createData(
     location: string,
     date: string,
     action: string,
+    signup_fee: number
 ): Data {
 
-    return { id, title, location, date, action };
+    return { id, title, location, date, action, signup_fee };
 }
 
 // const rows = [
@@ -79,7 +81,7 @@ export default function AppliedTable(props: any) {
     console.log(props.jobs);
 
     const rows = [...props.jobs.map((job: any) => {
-        return createData(job.id, job.title, job.location, job.created_at.substring(0, job.created_at.indexOf('T')), "...");
+        return createData(job.id, job.title, job.location, job.created_at.substring(0, job.created_at.indexOf('T')), "...", job.signup_fee);
     })];
 
     rows.sort((a, b) => b.id - a.id);
@@ -146,7 +148,9 @@ export default function AppliedTable(props: any) {
                                                     {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
                                                         <button className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
                                                             View Application</button>
-                                                        <PaymentComponent />
+                                                        {
+                                                            row.signup_fee > 0 ? <PaymentComponent /> : ""
+                                                        }
                                                         {/* <button onClick={() => {
                                                             props.startPayment(props.jobs[props.jobs.map(
                                                                 (job: any) => {
@@ -158,7 +162,6 @@ export default function AppliedTable(props: any) {
                                                         {/* <button onClick={() => { props.delete(row.id) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-3xl'>
                                                             Delete</button> */}
                                                     </div> : ""}
-
 
                                                 </TableCell>
                                             );
