@@ -118,108 +118,108 @@ export default function Post(props) {
                             <p className="font-[550] text-lg my-1">Who we are *</p>
                             <textarea value={wya} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Who we are" onChange={(e) => { setwya(e.target.value) }}></textarea>
                         </div>
-
-                        {/* <div className="my-1">
+                    </div>
+                    {/* <div className="my-1">
                             <p className="font-semibold text-lg my-1">Job Type *</p>
                             <input value="" className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Select Job Type" onChange={(e) => { settype(e.target.value) }} />
                         </div> */}
 
-                        <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                    <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
 
-                        <h1 className="text-2xl font-semibold text-[#4A2C84]">Information</h1>
+                    <h1 className="text-2xl font-semibold text-[#4A2C84]">Information</h1>
 
 
-                        <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-4">
-                            <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Job Category *</p>
-                                <select value={category} onChange={(e) => {
-                                    setcategory(e.target.value)
-                                }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                    <option>Select category</option>
-                                    <option value="Technology">Technology</option>
-                                    <option value="Electrical Engineering">Electrical Engineering</option>
-                                    <option value="Mechanical Engineering">Mechanical Engineering</option>
-                                    <option value="Construction & Civil Engineering">Construction & Civil Engineering</option>
-                                    <option value="Business & Entreprenuership">Business & Entreprenuership</option>
-                                    <option value="Cosmetology">Cosmetology</option>
-                                    <option value="Hospitality">Hospitality</option>
-                                    <option value="Fashion">Fashion</option>
-                                    <option value="Food & Cullinary">Food & Cullinary</option>
-                                </select>
-                            </div>
-                            <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Do you provide accomodation?</p>
-                                <select value={accomodation} onChange={(e) => {
-                                    setaccomodation(e.target.value)
-                                }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                    <option>Select</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                            <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Type *</p>
-                                <select value={type} onChange={(e) => {
-                                    settype(e.target.value)
-                                }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                    <option>Select type</option>
-                                    <option value="Full Time">Full Time</option>
-                                    <option value="Part Time">Part Time</option>
-                                </select>
-                            </div>
-                            <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Job Location *</p>
-                                <input value={loc} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Location" type="text" onChange={(e) => { setloc(e.target.value) }} />
-                            </div>
-                            <div className="mt-2">
-                                <p className="font-[550] text-lg my-1">Duration *</p>
-                                <input value={duration} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Duration" type="text" onChange={(e) => { setduration(e.target.value) }} />
-                            </div>
-                            <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Payment Type *</p>
-                                <select value={paymenttype} onChange={(e) => {
-                                    setpaymenttype(e.target.value)
-                                }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                    <option>Select payment type</option>
-                                    <option value="Settlement">Settlement</option>
-                                    <option value="Monthly">Monthly</option>
-                                    <option value="Unpaid">Unpaid</option>
-                                </select>
-                            </div>
-                            {(paymenttype == "Settlement" || paymenttype == "Monthly") ?
-                                <>
-                                    <div className="mt-2">
-                                        <p className="font-[550] text-lg my-1">Minimum Salary {"(optional)"}</p>
-                                        <input value={minsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Minimum Salary" type="number" onChange={(e) => { setminsalary(e.target.value) }} />
-                                    </div>
-                                    <div className="mt-2">
-                                        <p className="font-[550] text-lg my-1">Maximum Salary {"(optional)"}</p>
-                                        <input value={maxsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Maximum Salary" type="number" onChange={(e) => { setmaxsalary(e.target.value) }} />
-                                    </div>
-                                </>
-                                : ""}
-                            <div className="mt-2">
-                                <p className="font-[550] text-lg my-1">Signup Fee {"(optional)"}</p>
-                                <input value={signupfee} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Signup Fee" type="number" onChange={(e) => {
-                                    console.log(e.target.value);
-                                    setsignupfee(e.target.value)
-                                }} />
-                            </div>
-                            <div className="mt-2">
-                                <p className="font-[550] text-lg my-1">Required Skills*</p>
-                                <TagsInput
-                                    value={skills}
-                                    onChange={setskills}
-                                    name="Skills"
-                                    placeHolder="Enter Required Skills"
-                                    classNames={{
-                                        input: '!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full',
-                                        tag: 'text-xs'
-                                    }}
-                                />
-                            </div>
+                    <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-4">
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Job Category *</p>
+                            <select value={category} onChange={(e) => {
+                                setcategory(e.target.value)
+                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
+                                <option>Select category</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Electrical Engineering">Electrical Engineering</option>
+                                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                <option value="Construction & Civil Engineering">Construction & Civil Engineering</option>
+                                <option value="Business & Entreprenuership">Business & Entreprenuership</option>
+                                <option value="Cosmetology">Cosmetology</option>
+                                <option value="Hospitality">Hospitality</option>
+                                <option value="Fashion">Fashion</option>
+                                <option value="Food & Cullinary">Food & Cullinary</option>
+                            </select>
+                        </div>
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Do you provide accomodation?</p>
+                            <select value={accomodation} onChange={(e) => {
+                                setaccomodation(e.target.value)
+                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
+                                <option>Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Type *</p>
+                            <select value={type} onChange={(e) => {
+                                settype(e.target.value)
+                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
+                                <option>Select type</option>
+                                <option value="Full Time">Full Time</option>
+                                <option value="Part Time">Part Time</option>
+                            </select>
+                        </div>
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Job Location *</p>
+                            <input value={loc} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Location" type="text" onChange={(e) => { setloc(e.target.value) }} />
+                        </div>
+                        <div className="mt-2">
+                            <p className="font-[550] text-lg my-1">Duration *</p>
+                            <input value={duration} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Duration" type="text" onChange={(e) => { setduration(e.target.value) }} />
+                        </div>
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Payment Type *</p>
+                            <select value={paymenttype} onChange={(e) => {
+                                setpaymenttype(e.target.value)
+                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
+                                <option>Select payment type</option>
+                                <option value="Settlement">Settlement</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Unpaid">Unpaid</option>
+                            </select>
+                        </div>
+                        {(paymenttype == "Settlement" || paymenttype == "Monthly") ?
+                            <>
+                                <div className="mt-2">
+                                    <p className="font-[550] text-lg my-1">Minimum Salary {"(optional)"}</p>
+                                    <input value={minsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Minimum Salary" type="number" onChange={(e) => { setminsalary(e.target.value) }} />
+                                </div>
+                                <div className="mt-2">
+                                    <p className="font-[550] text-lg my-1">Maximum Salary {"(optional)"}</p>
+                                    <input value={maxsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Maximum Salary" type="number" onChange={(e) => { setmaxsalary(e.target.value) }} />
+                                </div>
+                            </>
+                            : ""}
+                        <div className="mt-2">
+                            <p className="font-[550] text-lg my-1">Signup Fee {"(optional)"}</p>
+                            <input value={signupfee} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Signup Fee" type="number" onChange={(e) => {
+                                console.log(e.target.value);
+                                setsignupfee(e.target.value)
+                            }} />
+                        </div>
+                        <div className="mt-2">
+                            <p className="font-[550] text-lg my-1">Required Skills*</p>
+                            <TagsInput
+                                value={skills}
+                                onChange={setskills}
+                                name="Skills"
+                                placeHolder="Enter Required Skills"
+                                classNames={{
+                                    input: '!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full',
+                                    tag: 'text-xs'
+                                }}
+                            />
                         </div>
                     </div>
+
                 </div>
                 {errorMessage && <p className="text-red-500 text-sm mt-4">{errorMessage}</p>}
                 <button
