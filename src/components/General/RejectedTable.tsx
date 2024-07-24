@@ -93,11 +93,11 @@ function createData(
 //     createData('Brazil', 'BR', 210147125, 8515767),
 // ];
 
-export default function StickyHeadTable(props: any) {
+export default function RejectedTable(props: any) {
     console.log(props.applications);
 
     const rows = [...props.applications.map((app: any) => {
-        return createData(app.unique_id, app.name, app.status, app.created_at.substring(0, app.created_at.indexOf('T')), "View", app.seeker_id);
+            return createData(app.unique_id, app.name, app.status, app.created_at.substring(0, app.created_at.indexOf('T')), "View", app.seeker_id);
     })];
 
     rows.sort((a, b) => b.id - a.id);
@@ -117,7 +117,7 @@ export default function StickyHeadTable(props: any) {
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: 'none', borderRadius: '10px' }}>
             <TableContainer sx={{ maxHeight: 440 }}>
-                <div className='mt-6 mb-4 mx-10 text-xl font-semibold'>All Applicants</div>
+                <div className='mt-6 mb-4 mx-10 text-xl font-semibold'>Accepted Applicants</div>
                 <hr className='w-full' />
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -140,12 +140,11 @@ export default function StickyHeadTable(props: any) {
                     </TableHead>
 
                     <TableBody>
-                        {rows
-                            ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        {rows.length > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                                 return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                        {columns.map((column) => {
+                                        {columns?.map((column) => {
                                             const value = row[column.id];
                                             return (
                                                 <TableCell key={column.id} align={column.align}>
@@ -163,14 +162,7 @@ export default function StickyHeadTable(props: any) {
                                                     {column.id === 'date' ? <div className='text-base text-[#7C8493]'>{value}</div> : ""}
 
                                                     {column.id === 'status' ? <div className='text-base'>
-                                                        <DropdownMenu>
-                                                            <DropdownMenuTrigger className='px-4 py-2 text-[#97999B] border text-sm gap-2 rounded-3xl flex items-center'>Update Status <PiCaretUpDownFill className="text-base" /></DropdownMenuTrigger>
-                                                            <DropdownMenuContent>
-                                                                <DropdownMenuItem onClick={() => { props.updateStatus('accepted', row.id) }} className='py-1'>Accept</DropdownMenuItem>
-                                                                <DropdownMenuSeparator />
-                                                                <DropdownMenuItem onClick={() => { props.updateStatus('rejected', row.id) }} className='py-1'>Reject</DropdownMenuItem>
-                                                            </DropdownMenuContent>
-                                                        </DropdownMenu></div> : ""}
+                                                        Unpaid</div> : ""}
 
                                                     {column.id === 'action' ? <div className='flex justify-center'>
                                                         <div onClick={() => {
@@ -189,7 +181,7 @@ export default function StickyHeadTable(props: any) {
                                         })}
                                     </TableRow>
                                 );
-                            })}
+                            }) : ""}
                     </TableBody>
                 </Table>
             </TableContainer>
