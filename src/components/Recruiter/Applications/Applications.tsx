@@ -38,7 +38,7 @@ export default function Applications(props: any) {
             <p onClick={() => { props.setshowJobApplications(false); }} className="mb-4 hover:underline cursor-pointer text-sm flex items-center gap-1">
                 <IoMdArrowRoundBack className="text-xl" />Back to Job listings
             </p>
-            <p className="lg:hidden text-lg font-semibold">All Applicants</p>
+            <p className="lg:hidden text-lg font-semibold">All Applicant</p>
             <div className="lg:hidden my-4 flex flex-col gap-4">
                 {props.applications && props.applications.map((app: any) => {
                     return (
