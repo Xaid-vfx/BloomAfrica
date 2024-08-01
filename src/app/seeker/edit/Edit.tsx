@@ -174,7 +174,7 @@ export default function EditSeeker(props: Props) {
                                         <option>Select your state</option>
                                         {
                                             stateList.map((state) => {
-                                                return <option className="bg-[#4A2C84] my-4" value={state.name}>{state.name}</option>
+                                                return <option className="my-4" value={state.name}>{state.name}</option>
                                             })
                                         }
                                     </select>
