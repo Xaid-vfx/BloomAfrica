@@ -97,7 +97,7 @@ export default function Navbar(props: { color: string }) {
           <div className="hidden text-[16px] lg:flex lg:pl-10 pr-10 min-w-max">
             <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2 hover:border-purple-800 transition-all`}>Home</a>
             <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>About</a>
-            <a href="/signup" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>Recruiting? <span className="text-[#4A2C84]">Post a Job</span></a>
+            <a href="/signup?type=recruiter" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>Recruiting? <span className="text-[#4A2C84]">Post a Job</span></a>
             <a href="/certified" className={`${currentPage == "certified" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>Get Certified</a>
             <p className="text-white bg-[#897DD3] rounded-full px-1 py-1 right-0 text-[0.5rem] absolute top-0">Coming Soon</p>
 
