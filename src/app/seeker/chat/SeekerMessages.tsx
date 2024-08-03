@@ -10,6 +10,38 @@ export default function SeekerMessages(props) {
     const [selectedUser, setselectedUser] = useState()
     const [selectedConvo, setselectedConvo] = useState()
 
+    function convertToLocalTime(utcTimeStr) {
+        // Extract hours and minutes from the input string
+        const match = utcTimeStr.match(/(\d{1,2}):(\d{2})\s*([AaPp][Mm])/);
+
+        if (!match) {
+            return "Invalid time format";
+        }
+
+        let [, hours, minutes, period] = match;
+
+        hours = parseInt(hours, 10);
+        minutes = parseInt(minutes, 10);
+
+        // Convert 12-hour format to 24-hour format
+        if (period.toLowerCase() === "pm" && hours !== 12) {
+            hours += 12;
+        } else if (period.toLowerCase() === "am" && hours === 12) {
+            hours = 0;
+        }
+
+        // Create a Date object using the extracted hours and minutes in UTC
+        const now = new Date();
+        const utcDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hours, minutes));
+
+        // Convert the UTC date to the local time
+        const localDate = new Date(utcDate.toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
+
+        // Format the local time in 12-hour format with am/pm
+        const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+        return localDate.toLocaleString('en-US', options);
+    }
+
     function formatTimestamp(timestamp) {
         const date = new Date(timestamp);
         const now = new Date();
@@ -61,7 +93,7 @@ export default function SeekerMessages(props) {
                             <div className="w-full">
                                 <div className="flex justify-between w-full">
                                     <p className="font-semibold text-sm">{relation?.conversations?.conversation_participants[0].Recruiters.name}</p>
-                                    <p className="text-xs mt-1 text-[#7C8493]">{formatTimestamp(relation?.conversations?.last_message_timestamp)}</p>
+                                    <p className="text-xs mt-1 text-[#7C8493]">{convertToLocalTime(formatTimestamp(relation?.conversations?.last_message_timestamp))}</p>
                                 </div>
                                 <p className="text-sm mt-1 text-[#515B6F]">{relation?.conversations?.last_message}</p>
                             </div>
