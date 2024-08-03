@@ -180,7 +180,7 @@ export default function StickyHeadTable(props: any) {
                                                             View Application</div>
                                                     </div> : ""}
                                                     {column.id === 'chat' ? <div className='flex justify-center'>
-                                                        <DialogDemo seeker_id={row.id} name={row.name} user_id={props.user.id} />
+                                                        <DialogDemo seeker_id={row.uid} name={row.name} user_id={props.user.id} />
                                                     </div> : ""
                                                     }
 

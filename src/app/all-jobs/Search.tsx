@@ -41,7 +41,7 @@ export default function Search() {
                 <input onKeyDown={(e) => { e.key == "Enter" ? handleSearch() : "" }} onChange={(e) => { setlocation(e.target.value) }} type="text" className="border-b-[1px] lg:mx-2 px-4 pt-2 pb-1 placeholder:text-sm mb-4 w-full text-sm  lg:shadow-none lg:mb-0 lg:rounded-r-none lg:placeholder:font-light placeholder:text-[#7C8493] lg:placeholder:text-sm lg:w-auto outline-none" placeholder="Lagos, Nigeria" />
             </div>
 
-            <button onClick={handleSearch} className="min-w-max text-white py-4 text-center bg-[#4A2C84] w-full  rounded-3xl font-semibold text-xs lg:text-sm lg:py-4 lg:px-10" >Search Job</button>
+            <button onClick={handleSearch} className="min-w-max text-white py-4 text-center bg-[#4A2C84] w-full  rounded-3xl font-semibold text-xs lg:text-sm lg:py-4 lg:px-10" >Search Apprenticeships</button>
 
         </div>
     )
