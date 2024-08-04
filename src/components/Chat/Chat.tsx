@@ -172,6 +172,8 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
         newMessageRef.current?.scrollIntoView({ behavior: "smooth" });
     }
 
+    const firstUnreadIndex = messages.findIndex((msg) => !msg.read);
+
     return (
         <div className="h-full w-full lg:w-3/4 flex flex-col bg-[#ededed]">
             <div className="flex lg:justify-center gap-4 items-center bg-white py-4 lg:py-6 px-4 font-medium">
@@ -179,14 +181,23 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
                 <p className="">{receiver.Seekers?.name}{receiver.Recruiters?.name}</p>
             </div>
             <div ref={messagesEndRef} className="overflow-scroll h-full">
-                {messages.map((e, index) => (
-                    <div key={index} className={`px-4 my-3 w-full flex flex-col ${e.sender_id !== sender.id ? '' : 'items-end'}`}>
-                        <p className={`w-fit flex gap-3 text-sm  px-4 bg-white border ${e.sender_id !== sender.id ? 'rounded-e-2xl rounded-b-2xl' : 'rounded-s-2xl rounded-b-2xl'} `}>
-                            <p className="py-2">{e.text}</p>
-                            <p className="text-[.6rem] text-right pt-4 pb-0 text-[#7C8493]">{convertToLocalTime(formatTodayTime(e.created_at))}</p>
-                        </p>
-                    </div>
-                ))}
+                {messages.map((e, index) => {
+                    return (
+                        <div key={index} className={`px-4 my-3 w-full flex flex-col ${e.sender_id !== sender.id ? '' : 'items-end'}`}>
+                            {index === firstUnreadIndex && (
+                                <div className="flex items-center justify-center w-full my-2">
+                                    <hr className="flex-grow border-t border-gray-300" />
+                                    <span className="mx-2 text-gray-500 text-sm">Unread Messages</span>
+                                    <hr className="flex-grow border-t border-gray-300" />
+                                </div>
+                            )}
+                            <p className={`w-fit flex gap-3 text-sm  px-4 bg-white border ${e.sender_id !== sender.id ? 'rounded-e-2xl rounded-b-2xl' : 'rounded-s-2xl rounded-b-2xl'} `}>
+                                <p className="py-2">{e.text}</p>
+                                <p className="text-[.6rem] text-right pt-4 pb-0 text-[#7C8493]">{convertToLocalTime(formatTodayTime(e.created_at))}</p>
+                            </p>
+                        </div>
+                    )
+                })}
                 <div ref={newMessageRef} />
             </div>
             <div className="lg:w-full flex bg-white border m-1 lg:m-0">

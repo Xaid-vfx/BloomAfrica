@@ -79,10 +79,38 @@ export default function SeekerMessages(props) {
 
             if (error) {
                 console.error('Error fetching conversations:', error);
-            } else {
-                const sortedData = data.sort((a, b) => new Date(b.conversations.last_message_timestamp) - new Date(a.conversations.last_message_timestamp));
-                setrelations(sortedData);
+                return
             }
+            const sortedData = data.sort((a, b) => new Date(b.conversations.last_message_timestamp) - new Date(a.conversations.last_message_timestamp));
+            console.log(sortedData);
+
+            setrelations(sortedData);
+
+            // Fetch unread messages count for each conversation
+            await fetchUnreadMessagesCount(sortedData);
+        }
+
+        async function fetchUnreadMessagesCount(conversations) {
+            const updatedConversations = await Promise.all(conversations.map(async (relation) => {
+                const { data: unreadMessages, error } = await supabaseClient
+                    .from('messages')
+                    .select('id')
+                    .eq('conversation_id', relation.conversation_id)
+                    .eq('read', false)
+                    .eq('receiver_id', props.user.id);
+
+                if (error) {
+                    console.error('Error fetching unread messages:', error);
+                    return relation;
+                }
+
+                return {
+                    ...relation,
+                    unreadMessagesCount: unreadMessages.length,
+                };
+            }));
+
+            setrelations(updatedConversations);
         }
 
         fetchRelations();
@@ -101,6 +129,21 @@ export default function SeekerMessages(props) {
         };
     }, [props.user.id, supabaseClient]);
 
+    const handleChatClick = (relation) => {
+        setshowChat(true);
+        setselectedUser(relation?.conversations?.conversation_participants[0]);
+        setselectedConvo(relation?.conversation_id);
+
+        // Update unreadMessagesCount to 0 for the selected conversation
+        setrelations((prevRelations) =>
+            prevRelations.map((r) =>
+                r.conversation_id === relation.conversation_id
+                    ? { ...r, unreadMessagesCount: 0 }
+                    : r
+            )
+        );
+    };
+
     return (
         <div className="lg:px-8 lg:py-8 flex w-full h-full lg:bg-[#F5F5F5] overflow-scroll">
             <div className={`${showChat ? 'w-[40%] hidden lg:block' : 'w-full'}  bg-white p-4`}>
@@ -111,18 +154,19 @@ export default function SeekerMessages(props) {
                     const lm = relation?.conversations?.last_message;
 
                     return (
-                        <div onClick={() => {
-                            setshowChat(true);
-                            setselectedUser(relation?.conversations?.conversation_participants[0]);
-                            setselectedConvo(relation?.conversation_id);
-                        }} className={`flex items-center gap-4 text-black px-4 py-3 cursor-pointer ${check ? 'bg-[#E9EBFD]' : ''}  hover:bg-[#E9EBFD]`}>
+                        <div onClick={() => handleChatClick(relation)} className={`flex items-center gap-4 text-black px-4 py-3 cursor-pointer ${check ? 'bg-[#E9EBFD]' : ''}  hover:bg-[#E9EBFD]`}>
                             <FaRegUser className="text-2xl" />
                             <div className="w-full">
                                 <div className="flex justify-between w-full">
                                     <p className="font-semibold text-sm">{name}</p>
-                                    <p className="text-xs mt-1 text-[#7C8493]">{ts}</p>
+                                    <p className={`text-xs mt-1 ${relation.unreadMessagesCount > 0 ? 'font-semibold text-[#4A2C84]' : 'text-[#7C8493]'}`}>{ts}</p>
                                 </div>
-                                <p className="text-sm mt-1 text-[#515B6F]">{lm}</p>
+                                <div className="flex justify-between w-full items-center">
+                                    <p className="text-sm mt-1 text-[#515B6F]">{relation?.conversations?.last_message}</p>
+                                    {relation.unreadMessagesCount > 0 && (
+                                        <p className="text-[.55rem] mt-1 text-white bg-[#4A2C84] px-2 py-1 rounded-full">{relation.unreadMessagesCount}</p>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     );
