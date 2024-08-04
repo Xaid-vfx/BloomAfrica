@@ -8,6 +8,7 @@ import { PiBuildings } from "react-icons/pi";
 import { SignOut } from "@/lib/Signout/Signout";
 import { useRouter } from "next/navigation";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import UnreadMessagesDot from "@/components/UnreadMessagesDot/UnreadMessagesDot";
 
 type Props = {
     handleChangeTabIndex: any;
@@ -47,6 +48,7 @@ export default function Sidebar(props: Props) {
                     <div onClick={() => { props.handleChangeTabIndex(5) }} className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 5 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                         <IoChatboxEllipsesOutline className="text-xl" />
                         <p className="text-sm ">Messages</p>
+                        <UnreadMessagesDot userId={props.user?.id} />
                     </div>
                 </div>
                 <button onClick={() => { handleClickLogout() }} className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold ml-10 absolute bottom-10">Log out</button>

@@ -86,7 +86,7 @@ export default function RecruiterContent(props: Props) {
         <div className="flex">
             <Sidebar handleChangeTabIndex={(e: any) => {
                 handleChangeTabIndex(e)
-            }} currTabIndex={currTabIndex} />
+            }} currTabIndex={currTabIndex} user={props.user} />
 
             <div className="w-full flex flex-col h-screen">
                 <Header showNav={() => { setshowNav(true) }} currTabIndex={currTabIndex} handleChangeTabIndex={(e: any) => {
