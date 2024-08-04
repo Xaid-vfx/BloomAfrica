@@ -15,6 +15,8 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
     const [lastMessageTimestamp, setLastMessageTimestamp] = useState("");
     const messagesEndRef = useRef(null);
     const newMessageRef = useRef(null);
+    console.log(receiver.recruiter);
+
 
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
@@ -161,7 +163,7 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
     async function onSend() {
         const { data, error } = await client
             .from('messages')
-            .insert([{ text: message, sender_id: sender.id, conversation_id }]);
+            .insert([{ text: message, sender_id: sender.id, conversation_id, receiver_id: receiver?.seeker || receiver?.recruiter }]);
 
         if (error) console.error('Error sending message:', error);
         else {

@@ -60,7 +60,7 @@ export function DialogDemo(props) {
             // Insert the message
             const { data: messageData, error: messageError } = await supabase
                 .from('messages')
-                .insert([{ text: message, sender_id: props.user_id, conversation_id }]);
+                .insert([{ text: message, sender_id: props.user_id, conversation_id, receiver_id: props.seeker_id }]);
 
             if (messageError) throw messageError;
 

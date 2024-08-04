@@ -95,6 +95,8 @@ export default function Messages(props) {
                 console.error('Error fetching conversations:', error);
             } else {
                 const sortedData = data.sort((a, b) => new Date(b.conversations.last_message_timestamp) - new Date(a.conversations.last_message_timestamp));
+                console.log(sortedData);
+
                 setrelations(sortedData);
             }
         }
