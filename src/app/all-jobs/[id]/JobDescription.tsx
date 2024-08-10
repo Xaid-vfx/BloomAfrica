@@ -14,6 +14,7 @@ import TestComp from "./TestComp";
 import { Suspense, useEffect, useState } from "react";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { toast } from "sonner"
 
 async function getJob(userid: string) {
     const supabase = createClientComponentClient()
@@ -87,11 +88,11 @@ export default function JobDescription(props) {
             return
         }
         if (!await checkifSeekerisRegistered()) {
-            alert("Please register as a seeker to apply for a job")
+            toast("Please register as a seeker to apply for a job")
             return
         }
         if (await checkifSeekerisAlreadyApplied()) {
-            alert("Already Applied!!")
+            toast.error("Already Applied!")
             return
         }
         else {
@@ -121,7 +122,7 @@ export default function JobDescription(props) {
                 console.log(error);
             }
             else
-                alert("Applied for the job!");
+                toast.success("Applied for the job!");
             console.log(data);
         }
     }

@@ -11,10 +11,12 @@ export default function Messages(props) {
     const [supabaseClient] = useState(() => createClientComponentClient());
 
     function convertToLocalTime(utcTimeStr) {
+        console.log(utcTimeStr);
+
         const match = utcTimeStr.match(/(\d{1,2}):(\d{2})\s*([AaPp][Mm])/);
 
         if (!match) {
-            return "Invalid time format";
+            return utcTimeStr;
         }
 
         let [, hours, minutes, period] = match;

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 
 import { Open_Sans, Roboto_Mono, Montserrat } from 'next/font/google'
+import { Toaster } from '@/components/ui/sonner'
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -39,6 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.className} ${robotoMono.variable} font-sans` + inter.className}>{children}</body>
+      <Toaster />
     </html>
   )
 }
