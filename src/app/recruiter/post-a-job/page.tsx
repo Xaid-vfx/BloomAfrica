@@ -1,7 +1,10 @@
 'use client'
 import TextInput from "@/components/Input/Text";
+import { AgreementModal } from "@/components/Modal/AgreementModal";
 import Header from "@/components/Recruiter/Header/Header";
 import Sidebar from "@/components/Recruiter/Sidebar/Sidebar";
+import useDeviceDetection from "@/hooks/useDeviceDetection";
+import getIP from "@/lib/getIP/getIP";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { DocumentReference } from "firebase/firestore";
 import Link from "next/link";
@@ -10,6 +13,8 @@ import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { TagsInput } from "react-tag-input-component";
+import { toast } from "sonner";
+import UAParser from "ua-parser-js";
 
 export default function Post(props) {
     const [title, settitle] = useState("")
@@ -32,17 +37,13 @@ export default function Post(props) {
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [showAgreements, setShowAgreements] = useState(false);
+    const agent = useDeviceDetection()
 
     const supabase = createClientComponentClient()
     const router = useRouter()
 
-    async function handleSubmit() {
-        // Check if any parameter is empty
-        if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration) {
-            setErrorMessage("Please fill in all fields");
-            return;
-        }
-
+    async function postJob() {
         setLoading(true);
         try {
             const { data: recruiterdata, error: recruitererror } = await supabase
@@ -59,6 +60,8 @@ export default function Post(props) {
                 setErrorMessage("An error occurred while posting the job.");
                 console.error(error);
             } else {
+                setShowAgreements(false);
+                toast.success("Job posted")
                 setSuccessMessage("Job posted successfully!");
                 setErrorMessage("");
                 settitle("");
@@ -73,6 +76,8 @@ export default function Post(props) {
                 setminsalary("");
                 setmaxsalary("");
                 setextras("");
+                setpaymenttype("");
+                setsignupfee("");
                 props.handleChangeTabIndex(4)
                 router.refresh();
             }
@@ -85,9 +90,50 @@ export default function Post(props) {
         setLoading(false);
     }
 
+    async function handleAgreement() {
+        const ip = await getIP();
+        const parser = new UAParser();
+        const agent = parser.getResult();
+        console.log("Ip ades");
+
+        console.log(ip)
+
+
+        try {
+            const { data, error } = await supabase
+                .from('Agreements')
+                .insert(
+                    {
+                        version: '1.0',
+                        ip_address: ip,
+                        agent: agent
+                    }
+                )
+            if (error) throw error
+            else {
+                postJob()
+            }
+        }
+        catch (error) {
+            console.error(error)
+            toast.error("Error while inserting agreement")
+        }
+    }
+
+    async function handleSubmit() {
+        // Check if any parameter is empty
+        if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration) {
+            setErrorMessage("Please fill in all fields");
+            toast.error("Please fill in all fields");
+            return;
+        }
+        setShowAgreements(true)
+    }
+
 
     return (
         <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
+            <AgreementModal handleAgreement={handleAgreement} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
             <p className="mb-4 hover:underline cursor-pointer text-sm lg:flex items-center gap-1 hidden"><IoMdArrowRoundBack className="text-xl" />Back to job listing</p>
             <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Post a Job</p>
             <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
