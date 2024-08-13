@@ -14,6 +14,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { Dialog } from "@radix-ui/react-dialog";
 import { DialogDemo } from "@/components/Modal/Modal";
 import Applications from "../Applications/Applications";
+import { toast } from "sonner";
 
 
 type Props = {
@@ -46,7 +47,7 @@ export default function Listing(props: Props) {
             console.log(error);
         }
         else {
-            alert("Job Deleted Successfully! Refresh")
+            toast.success("Job Deleted Successfully! Refresh")
         }
         router.refresh()
     }
