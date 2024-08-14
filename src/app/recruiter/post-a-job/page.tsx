@@ -3,6 +3,8 @@ import TextInput from "@/components/Input/Text";
 import { AgreementModal } from "@/components/Modal/AgreementModal";
 import Header from "@/components/Recruiter/Header/Header";
 import Sidebar from "@/components/Recruiter/Sidebar/Sidebar";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 import useDeviceDetection from "@/hooks/useDeviceDetection";
 import getIP from "@/lib/getIP/getIP";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -72,25 +74,30 @@ export default function Post(props) {
 
             else {
                 setShowAgreements(false);
-                toast.success("Job posted")
+                toast.success("Job posted", {
+                    description: "Click here to view",
+                    action: {
+                        label: "View",
+                        onClick: () => props.handleChangeTabIndex(3),
+                    },
+                })
                 setSuccessMessage("Job posted successfully!");
                 setErrorMessage("");
-                settitle("");
-                setdesc("");
-                settype("");
-                setcategory("");
-                setloc("");
-                setres("");
-                setwya("");
-                setskills([]);
-                setduration("");
-                setminsalary("");
-                setmaxsalary("");
-                setextras("");
-                setpaymenttype("");
-                setsignupfee("");
-                setaccomodation("");
-                props.handleChangeTabIndex(4)
+                // settitle("");
+                // setdesc("");
+                // settype("");
+                // setcategory("");
+                // setloc("");
+                // setres("");
+                // setwya("");
+                // setskills([]);
+                // setduration("");
+                // setminsalary("");
+                // setmaxsalary("");
+                // setextras("");
+                // setpaymenttype("");
+                // setsignupfee("");
+                // setaccomodation("");
                 router.refresh();
             }
         } catch (error) {
@@ -144,7 +151,7 @@ export default function Post(props) {
     return (
         <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
             <AgreementModal handleAgreement={handleAgreement} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
-            <p className="mb-4 hover:underline cursor-pointer text-sm lg:flex items-center gap-1 hidden"><IoMdArrowRoundBack className="text-xl" />Back to job listing</p>
+            <p onClick={() => { props.handleChangeTabIndex(3) }} className="mb-4 hover:underline cursor-pointer text-sm lg:flex items-center gap-1 hidden"><IoMdArrowRoundBack className="text-xl" />Back to job listing</p>
             <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Post a Job</p>
             <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
             <div>
