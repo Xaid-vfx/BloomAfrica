@@ -38,12 +38,11 @@ export default function Post(props) {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [showAgreements, setShowAgreements] = useState(false);
-    const agent = useDeviceDetection()
 
     const supabase = createClientComponentClient()
     const router = useRouter()
 
-    async function postJob() {
+    async function postJob(agreement_id: string) {
         setLoading(true);
         try {
             const { data: recruiterdata, error: recruitererror } = await supabase
@@ -52,14 +51,26 @@ export default function Post(props) {
                 .eq('uniqueid', props.user.id)
                 .single()
 
-            const { data, error } = await supabase
+            const { data: job, error: jobError } = await supabase
                 .from('Jobs')
-                .upsert({ title, description: desc, type, category, location: loc, responsibilities: res, who_we_are: wya, minsalary: minsalary, maxsalary: maxsalary, skills, duration, company_logo: recruiterdata.logo, payment_type: paymenttype, accomodation: accomodation, signup_fee: signupfee });
+                .upsert({ title, description: desc, type, category, location: loc, responsibilities: res, who_we_are: wya, minsalary: minsalary, maxsalary: maxsalary, skills, duration, company_logo: recruiterdata.logo, payment_type: paymenttype, accomodation: accomodation, signup_fee: signupfee })
+                .select('uid')
+                .single()
 
-            if (error) {
+            if (jobError) {
                 setErrorMessage("An error occurred while posting the job.");
-                console.error(error);
-            } else {
+                throw jobError;
+            }
+            console.log(job);
+
+            const { data, error: updateError } = await supabase
+                .from('Agreements')
+                .update({ job_id: job.uid })
+                .eq('agreement_id', agreement_id);
+
+            if (updateError) console.log(updateError);
+
+            else {
                 setShowAgreements(false);
                 toast.success("Job posted")
                 setSuccessMessage("Job posted successfully!");
@@ -78,10 +89,10 @@ export default function Post(props) {
                 setextras("");
                 setpaymenttype("");
                 setsignupfee("");
+                setaccomodation("");
                 props.handleChangeTabIndex(4)
                 router.refresh();
             }
-            console.log(data);
         } catch (error) {
             setErrorMessage("An error occurred while posting the job.");
             setSuccessMessage("");
@@ -94,10 +105,6 @@ export default function Post(props) {
         const ip = await getIP();
         const parser = new UAParser();
         const agent = parser.getResult();
-        console.log("Ip ades");
-
-        console.log(ip)
-
 
         try {
             const { data, error } = await supabase
@@ -109,9 +116,12 @@ export default function Post(props) {
                         agent: agent
                     }
                 )
+                .select('agreement_id')
+                .single()
             if (error) throw error
             else {
-                postJob()
+                postJob(data.agreement_id)
+                return true;
             }
         }
         catch (error) {
