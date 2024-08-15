@@ -15,6 +15,9 @@ import { Suspense, useEffect, useState } from "react";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { toast } from "sonner"
+import { AgreementModal } from "@/components/Modal/AgreementModal";
+import getIP from "@/lib/getIP/getIP";
+import UAParser from "ua-parser-js";
 
 async function getJob(userid: string) {
     const supabase = createClientComponentClient()
@@ -36,8 +39,8 @@ export default function JobDescription(props) {
     const id = search.get('id')
     const [job, setjob] = useState()
     const router = useRouter()
-    console.log(job);
-    console.log(id);
+    const [showAgreements, setShowAgreements] = useState(false);
+
     async function checkifSeekerisRegistered() {
         console.log(props.user?.id);
         const { data, error } = await supabase
@@ -82,6 +85,68 @@ export default function JobDescription(props) {
         }
     }
 
+
+    async function postJob() {
+        const { data: seekerData, error: seekerError } = await supabase
+            .from('Seekers')
+            .select()
+            .eq('unique_id', props.user?.id)
+            .single()
+
+
+        if (seekerError) {
+            console.error('Error fetching Seeker:', seekerError.message);
+            return;
+        }
+
+        if (!seekerData) {
+            console.error('Seeker not found');
+            return;
+        }
+
+
+        const { data, error } = await supabase
+            .from('Applicants')
+            .insert({ job_id: id, name: seekerData.name })
+
+        if (error) {
+            console.log(error);
+        }
+        else
+            toast.success("Applied for the job!");
+    }
+
+    async function handleAgreement() {
+        const ip = await getIP();
+        const parser = new UAParser();
+        const agent = parser.getResult();
+
+        try {
+            const { data, error } = await supabase
+                .from('Agreements')
+                .insert(
+                    {
+                        version: '1.0',
+                        ip_address: ip,
+                        agent: agent,
+                        job_id: id
+                    }
+                )
+                .select('agreement_id')
+                .single()
+            if (error) throw error
+            else {
+                postJob()
+                setShowAgreements(false)
+                return true;
+            }
+        }
+        catch (error) {
+            console.error(error)
+            toast.error("Error while inserting agreement")
+        }
+    }
+
     async function handleApplyJob() {
         if (props.user == null) {
             router.push('/signup?continue=/job?id=' + id)
@@ -95,36 +160,7 @@ export default function JobDescription(props) {
             toast.error("Already Applied!")
             return
         }
-        else {
-            const { data: seekerData, error: seekerError } = await supabase
-                .from('Seekers')
-                .select()
-                .eq('unique_id', props.user?.id)
-                .single()
-
-
-            if (seekerError) {
-                console.error('Error fetching Seeker:', seekerError.message);
-                return;
-            }
-
-            if (!seekerData) {
-                console.error('Seeker not found');
-                return;
-            }
-
-
-            const { data, error } = await supabase
-                .from('Applicants')
-                .insert({ job_id: id, name: seekerData.name })
-
-            if (error) {
-                console.log(error);
-            }
-            else
-                toast.success("Applied for the job!");
-            console.log(data);
-        }
+        setShowAgreements(true)
     }
 
     useEffect(() => {
@@ -136,6 +172,7 @@ export default function JobDescription(props) {
     }, [])
     return (
         <div>
+            <AgreementModal handleAgreement={handleAgreement} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
             <div className=" items-center justify-between border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
                 <div className="flex flex-col">
                     <div className="flex items-center gap-6">
