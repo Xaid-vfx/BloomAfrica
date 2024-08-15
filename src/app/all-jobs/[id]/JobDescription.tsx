@@ -204,7 +204,7 @@ export default function JobDescription(props) {
                 <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={100} height={50} />
                 <h1 className="text-xl font-semibold mt-2">{job != null ? job?.title : <Skeleton width={200} />}</h1>
                 <div className="flex text-sm text-[#515B6F] gap-1 items-baseline">
-                    <p>{ }</p>
+                    <p>{job?.Recruiters.CompanyInfo.name}</p>
                     <p>. {job != null ? job?.location : <Skeleton width={100} />}</p>
                 </div>
                 <div className="flex gap-2 mt-6">
