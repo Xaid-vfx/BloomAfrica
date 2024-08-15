@@ -83,21 +83,21 @@ export default function Post(props) {
                 })
                 setSuccessMessage("Job posted successfully!");
                 setErrorMessage("");
-                // settitle("");
-                // setdesc("");
-                // settype("");
-                // setcategory("");
-                // setloc("");
-                // setres("");
-                // setwya("");
-                // setskills([]);
-                // setduration("");
-                // setminsalary("");
-                // setmaxsalary("");
-                // setextras("");
-                // setpaymenttype("");
-                // setsignupfee("");
-                // setaccomodation("");
+                settitle("");
+                setdesc("");
+                settype("");
+                setcategory("");
+                setloc("");
+                setres("");
+                setwya("");
+                setskills([]);
+                setduration("");
+                setminsalary("");
+                setmaxsalary("");
+                setextras("");
+                setpaymenttype("");
+                setsignupfee("");
+                setaccomodation("");
                 router.refresh();
             }
         } catch (error) {
