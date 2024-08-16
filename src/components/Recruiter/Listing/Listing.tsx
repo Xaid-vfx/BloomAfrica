@@ -94,6 +94,26 @@ export default function Listing(props: Props) {
     }
 
     useEffect(() => {
+        async function fetchJobs() {
+            const supabase = createClientComponentClient()
+            const { data, error } = await supabase
+                .from('Jobs')
+                .select()
+                .eq('recruiter', props.user.id)
+
+            if (error) {
+                console.log(error);
+            }
+            console.log(data);
+
+            return data;
+        }
+        fetchJobs().then(data => {
+            props.setjobs(data)
+        })
+    }, [])
+
+    useEffect(() => {
         console.log(props.job_id);
         if (props.job_id != "")
             ApplicationsForSelectedJob(props.job_id)

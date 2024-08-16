@@ -108,7 +108,7 @@ export default function RecruiterContent(props: Props) {
                     <EditRecruiter user={props.user} recruiter={props.recruiter} company={props.company} />
                     : ""}
                 {currTabIndex == 3 ?
-                    <Listing job_id={jobid} user={props.user} jobs={jobs} />
+                    <Listing job_id={jobid} user={props.user} jobs={jobs} setjobs={setjobs} />
                     : ""}
                 {currTabIndex == 4 ? <Post user={props.user} handleChangeTabIndex={(e: any) => {
                     handleChangeTabIndex(e)
