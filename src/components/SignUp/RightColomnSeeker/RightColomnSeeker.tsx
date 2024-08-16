@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import Year from "@/lib/Years/Years";
+import { toast } from "sonner";
 
 export default function RightColumnSeeker(props: { redirectUrl: string }) {
     const [step, setStep] = useState(1);
@@ -38,7 +39,8 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
     const year = Year()
     const [currentUser, setcurrentUser] = useState({})
 
-
+    const [terms, setTerms] = useState(false)
+    const [privacy, setPrivacy] = useState(false)
 
     async function getUser() {
         const { data: { user } } = await supabase.auth.getUser()
@@ -102,21 +104,29 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
     }
 
     async function handleFinish() {
-        await step1().then(data => {
-            step2(data);
-            console.log(data);
-        });
+        console.log(terms);
+        console.log(privacy);
 
-        const { data, error } = await supabase
-            .from('users')
-            .insert({ name: name, email: currentUser?.email, type: "seeker" })
+        if (terms && privacy) {
+            await step1().then(data => {
+                step2(data);
+                console.log(data);
+            });
 
-        if (error) {
-            console.log(error);
+            const { data, error } = await supabase
+                .from('users')
+                .insert({ name: name, email: currentUser?.email, type: "seeker" })
+
+            if (error) {
+                console.log(error);
+            }
+            if (props.redirectUrl != "null")
+                router.push('/all-jobs' + props.redirectUrl)
+            else router.push('/all-jobs')
         }
-        if (props.redirectUrl != "null")
-            router.push('/all-jobs' + props.redirectUrl)
-        else router.push('/all-jobs')
+        else {
+            alert("Please agree to the terms and conditions and privacy policy")
+        }
     }
 
     useEffect(() => {
@@ -125,10 +135,10 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
         })
     }, [])
     return (
-        <div className="lg:w-[55%]">
+        <div className="lg:w-[55%] w-full overflow-auto">
             {
                 (step == 1) &&
-                <div className="px-10 lg:px-14 py-10 overflow-scroll">
+                <div className="px-10 lg:px-14 py-10 ">
                     <FaArrowLeft onClick={() => { router.push('/signup') }} className="cursor-pointer text-2xl mb-4" />
                     <div className="flex justify-between items-baseline">
                         <h2 className="text-xl font-semibold">Create a Job Seeker Account</h2>
@@ -204,7 +214,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
             }
             {
                 (step == 2) &&
-                <div className="px-10 w-full lg:px-14 py-10  overflow-scroll lg:block flex flex-col justify-center">
+                <div className="w-full px-10 lg:px-14 py-10  overflow-scroll lg:block">
                     <FaArrowLeft onClick={() => { setStep(1) }} className="cursor-pointer text-2xl mb-4" />
                     <div className="flex justify-between items-baseline">
                         <h2 className="text-xl font-semibold">Education</h2>
@@ -283,12 +293,22 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                             <p className="text-xs mt-5 text-[#A8ADB7]">Optionally upload a Cover letter no larger than 10MB for file types .pdf .doc .docx . Please note: You will need to upload a Cover letter to apply for jobs, however you can skip the CV upload on sign up.</p>
                         </div>
 
-                        <button onClick={() => { handleFinish() }} className=" text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs" >Finish</button>
+
+                        <div className="flex gap-2 my-4">
+                            <input onChange={(e) => { setTerms(e.target.checked) }} type="checkbox" />
+                            <p className="text-xs text-[#515B6F]">I agree to the company's <a href="/privacy-policy" className="text-[#4A2C84] underline">Terms and Conditions</a></p>
+                        </div>
+                        <div className="flex gap-2 mb-5">
+                            <input onChange={(e) => { setPrivacy(e.target.checked) }} type="checkbox" />
+                            <p className="text-xs text-[#515B6F]">I agree to the company's <a href="/privacy-policy" className="text-[#4A2C84] underline">Privacy Policy</a></p>
+                        </div>
+
+                        <button disabled={!(privacy && terms)} onClick={() => { handleFinish() }} className={`text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs ${!(privacy && terms) && 'cursor-not-allowed'}`} >Finish</button>
 
                     </div>
 
                 </div>
             }
-        </div>
+        </div >
     )
 }
