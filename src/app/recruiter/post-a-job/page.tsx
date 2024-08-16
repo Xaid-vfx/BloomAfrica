@@ -147,6 +147,25 @@ export default function Post(props) {
         setShowAgreements(true)
     }
 
+    // Sample Data Function
+    function fillSampleData() {
+        settitle("Software Development Engineer");
+        setdesc("We are looking for a passionate Software Engineer to design, develop and install software solutions.");
+        settype("Full Time");
+        setcategory("Technology");
+        setloc("Lagos, Nigeria");
+        setres("Design, develop, and maintain software applications.");
+        setwya("We are a tech company focused on innovation.");
+        setskills(["JavaScript", "React", "Node.js"]);
+        setduration("12 months");
+        setminsalary("100000");
+        setmaxsalary("200000");
+        setextras("Remote work available.");
+        setpaymenttype("Monthly");
+        setsignupfee("5000");
+        setaccomodation("Yes");
+    }
+
 
     return (
         <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
@@ -157,8 +176,10 @@ export default function Post(props) {
             <div>
                 <div className="bg-white rounded-xl p-6 lg:mt-6">
 
-                    <h1 className="text-2xl font-semibold text-[#4A2C84]">General</h1>
-
+                    <div className="flex gap-4">
+                        <h1 className="text-2xl font-semibold text-[#4A2C84]">General</h1>
+                        <button className="text-sm text-[#4A2C84] py-1 px-4 rounded-xl border" onClick={fillSampleData}>Sample data</button>
+                    </div>
 
                     <div className="flex flex-col gap-2 my-4">
                         <div className="mb-1">
