@@ -32,7 +32,7 @@ export default function Footer() {
           <div className="mt-12 lg:mt-0 flex flex-col">
             <h2 className="text-lg font-medium lg:text-xl lg:font-medium">Legal</h2>
             <a href="/privacy-policy" className="text-sm font-light my-3">Privacy Policy</a>
-            <a href="/privacy-policy" className="text-sm font-light my-3">Terms of Use</a>
+            <a href="/terms-of-service" className="text-sm font-light my-3">Terms of Use</a>
           </div>
         </div>
       </div>
