@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import Year from "@/lib/Years/Years";
 import { toast } from "sonner";
+import getIP from "@/lib/getIP/getIP";
+import UAParser from "ua-parser-js";
 
 export default function RightColumnSeeker(props: { redirectUrl: string }) {
     const [step, setStep] = useState(1);
@@ -66,7 +68,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
 
     async function handleFirstNext() {
         if (name == "" || number == "" || date == "" || gender == "" || country == "" || state == "") {
-            alert("Please fill all fields");
+            toast("Please fill all fields");
             return;
         }
         setStep(2);
@@ -75,59 +77,203 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
         console.log(level + schoolName + field + gradYear);
         if (level == "" || schoolName == "" || field == "" || gradYear == "") {
             console.log(level + schoolName + field + gradYear);
-            alert("Please fill all fields");
+            toast("Please fill all fields");
             return
         }
         setStep(3)
     }
 
     async function step1() {
-        const { data, error } = await supabase
-            .from('Seekers')
-            .upsert({ name: name, email: currentUser?.email, number: number, dob: date, gender: gender, country: country, state: state })
-            .select('unique_id')
-
-        if (error) {
-            console.log(error);
+        // Validate inputs
+        if (!name || !number || !date || !gender || !country || !state) {
+            toast.error("Please fill in all the required fields.");
+            return null;
         }
-        if (data) return data[0]?.unique_id;
+
+        try {
+            const { data, error } = await supabase
+                .from('Seekers')
+                .upsert({
+                    name: name.trim(),
+                    email: currentUser?.email,
+                    number: number.trim(),
+                    dob: date,
+                    gender: gender.trim(),
+                    country: country.trim(),
+                    state: state.trim()
+                })
+                .select('unique_id');
+
+            if (error) {
+                console.error("Error inserting into Seekers:", error);
+                throw new Error("Failed to insert Seeker details.");
+            }
+            return data?.[0]?.unique_id;
+        } catch (error) {
+            console.error("Unexpected error in step1:", error);
+            toast.error("An unexpected error occurred. Please try again.");
+            return null;
+        }
     }
 
     async function step2(uuid: string) {
-        const { data, error } = await supabase
-            .from('Education')
-            .insert({ unique_id: uuid, level: level, school_name: schoolName, field: field, year: gradYear })
+        if (!uuid) {
+            toast.error("Invalid unique ID. Please try again.");
+            return false;
+        }
 
-        if (error) {
-            console.log(error);
+        // Validate educational inputs
+        if (!level || !schoolName || !field || !gradYear) {
+            toast.error("Please fill in all the required education fields.");
+            return false;
+        }
+
+        try {
+            const { error } = await supabase
+                .from('Education')
+                .insert({
+                    unique_id: uuid,
+                    level: level.trim(),
+                    school_name: schoolName.trim(),
+                    field: field.trim(),
+                    year: gradYear.trim()
+                });
+
+            if (error) {
+                console.error("Error inserting into Education:", error);
+                throw new Error("Failed to insert Education details.");
+            }
+            return true;
+        } catch (error) {
+            console.error("Unexpected error in step2:", error);
+            toast.error("An unexpected error occurred. Please try again.");
+            return false;
+        }
+    }
+
+    async function step3(uuid: string) {
+        try {
+            const { error } = await supabase
+                .from('users')
+                .insert({
+                    name: name.trim(),
+                    email: currentUser?.email,
+                    type: "seeker"
+                });
+
+            if (error) {
+                console.error("Error inserting into users:", error);
+                throw new Error("Failed to complete your registration.");
+            }
+            return true;
+        } catch (error) {
+            console.error("Unexpected error in step3:", error);
+            toast.error("An unexpected error occurred. Please try again.");
+            return false;
+        }
+    }
+
+    async function recordTosPP() {
+        const ip = await getIP();
+        const parser = new UAParser();
+        const agent = parser.getResult();
+
+        try {
+            const { error: tosError } = await supabase
+                .from('TermsOfService')
+                .insert({
+                    version: '1.0',
+                    ip_address: ip,
+                    agent: agent,
+                });
+
+            if (tosError) throw tosError;
+
+            const { error: ppError } = await supabase
+                .from('PrivacyPolicy')
+                .insert({
+
+                    version: '1.0',
+                    ip_address: ip,
+                    agent: agent,
+                });
+
+            if (ppError) throw ppError;
+
+            return true;
+        } catch (error) {
+            console.error("Error in recordTosPP:", error);
+            toast.error("Error occurred while saving Terms of Service and Privacy Policy agreements.");
+            return false;
+        }
+    }
+
+    async function rollback(uuid: string) {
+        try {
+            // Rollback ToS and Privacy Policy agreements
+            await supabase
+                .from('TermsOfService')
+                .delete()
+                .eq('unique_id', uuid);
+
+            await supabase
+                .from('PrivacyPolicy')
+                .delete()
+                .eq('unique_id', uuid);
+
+            // Rollback Seeker data
+            await supabase
+                .from('Seekers')
+                .delete()
+                .eq('unique_id', uuid);
+
+            // Rollback Education data
+            await supabase
+                .from('Education')
+                .delete()
+                .eq('unique_id', uuid);
+        } catch (error) {
+            console.error("Error during rollback:", error);
+            toast.error("Failed to rollback the changes. Please contact support.");
         }
     }
 
     async function handleFinish() {
-        console.log(terms);
-        console.log(privacy);
-
-        if (terms && privacy) {
-            await step1().then(data => {
-                step2(data);
-                console.log(data);
-            });
-
-            const { data, error } = await supabase
-                .from('users')
-                .insert({ name: name, email: currentUser?.email, type: "seeker" })
-
-            if (error) {
-                console.log(error);
-            }
-            if (props.redirectUrl != "null")
-                router.push('/all-jobs' + props.redirectUrl)
-            else router.push('/all-jobs')
+        if (!terms || !privacy) {
+            toast.error("Please agree to the terms and conditions and privacy policy.");
+            return;
         }
-        else {
-            alert("Please agree to the terms and conditions and privacy policy")
+
+        let uuid: string | null = null;
+
+        try {
+            // Step 1: Insert Seeker data
+            uuid = await step1();
+            if (!uuid) throw new Error("Step 1 failed.");
+
+            // Step 2: Insert Education data
+            const educationSuccess = await step2(uuid);
+            if (!educationSuccess) throw new Error("Step 2 failed.");
+
+            // Step 3: Insert user data
+            const userInsertSuccess = await step3(uuid);
+            if (!userInsertSuccess) throw new Error("Step 3 failed.");
+
+            // Step 4: Insert ToS/PP agreements
+            const tosSuccess = await recordTosPP();
+            if (!tosSuccess) throw new Error("Step 4 (Terms of Service and Privacy Policy agreements) failed.");
+
+            toast.success("Registration complete!");
+            router.push(props.redirectUrl !== "null" ? `/all-jobs${props.redirectUrl}` : '/all-jobs');
+        } catch (error) {
+            console.error("Error during registration process:", error);
+            toast.error("An unexpected error occurred. Rolling back changes...");
+
+            // Rollback all inserted data
+            if (uuid) await rollback(uuid);
         }
     }
+
 
     useEffect(() => {
         getUser().then(user => {
@@ -296,11 +442,11 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
 
                         <div className="flex gap-2 my-4">
                             <input onChange={(e) => { setTerms(e.target.checked) }} type="checkbox" />
-                            <p className="text-xs text-[#515B6F]">I agree to the company's <a href="/privacy-policy" className="text-[#4A2C84] underline">Terms and Conditions</a></p>
+                            <p className="text-xs text-[#515B6F]">I agree to the company's <a href="/terms-of-service" target="_blank" className="text-[#4A2C84] underline">Terms and Conditions</a></p>
                         </div>
                         <div className="flex gap-2 mb-5">
                             <input onChange={(e) => { setPrivacy(e.target.checked) }} type="checkbox" />
-                            <p className="text-xs text-[#515B6F]">I agree to the company's <a href="/privacy-policy" className="text-[#4A2C84] underline">Privacy Policy</a></p>
+                            <p className="text-xs text-[#515B6F]">I agree to the company's <a target="_blank" href="/privacy-policy" className="text-[#4A2C84] underline">Privacy Policy</a></p>
                         </div>
 
                         <button disabled={!(privacy && terms)} onClick={() => { handleFinish() }} className={`text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs ${!(privacy && terms) && 'cursor-not-allowed'}`} >Finish</button>
