@@ -5,6 +5,10 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { redirect } from "next/navigation";
 import getUser from "@/lib/getUser/getUser";
 
+export const metadata: Metadata = {
+    title: 'Complete Recruiter Profile | Bloom'
+}
+
 async function checkIfUserExists(id: string | undefined) {
     console.log("Inside function")
     console.log(id);

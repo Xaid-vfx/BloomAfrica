@@ -1,5 +1,10 @@
 import { Suspense } from 'react'
 import Verify from './verify'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Verify | Bloom'
+}
 
 // This component passed as a fallback to the Suspense boundary
 // will be rendered in place of the search bar in the initial HTML.
