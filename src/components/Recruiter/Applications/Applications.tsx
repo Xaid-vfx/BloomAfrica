@@ -41,7 +41,7 @@ export default function Applications(props: any) {
             <p onClick={() => { props.setshowJobApplications(false); }} className="mb-4 hover:underline cursor-pointer text-sm flex items-center gap-1">
                 <IoMdArrowRoundBack className="text-xl" />Back to Job listings
             </p>
-            <Tabs defaultValue="all" className="">
+            <Tabs defaultValue="all" className="lg:hidden">
                 <TabsList className="bg-white flex justify-start max-h-none py-8 ">
                     <TabsTrigger value="all" className="mr-2 px-1 text-xs text-left data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                         All
