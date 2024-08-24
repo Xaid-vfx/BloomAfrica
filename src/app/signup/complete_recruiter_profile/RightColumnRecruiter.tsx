@@ -199,7 +199,7 @@ export default function RightColomnRecruiter() {
             {
                 (step == 1) &&
                 <div className="px-10 w-full lg:px-14 py-10 lg:block flex flex-col justify-center">
-                    <FaArrowLeft onClick={() => { router.push('/signup') }} className="cursor-pointer text-2xl mb-4" />
+                    <FaArrowLeft onClick={() => { router.push('/signup?type=recruiter') }} className="cursor-pointer text-2xl mb-4" />
                     <div className="flex justify-between items-baseline">
                         <h2 className="text-xl font-semibold">Create a Recruiter Account</h2>
                         <p className="text-xs font-semibold text-[#515B6F]">Step 1 of 2</p>
