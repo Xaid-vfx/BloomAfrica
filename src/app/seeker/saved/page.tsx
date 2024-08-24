@@ -6,6 +6,10 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Header from "../Header";
 import Saved from "./Saved";
 
+export const metadata: Metadata = {
+    title: 'Saved Jobs | Bloom'
+}
+
 async function fetchSeeker(id: string) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })

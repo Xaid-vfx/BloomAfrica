@@ -2,6 +2,7 @@ import RecruiterContent from "@/components/Recruiter/RecruiterContent/RecruiterC
 import getCompany from "@/lib/getCompany/getCompany";
 import getUser from "@/lib/getUser/getUser";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 async function fetchRecruiter(id: string) {
@@ -12,6 +13,10 @@ async function fetchRecruiter(id: string) {
     console.log(error);
 
     return data;
+}
+
+export const metadata: Metadata = {
+    title: 'Recruiter Dashboard | Bloom'
 }
 
 

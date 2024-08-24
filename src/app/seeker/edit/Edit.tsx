@@ -4,6 +4,10 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import CountryList from "@/lib/CountryList/CountryList"
 import { useRouter } from "next/navigation"
 
+export const metadata: Metadata = {
+    title: 'Edit Profile | Bloom'
+}
+
 
 type Props = {
     user: any

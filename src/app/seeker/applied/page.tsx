@@ -25,6 +25,10 @@ async function fetchAppliedJobs(id: string) {
     return data;
 }
 
+export const metadata: Metadata = {
+    title: 'Applied Jobs | Bloom'
+}
+
 export default async function page() {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
