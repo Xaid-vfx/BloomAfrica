@@ -125,7 +125,7 @@ export default function RightColomnRecruiter() {
         const agent = parser.getResult();
 
         try {
-            const { error } = await supabase
+            const { error: tosError } = await supabase
                 .from('TermsOfService')
                 .insert({
                     version: '1.0',
@@ -133,11 +133,23 @@ export default function RightColomnRecruiter() {
                     agent: agent,
                 });
 
-            if (error) throw error;
+            if (tosError) throw tosError;
+
+            const { error: ppError } = await supabase
+                .from('PrivacyPolicy')
+                .insert({
+
+                    version: '1.0',
+                    ip_address: ip,
+                    agent: agent,
+                });
+
+            if (ppError) throw ppError;
+
             return true;
         } catch (error) {
-            toast.error("Error occurred while saving ToS and privacy agreement.");
-            console.error("ToS Error:", error);
+            console.error("Error in recordTosPP:", error);
+            toast.error("Error occurred while saving Terms of Service and Privacy Policy agreements.");
             return false;
         }
     }
@@ -306,14 +318,14 @@ export default function RightColomnRecruiter() {
                                 <input type="checkbox" id="terms" checked={terms} onChange={() => setTerms(!terms)} />
                                 <label htmlFor="terms" className="text-xs">
                                     I agree to the{" "}
-                                    <Link href="/terms" className="text-[#4A2C84]">Terms of Service</Link>
+                                    <a target="_blank" href="/terms-of-service" className="text-[#4A2C84]">Terms of Service</a>
                                 </label>
                             </div>
                             <div className="flex items-start gap-2 mt-2">
                                 <input type="checkbox" id="privacy" checked={privacy} onChange={() => setPrivacy(!privacy)} />
                                 <label htmlFor="privacy" className="text-xs">
                                     I agree to the{" "}
-                                    <Link href="/privacy" className="text-[#4A2C84]">Privacy Policy</Link>
+                                    <Link target="_blank" href="/privacy-policy" className="text-[#4A2C84]">Privacy Policy</Link>
                                 </label>
                             </div>
                         </div>
