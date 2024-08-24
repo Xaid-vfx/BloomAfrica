@@ -10,6 +10,9 @@ import CountryList from "@/lib/CountryList/CountryList";
 import PhoneInput from 'react-phone-number-input'
 import Year from "@/lib/Years/Years";
 import getUser from "@/lib/getUser/getUser";
+import { toast } from "sonner";
+import getIP from "@/lib/getIP/getIP";
+import UAParser from "ua-parser-js";
 
 export default function RightColomnRecruiter() {
     const [step, setStep] = useState(1);
@@ -26,22 +29,17 @@ export default function RightColomnRecruiter() {
     const [state, setstate] = useState('')
 
 
-    const [level, setlevel] = useState('')
-    const [schoolName, setschoolName] = useState('')
-    const [field, setfield] = useState('')
-    const [gradYear, setgradYear] = useState('')
-
     const [companyName, setcompanyName] = useState('')
     const [type, settype] = useState('')
     const [url, seturl] = useState('')
     const [desc, setdesc] = useState('')
 
-
-
     const countryList = CountryList()
     const [stateList, setstateList] = useState([])
     const year = Year()
     const [currentUser, setcurrentUser] = useState({})
+    const [terms, setTerms] = useState(false);
+    const [privacy, setPrivacy] = useState(false);
 
     async function fetchStates(countryName: string) {
         const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
@@ -62,52 +60,127 @@ export default function RightColomnRecruiter() {
 
     async function handleFirstNext() {
         if (name == "" || email == "" || number == "" || date == "" || gender == "" || country == "" || state == "") {
-            console.log(country + state);
-            alert("Please fill all fields");
-            return
+            toast.error("Please fill all fields");
+            return;
         }
         setStep(2);
     }
 
     async function step1() {
-        const { data, error } = await supabase
-            .from('Recruiters')
-            .upsert({ name: name, email: currentUser?.email, number: number, dob: date, gender: gender, country: country, state: state })
-            .select('uniqueid')
+        try {
+            const { data, error } = await supabase
+                .from('Recruiters')
+                .upsert({ name: name, email: currentUser?.email, number: number, dob: date, gender: gender, country: country, state: state })
+                .select('uniqueid');
 
-        if (error) {
-            console.log(error);
+            if (error) throw error;
+            return data[0]?.uniqueid;
+        } catch (error) {
+            toast.error("Failed to save recruiter details.");
+            console.log("Step 1 Error:", error);
+            return null;
         }
-        if (data) return data[0]?.unique_id;
-
-        console.log(error);
-        console.log(data);
     }
 
-    async function step2(uuid: any) {
-        const { data, error } = await supabase
-            .from('CompanyInfo')
-            .insert({ unique_id: uuid, name: name, type: type, website: url, description: desc })
-        console.log(error);
-        console.log(data);
+    async function step2(uuid: string) {
+        try {
+            const { error } = await supabase
+                .from('CompanyInfo')
+                .insert({ unique_id: uuid, name: companyName, type: type, website: url, description: desc });
+
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            toast.error("Failed to save company details.");
+            console.error("Step 2 Error:", error);
+            return false;
+        }
+    }
+
+    async function step3(uuid: string) {
+        try {
+            const { error } = await supabase
+                .from('users')
+                .insert({
+                    name: name.trim(),
+                    email: currentUser?.email,
+                    type: "recruiter"
+                });
+
+            if (error) {
+                console.error("Error inserting into users:", error);
+                throw new Error("Failed to complete your registration.");
+            }
+            return true;
+        } catch (error) {
+            console.error("Unexpected error in step3:", error);
+            toast.error("An unexpected error occurred. Please try again.");
+            return false;
+        }
+    }
+
+    async function handleToSAndPrivacy() {
+        const ip = await getIP();
+        const parser = new UAParser();
+        const agent = parser.getResult();
+
+        try {
+            const { error } = await supabase
+                .from('TermsOfService')
+                .insert({
+                    version: '1.0',
+                    ip_address: ip,
+                    agent: agent,
+                });
+
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            toast.error("Error occurred while saving ToS and privacy agreement.");
+            console.error("ToS Error:", error);
+            return false;
+        }
+    }
+
+    async function rollback(uuid: string) {
+        try {
+            await supabase.from('Recruiters').delete().eq('uniqueid', uuid);
+            await supabase.from('CompanyInfo').delete().eq('unique_id', uuid);
+        } catch (error) {
+            console.error("Error during rollback:", error);
+        }
     }
 
     async function handleFinish() {
-        await step1().then(data => {
-            step2(data);
-            console.log(data);
-        });
-        const { data, error } = await supabase
-            .from('users')
-            .insert({ name: name, email: currentUser?.email, type: "recruiter" })
-
-        if (error) {
-            console.log(error);
+        if (!terms || !privacy) {
+            toast.error("Please agree to the terms and privacy policy.");
+            return;
         }
-        else {
-            router.push('/recruiter')
+
+        let uuid: string | null = null;
+
+        try {
+            uuid = await step1();
+            if (!uuid) throw new Error("Step 1 failed.");
+
+            const companySaved = await step2(uuid);
+            if (!companySaved) throw new Error("Step 2 failed.");
+
+            const tosSuccess = await handleToSAndPrivacy();
+            if (!tosSuccess) throw new Error("ToS/Privacy Policy agreement failed.");
+
+            const userSaved = await step3(uuid);
+            if (!userSaved) throw new Error("Step 3 failed.");
+
+            toast.success("Registration complete!");
+            router.push('/recruiter');
+        } catch (error) {
+            toast.error("Registration failed. Rolling back changes...");
+            console.error("Error during registration:", error);
+            if (uuid) await rollback(uuid);
         }
     }
+
 
     async function getUser() {
         const { data: { user } } = await supabase.auth.getUser()
@@ -228,7 +301,24 @@ export default function RightColomnRecruiter() {
                                 .</p>
                         </div>
 
-                        <button onClick={() => { handleFinish() }} className=" text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs" >Finish</button>
+                        <div className="my-4">
+                            <div className="flex items-start gap-2">
+                                <input type="checkbox" id="terms" checked={terms} onChange={() => setTerms(!terms)} />
+                                <label htmlFor="terms" className="text-xs">
+                                    I agree to the{" "}
+                                    <Link href="/terms" className="text-[#4A2C84]">Terms of Service</Link>
+                                </label>
+                            </div>
+                            <div className="flex items-start gap-2 mt-2">
+                                <input type="checkbox" id="privacy" checked={privacy} onChange={() => setPrivacy(!privacy)} />
+                                <label htmlFor="privacy" className="text-xs">
+                                    I agree to the{" "}
+                                    <Link href="/privacy" className="text-[#4A2C84]">Privacy Policy</Link>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button disabled={!(privacy && terms)} onClick={() => { handleFinish() }} className={`text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs ${!(privacy && terms) && 'cursor-not-allowed'}`} >Finish</button>
 
                     </div>
 
