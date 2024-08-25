@@ -44,6 +44,33 @@ export default function Post(props) {
     const supabase = createClientComponentClient()
     const router = useRouter()
 
+    const categories = [
+        "Agriculture & Farming",
+        "Building & Construction",
+        "Education & Tutoring",
+        "Hospitality & Lodging",
+        "Electronics Repair & Sales",
+        "Mechanical Services & Repairs",
+        "Textiles & Tailoring",
+        "Transport & Logistics",
+        "Information Technology & Mobile Services",
+        "Handicrafts & Manufacturing",
+        "Retail & Street Vending",
+        "Automotive Repair & Services",
+        "Energy & Solar Solutions",
+        "Media & Entertainment",
+        "Food & Beverage",
+        "Community & Social Services",
+        "Environmental & Recycling Services",
+        "Creative Arts & Craftsmanship",
+        "Sports & Recreation Services",
+        "Chemical & Soap Making",
+        "Biotechnology & Herbal Products",
+        "Mining & Quarrying",
+        "Fishing & Aquaculture",
+        "Beauty & Cosmetology"
+    ];
+
     async function postJob(agreement_id: string) {
         setLoading(true);
         try {
@@ -222,15 +249,11 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                                 setcategory(e.target.value)
                             }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
                                 <option>Select category</option>
-                                <option value="Technology">Technology</option>
-                                <option value="Electrical Engineering">Electrical Engineering</option>
-                                <option value="Mechanical Engineering">Mechanical Engineering</option>
-                                <option value="Construction & Civil Engineering">Construction & Civil Engineering</option>
-                                <option value="Business & Entreprenuership">Business & Entreprenuership</option>
-                                <option value="Cosmetology">Cosmetology</option>
-                                <option value="Hospitality">Hospitality</option>
-                                <option value="Fashion">Fashion</option>
-                                <option value="Food & Cullinary">Food & Cullinary</option>
+                                {
+                                    categories.map((category) => {
+                                        return <option key={category} value={category}>{category}</option>
+                                    })
+                                }
                             </select>
                         </div>
                         <div className="my-2">
