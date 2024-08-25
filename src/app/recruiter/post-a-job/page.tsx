@@ -199,8 +199,10 @@ export default function Post(props) {
                         </div>
 
                         <div className="my-2">
-                            <p className="font-[550] text-lg my-1">Who we are *</p>
-                            <textarea value={wya} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Who we are" onChange={(e) => { setwya(e.target.value) }}></textarea>
+                            <p className="font-[550] text-lg my-1">About us / Company profile *</p>
+                            <textarea value={wya} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Briefly introduce your company to potential job applicants. Describe your mission, values, and what sets your company apart.
+
+Highlight why potential employees would want to join your team." onChange={(e) => { setwya(e.target.value) }}></textarea>
                         </div>
                     </div>
                     {/* <div className="my-1">
