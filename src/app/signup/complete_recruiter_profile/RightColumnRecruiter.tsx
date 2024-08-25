@@ -30,7 +30,6 @@ export default function RightColomnRecruiter() {
 
 
     const [companyName, setcompanyName] = useState('')
-    const [type, settype] = useState('')
     const [url, seturl] = useState('')
     const [desc, setdesc] = useState('')
 
@@ -40,6 +39,35 @@ export default function RightColomnRecruiter() {
     const [currentUser, setcurrentUser] = useState({})
     const [terms, setTerms] = useState(false);
     const [privacy, setPrivacy] = useState(false);
+    const [position, setposiion] = useState('')
+    const [industry, setIndustry] = useState('');
+
+    const Industry = [
+        "Agriculture & Farming",
+        "Building & Construction",
+        "Education & Tutoring",
+        "Hospitality & Lodging",
+        "Electronics Repair & Sales",
+        "Mechanical Services & Repairs",
+        "Textiles & Tailoring",
+        "Transport & Logistics",
+        "Information Technology & Mobile Services",
+        "Handicrafts & Manufacturing",
+        "Retail & Street Vending",
+        "Automotive Repair & Services",
+        "Energy & Solar Solutions",
+        "Media & Entertainment",
+        "Food & Beverage",
+        "Community & Social Services",
+        "Environmental & Recycling Services",
+        "Creative Arts & Craftsmanship",
+        "Sports & Recreation Services",
+        "Chemical & Soap Making",
+        "Biotechnology & Herbal Products",
+        "Mining & Quarrying",
+        "Fishing & Aquaculture",
+        "Beauty & Cosmetology"
+    ];
 
     async function fetchStates(countryName: string) {
         const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
@@ -86,7 +114,7 @@ export default function RightColomnRecruiter() {
         try {
             const { error } = await supabase
                 .from('CompanyInfo')
-                .insert({ unique_id: uuid, name: companyName, type: type, website: url, description: desc });
+                .insert({ unique_id: uuid, name: companyName, industry: industry, website: url, description: desc, position_in_company: position });
 
             if (error) throw error;
             return true;
@@ -164,6 +192,10 @@ export default function RightColomnRecruiter() {
     }
 
     async function handleFinish() {
+        if (companyName == "" || industry == "" || position == "" || desc == "") {
+            toast.error("Please fill all fields");
+            return;
+        }
         if (!terms || !privacy) {
             toast.error("Please agree to the terms and privacy policy.");
             return;
@@ -291,17 +323,46 @@ export default function RightColomnRecruiter() {
                         <p className="text-xs font-semibold text-[#515B6F]">Step 2 of 2</p>
                     </div>
                     <div className="">
+
                         <div className="my-4">
                             <TextInput field="Company Name" type="text" placeholder="Enter your company Name" handleChange={(e) => { setcompanyName(e.target.value) }} />
                         </div>
+
                         <div className="my-4">
-                            <TextInput field="Type of Employer" type="text" placeholder="Enter Type" handleChange={(e) => { settype(e.target.value) }} />
+                            <p className="font-semibold text-xs my-1 text-[#515B6F]">Industry</p>
+                            <select
+                                value={industry}
+                                onChange={(e) => setIndustry(e.target.value)}
+                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
+                            >
+                                <option>Select Industry</option>
+                                {Industry.map((industry) => (
+                                    <option key={industry} value={industry}>{industry}</option>
+                                ))}
+                            </select>
                         </div>
+
+                        <div className="my-4">
+                            <p className="font-semibold text-xs my-1 text-[#515B6F]">Position in Company</p>
+                            <select value={position} onChange={(e) => {
+                                setposiion(e.target.value)
+                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
+                                <option>Select Position</option>
+                                {
+                                    ["Business Owner", "C-Level: CEO / COO / CIO / CFO", "Recruiter", "Manager / Supervisor", "Other"].map((position) => {
+                                        return <option className="my-4" value={position}>{position}</option>
+                                    })
+                                }
+                            </select>
+                        </div>
+
+                        <div className="my-4">
+                            <p className="font-semibold text-xs my-1 text-[#515B6F]">Company Description</p>
+                            <textarea placeholder="Brief Description of your company" rows={5} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full" onChange={(e) => { setdesc(e.target.value) }}></textarea>
+                        </div>
+
                         <div className="my-4">
                             <TextInput field="Company Website (Optional)" type="text" placeholder="example.com" handleChange={(e) => { seturl(e.target.value) }} />
-                        </div>
-                        <div className="my-4">
-                            <TextInput field="Company Description" type="text" placeholder="example.com" handleChange={(e) => { setdesc(e.target.value) }} />
                         </div>
 
                         <div className="my-4">
