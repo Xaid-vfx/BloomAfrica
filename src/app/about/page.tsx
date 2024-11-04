@@ -6,7 +6,7 @@ import Footer from "@/components/Footer/Footer"
 import { Metadata } from "next"
 import AboutHero from "@/components/About/AboutHero"
 import Beliefs from "@/components/About/Beliefs"
-import FoundingTeam from "@/components/About/FoundingTeam"
+import TeamMembers from "@/components/About/TeamMembers"
 import Poverty from '../../assets/images/sdg/Poverty.png'
 import Climate from '../../assets/images/sdg/Climate.png'
 import Education from '../../assets/images/sdg/Education.png'
@@ -103,7 +103,7 @@ export default function About() {
             </div>
 
             <div>
-                <FoundingTeam />
+                <TeamMembers />
             </div>
             <div className="px-4 bg-[#f0f0fb]"><GetStarted /></div>
             <Footer />
