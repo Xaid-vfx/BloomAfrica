@@ -24,7 +24,7 @@ export default function HowItWorks() {
                 <div className="text-center my-6 flex flex-col items-center py-10 px-6 lg:w-1/3 lg:mx-4 box_shadow rounded-2xl">
                     <Image src={goal} alt="" width={80} className="hidden lg:block" />
                     <Image src={goal} alt="" width={60} className="lg:hidden" />
-                    {/* <h3 className="font-medium  text-sm text-[#4A2C84] lg:text-lg lg:font-semibold my-4">Step 1</h3> */}
+
                     <h2 className="my-3 font-medium text-xl lg:font-semibold">
                         Explore Our Opportunities
                     </h2>
@@ -35,18 +35,18 @@ export default function HowItWorks() {
                 <div className="text-center my-6 flex flex-col items-center py-10 px-6 lg:w-1/3 lg:mx-4 box_shadow rounded-2xl">
                     <Image src={goal} alt="" width={80} className="hidden lg:block" />
                     <Image src={goal} alt="" width={60} className="lg:hidden" />
-                    {/* <h3 className="font-medium  text-sm text-[#4A2C84] lg:text-lg lg:font-semibold my-4">Step 1</h3> */}
+                    
                     <h2 className="my-3 font-medium text-xl lg:font-semibold">
-                        Hybrid Learning
+                        Accelerated Learning
                     </h2>
                     <p className="text-xs leading-6 mt-3 text-[#515B6F]">
-                        While working on-site with your mentor to gain hands-on experience, you will also participate in our masterclass online learning program designed to make you an expert in your field.
+                        While working on-site with your mentor to gain <span className="whitespace-nowrap">hands-on</span> experience, you will also participate in our accelerated curriculum program designed to make you an expert in your field.
                     </p>
                 </div>
                 <div className="text-center my-6 flex flex-col items-center py-10 px-6 lg:w-1/3 lg:mx-4 box_shadow rounded-2xl">
                     <Image src={goal} alt="" width={80} className="hidden lg:block" />
                     <Image src={goal} alt="" width={60} className="lg:hidden" />
-                    {/* <h3 className="font-medium  text-sm text-[#4A2C84] lg:text-lg lg:font-semibold my-4">Step 1</h3> */}
+
                     <h2 className="my-3 font-medium text-xl lg:font-semibold">
                         Get Certified
                     </h2>
@@ -54,26 +54,6 @@ export default function HowItWorks() {
                         After successfully finishing your apprenticeship, you will attain a professional certificate, a prestigious credential that will distinguish you in the competitive job market.
                     </p>
                 </div>
-                {/* <div className="text-center flex px-10 flex-col items-center py-10 pt-10 lg:w-1/3 lg:mx-4 box_shadow rounded-2xl">
-                    <Image src={step2} alt="" width={150} className="hidden lg:block" />
-                    <Image src={step2} alt="" width={100} className="lg:hidden" />
-                    <h3 className="font-medium text-sm text-[#4A2C84] lg:text-lg lg:font-semibold">Step 2</h3>
-                    <h2 className="my-3 font-medium text-base lg:font-semibold">
-                        Apply for Jobs
-                    </h2>
-                    <p className="text-xs text-[#515B6F] leading-6">
-                        Once you've found a job listing that interests you, simply click to view more details and follow the instructions provided to submit your application. You can upload your resume/CV and any additional materials directly through Bloom.
-                    </p>
-                </div>
-                <div className="text-center flex flex-col items-center py-2 pt-10 lg:w-1/3 lg:mx-4 box_shadow rounded-2xl">
-                    <Image src={step3} alt="" width={150} className="hidden lg:block" />
-                    <Image src={step3} alt="" width={100} className="lg:hidden" />
-                    <h3 className="font-medium text-sm text-[#4A2C84] lg:text-lg lg:font-semibold">Step 3</h3>
-                    <h2 className="my-3 font-medium text-base lg:font-semibold">Get Hired </h2>
-                    <p className="text-xs leading-6">
-                        Stay updated on the status of your applications through your Bloom account. If selected, you'll be contacted by the hiring organization to schedule interviews and discuss next steps. Congratulations on your journey to success!
-                    </p>
-                </div> */}
             </div>
         </div>
     )
