@@ -15,11 +15,18 @@ export default function ExploreCategory() {
                 <p className="flex items-center gap-2 justify-end text-[#4A2C84] text-sm text-right  px-8"><a href="/all-jobs" className="hover:underline cursor-pointer">Show all Jobs </a><FaArrowRightLong /></p>
                 <div className="hidden lg:grid grid-cols-4 justify-center px-8">
                     {
-                        ["Mechanical Engineering", "Electrical Engineering", "Construction & Civil Engineering", "Business & Entrepreneurship", "Fashion", "Cosmetology", "Hospitality", "Food & Culnilary"].map(e => {
+                        ["Mechanical Engineering", 
+                            "Electrical Engineering", 
+                            "Building & Construction", 
+                            "Retail & Business", 
+                            "Textiles & Tailoring", 
+                            "Cosmetology", 
+                            "Hospitality", 
+                            "Food & Catering"].map(title => {
                             return (
                                 <CategoryCard
                                     id="1"
-                                    title={e}
+                                    title={title}
                                     location="Nigeria"
                                     salary="$10000"
                                     type="Full Time"
