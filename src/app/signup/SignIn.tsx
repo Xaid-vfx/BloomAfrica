@@ -1,3 +1,5 @@
+{/* Hello World */}
+
 'use client'
 import { Suspense, useEffect, useState } from "react"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
