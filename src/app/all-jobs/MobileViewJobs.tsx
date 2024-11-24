@@ -107,7 +107,7 @@ export default function MobileViewJobs(props) {
                             extras={job.extras}
                             responsibilities={job.responsibilities}
                             who_you_are={job.who_you_are}
-                            companyName={job.Recruiters.CompanyInfo.name}
+                            companyName={"test"}
                         />
                     })}
                 </div>

@@ -146,7 +146,9 @@ export default function AppliedTable(props: any) {
                                                     {column.id === 'date' ? <div className='text-base text-[#7C8493]'>{value}</div> : ""}
 
                                                     {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
-                                                        <button className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
+                                                        <button onClick={() => {
+                                                            console.log(row);
+                                                        }} className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
                                                             View Application</button>
                                                         {
                                                             row.signup_fee > 0 ? <PaymentComponent /> : ""

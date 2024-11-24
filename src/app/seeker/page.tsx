@@ -13,9 +13,6 @@ async function fetchSeeker(id: string) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
     const { data, error } = await supabase.from('Seekers').select().eq('unique_id', id).single()
-
-    console.log(data);
-
     return data;
 }
 

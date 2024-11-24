@@ -18,7 +18,7 @@ export async function POST(request: Request) {
             recipient: recipient_code,
         }, {
             headers: {
-                Authorization: `Bearer sk_test_a7a626236f00ef0b342fc92e4c1079d5a3ad0ed5`, // Replace with your Paystack secret key
+                Authorization: process.env.PAYSTACK_KEY, // Replace with your Paystack secret key
             },
         });
 
