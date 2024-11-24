@@ -35,11 +35,15 @@ export default function Post(props) {
     const [paymenttype, setpaymenttype] = useState("")
     const [signupfee, setsignupfee] = useState("")
     const [accomodation, setaccomodation] = useState("")
+    const [hasSignupFee, setHasSignupFee] = useState("")
 
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [showAgreements, setShowAgreements] = useState(false);
+
+    const [bankDetails, setBankDetails] = useState<any>(null);
+    const [checkingBankDetails, setCheckingBankDetails] = useState(false);
 
     const supabase = createClientComponentClient()
     const router = useRouter()
@@ -125,6 +129,7 @@ export default function Post(props) {
                 setpaymenttype("");
                 setsignupfee("");
                 setaccomodation("");
+                setHasSignupFee("");
                 router.refresh();
             }
         } catch (error) {
@@ -165,13 +170,36 @@ export default function Post(props) {
     }
 
     async function handleSubmit() {
-        // Check if any parameter is empty
+        // Check if any required parameter is empty
         if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration) {
-            setErrorMessage("Please fill in all fields");
-            toast.error("Please fill in all fields");
+            setErrorMessage("Please fill in all required fields");
+            toast.error("Please fill in all required fields");
             return;
         }
-        setShowAgreements(true)
+
+        // Validate signup fee if "Yes" is selected
+        if (hasSignupFee === "Yes" && (!signupfee || signupfee === "0")) {
+            setErrorMessage("Please enter a signup fee amount");
+            toast.error("Please enter a signup fee amount");
+            return;
+        }
+
+        // If signup fee is entered, check for bank details
+        if (hasSignupFee === "Yes") {
+            const hasBankDetails = await checkBankDetails();
+            if (!hasBankDetails) {
+                toast.error("Please add your bank details before posting a job with signup fee", {
+                    description: "Click here to add bank details",
+                    action: {
+                        label: "Add Details",
+                        onClick: () => props.handleChangeTabIndex(6),
+                    },
+                });
+                return;
+            }
+        }
+
+        setShowAgreements(true);
     }
 
     // Sample Data Function
@@ -193,6 +221,19 @@ export default function Post(props) {
         setaccomodation("Yes");
     }
 
+    const checkBankDetails = async () => {
+        const supabase = createClientComponentClient();
+        const { data, error } = await supabase
+            .from('RecruiterBankDetails')
+            .select('*')
+            .eq('recruiter_id', props.user.id)
+            .single();
+
+        if (error || !data) {
+            return false;
+        }
+        return true;
+    };
 
     return (
         <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
@@ -307,12 +348,40 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                                 </div>
                             </>
                             : ""}
-                        <div className="mt-2">
-                            <p className="font-[550] text-lg my-1">Signup Fee {"(optional)"}</p>
-                            <input value={signupfee} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Signup Fee" type="number" onChange={(e) => {
-                                console.log(e.target.value);
-                                setsignupfee(e.target.value)
-                            }} />
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Do you have a signup fee?</p>
+                            <select
+                                value={hasSignupFee}
+                                onChange={async (e) => {
+                                    const value = e.target.value;
+                                    setHasSignupFee(value);
+
+                                    if (value === "Yes") {
+                                        setCheckingBankDetails(true);
+                                        const hasBankDetails = await checkBankDetails();
+                                        if (hasBankDetails) {
+                                            const { data } = await supabase
+                                                .from('RecruiterBankDetails')
+                                                .select('*')
+                                                .eq('recruiter_id', props.user.id)
+                                                .single();
+                                            setBankDetails(data);
+                                        } else {
+                                            setBankDetails(null);
+                                        }
+                                        setCheckingBankDetails(false);
+                                    } else {
+                                        setBankDetails(null);
+                                        setsignupfee("");
+                                        setErrorMessage("");
+                                    }
+                                }}
+                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
+                            >
+                                <option value="">Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
                         </div>
                         <div className="mt-2">
                             <p className="font-[550] text-lg my-1">Required Skills*</p>
@@ -328,9 +397,70 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                             />
                         </div>
                     </div>
-
+                    {hasSignupFee === "Yes" && (
+                        <div className="mt-4">
+                            {checkingBankDetails ? (
+                                <p className="text-xs text-gray-500">Checking bank details...</p>
+                            ) : bankDetails ? (
+                                <>
+                                    <div className="bg-gray-50 p-4 rounded-lg mb-4">
+                                        <p className="text-sm font-medium mb-2">Your Bank Details:</p>
+                                        <div className="grid grid-cols-2 gap-2 text-xs">
+                                            <div>
+                                                <p className="text-gray-500">Bank Name</p>
+                                                <p className="font-medium">{bankDetails.bank_name}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-gray-500">Account Number</p>
+                                                <p className="font-medium">****{bankDetails.account_number.slice(-3)}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-gray-500">Account Name</p>
+                                                <p className="font-medium">{bankDetails.account_name}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="font-[550] text-lg my-1">Signup Fee Amount *</p>
+                                        <input
+                                            value={signupfee}
+                                            className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
+                                            placeholder="Enter Signup Fee"
+                                            type="number"
+                                            min="0"
+                                            onChange={(e) => setsignupfee(e.target.value)}
+                                        />
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="flex items-center gap-2 text-red-500">
+                                    <p className="text-xs">
+                                        Bank details are required for jobs with signup fees.
+                                    </p>
+                                    <button
+                                        onClick={() => props.handleChangeTabIndex(6)}
+                                        className="text-xs text-[#4A2C84] underline"
+                                    >
+                                        Add Bank Details
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
-                {errorMessage && <p className="text-red-500 text-sm mt-4">{errorMessage}</p>}
+                {errorMessage && (
+                    <div className="text-red-500 text-sm mt-4">
+                        {errorMessage}
+                        {errorMessage.includes("bank details") && (
+                            <button
+                                onClick={() => props.handleChangeTabIndex(6)}
+                                className="text-[#4A2C84] ml-2 underline"
+                            >
+                                Add Bank Details
+                            </button>
+                        )}
+                    </div>
+                )}
                 <button
                     type="submit"
                     className={`border rounded-lg py-2 mx-4 lg:mx-0 text-sm font-semibold px-16 lg:my-4 mb-6 text-white bg-[#4A2C84] ${loading ? "cursor-not-allowed" : ""}`}

@@ -2,8 +2,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "sonner";
 
 type Props = {
     user: any;
@@ -51,25 +50,19 @@ export default function BankDetails({ user, recruiter }: Props) {
     const fetchBanks = async () => {
         try {
             setFetchingBanks(true);
-            console.log('Fetching banks...');
-
             const response = await fetch('/api/get-banks');
             const data = await response.json();
-
-            console.log('Banks response:', data);
 
             if (!response.ok || !data.status) {
                 throw new Error(data.error || 'Failed to fetch banks');
             }
 
             if (!Array.isArray(data.data)) {
-                console.error('Unexpected data format:', data);
                 throw new Error('Invalid bank data received');
             }
 
             setBanks(data.data);
         } catch (error) {
-            console.error('Error fetching banks:', error);
             toast.error(error instanceof Error ? error.message : 'Failed to load banks');
         } finally {
             setFetchingBanks(false);
@@ -120,9 +113,8 @@ export default function BankDetails({ user, recruiter }: Props) {
 
             toast.success(data.message);
             router.refresh();
-            fetchExistingBankDetails(); // Refresh the displayed data
+            fetchExistingBankDetails();
         } catch (error) {
-            console.error('Submission Error:', error);
             toast.error(error instanceof Error ? error.message : 'Failed to process bank details');
         } finally {
             setLoading(false);
@@ -162,7 +154,6 @@ export default function BankDetails({ user, recruiter }: Props) {
 
     return (
         <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
-            <ToastContainer />
             <div className="bg-white rounded-xl p-6 lg:mt-6">
                 <h1 className="text-2xl font-semibold text-[#4A2C84] mb-6">
                     {existingDetails ? 'Update Bank Details' : 'Add Bank Details'}
