@@ -75,7 +75,7 @@ export default function Navbar(props: { color: string }) {
   }
 
   return (
-    <div className={`px-4 py-6 flex justify-between items-center lg:justify-normal ms-auto me-auto max-w-[1600px] ${props.color == "white" ? 'bg-white' : ''}`}>
+    <div className={`px-4 py-6 flex justify-between items-center lg:justify-normal  ${props.color == "white" ? 'bg-white' : ''}`}>
 
       <a href="/" className="lg:hidden">
         <Image src={LogoText} alt="logo" width={120} />
@@ -87,7 +87,7 @@ export default function Navbar(props: { color: string }) {
         }} />
       </div>
 
-      <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full">
+      <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full ms-auto me-auto max-w-[1600px]">
         <div className="flex justify-between items-center relative w-[70%]">
           <a href="/" className="hidden lg:flex lg:items-center lg:gap-2 lg:px-10">
             <Image src={Logo} alt="" width={50} />
