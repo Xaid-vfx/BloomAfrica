@@ -40,7 +40,7 @@ export function CarouselSpacing() {
                         <Card className="h-full border-0">
                             <CardContent 
                                 className="flex h-full flex-col justify-center px-5 py-6 
-                                         text-xs leading-5 text-[#515B6F] lg:px-10 lg:py-12"
+                                         text-[0.95rem] leading-5 text-black lg:px-10 lg:py-12"
                             >
                                 <p>&quot;{review}&quot;</p>
                             </CardContent>
