@@ -6,8 +6,8 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div>
-      <div className="bg-[#171c1f] px-8 py-10 text-white lg:flex lg:justify-between lg:px-24 lg:bg-[#1D1B1B]">
+    <div className="bg-[#171c1f] lg:bg-[#1D1B1B]">
+      <div className=" px-8 py-10 text-white lg:flex lg:justify-between lg:px-24 ms-auto me-auto max-w-[1750px] ">
         <div className="lg:w-1/3">
           <div className="flex items-center gap-2">
             <Image src={Logo} alt="logo" width={40} />

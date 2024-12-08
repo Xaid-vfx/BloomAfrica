@@ -4,14 +4,14 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 export default function ExploreCategory() {
     return (
-        <div className="hidden lg:block py-10 px-4 relative lg:py-16">
+        <div className="hidden lg:block py-10 px-4 relative lg:py-16 ">
             <div className="text-center">
                 <h1 className="text-2xl font-semibold lg:text-2xl lg:font-semibold">Explore by Category</h1>
                 <p className="text-sm my-2 lg:text-base lg:my-4">
                     Find your career, you deserve it
                 </p>
             </div>
-            <div className="my-12">
+            <div className="my-12 ms-auto me-auto max-w-[1500px]">
                 <p className="flex items-center gap-2 justify-end text-[#4A2C84] text-sm text-right  px-8"><a href="/all-jobs" className="hover:underline cursor-pointer">Show all Jobs </a><FaArrowRightLong /></p>
                 <div className="hidden lg:grid grid-cols-4 justify-center px-8">
                     {

@@ -42,7 +42,7 @@ export default function Navbar(props: { color: string }) {
   if (navbarIsVisible) {
 
     return (
-      <div className="h-[200vh] w-screen px-4 overflow-hidden fixed top-0 gradient z-10">
+      <div className="h-[200vh] w-screen px-4 overflow-hidden fixed top-0 gradient z-10 ">
         <div className="py-6 flex justify-between items-center lg:justify-normal">
           <a href="/" className="lg:hidden">
             <Image src={LogoText} alt="logo" width={120} />
@@ -75,7 +75,7 @@ export default function Navbar(props: { color: string }) {
   }
 
   return (
-    <div className={`px-4 py-6 flex justify-between items-center lg:justify-normal ${props.color == "white" ? 'bg-white' : ''}`}>
+    <div className={`px-4 py-6 flex justify-between items-center lg:justify-normal  ${props.color == "white" ? 'bg-white' : ''}`}>
 
       <a href="/" className="lg:hidden">
         <Image src={LogoText} alt="logo" width={120} />
@@ -87,7 +87,7 @@ export default function Navbar(props: { color: string }) {
         }} />
       </div>
 
-      <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full">
+      <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full ms-auto me-auto max-w-[1600px]">
         <div className="flex justify-between items-center relative w-[70%]">
           <a href="/" className="hidden lg:flex lg:items-center lg:gap-2 lg:px-10">
             <Image src={Logo} alt="" width={50} />
@@ -95,10 +95,10 @@ export default function Navbar(props: { color: string }) {
           </a>
 
           <div className="hidden text-[16px] lg:flex lg:pl-10 pr-10 min-w-max">
-            <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2 hover:border-purple-800 transition-all`}>Home</a>
-            <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>About</a>
-            <a href="/signup" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>Recruiting? <span className="text-[#4A2C84]">Post a Job</span></a>
-            <a href="/certified" className={`${currentPage == "certified" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-xs mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>Get Certified</a>
+            <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2 hover:border-purple-800 transition-all`}>Home</a>
+            <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>About</a>
+            <a href="/signup" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>Recruiting? <span className="text-[#4A2C84]">Post a Job</span></a>
+            <a href="/certified" className={`${currentPage == "certified" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-4 font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 px-2  hover:border-purple-800  transition-all`}>Get Certified</a>
             <p className="text-white bg-[#897DD3] rounded-full px-1 py-1 right-0 text-[0.5rem] absolute top-0">Coming Soon</p>
 
           </div>

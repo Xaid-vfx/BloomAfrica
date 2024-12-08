@@ -9,7 +9,7 @@ export default function FeaturedJobs() {
             type: "Full Time",
             company: "Gear Master Garage",
             diploma: "Diploma in Mechanical Engineering",
-            description: "Auto Mechanic Apprentice needed in Abuja. Learn under experienced mentors, gain hands-on experience in vehicle repair and maintenance."
+            description: "Auto Mechanic Apprentice needed in Abuja. Learn under experienced mentors, gain hands-on experience in..."
         },
         {
             title: "Electrical Engineer",
@@ -17,7 +17,7 @@ export default function FeaturedJobs() {
             type: "Full Time",
             company: "Olu Electroniks",
             diploma: "Diploma in Electrical Engineering (Level 7)",
-            description: "Become an Electrical Engineering apprentice in Ibadan. Gain practical experience, work on diverse projects, and develop skills under expert guidance."
+            description: "Become an Electrical Engineering apprentice in Ibadan. Gain practical experience, work on diverse projects, and develop..."
         },
         {
             title: "Barber",
@@ -33,7 +33,7 @@ export default function FeaturedJobs() {
             type: "Full Time",
             company: "Yemi’s Boutique",
             diploma: "Diploma in Fashion Design, Textiles, and Apparel (Level 7)",
-            description: "Launch your fashion career in Port Harcourt! Learn Textiles, Tailoring & Sewing from experienced professionals. Join us to refine your skill."
+            description: "Launch your fashion career in Port Harcourt! Learn Textiles, Tailoring & Sewing from..."
         },
         {
             title: "Caterer / Chef",
@@ -41,7 +41,7 @@ export default function FeaturedJobs() {
             type: "Full Time",
             company: "Flavor Fusion",
             diploma: "Diploma in Food & Culinary (Level 7)",
-            description: "Caterer/Cook apprentice needed. Gain kitchen experience, cooking skills, and learn food preparation techniques in Enugu."
+            description: "Caterer/Cook apprentice needed. Gain kitchen experience, cooking skills, and learn food ..."
         },
         {
             title: "Builder / Construction",
@@ -69,14 +69,14 @@ export default function FeaturedJobs() {
         }
     ];
     return (
-        <div className="bg-[#F8F8FD] py-10 px-4 relative lg:py-16">
-            <div className="text-center">
+        <div className="bg-[#F8F8FD] py-10 px-4 relative lg:py-16 ">
+            <div className="text-center ">
                 <h1 className="text-xl font-semibold lg:text-2xl lg:font-semibold">Featured Apprenticeship Jobs</h1>
                 <p className="text-sm my-2 lg:text-base lg:my-4">
                     Find your career, you deserve it
                 </p>
             </div>
-            <div className="my-12">
+            <div className="my-12 ms-auto me-auto max-w-[1500px]">
                 <p className="flex items-center gap-2 justify-end text-[#4A2C84] text-sm text-right  lg:px-8"><a href="/all-jobs" className="hover:underline cursor-pointer">Show all Jobs </a><FaArrowRightLong /></p>
                 <div className="hidden lg:grid grid-cols-4 justify-center px-8">
                     {
