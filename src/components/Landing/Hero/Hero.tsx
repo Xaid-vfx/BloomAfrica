@@ -70,18 +70,18 @@ export default function Hero() {
     }, [])
 
     return (
-        <div className='lg:flex lg:items-center lg:px-12 lg:py-8 pb-10'>
+        <div className='lg:flex lg:items-center lg:px-12 lg:py-8 pb-10 justify-center ms-auto me-auto max-w-[1500px]'>
             <div className="lg:w-[60%]">
                 <div className="px-4 mt-20 flex flex-col justify-center items-center lg:items-start lg:mt-0">
                     <div className="lg:flex lg:items-center lg:w-full lg:justify-between lg:pr-12">
                         <div className="px-5 py-3 text-sm rounded-full text-[#F38968] bg-white">Empower Your Career Journey</div>
                         <Image src={Star} alt="" width={40} className="hidden lg:block" />
                     </div>
-                    <h1 className="text-3xl leading-loose my-4 text-center font-semibold lg:text-[2.5em] lg:text-left lg:leading-[4rem] lg:my-2 HiddenAnimation">
+                    <h1 className="text-3xl leading-loose my-4 text-center font-semibold lg:text-[2.5em] lg:text-left lg:leading-[4rem] lg:my-2 HiddenAnimation lg:max-w-5xl md:max-w-2xl lg:min-w-[549px]">
                         Discover Exciting <span className="Apprentice pb-4 lg:pb-3 text-[#4A2C84]">Apprenticeship </span>
                         Opportunities With Bloom
                     </h1>
-                    <p className="text-sm text-[#1A202C] leading-7 mt-2 text-center px-2 lg:px-0 lg:text-left lg:mt-4 lg:text-base lg:w-4/5 HiddenAnimation">
+                    <p className=" text-sm text-[#1A202C] leading-7 mt-2 text-center px-2 lg:px-0 lg:text-left lg:mt-4 lg:text-base lg:w-4/5 HiddenAnimation lg:max-w-2xl md:max-w-xl ">
                         Bloom connects aspiring professionals with a wide range of apprenticeship opportunities across various industries and sectors.
                     </p>
 
@@ -94,21 +94,21 @@ export default function Hero() {
                 </div>
             </div>
 
-            <div className="lg:my-10 lg:block hidden mt-4 mx-4 lg:w-[40%] relative">
-                <div className="lg:p-8 p-4 lg:py-10 flex justify-center">
+            <div className="lg:my-10 lg:block hidden mt-4 mx-4 lg:w-[40%] relative m">
+                <div className="lg:p-8 p-4 lg:py-10 flex justify-center ">
                     <Image src={DHero} alt="hero" className="w-[80%]" />
                 </div>
-                <div className="absolute top-[42%] HiddenAnimationStats">
-                    <StatsBox id={1} image="" content="Easy Apprenticeships" />
+                <div className="absolute top-[42%] HiddenAnimationStats ">
+                    <StatsBox id={1} image="" content="Learn a Skill or Trade" />
                 </div>
                 <div className="absolute lg:top-[10%] top-[12%] left-0 lg:left-0 sHiddenAnimationStats">
-                    <StatsBox id={2} image={SearchIcon} content="Customized Job Board" />
+                    <StatsBox id={2} image={SearchIcon} content="Apprentice to Entreprenuer" />
                 </div>
                 <div className="absolute top-[36%] right-0 HiddenAnimationStats">
-                    <StatsBox id={3} com={<FaBookOpen className="lg:text-2xl text-lg text-[#F38968]" />} content="Quality online courses" />
+                    <StatsBox id={3} com={<FaBookOpen className="lg:text-2xl text-lg text-[#F38968]" />} content="Start your Business" />
                 </div>
                 <div className="absolute bottom-[5%] right-12 HiddenAnimationStats">
-                    <StatsBox id={4} com={<FiAward className="lg:text-2xl text-lg text-[#F38968]" />} content="Professional Certification" />
+                    <StatsBox id={4} com={<FiAward className="lg:text-2xl text-lg text-[#F38968]" />} content="Get Certified" />
                 </div>
             </div>
         </div>

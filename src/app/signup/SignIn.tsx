@@ -1,4 +1,6 @@
 'use client'
+// Hello World
+
 import { Suspense, useEffect, useState } from "react"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -75,7 +77,7 @@ export default function SignIn() {
                     access_type: 'offline',
                     prompt: 'consent'
                 },
-                redirectTo: signUpUserTypeTab == "seeker" ? 'https://www.bloom.africa/auth/callback?type=/signup/complete_profile&next=' + redirectUrl : 'https://www.bloom.africa/auth/callback?type=/signup/complete_recruiter_profile'
+                redirectTo: signUpUserTypeTab == "seeker" ? 'http://localhost:3000/auth/callback?type=/signup/complete_profile&next=' + redirectUrl : 'http://localhost:3000/auth/callback?type=/signup/complete_recruiter_profile'
             },
 
         })

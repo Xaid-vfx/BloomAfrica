@@ -31,10 +31,10 @@ export default function AboutHero() {
                 Discover Exciting <span className="text-[#4A2C84]">Apprenticeship</span> Opportunities with Bloom
             </h1>
             <p className="leading-9 hidden lg:block text-center my-6 lg:my-4 text-sm HiddenAnimationStats">
-                Bloom is an online platform that allows workers to turn ordinary job opportunities into valuable, exciting apprenticeships that leads to recognized qualifications, accelerating career growth and fostering skilled professionals.Our vision is to become the global leader in providing innovative education solutions that empower informal workers and MSME owners in emerging economies to unlock their full potential.Our platform will serve as the catalyst for change, enabling users to upskill themselves, grow their businesses, and connect with a world of employment opportunities.
+                Bloom is an online platform that allows workers to turn ordinary job opportunities into valuable, exciting apprenticeships that leads to recognized qualifications, accelerating career growth and fostering skilled professionals. Our vision is to become the global leader in providing innovative education solutions that empower informal workers and MSME owners in emerging economies to unlock their full potential.
             </p>
             <p className="leading-9 lg:hidden text-justify my-6 lg:my-4 text-sm HiddenAnimationStats">
-                Bloom is an online platform that allows workers to turn ordinary job opportunities into valuable, exciting apprenticeships that leads to recognized qualifications, accelerating career growth and fostering skilled professionals.Our vision is to become the global leader in providing innovative education solutions that empower informal workers and MSME owners in emerging economies to unlock their full potential.
+                Bloom is an online platform that allows workers to turn ordinary job opportunities into valuable, exciting apprenticeships that leads to recognized qualifications, accelerating career growth and fostering skilled professionals. Our vision is to become the global leader in providing innovative education solutions that empower informal workers and MSME owners in emerging economies to unlock their full potential.
             </p>
             <Image src={Scribble} alt="scribble" width={100} className="hidden lg:block absolute top-0 left-0" />
             <Image src={Scribble2} alt="scribble" width={100} className="hidden lg:block absolute bottom-0 right-0" />

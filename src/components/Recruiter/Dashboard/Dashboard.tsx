@@ -108,7 +108,7 @@ export default function Dashboard(props: Props) {
 
                 {
                     applications == null ? <div className="flex justify-center items-center h-[250px]">
-                        <MoonLoader color="#4A2C84" /> </div> : applications?.length > 0 ? <StickyHeadTable applications={applications} /> : <div className="flex justify-center items-center h-[200px]">
+                        <MoonLoader color="#4A2C84" /> </div> : applications?.length > 0 ? <StickyHeadTable user={props.user} applications={applications} /> : <div className="flex justify-center items-center h-[200px]">
                             No applications found!
                         </div>
                 }

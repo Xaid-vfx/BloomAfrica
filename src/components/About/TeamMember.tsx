@@ -10,7 +10,7 @@ type Props = {
     image: any;
 }
 
-export default function FoundingCard(props: Props) {
+export default function TeamMemberCard(props: Props) {
     return (
         <div className="bg-white my-3 lg:my-4 mx-2 flex flex-col justify-center items-center py-6 rounded-xl box_shadow lg:px-24 lg:py-12 lg:w-[30%]">
             <Image src={props.image} alt="" width={120} className="lg:block hidden border rounded-full mb-4" />

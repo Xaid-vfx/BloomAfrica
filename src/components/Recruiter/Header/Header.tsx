@@ -4,7 +4,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { useState } from "react";
 import Image from "next/image";
 import Bloom from '../../../assets/images/BloomLogo.png'
-import { BiHomeAlt2 } from "react-icons/bi";
+import { BiHomeAlt2, BiMessage } from "react-icons/bi";
 import { PiBuildings } from "react-icons/pi";
 import { LuClipboardList } from "react-icons/lu";
 import { AiOutlineClose } from "react-icons/ai";
@@ -54,6 +54,10 @@ export default function Header(props: Props) {
                             <div onClick={() => { handleChangeTabIndex(3) }} className={` py-3 cursor-pointer px-4 flex gap-4 items-center  ${props.currTabIndex == 3 ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                                 <LuClipboardList className="text-xl" />
                                 <p className="">Job Listing</p>
+                            </div>
+                            <div onClick={() => { handleChangeTabIndex(5) }} className={` py-3 cursor-pointer px-4 flex gap-4 items-center  ${props.currTabIndex == 5 ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                                <BiMessage className="text-xl" />
+                                <p className="">Messages</p>
                             </div>
                         </div>
                     </div>
