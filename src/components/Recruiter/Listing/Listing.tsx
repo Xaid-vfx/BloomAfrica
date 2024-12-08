@@ -32,6 +32,8 @@ export default function Listing(props: Props) {
     const [applicant, setapplicant] = useState()
     const [experience, setexperience] = useState()
     const router = useRouter()
+    const [selectedJobApplications, setselectedJobApplications] = useState([])
+    const [selectedJob, setselectedJob] = useState(null)
 
 
     async function deleteJob(id: string) {
@@ -52,21 +54,38 @@ export default function Listing(props: Props) {
         router.refresh()
     }
 
-    async function ApplicationsForSelectedJob(id: string) {
-        console.log(id);
-        setloading(true)
-        setshowJobApplications(true)
-        const supabase = createClientComponentClient()
-        const { data, error } = await supabase
-            .from('Applicants')
-            .select()
-            .eq('job_id', id)
-        console.log(data);
-        setapplications(data)
-        setloading(false)
-        if (error) {
-            console.log(error);
+    async function ApplicationsForSelectedJob(job_id: string) {
+        setloading(true);
+        const supabase = createClientComponentClient();
+
+        // First fetch the job details
+        const { data: jobData, error: jobError } = await supabase
+            .from('Jobs')
+            .select('*')
+            .eq('uid', job_id)
+            .single();
+
+        if (jobError) {
+            console.error('Error fetching job:', jobError);
+            return;
         }
+
+        setselectedJob(jobData);
+
+        // Then fetch the applications
+        const { data: applications, error } = await supabase
+            .from('Applicants')
+            .select('*')
+            .eq('job_id', job_id);
+
+        if (error) {
+            console.error('Error fetching applications:', error);
+        } else {
+            setselectedJobApplications(applications);
+        }
+
+        setshowJobApplications(true);
+        setloading(false);
     }
     async function fetchApplicantDetails(id: string) {
         console.log(id);
@@ -135,7 +154,15 @@ export default function Listing(props: Props) {
                                         <ApplicantDisplay experience={experience} applicant={applicant} />
                                     </div>
                                 </div> :
-                                <Applications ApplicationsForSelectedJob={ApplicationsForSelectedJob} setshowJobApplications={setshowJobApplications} loading={loading} fetchApplicantDetails={fetchApplicantDetails} user={props.user} applications={applications} />
+                                <Applications
+                                    applications={selectedJobApplications}
+                                    jobDetails={selectedJob}
+                                    setshowJobApplications={setshowJobApplications}
+                                    ApplicationsForSelectedJob={ApplicationsForSelectedJob}
+                                    fetchApplicantDetails={fetchApplicantDetails}
+                                    loading={loading}
+                                    user={props.user}
+                                />
                         }
                     </div> :
                     <div className="jobs flex flex-col gap-6 py-8 lg:py-0">

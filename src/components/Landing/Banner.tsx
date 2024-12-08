@@ -17,7 +17,7 @@ export default function Banner() {
             </h1>
             <div className="hidden lg:flex  my-6  w-full gap-14 justify-center items-center">
                 <Image src={Harvard} alt="" width={200} />
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-fit">
                     <Image src={UN} alt="" width={50} />
                     <div className="text-2xl font-medium leading-7">
                         UNITED <br /> NATIONS

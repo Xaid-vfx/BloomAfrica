@@ -80,7 +80,7 @@ export function DialogDemo(props) {
         <Dialog>
             <DialogTrigger asChild>
                 <div className=''>
-                    <div className="border border-[#4A2C84] lg:flex gap-2 items-center hidden text-sm font-medium cursor-pointer text-[#4A2C84] px-4 py-2 lg:font-semibold rounded-3xl"><BsChatText className="text-xl" /> Chat</div>
+                    <div className="border border-[#4A2C84] lg:flex gap-2 items-center justify-center hidden text-sm font-medium cursor-pointer text-[#4A2C84] px-4 py-2 lg:font-semibold rounded-3xl"><BsChatText className="text-xl" /> Chat</div>
                     <BsChatText className="lg:hidden text-2xl" />
                 </div>
             </DialogTrigger>

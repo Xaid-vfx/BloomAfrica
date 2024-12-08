@@ -19,10 +19,11 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { PiCaretUpDownFill } from "react-icons/pi";
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 
 interface Column {
-    id: 'name' | 'status' | 'date' | 'action' | 'chat';
+    id: 'name' | 'date' | 'action' | 'chat' | 'paymentStatus';
     label: string;
     minWidth?: number;
     align?: 'right';
@@ -30,34 +31,32 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-    { id: 'name', label: 'CANDIDATES', minWidth: 170 },
-    { id: 'status', label: 'STATUS', minWidth: 100 },
+    {
+        id: 'name',
+        label: 'CANDIDATES',
+        minWidth: 170
+    },
+    {
+        id: 'paymentStatus',
+        label: 'PAYMENT STATUS',
+        minWidth: 100
+    },
     {
         id: 'date',
         label: 'APPLIED DATE',
         minWidth: 170,
-        format: (value: number) => value.toLocaleString('en-US'),
     },
     {
         id: 'action',
         label: 'ACTION',
-        minWidth: 170,
+        minWidth: 130,
         align: 'center',
-        format: (value: number) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'chat',
-        label: 'Chat applicant',
-        minWidth: 170,
-        align: 'center',
-        format: (value: number) => value.toLocaleString('en-US'),
     },
 ];
 
 interface Data {
     id: number,
     name: string;
-    status: string;
     date: string;
     action: string;
     uid: string
@@ -66,13 +65,13 @@ interface Data {
 function createData(
     id: number,
     name: string,
-    status: string,
     date: string,
     action: string,
-    uid: string
+    uid: string,
+    paymentStatus?: string
 ): Data {
 
-    return { id, name, status, date, action, uid };
+    return { id, name, date, action, uid, paymentStatus };
 }
 
 // const rows = [
@@ -96,8 +95,33 @@ function createData(
 export default function RejectedTable(props: any) {
     console.log(props.applications);
 
+    const [paymentStatuses, setPaymentStatuses] = React.useState<{ [key: string]: string }>({});
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const fetchPaymentStatuses = async () => {
+            setIsLoading(true);
+            const supabase = createClientComponentClient();
+            const { data, error } = await supabase
+                .from('jobpayments')
+                .select('job_id, status')
+                .eq('seeker_id', props.user.id);
+
+            if (data) {
+                const statuses = data.reduce((acc, curr) => ({
+                    ...acc,
+                    [curr.job_id]: curr.status
+                }), {});
+                setPaymentStatuses(statuses);
+            }
+            setIsLoading(false);
+        };
+
+        fetchPaymentStatuses();
+    }, [props.user.id]);
+
     const rows = [...props.applications.map((app: any) => {
-            return createData(app.unique_id, app.name, app.status, app.created_at.substring(0, app.created_at.indexOf('T')), "View", app.seeker_id);
+        return createData(app.unique_id, app.name, app.created_at.substring(0, app.created_at.indexOf('T')), "View", app.seeker_id, paymentStatuses[app.job_id] || 'Unpaid');
     })];
 
     rows.sort((a, b) => b.id - a.id);
@@ -115,11 +139,15 @@ export default function RejectedTable(props: any) {
     };
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: 'none', borderRadius: '10px' }}>
+        <Paper sx={{
+            width: '100%',
+            overflow: 'hidden',
+            boxShadow: 'none',
+            borderRadius: '16px',
+            border: '1px solid #E5E7EB'
+        }}>
             <TableContainer sx={{ maxHeight: 440 }}>
-                <div className='mt-6 mb-4 mx-10 text-xl font-semibold'>Accepted Applicants</div>
-                <hr className='w-full' />
-                <Table stickyHeader aria-label="sticky table">
+                <Table stickyHeader aria-label="rejected applications table">
                     <TableHead>
                         <TableRow>
                             {columns.map((column) => (
@@ -128,71 +156,128 @@ export default function RejectedTable(props: any) {
                                     align={column.align}
                                     style={{ minWidth: column.minWidth }}
                                     sx={{
-                                        color: '#7C8493',
-                                        fontWeight: '400',
-                                        fontSize: '15px'
+                                        backgroundColor: '#F8F9FA',
+                                        color: '#4A5568',
+                                        fontWeight: '600',
+                                        fontSize: '14px',
+                                        borderBottom: '2px solid #E5E7EB',
+                                        padding: '16px 24px',
                                     }}
                                 >
-                                    {column.id == "name" ? <div className='pl-6'>{column.label}</div> : column.label}
+                                    {column.label}
                                 </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
-
                     <TableBody>
-                        {rows.length > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row) => {
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                        {columns?.map((column) => {
+                                    <TableRow
+                                        hover
+                                        role="checkbox"
+                                        tabIndex={-1}
+                                        key={row.code}
+                                        sx={{
+                                            '&:hover': {
+                                                backgroundColor: '#F8F9FA',
+                                                transition: 'all 0.2s',
+                                            },
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        {columns.map((column) => {
                                             const value = row[column.id];
                                             return (
-                                                <TableCell key={column.id} align={column.align}>
+                                                <TableCell
+                                                    key={column.id}
+                                                    align={column.align}
+                                                    sx={{
+                                                        borderBottom: '1px solid #E5E7EB',
+                                                        padding: '16px 24px',
+                                                    }}
+                                                >
                                                     {column.id === 'name' ? (
-                                                        <div className='flex items-center gap-3 pr-10 pl-6'>
-                                                            <Image src={User} alt='' width={40} className='border rounded-full p-1' />
+                                                        <div className='flex items-center gap-4 pr-10 pl-2'>
+                                                            <div className="relative">
+                                                                <Image
+                                                                    src={User}
+                                                                    alt=''
+                                                                    width={48}
+                                                                    height={48}
+                                                                    className='rounded-full object-cover border-2 border-gray-100'
+                                                                />
+                                                            </div>
                                                             <div>
-                                                                <h2 className='font-[500] font-sans text-lg'>{value}</h2>
-                                                                <p className='text-sm text-[#4A2C84]'>Product Designer</p>
-                                                                <p className='text-sm text-[#7C8493]'>Yaba, Lagos</p>
+                                                                <h2 className='font-medium text-gray-900 text-base'>{value}</h2>
                                                             </div>
                                                         </div>
                                                     ) : ""}
 
-                                                    {column.id === 'date' ? <div className='text-base text-[#7C8493]'>{value}</div> : ""}
+                                                    {column.id === 'date' ? (
+                                                        <div className='text-sm text-gray-600'>{value}</div>
+                                                    ) : ""}
 
-                                                    {column.id === 'status' ? <div className='text-base'>
-                                                        Unpaid</div> : ""}
+                                                    {column.id === 'paymentStatus' ? (
+                                                        isLoading ? (
+                                                            <div className="text-center px-4 py-2 rounded-full bg-gray-50">
+                                                                <div className="animate-pulse flex justify-center">
+                                                                    <div className="h-5 w-16 bg-gray-200 rounded-full"></div>
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div className={`text-center px-4 py-2 rounded-full text-sm font-medium ${value === 'success'
+                                                                ? 'bg-green-50 text-green-600'
+                                                                : 'bg-red-50 text-red-600'
+                                                                }`}>
+                                                                {value === 'success' ? 'Paid' : 'Unpaid'}
+                                                            </div>
+                                                        )
+                                                    ) : ""}
 
-                                                    {column.id === 'action' ? <div className='flex justify-center'>
-                                                        <div onClick={() => {
-                                                            console.log(row);
-                                                            props.fetchApplicantDetails(row.uid)
-                                                        }} className='bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
-                                                            View Application</div>
-                                                    </div> : ""}
-                                                    {column.id === 'chat' ? <div className='flex justify-center'>
-                                                        <DialogDemo seeker_id={row.id} name={row.name} user_id={props.user.id} />
-                                                    </div> : ""
-                                                    }
-
+                                                    {column.id === 'action' ? (
+                                                        <div className='flex flex-col gap-2 justify-center items-center'>
+                                                            <button
+                                                                onClick={() => {
+                                                                    props.fetchApplicantDetails(row.uid)
+                                                                }}
+                                                                className='bg-[#E9EBFD] text-[#4A2C84] px-6 py-2 font-medium text-sm rounded-full cursor-pointer text-center w-full hover:bg-[#4A2C84] hover:text-white transition-colors'
+                                                            >
+                                                                View Application
+                                                            </button>
+                                                            <div className="w-full">
+                                                                <DialogDemo
+                                                                    seeker_id={row.uid}
+                                                                    name={row.name}
+                                                                    user_id={props.user.id}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ) : ""}
                                                 </TableCell>
                                             );
                                         })}
                                     </TableRow>
                                 );
-                            }) : ""}
+                            })}
                     </TableBody>
                 </Table>
             </TableContainer>
             <TablePagination
-                // rowsPerPageOptions={[10, 25, 100]}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
+                sx={{
+                    borderTop: '1px solid #E5E7EB',
+                    '.MuiTablePagination-select': {
+                        borderRadius: '8px',
+                        border: '1px solid #E5E7EB',
+                        padding: '4px 8px',
+                    }
+                }}
             />
         </Paper>
     );

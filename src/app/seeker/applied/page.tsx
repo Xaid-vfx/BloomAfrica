@@ -49,7 +49,7 @@ export default async function page() {
             <Sidebar />
             <div className="w-full flex flex-col h-screen">
                 <Header name={seeker.name} />
-                <Applied appliedjobs={appliedjobs} />
+                <Applied appliedjobs={appliedjobs} seekerId={user?.id} />
             </div>
         </div>
     )
