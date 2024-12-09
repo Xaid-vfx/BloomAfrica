@@ -26,7 +26,7 @@ export function CarouselSpacing() {
         rivals these systems.",
 
         "Wow! I love this. I've been waiting for it in Africa. Germany has been \
-        operating this for many years."
+        operating this for many years.<br />"
     ]
 
     return (

@@ -20,7 +20,8 @@ export default function MobileCard(props: Props) {
     console.log("logo" + props.logo);
 
     return (
-        <div className="py-8 px-6 border rounded-lg">
+        
+        <div className="py-8 px-6 border rounded-lg mx-auto w-full min-w-max">
             <Image src={props.logo ? props.logo : Logo} alt="logo" width={50} height={100} />
             <h1 className="text-lg font-medium mt-4">{props.title}</h1>
             <div className="flex mt-2 text-sm text-[#515B6F] gap-2 items-baseline">
@@ -44,5 +45,6 @@ export default function MobileCard(props: Props) {
             </div>
             <p className="text-xs text-[#7C8493]"><span className="text-black font-semibold">5 Applied</span> of 10 capacity</p> */}
         </div>
+        
     )
 }

@@ -227,7 +227,7 @@ export default function EditSeeker(props: Props) {
                         <div className="my-6">
                             <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-full">
                                 <div className="">
-                                    <h2 className="mb-1 text-sm font-medium ">Company Name</h2>
+                                    <h2 className="mb-1 text-sm font-medium ">Name of Employer</h2>
                                     <input onChange={(e) => { setcname(e.target.value); setshowSave3(true) }} value={cname} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
                                 <div className="">

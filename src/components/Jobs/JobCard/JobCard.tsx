@@ -38,15 +38,15 @@ export default function JobCard(props: Props) {
                     </div>
                 </div>
                 <div className="ml-24 flex gap-2 my-4 items-center">
-                    <div className="rounded-3xl text-sm  px-3 py-2 bg-[#ebfffa] text-[#56CDAD]">{props.type}</div>
+                    <div className="rounded-3xl text-sm min-w-max px-3 py-2 bg-[#ebfffa] text-[#56CDAD]">{props.type}</div>
                     <div
                         className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
                     {/* <div className="rounded-3xl px-3 py-2 border border-[#FFB836] text-sm text-[#FFB836]">Marketing</div> */}
-                    {props.category && <div className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84]">{props.category}</div>}
+                    {props.category && <div className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] min-w-max">{props.category}</div>}
                 </div>
             </div>
             <div className="">
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2">
                     <button className=" text-black border border-black py-3 text-center font-medium rounded-3xl px-14" >Save</button><a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14 hover:bg-[#2f185e]" >Apply</a>
                 </div>
 

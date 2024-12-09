@@ -5,66 +5,66 @@ export default function FeaturedJobs() {
     const jobs = [
         {
             title: "Auto Mechanic",
-            location: "Abuja, FCT",
+            location: "Abuja",
             type: "Full Time",
             company: "Gear Master Garage",
-            diploma: "Diploma in Mechanical Engineering",
-            description: "Auto Mechanic Apprentice needed in Abuja. Learn under experienced mentors, gain hands-on experience in..."
+            diploma: "Certificate in Mechanical Engineering",
+            description: "Auto Mechanic Apprentice needed in Abuja. Learn under experienced mentors, gain..."
         },
         {
             title: "Electrical Engineer",
-            location: "Ibadan, Oyo State",
+            location: "Ibadan",
             type: "Full Time",
             company: "Olu Electroniks",
-            diploma: "Diploma in Electrical Engineering (Level 7)",
-            description: "Become an Electrical Engineering apprentice in Ibadan. Gain practical experience, work on diverse projects, and develop..."
+            diploma: "Certificate in Electrical Engineering ",
+            description: "Become an Electrical Engineering apprentice in Ibadan. Gain practical experience..."
         },
         {
             title: "Barber",
-            location: "Lagos, Lagos State",
+            location: "Lagos",
             type: "Full Time",
             company: "ClipperCraft Studio",
-            diploma: "Diploma in Cosmetology (Level 7)",
+            diploma: "Certificate in Cosmetology ",
             description: "Join our barbering team in Lagos! Apprentice under master barbers, refine your skills."
         },
         {
             title: "Tailoring",
-            location: "Port Harcourt, Rivers State",
+            location: "Port Harcourt",
             type: "Full Time",
             company: "Yemi’s Boutique",
-            diploma: "Diploma in Fashion Design, Textiles, and Apparel (Level 7)",
+            diploma: "Certificate in Fashion Design, Textiles, and Apparel ",
             description: "Launch your fashion career in Port Harcourt! Learn Textiles, Tailoring & Sewing from..."
         },
         {
             title: "Caterer / Chef",
-            location: "Enugu, Enugu State",
+            location: "Enugu",
             type: "Full Time",
             company: "Flavor Fusion",
-            diploma: "Diploma in Food & Culinary (Level 7)",
+            diploma: "Certificate in Food & Culinary ",
             description: "Caterer/Cook apprentice needed. Gain kitchen experience, cooking skills, and learn food ..."
         },
         {
             title: "Builder / Construction",
-            location: "Lagos, Lagos State",
+            location: "Lagos",
             type: "Full Time",
             company: "Foundation-Forge Builders",
-            diploma: "Diploma in Construction & Civil Engineering (Level 7)",
-            description: "Seeking a Builder/Construction Apprentice in Lagos. Gain hands-on experience in construction projects, learn from skilled professionals."
+            diploma: "Certificate in Construction & Civil Engineering ",
+            description: "Seeking a Builder/Construction Apprentice in Lagos. Gain hands-on..."
         },
         {
             title: "Mechanic",
-            location: "Ibadan, Oyo State",
+            location: "Ibadan",
             type: "Full Time",
             company: "Apex Mechanics",
-            diploma: "Diploma in Mechanical Engineering (Level 7)",
-            description: "Become a skilled mechanic. Seeking a Mechanic Apprentice in Ibadan, Oyo State. Learn from seasoned professionals, gain practical skills in vehicle maintenance and repair."
+            diploma: "Certificate in Mechanical Engineering ",
+            description: "Become a skilled mechanic. Seeking a Mechanic Apprentice in Ibadan, Oyo State. Learn from seasoned..."
         },
         {
             title: "Carpenter",
-            location: "Ibadan, Oyo State",
+            location: "Ibadan",
             type: "Full Time",
             company: "WoodWise Carpentry",
-            diploma: "Diploma in Construction & Civil Engineering (Level 7)",
+            diploma: "Certificate in Construction & Civil Engineering",
             description: "Seeking a Carpenter Apprentice in Ibadan. Learn woodworking skills, from crafting furniture to building structures."
         }
     ];
