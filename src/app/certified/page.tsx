@@ -22,7 +22,7 @@ export default function About() {
                         Earn a degree-level <br /> certification.
                     </h1>
                     <h1 className="lg:hidden text-2xl font-semibold leading-10">
-                        Unlock Your Career Potential with Industry-Recognized Certifications
+                        Unlock Your Career with Industry-Recognized Certifications
                     </h1>
                     <p className="text-lg leading-6 my-6">
                         We make it easier than ever for learners to earn qualifications and certifications. Simply enroll in a Bloom apprenticeship that aligns with your desired qualification level, complete the program, and achieve your goals! 

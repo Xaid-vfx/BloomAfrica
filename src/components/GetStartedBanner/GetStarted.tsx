@@ -7,7 +7,7 @@ export default function GetStarted() {
         <div className="my-10 mx-4 relative rounded-[3rem] bg-[#171c1f] text-white px-5 py-24 flex flex-col justify-center items-center overflow-hidden lg:ms-auto lg:me-auto lg:py-28 max-w-[1500px]">
 
             <h2 className="text-lg font-medium mb-8 lg:text-2xl">Get Started with Bloom</h2>
-            <p className="text-sm leading-6 text-center lg:text-lg m lg:w-2/3 px-1 sm:px-10 lg:px-40">
+            <p className="text-sm leading-6 text-center lg:text-md m lg:w-2/3 px-1 sm:px-10 md:px-40 lg:px-0 ">
                 Bloom connects aspiring apprentices with top Ogas & mentors, offering hands-on learning, professional development, and career growth.
                 <br /> <br />
                 Start your apprenticeship journey today. Connect, learn, and grow with the right opportunities to shape your future.
