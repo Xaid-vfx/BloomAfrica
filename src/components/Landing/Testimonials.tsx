@@ -10,7 +10,7 @@ export default function Testimonials() {
         <div className="gradient2 ">
             <div className=" w-full py-20 flex flex-col justify-center items-center overflow-hidden ms-auto me-auto max-w-[1600px] ">
             <h1 className="text-center text-xl lg:text-2xl font-semibold flex justify-center pb-8 w-[90%] lg:w-[60%]">
-                Join the Conversation
+                In Your Own Words . . .
             </h1>
             <CarouselSpacing />
             </div>

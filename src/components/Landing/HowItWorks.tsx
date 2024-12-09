@@ -15,7 +15,7 @@ export default function HowItWorks() {
             <Image src={star} alt="star" width={30} className="absolute left-60 top-28 hidden lg:block" />
             <Image src={quarter} alt="quarter" width={200} className="absolute right-0 top-0 hidden lg:block" />
             
-            <div className="ms-auto me-auto max-w-[1500px]">
+            <div className="ms-auto me-auto lg:max-w-[1500px] max-lg:max-w-[700px]">
                 <div className="text-center">
                     <h1 className="text-2xl font-semibold lg:text-3xl lg:font-semibold">How Bloom Works</h1>
                     <p className="text-sm my-2 leading-6 px-6 lg:text-lg lg:my-4">
@@ -31,7 +31,7 @@ export default function HowItWorks() {
                         <h2 className="my-3 font-medium text-xl lg:font-semibold">
                             Explore Our Opportunities
                         </h2>
-                        <p className="text-xs leading-6 mt-3 text-[#515B6F]">
+                        <p className="text-xs leading-6 mt-3 text-[#515B6F] max-lg:max-w-[500px]">
                             Browse our extensive collection of apprenticeship opportunities across various industries and locations. Use our search filters to narrow down your options based on your preferences.
                         </p>
                     </div>
@@ -42,7 +42,7 @@ export default function HowItWorks() {
                         <h2 className="my-3 font-medium text-xl lg:font-semibold">
                             Accelerated Learning
                         </h2>
-                        <p className="text-xs leading-6 mt-3 text-[#515B6F]">
+                        <p className="text-xs leading-6 mt-3 text-[#515B6F] max-lg:max-w-[500px]">
                             While working on-site with your mentor to gain <span className="whitespace-nowrap">hands-on</span> experience, you will also participate in our accelerated curriculum program designed to make you an expert in your field.
                         </p>
                     </div>
@@ -53,7 +53,7 @@ export default function HowItWorks() {
                         <h2 className="my-3 font-medium text-xl lg:font-semibold">
                             Get Certified
                         </h2>
-                        <p className="text-xs leading-6 mt-3 text-[#515B6F]">
+                        <p className="text-xs leading-6 mt-3 text-[#515B6F] max-lg:max-w-[500px]">
                             After successfully finishing your apprenticeship, you will attain a professional certificate, a prestigious credential that will distinguish you in the competitive job market.
                         </p>
                     

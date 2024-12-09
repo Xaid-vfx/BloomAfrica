@@ -10,10 +10,10 @@ export default function Banner() {
     return (
         <div className="overflow-hidden">
             <h1 className="hidden lg:block text-center font-semibold">
-                Supported by Researchers at
+                Validated by Experts at
             </h1>
             <h1 className="lg:hidden text-[#7C8493] text-sm text-center font-medium">
-                Supported by Researchers at
+                Validated by Experts at
             </h1>
             <div className="hidden lg:flex  my-6  w-full gap-14 justify-center items-center">
                 <Image src={Harvard} alt="" width={200} />

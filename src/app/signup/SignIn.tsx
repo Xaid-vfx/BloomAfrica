@@ -1,4 +1,3 @@
-{/* Hello World */}
 
 'use client'
 import { Suspense, useEffect, useState } from "react"

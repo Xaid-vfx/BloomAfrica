@@ -83,37 +83,41 @@ export default function RecruiterContent(props: Props) {
     //     )
     // }
     return (
-        <div className="flex">
-            <Sidebar handleChangeTabIndex={(e: any) => {
-                handleChangeTabIndex(e)
-            }} currTabIndex={currTabIndex} />
-
-            <div className="w-full flex flex-col h-screen">
-                <Header showNav={() => { setshowNav(true) }} currTabIndex={currTabIndex} handleChangeTabIndex={(e: any) => {
+        
+        
+        <div className="  bg-[#F8F8FD]">
+            <div className="flex w-full justify-center ms-auto me-auto max-w-[1500px]">
+                <Sidebar handleChangeTabIndex={(e: any) => {
                     handleChangeTabIndex(e)
-                }} name={props.company ? props.company?.name : ""} />
+                }} currTabIndex={currTabIndex} />
 
-                {currTabIndex == 0 ?
-                    <Dashboard handleChangeTabIndex={(e: any) => {
+                <div className="w-full flex flex-col h-screen">
+                    <Header showNav={() => { setshowNav(true) }} currTabIndex={currTabIndex} handleChangeTabIndex={(e: any) => {
                         handleChangeTabIndex(e)
-                    }} getJobId={(e: any) => {
-                        console.log(e);
+                    }} name={props.company ? props.company?.name : ""} />
 
-                        setjobid(e)
-                    }} user={props.user} company={props.company} jobs={jobs} recruiter={props.recruiter} /> : ""}
-                {currTabIndex == 1 ?
-                    <div className="border h-screen p-20">Messages</div>
-                    : ""}
-                {currTabIndex == 2 ?
-                    <EditRecruiter user={props.user} recruiter={props.recruiter} company={props.company} />
-                    : ""}
-                {currTabIndex == 3 ?
-                    <Listing job_id={jobid} user={props.user} jobs={jobs} />
-                    : ""}
-                {currTabIndex == 4 ? <Post user={props.user} handleChangeTabIndex={(e: any) => {
-                    handleChangeTabIndex(e)
-                }} /> : ""}
-                {currTabIndex == 5 ? <Messages user={props.user} recruiter={props.recruiter} /> : ""}
+                    {currTabIndex == 0 ?
+                        <Dashboard handleChangeTabIndex={(e: any) => {
+                            handleChangeTabIndex(e)
+                        }} getJobId={(e: any) => {
+                            console.log(e);
+
+                            setjobid(e)
+                        }} user={props.user} company={props.company} jobs={jobs} recruiter={props.recruiter} /> : ""}
+                    {currTabIndex == 1 ?
+                        <div className="border h-screen p-20">Messages</div>
+                        : ""}
+                    {currTabIndex == 2 ?
+                        <EditRecruiter user={props.user} recruiter={props.recruiter} company={props.company} />
+                        : ""}
+                    {currTabIndex == 3 ?
+                        <Listing job_id={jobid} user={props.user} jobs={jobs} />
+                        : ""}
+                    {currTabIndex == 4 ? <Post user={props.user} handleChangeTabIndex={(e: any) => {
+                        handleChangeTabIndex(e)
+                    }} /> : ""}
+                    {currTabIndex == 5 ? <Messages user={props.user} recruiter={props.recruiter} /> : ""}
+                </div>
             </div>
         </div>
     )

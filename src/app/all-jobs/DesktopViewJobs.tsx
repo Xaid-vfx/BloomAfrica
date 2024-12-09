@@ -78,7 +78,7 @@ export default function DesktopViewJobs(props: any) {
     }, [props.location, props.search, selectedCategories, selectedTypes])
 
     return (
-        <div className="hidden lg:block w-full border-t">
+        <div className="hidden lg:block w-full border-t ms-auto me-auto max-w-[1500px]">
             <div className="flex justify-between py-10 px-10 font-medium">
                 <p>Showing 1-9 of {jobs?.length} results</p>
                 <div className="flex text-[#979ca6] font-light gap-2">
@@ -93,7 +93,7 @@ export default function DesktopViewJobs(props: any) {
                 <div className=" w-[80%] pl-6 pr-20">
                     <div className="flex justify-between items-center">
                         <div>
-                            <h1 className="text-3xl font-semibold">All Jobs</h1>
+                            <h1 className="text-3xl font-semibold">All Apprenticeships</h1>
                             <p className="my-2 text-[#7C8493]">Showing {jobs?.length} results for {props.search == '' ? ' ' : props.search}  jobs {props.location == '' ? '' : ' in ' + props.location}</p>
                         </div>
                         <div><span className="text-[#7C8493]">Sort by:</span> Most relevant</div>

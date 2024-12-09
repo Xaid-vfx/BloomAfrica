@@ -60,12 +60,12 @@ export default function Sidebar(props: Props) {
                 <div className="flex flex-col justify-center my-6">
                     <a href="/seeker/applied" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'applied' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                         <BiHomeAlt2 className="text-xl" />
-                        <p className="text-sm ">Applied Jobs</p>
+                        <p className="text-sm ">Applied</p>
                     </a>
 
                     <a href="/seeker/saved" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'saved' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                         <PiBuildings className="text-xl" />
-                        <p className="text-sm ">Saved Jobs</p>
+                        <p className="text-sm ">Saved </p>
                     </a>
 
                     <a href="/seeker/edit" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'edit' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>

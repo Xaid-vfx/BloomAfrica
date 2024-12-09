@@ -40,12 +40,14 @@ export default async function page() {
     const seeker = await fetchSeeker(user?.id)
 
     return (
-        <div className="flex w-full">
+    <div className="  bg-[#F8F8FD]">
+        <div className="flex w-full justify-center ms-auto me-auto max-w-[1500px]">
             <Sidebar />
             <div className="w-full flex flex-col h-screen">
                 <Header name={seeker.name} />
                 <EditSeeker user={user} seeker={seeker} education={education} experience={experience} />
             </div>
         </div>
+    </div>
     )
 }
