@@ -1,10 +1,5 @@
-import { Suspense } from "react";
-import SignIn from "./SignIn";
+import ClientWrapper from "./ClientWrapper"
 
 export default function Page() {
-    return (
-        <Suspense>
-            <SignIn />
-        </Suspense>
-    )
+    return <ClientWrapper />
 }

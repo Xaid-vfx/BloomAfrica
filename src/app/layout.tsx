@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 import { Open_Sans, Roboto_Mono, Montserrat } from 'next/font/google'
 
@@ -39,6 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.className} ${robotoMono.variable} font-sans` + inter.className}>{children}</body>
+      <GoogleAnalytics gaId="G-D068BXV1ZQ" />
     </html>
   )
 }
