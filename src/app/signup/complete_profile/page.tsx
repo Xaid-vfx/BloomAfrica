@@ -3,8 +3,13 @@ import RightColumnSeeker from "@/components/SignUp/RightColomnSeeker/RightColomn
 import getUser from "@/lib/getUser/getUser";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { log } from "console";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+    title: 'Complete Apprentice Profile | Bloom'
+}
 
 async function checkIfUserExists(id: string) {
     cookies().getAll()

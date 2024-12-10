@@ -25,7 +25,7 @@ export default function MobileCard(props: Props) {
             <Image src={props.logo ? props.logo : Logo} alt="logo" width={50} height={100} />
             <h1 className="text-lg font-medium mt-4">{props.title}</h1>
             <div className="flex mt-2 text-sm text-[#515B6F] gap-2 items-baseline">
-                <p>TechMe</p>
+                <p>{props.companyName}</p>
                 <p>. {props.location}</p>
             </div>
             {/* tags */}

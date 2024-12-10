@@ -25,7 +25,13 @@ async function getJobs() {
     const supabase = createClientComponentClient()
     const { data, error } = await supabase
         .from('Jobs')
-        .select()
+        .select(`*, 
+        Recruiters(
+            CompanyInfo(
+                name,
+                logo
+            )
+        )`)
 
     if (error) {
         console.log(error);
@@ -115,6 +121,7 @@ export default function DesktopViewJobs(props: any) {
                                     extras={job.extras}
                                     responsibilities={job.responsibilities}
                                     who_you_are={job.who_you_are}
+                                    companyName={"test"}
                                 />
                             );
                         }

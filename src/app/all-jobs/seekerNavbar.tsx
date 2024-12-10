@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SignOut } from "@/lib/Signout/Signout";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner"
 
 export default function SeekerNavbar(props: any) {
 
@@ -67,7 +68,7 @@ export default function SeekerNavbar(props: any) {
             <hr />
           </div>
           {
-            props.user ? <button onClick={() => { SignOut(); router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign out</button> :
+            props.user ? <button onClick={() => { toast.success('Signing Out'); SignOut(); router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign out</button> :
               <button onClick={() => { router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign In</button>
           }
         </div>

@@ -13,6 +13,8 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { IoLocationOutline } from "react-icons/io5";
 import { Dialog } from "@radix-ui/react-dialog";
 import { DialogDemo } from "@/components/Modal/Modal";
+import Applications from "../Applications/Applications";
+import { toast } from "sonner";
 
 
 type Props = {
@@ -25,12 +27,13 @@ export default function Listing(props: Props) {
 
     const [showJobApplications, setshowJobApplications] = useState(false)
     const [showApplicantDetails, setshowApplicantDetails] = useState(false)
-    const [seekerChatId, setseekerChatId] = useState(false)
     const [loading, setloading] = useState(false)
     const [applications, setapplications] = useState([])
     const [applicant, setapplicant] = useState()
     const [experience, setexperience] = useState()
     const router = useRouter()
+    const [selectedJobApplications, setselectedJobApplications] = useState([])
+    const [selectedJob, setselectedJob] = useState(null)
 
 
     async function deleteJob(id: string) {
@@ -46,26 +49,43 @@ export default function Listing(props: Props) {
             console.log(error);
         }
         else {
-            alert("Job Deleted Successfully! Refresh")
+            toast.success("Job Deleted Successfully! Refresh")
         }
         router.refresh()
     }
 
-    async function ApplicationsForSelectedJob(id: string) {
-        console.log(id);
-        setloading(true)
-        setshowJobApplications(true)
-        const supabase = createClientComponentClient()
-        const { data, error } = await supabase
-            .from('Applicants')
-            .select()
-            .eq('job_id', id)
-        console.log(data);
-        setapplications(data)
-        setloading(false)
-        if (error) {
-            console.log(error);
+    async function ApplicationsForSelectedJob(job_id: string) {
+        setloading(true);
+        const supabase = createClientComponentClient();
+
+        // First fetch the job details
+        const { data: jobData, error: jobError } = await supabase
+            .from('Jobs')
+            .select('*')
+            .eq('uid', job_id)
+            .single();
+
+        if (jobError) {
+            console.error('Error fetching job:', jobError);
+            return;
         }
+
+        setselectedJob(jobData);
+
+        // Then fetch the applications
+        const { data: applications, error } = await supabase
+            .from('Applicants')
+            .select('*')
+            .eq('job_id', job_id);
+
+        if (error) {
+            console.error('Error fetching applications:', error);
+        } else {
+            setselectedJobApplications(applications);
+        }
+
+        setshowJobApplications(true);
+        setloading(false);
     }
     async function fetchApplicantDetails(id: string) {
         console.log(id);
@@ -93,6 +113,26 @@ export default function Listing(props: Props) {
     }
 
     useEffect(() => {
+        async function fetchJobs() {
+            const supabase = createClientComponentClient()
+            const { data, error } = await supabase
+                .from('Jobs')
+                .select()
+                .eq('recruiter', props.user.id)
+
+            if (error) {
+                console.log(error);
+            }
+            console.log(data);
+
+            return data;
+        }
+        fetchJobs().then(data => {
+            props.setjobs(data)
+        })
+    }, [])
+
+    useEffect(() => {
         console.log(props.job_id);
         if (props.job_id != "")
             ApplicationsForSelectedJob(props.job_id)
@@ -114,40 +154,15 @@ export default function Listing(props: Props) {
                                         <ApplicantDisplay experience={experience} applicant={applicant} />
                                     </div>
                                 </div> :
-                                <div className="px-4 my-6 lg:m-0">
-                                    <p onClick={() => { setshowJobApplications(false) }} className="mb-4 hover:underline cursor-pointer text-sm flex items-center gap-1"><IoMdArrowRoundBack className="text-xl" />Back to Job listings</p>
-                                    <p className="lg:hidden text-lg font-semibold">All Applicants</p>
-                                    <div className="lg:hidden my-4 flex flex-col gap-4">
-                                        {applications && applications.map((app: any) => {
-                                            return (
-                                                <div className="border rounded-md px-5 py-4 bg-white">
-                                                    <div className="">
-                                                        <p className="font-semibold ">{app?.name}</p>
-                                                        <div className="text-sm my-1 text-[#4A2C84] flex item gap-1">Product Designer </div>
-                                                        <div className="text-sm text-[#7C8493] flex item gap-1">Yaba, Lagos </div>
-                                                    </div>
-                                                    <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-                                                    <div className="text-[#7C8493] text-sm">Date Applied</div>
-                                                    <div>{app.created_at.substring(0, app.created_at.indexOf('T'))}</div>
-                                                    <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-                                                    <div className="flex gap-2">
-                                                        <button onClick={() => { fetchApplicantDetails(app.seeker_id) }} className="text-sm text-white px-4 rounded-full py-2 bg-[#4A2C84]">View Application</button>
-                                                        <DialogDemo seeker_id={app.seeker_id} name={app.name} user_id={props.user.id} />
-                                                    </div>
-                                                </div>
-                                            )
-                                        })}
-                                    </div>
-                                    <div className="bg-white rounded-xl pt-8 hidden lg:block">
-                                        <h1 className="font-semibold text-2xl pb-4 pl-8">Applications</h1>
-                                        {
-                                            loading ? <div className="flex justify-center items-center h-[300px]">
-                                                <MoonLoader color="#4A2C84" /> </div> : applications?.length > 0 ? <StickyHeadTable user={props.user} seekerChatId={setseekerChatId} fetchApplicantDetails={fetchApplicantDetails} applications={applications} /> : <div className="flex justify-center items-center h-[200px]">
-                                                    No applications found!
-                                                </div>
-                                        }
-                                    </div>
-                                </div>
+                                <Applications
+                                    applications={selectedJobApplications}
+                                    jobDetails={selectedJob}
+                                    setshowJobApplications={setshowJobApplications}
+                                    ApplicationsForSelectedJob={ApplicationsForSelectedJob}
+                                    fetchApplicantDetails={fetchApplicantDetails}
+                                    loading={loading}
+                                    user={props.user}
+                                />
                         }
                     </div> :
                     <div className="jobs flex flex-col gap-6 py-8 lg:py-0">

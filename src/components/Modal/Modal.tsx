@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
+import { BsChatText } from "react-icons/bs";
 
 export function DialogDemo(props) {
 
@@ -60,7 +61,7 @@ export function DialogDemo(props) {
             // Insert the message
             const { data: messageData, error: messageError } = await supabase
                 .from('messages')
-                .insert([{ text: message, sender_id: props.user_id, conversation_id }]);
+                .insert([{ text: message, sender_id: props.user_id, conversation_id, receiver_id: props.seeker_id }]);
 
             if (messageError) throw messageError;
 
@@ -78,8 +79,9 @@ export function DialogDemo(props) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div className='bg-[#E9EBFD] text-sm font-medium cursor-pointer text-[#4A2C84] px-4 py-2 lg:font-semibold rounded-3xl'>
-                    Send a message
+                <div className=''>
+                    <div className="border border-[#4A2C84] lg:flex gap-2 items-center justify-center hidden text-sm font-medium cursor-pointer text-[#4A2C84] px-4 py-2 lg:font-semibold rounded-3xl"><BsChatText className="text-xl" /> Chat</div>
+                    <BsChatText className="lg:hidden text-2xl" />
                 </div>
             </DialogTrigger>
             <DialogContent className="lg:w-[50%] w-[80%] max-w-none">

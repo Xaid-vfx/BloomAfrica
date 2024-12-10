@@ -10,6 +10,9 @@ import TableRow from '@mui/material/TableRow';
 import Image from 'next/image';
 import User from '../../assets/images/user.jpg'
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import PaymentComponent from '../Payment/Payment';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useState, useEffect } from 'react';
 
 interface Column {
     id: 'title' | 'location' | 'date' | 'action';
@@ -39,21 +42,25 @@ const columns: readonly Column[] = [
 
 interface Data {
     id: number,
+    uid: number,
     title: string;
     location: string;
     date: string;
     action: string;
+    signup_fee: number;
 }
 
 function createData(
     id: number,
+    uid: number,
     title: string,
     location: string,
     date: string,
     action: string,
+    signup_fee: number
 ): Data {
 
-    return { id, title, location, date, action };
+    return { id, uid, title, location, date, action, signup_fee };
 }
 
 // const rows = [
@@ -75,10 +82,32 @@ function createData(
 // ];
 
 export default function AppliedTable(props: any) {
+    const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
+
+    const fetchPaymentStatuses = async () => {
+        const supabase = createClientComponentClient();
+        const { data, error } = await supabase
+            .from('jobpayments')
+            .select('job_id, status')
+            .eq('seeker_id', props.seekerId);
+
+        if (data) {
+            const statuses = data.reduce((acc, curr) => ({
+                ...acc,
+                [curr.job_id]: curr.status
+            }), {});
+            setPaymentStatuses(statuses);
+        }
+    };
+
+    useEffect(() => {
+        fetchPaymentStatuses();
+    }, [props.seekerId]);
+
     console.log(props.jobs);
 
     const rows = [...props.jobs.map((job: any) => {
-        return createData(job.id, job.title, job.location, job.created_at.substring(0, job.created_at.indexOf('T')), "...");
+        return createData(job.id, job.uid, job.title, job.location, job.created_at.substring(0, job.created_at.indexOf('T')), "...", job.signup_fee);
     })];
 
     rows.sort((a, b) => b.id - a.id);
@@ -142,12 +171,41 @@ export default function AppliedTable(props: any) {
 
                                                     {column.id === 'date' ? <div className='text-base text-[#7C8493]'>{value}</div> : ""}
 
-                                                    {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
-                                                        <button className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
-                                                            View Application</button>
-                                                        {/* <button onClick={() => { props.delete(row.id) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-3xl'>
-                                                            Delete</button> */}
-                                                    </div> : ""}
+                                                    {column.id === 'action' ? (
+                                                        <div className='flex flex-col gap-2 justify-center py-1'>
+                                                            <button
+                                                                onClick={() => {
+                                                                    console.log(row);
+                                                                    console.log(props);
+                                                                }}
+                                                                className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'
+                                                            >
+                                                                View Application
+                                                            </button>
+                                                            {row.signup_fee > 0 && !paymentStatuses[row.id] && (
+                                                                <PaymentComponent
+                                                                    jobId={row.uid}
+                                                                    seekerId={props.seekerId}
+                                                                    amount={row.signup_fee}
+                                                                    onPaymentSuccess={() => {
+                                                                        setPaymentStatuses(prev => ({
+                                                                            ...prev,
+                                                                            [row.id]: 'success'
+                                                                        }));
+                                                                    }}
+                                                                />
+                                                            )}
+                                                            {paymentStatuses[row.id] && (
+                                                                <div className={`text-center px-4 py-2 rounded-3xl ${paymentStatuses[row.id] === 'success'
+                                                                    ? 'bg-green-100 text-green-800'
+                                                                    : 'bg-red-100 text-red-800'
+                                                                    }`}>
+                                                                    Payment {paymentStatuses[row.id]}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ) : ""}
+
                                                 </TableCell>
                                             );
                                         })}

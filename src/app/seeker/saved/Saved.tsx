@@ -4,6 +4,7 @@ import MobileCard from "@/components/Jobs/MobileCard/MobileCard";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner"
 
 export default function Saved(props) {
 
@@ -27,9 +28,9 @@ export default function Saved(props) {
             console.log(error);
         }
         else {
-            alert("Removed Job!!")
+            toast("Removed Job!!")
+            router.refresh()
         }
-        router.refresh()
 
     }
     return (
@@ -51,7 +52,6 @@ export default function Saved(props) {
                 <p className="text-xl font-semibold">Saved Jobs</p>
                 <div className="flex flex-col gap-4 my-4">
                     {props.savedjobs.map((job) => {
-                        const [showOption, setshowOption] = useState(false)
                         return (
                             <div className="">
                                 <MobileCard id={job.uid}

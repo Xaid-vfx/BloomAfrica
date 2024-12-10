@@ -25,6 +25,10 @@ async function fetchAppliedJobs(id: string) {
     return data;
 }
 
+export const metadata: Metadata = {
+    title: 'Applied Jobs | Bloom'
+}
+
 export default async function page() {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
@@ -45,7 +49,7 @@ export default async function page() {
         <div className="flex w-full justify-center ms-auto me-auto max-w-[1500px]">
             <div className="w-full flex flex-col h-screen">
                 <Header name={seeker.name} />
-                <Applied appliedjobs={appliedjobs} />
+                <Applied appliedjobs={appliedjobs} seekerId={user?.id} />
             </div>
         </div>
     </div>

@@ -14,13 +14,24 @@ import TestComp from "./TestComp";
 import { Suspense, useEffect, useState } from "react";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { toast } from "sonner"
+import { AgreementModal } from "@/components/Modal/AgreementModal";
+import getIP from "@/lib/getIP/getIP";
+import UAParser from "ua-parser-js";
 
 async function getJob(userid: string) {
     const supabase = createClientComponentClient()
     const { data, error } = await supabase
         .from('Jobs')
-        .select()
+        .select(`*, 
+        Recruiters(
+            CompanyInfo(
+                name,
+                logo
+            )
+        )`)
         .eq('uid', userid)
+        .single()
 
     if (error) {
         console.log(error);
@@ -35,8 +46,8 @@ export default function JobDescription(props) {
     const id = search.get('id')
     const [job, setjob] = useState()
     const router = useRouter()
-    console.log(job);
-    console.log(id);
+    const [showAgreements, setShowAgreements] = useState(false);
+
     async function checkifSeekerisRegistered() {
         console.log(props.user?.id);
         const { data, error } = await supabase
@@ -81,49 +92,82 @@ export default function JobDescription(props) {
         }
     }
 
+
+    async function postJob() {
+        const { data: seekerData, error: seekerError } = await supabase
+            .from('Seekers')
+            .select()
+            .eq('unique_id', props.user?.id)
+            .single()
+
+
+        if (seekerError) {
+            console.error('Error fetching Seeker:', seekerError.message);
+            return;
+        }
+
+        if (!seekerData) {
+            console.error('Seeker not found');
+            return;
+        }
+
+
+        const { data, error } = await supabase
+            .from('Applicants')
+            .insert({ job_id: id, name: seekerData.name })
+
+        if (error) {
+            console.log(error);
+        }
+        else
+            toast.success("Applied for the job!");
+    }
+
+    async function handleAgreement() {
+        const ip = await getIP();
+        const parser = new UAParser();
+        const agent = parser.getResult();
+
+        try {
+            const { data, error } = await supabase
+                .from('Agreements')
+                .insert(
+                    {
+                        version: '1.0',
+                        ip_address: ip,
+                        agent: agent,
+                        job_id: id
+                    }
+                )
+                .select('agreement_id')
+                .single()
+            if (error) throw error
+            else {
+                postJob()
+                setShowAgreements(false)
+                return true;
+            }
+        }
+        catch (error) {
+            console.error(error)
+            toast.error("Error while inserting agreement")
+        }
+    }
+
     async function handleApplyJob() {
         if (props.user == null) {
             router.push('/signup?continue=/job?id=' + id)
             return
         }
         if (!await checkifSeekerisRegistered()) {
-            alert("Please register as a seeker to apply for a job")
+            toast("Please register as a seeker to apply for a job")
             return
         }
         if (await checkifSeekerisAlreadyApplied()) {
-            alert("Already Applied!!")
+            toast.error("Already Applied!")
             return
         }
-        else {
-            const { data: seekerData, error: seekerError } = await supabase
-                .from('Seekers')
-                .select()
-                .eq('unique_id', props.user?.id)
-                .single()
-
-
-            if (seekerError) {
-                console.error('Error fetching Seeker:', seekerError.message);
-                return;
-            }
-
-            if (!seekerData) {
-                console.error('Seeker not found');
-                return;
-            }
-
-
-            const { data, error } = await supabase
-                .from('Applicants')
-                .insert({ job_id: id, name: seekerData.name })
-
-            if (error) {
-                console.log(error);
-            }
-            else
-                alert("Applied for the job!");
-            console.log(data);
-        }
+        setShowAgreements(true)
     }
 
     useEffect(() => {
@@ -135,15 +179,16 @@ export default function JobDescription(props) {
     }, [])
     return (
         <div>
+            <AgreementModal handleAgreement={handleAgreement} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
             <div className=" items-center justify-between border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
                 <div className="flex flex-col">
                     <div className="flex items-center gap-6">
-                        <Image src={job != null ? job[0]?.companylogo != null ? job[0].companylogo : Logo : Logo} alt="logo" width={70} height={100} />
+                        <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={70} height={100} />
                         <div className="flex flex-col justify-center ">
-                            <h1 className="text-xl font-semibold">{job != null ? job[0]?.title : <Skeleton width={200} height={30} className="mb-2" />}</h1>
+                            <h1 className="text-xl font-semibold">{job != null ? job?.title : <Skeleton width={200} height={30} className="mb-2" />}</h1>
                             <div className="flex text-sm text-[#515B6F] gap-2 items-baseline">
-                                <p>Bloom</p>
-                                <p>. {job != null ? job[0]?.location : <Skeleton width={100} />}</p>
+                                <p>{job?.Recruiters.CompanyInfo.name}</p>
+                                <p>. {job != null ? job?.location : <Skeleton width={100} />}</p>
                             </div>
                         </div>
                     </div>
@@ -156,11 +201,11 @@ export default function JobDescription(props) {
                 </div>
             </div>
             <div className="py-10 lg:hidden flex flex-col justify-center items-center bg-[#F8F8FD]">
-                <Image src={job != null ? job[0]?.companylogo != null ? job[0].companylogo : Logo : Logo} alt="logo" width={100} height={50} />
-                <h1 className="text-xl font-semibold mt-2">{job != null ? job[0]?.title : <Skeleton width={200} />}</h1>
+                <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={100} height={50} />
+                <h1 className="text-xl font-semibold mt-2">{job != null ? job?.title : <Skeleton width={200} />}</h1>
                 <div className="flex text-sm text-[#515B6F] gap-1 items-baseline">
-                    <p>Bloom</p>
-                    <p>. {job != null ? job[0]?.location : <Skeleton width={100} />}</p>
+                    <p>{job?.Recruiters.CompanyInfo.name}</p>
+                    <p>. {job != null ? job?.location : <Skeleton width={100} />}</p>
                 </div>
                 <div className="flex gap-2 mt-6">
                     <SaveButton user={props.user?.id} id={id}></SaveButton>
@@ -171,19 +216,19 @@ export default function JobDescription(props) {
                 <div className="lg:w-[60%]">
                     <div className="mt-10">
                         <h1 className="text-2xl font-semibold">Description</h1>
-                        <p className="mb-7 mt-2 text-[#7C8493] text-sm">{job != null ? job[0]?.description : <Skeleton count={4} />}</p>
+                        <p className="mb-7 mt-2 text-[#7C8493] text-sm">{job != null ? job?.description : <Skeleton count={4} />}</p>
                     </div>
                     <div className="">
                         <h1 className="text-2xl font-semibold">Responsibilities</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job[0]?.responsibilities.replace("\n", "<br/>") : <Skeleton count={4} />}</p>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.responsibilities.replace("\n", "<br/>") : <Skeleton count={4} />}</p>
                     </div>
                     <div className="">
                         <h1 className="text-2xl font-semibold">Who We Are</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job[0]?.who_we_are : <Skeleton count={4} />}</p>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.who_we_are : <Skeleton count={4} />}</p>
                     </div>
                     {/* <div className="">
                         <h1 className="text-2xl font-semibold">Nice-To-Haves</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job[0]?.extras : <Skeleton count={4} />}</p>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.extras : <Skeleton count={4} />}</p>
                     </div> */}
                 </div>
                 <div className="lg:w-[30%] mt-10">
@@ -200,29 +245,29 @@ export default function JobDescription(props) {
 
                         <div className="flex justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Compensation</p>
-                            <p className="text-sm font-semibold">{job != null ? job[0]?.minsalary + "-" + job[0]?.maxsalary : <Skeleton width={150} />}</p>
+                            <p className="text-sm font-semibold">{job != null ? job?.minsalary + "-" + job?.maxsalary : <Skeleton width={150} />}</p>
                         </div>
                         <div className="flex justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Job Type</p>
-                            <p className="text-sm font-semibold">{job != null ? job[0]?.type : <Skeleton width={100} />}</p>
+                            <p className="text-sm font-semibold">{job != null ? job?.type : <Skeleton width={100} />}</p>
                         </div>
                         <div className="flex justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Duration</p>
-                            <p className="text-sm font-semibold">{job != null ? job[0]?.duration : <Skeleton width={150} />}</p>
+                            <p className="text-sm font-semibold">{job != null ? job?.duration : <Skeleton width={150} />}</p>
                         </div>
                         <div className="flex justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Application Deadline</p>
-                            <p className="text-sm font-semibold">{job != null ? job[0]?.deadline : <Skeleton width={150} />}</p>
+                            <p className="text-sm font-semibold">{job != null ? job?.deadline : <Skeleton width={150} />}</p>
                         </div>
                     </div>
                     <hr className="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                     <div>
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Categories</h1>
-                        <p className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit">{job != null ? job[0]?.category : <Skeleton width={150} />}</p>
+                        <p className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit">{job != null ? job?.category : <Skeleton width={150} />}</p>
                     </div>
                     <div className="mt-8">
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Skills Required</h1>
-                        <p className="flex gap-2">{job != null ? job[0]?.skills?.split(',').map((word, index) => (
+                        <p className="flex gap-2">{job != null ? job?.skills?.map((word, index) => (
                             <span className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit" key={index}>{word.trim()}</span>
                         )) : <Skeleton width={150} />}</p>
                     </div>
