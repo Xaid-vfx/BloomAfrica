@@ -4,11 +4,13 @@ import VBallDesktop from "../../assets/images/VBallsDesktop.png";
 
 export default function GetStarted() {
     return (
-        <div className="my-10 mx-4 relative rounded-[3rem] bg-[#171c1f] text-white px-5 py-24 flex flex-col justify-center items-center overflow-hidden lg:mx-20 lg:py-28">
+        <div className="my-10 mx-4 relative rounded-[3rem] bg-[#171c1f] text-white px-5 py-24 flex flex-col justify-center items-center overflow-hidden lg:ms-auto lg:me-auto lg:py-28 max-w-[1500px]">
 
             <h2 className="text-lg font-medium mb-8 lg:text-2xl">Get Started with Bloom</h2>
-            <p className="text-xs leading-6 text-center lg:text-sm lg:w-2/3">
-                Bloom's platform offers a comprehensive suite of features and benefits designed to empower both job seekers and recruiters in their respective career goals and recruitment needs.
+            <p className="text-sm leading-6 text-center lg:text-lg m lg:w-2/3 px-1 sm:px-10 lg:px-40">
+                Bloom connects aspiring apprentices with top Ogas & mentors, offering hands-on learning, professional development, and career growth.
+                <br /> <br />
+                Start your apprenticeship journey today. Connect, learn, and grow with the right opportunities to shape your future.
             </p>
             <a href="/signup" className="mt-10 text-black bg-white px-6 py-3 font-medium rounded-3xl">Get Started</a>
             <div className="absolute top-0 left-0 lg:hidden">

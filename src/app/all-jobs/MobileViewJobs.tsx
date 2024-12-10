@@ -73,10 +73,10 @@ export default function MobileViewJobs(props) {
 
 
     return (
-        <div>
-            <div className="py-10 flex flex-col w-full px-4 lg:hidden">
+        <div className=" py-10 flex flex-col px-4 lg:hidden w-full mx-auto justify-center max-w-[700px]">
+            <div className="justify-center">
                 <div className="flex justify-between w-full items-center">
-                    <h1 className="text-xl">All Jobs</h1>
+                    <h1 className="text-xl">All Apprenticeships</h1>
                     {/* <p className="text-sm">Most relevant</p> */}
                 </div>
                 <div className="flex items-center justify-between">
@@ -92,8 +92,8 @@ export default function MobileViewJobs(props) {
 
 
                 {/* Cards */}
-
-                <div className="flex flex-col gap-4 lg:hidden my-6">
+                
+                <div className="flex flex-col gap-4 lg:hidden min-w-max w-full mx-auto">
                     {jobs?.map((job: JobProps) => {
                         return <MobileCard
                             id={job.uid}
@@ -112,6 +112,7 @@ export default function MobileViewJobs(props) {
                     })}
                 </div>
             </div>
+
             <div className="px-4 lg:hidden"><GetStarted /></div>
         </div>
     )

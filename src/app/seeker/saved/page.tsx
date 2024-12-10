@@ -40,11 +40,13 @@ export default async function page() {
     }));
 
     return (
-        <div className="flex w-full">
-            <Sidebar />
-            <div className="w-full flex flex-col h-screen">
-                <Header name={seeker.name} />
-                <Saved savedjobs={savedjobs} />
+        <div className="  bg-[#F8F8FD]">
+            <div className="flex w-full justify-center ms-auto me-auto max-w-[1500px]">
+                <Sidebar />
+                <div className="w-full flex flex-col h-screen">
+                    <Header name={seeker.name} />
+                    <Saved savedjobs={savedjobs} />
+                </div>
             </div>
         </div>
     )

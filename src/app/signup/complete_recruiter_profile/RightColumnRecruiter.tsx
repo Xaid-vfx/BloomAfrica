@@ -316,7 +316,7 @@ export default function RightColomnRecruiter() {
             }
             {
                 (step == 2) &&
-                <div className="px-10 w-full lg:px-14 py-10 overflow-scroll lg:block flex flex-col justify-center">
+                <div className="px-6 lg:px-14 py-10 w-full max-w-[640px] mx-auto overflow-y-auto">
                     <FaArrowLeft onClick={() => { setStep(1) }} className="cursor-pointer text-2xl mb-4" />
                     <div className="flex justify-between items-baseline">
                         <h2 className="text-xl font-semibold flex items-center gap-2">Company Information</h2>

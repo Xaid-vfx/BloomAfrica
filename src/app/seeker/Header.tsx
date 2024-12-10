@@ -66,11 +66,11 @@ export default function Header(props: Props) {
                         <div className="flex flex-col justify-center my-3">
                             <a href="/seeker/applied" className={`  py-3 cursor-pointer px-4 flex gap-4 items-center  ${currentPage == 'applied' ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                                 <BiHomeAlt2 className="text-xl" />
-                                <p className=" ">Applied Jobs</p>
+                                <p className=" ">Applied </p>
                             </a>
                             <a href="/seeker/saved" className={`my-1 py-3 cursor-pointer px-4 flex gap-4 items-center  ${currentPage == 'saved' ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                                 <PiBuildings className="text-xl" />
-                                <p className="">Saved Jobs</p>
+                                <p className="">Saved </p>
                             </a>
                             <a href="/seeker/edit" className={` py-3 cursor-pointer px-4 flex gap-4 items-center  ${currentPage == 'edit' ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                                 <LuClipboardList className="text-xl" />
@@ -93,7 +93,7 @@ export default function Header(props: Props) {
                     <p className="text-sm">Good Morning</p>
                     <p className="font-semibold">{props.name}</p>
                 </div>
-                <a href="/all-jobs"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold">Explore Jobs</button></a>
+                <a href="/all-jobs"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold">Explore Apprenticeships</button></a>
             </div>
             <div className="lg:hidden flex justify-between px-3 py-3 items-center">
                 <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />

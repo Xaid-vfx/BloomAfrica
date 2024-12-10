@@ -2,16 +2,16 @@ import { FaFacebook, FaLinkedinIn, FaRocket, FaXTwitter } from "react-icons/fa6"
 import { FaLinkedin } from "react-icons/fa";
 import { RiLinksFill } from "react-icons/ri";
 import Logo from "../../assets/images/Logo.png"
+import BloomLogoWhite from "../../assets/images/BloomLogoWhite.png"
 import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div>
-      <div className="bg-[#171c1f] px-8 py-10 text-white lg:flex lg:justify-between lg:px-24 lg:bg-[#1D1B1B]">
+    <div className="bg-[#171c1f] lg:bg-[#1D1B1B]">
+      <div className=" px-8 py-10 text-white lg:flex lg:justify-between lg:px-24 ms-auto me-auto max-w-[1750px] ">
         <div className="lg:w-1/3">
           <div className="flex items-center gap-2">
-            <Image src={Logo} alt="logo" width={40} />
-            <h1 className="text-xl lg:text-3xl">Bloom</h1>
+            <Image src={BloomLogoWhite} alt="logo" width={120} />
           </div>
           <p className="text-xs leading-6 mt-2 lg:text-sm lg:mt-4 lg:leading-7">Join Bloom today and become part of a community committed to continuous learning and professional excellence.</p>
 
@@ -27,6 +27,7 @@ export default function Footer() {
             <h2 className="text-lg font-medium lg:text-xl lg:font-medium">Company</h2>
             <a href="/" className="text-sm font-light my-3">Home</a>
             <a href="/about" className="text-sm font-light my-3">About</a>
+            <a href="/certified" className="text-sm font-light my-3">Get Certified</a>
           </div>
 
           <div className="mt-12 lg:mt-0 flex flex-col">

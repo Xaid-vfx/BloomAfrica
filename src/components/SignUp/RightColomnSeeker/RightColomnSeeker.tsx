@@ -281,10 +281,10 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
         })
     }, [])
     return (
-        <div className="lg:w-[55%] w-full overflow-auto">
+        <div className="w-full lg:w-[55%] flex flex-col min-h-screen">
             {
                 (step == 1) &&
-                <div className="px-10 lg:px-14 py-10 ">
+                <div className="px-6 lg:px-14 py-10 w-full max-w-[640px] mx-auto overflow-y-auto">
                     <FaArrowLeft onClick={() => { router.push('/signup') }} className="cursor-pointer text-2xl mb-4" />
                     <div className="flex justify-between items-baseline">
                         <h2 className="text-xl font-semibold">Create a Job Seeker Account</h2>
@@ -360,7 +360,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
             }
             {
                 (step == 2) &&
-                <div className="w-full px-10 lg:px-14 py-10  overflow-scroll lg:block">
+                <div className="px-6 lg:px-14 py-10 w-full max-w-[640px] mx-auto overflow-y-auto">
                     <FaArrowLeft onClick={() => { setStep(1) }} className="cursor-pointer text-2xl mb-4" />
                     <div className="flex justify-between items-baseline">
                         <h2 className="text-xl font-semibold">Education</h2>
@@ -377,13 +377,13 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                             </select>
                         </div>
                         <div className="my-4">
-                            <TextInput field="School/University Name" type="text" placeholder="Enter School" handleChange={(e: any) => { setschoolName(e.target.value) }} />
+                            <TextInput field="Name of Institution / School" type="text" placeholder="Enter School" handleChange={(e: any) => { setschoolName(e.target.value) }} />
                         </div>
                         <div className="my-4">
                             <TextInput field="Field of Study" type="text" placeholder="Enter your field of study" handleChange={(e: any) => { setfield(e.target.value) }} />
                         </div>
                         <div>
-                            <p className="font-semibold text-xs my-1 text-[#515B6F]">Graduation Year</p>
+                            <p className="font-semibold text-xs my-1 text-[#515B6F]">Year of Graduation</p>
                             <select className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full" onChange={(e) => { setgradYear(e.target.value) }}>
                                 <option>Select year</option>
                                 {
@@ -399,7 +399,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
             }
             {
                 (step == 3) &&
-                <div className="px-10 w-full lg:px-14 py-10 overflow-scroll lg:block flex flex-col justify-center">
+                <div className="px-6 lg:px-14 py-10 w-full max-w-[640px] mx-auto overflow-y-auto">
                     <FaArrowLeft onClick={() => { setStep(2) }} className="cursor-pointer text-2xl mb-4" />
                     <div className="flex justify-between items-baseline">
 
@@ -408,7 +408,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                     </div>
                     <div className="">
                         <div className="my-4">
-                            <TextInput field="Company Name" type="text" placeholder="Enter your company Name" handleChange={() => { }} />
+                            <TextInput field="Name of Employer" type="text" placeholder="Enter your company Name" handleChange={() => { }} />
                         </div>
                         <div className="my-4">
                             <TextInput field="Job Title" type="text" placeholder="Enter job title" handleChange={() => { }} />

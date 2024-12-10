@@ -78,33 +78,33 @@ export default function SeekerNavbar(props: any) {
 
   return (
     <div className="px-6 py-5 flex justify-between items-center lg:justify-normal">
-
-      <a href="/" className="lg:hidden">
-        <Image src={LogoText} alt="logo" width={120} />
-      </a>
-      <div className="menu text-2xl lg:hidden">
-        <RxHamburgerMenu onClick={() => { setnavbarIsVisible(true) }} />
-      </div>
-
-      <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full">
-        <div className="flex items-center">
-          <a href="/all-jobs" className="hidden lg:flex lg:items-center lg:gap-2 lg:px-10">
-            <Image src={Logo} alt="" width={50} />
-            <h1 className="text-3xl font-medium">Bloom</h1>
-          </a>
-
-          <div className="hidden lg:flex lg:pl-10">
-            <a href="/all-jobs" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all`}>Home</a>
-            <a href="/seeker/edit" className={`${currentPage == "faqs" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Profile</a>
-            <a href="/seeker/saved" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Saved</a>
-            <a href="/seeker/applied" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Applied</a>
-
-          </div>
+      <div className="flex justify-between items-center relative w-[70%] ms-auto me-auto max-w-[1600px]">
+        <a href="/" className="lg:hidden">
+          <Image src={LogoText} alt="logo" width={120} />
+        </a>
+        <div className="menu text-2xl lg:hidden">
+          <RxHamburgerMenu onClick={() => { setnavbarIsVisible(true) }} />
         </div>
 
-        {props.user ? <a onClick={() => { SignOut(); router.push('/signup') }} className="text-sm cursor-pointer text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign out</a> : <a href="/signup" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium cursor-pointer rounded-3xl">Sign in</a>}
-      </div>
+        <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full">
+          <div className="flex items-center">
+            <a href="/all-jobs" className="hidden lg:flex lg:items-center lg:gap-2 lg:pr-10 lg:pl-0">
+              <Image src={LogoText} alt="" width={120} />
+              <h1 className="text-3xl font-medium"></h1>
+            </a>
 
+            <div className="hidden lg:flex lg:pl-10">
+              <a href="/all-jobs" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all`}>Home</a>
+              <a href="/seeker/edit" className={`${currentPage == "faqs" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Profile</a>
+              <a href="/seeker/saved" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Saved</a>
+              <a href="/seeker/applied" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-6 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Applied</a>
+
+            </div>
+          </div>
+
+          {props.user ? <a onClick={() => { SignOut(); router.push('/signup') }} className="text-sm cursor-pointer text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl min-w-max">Sign out</a> : <a href="/signup" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium cursor-pointer rounded-3xl ">Sign in</a>}
+        </div>
+      </div>
     </div>
   )
 }

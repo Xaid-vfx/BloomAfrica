@@ -19,7 +19,7 @@ export default function Qualifications() {
         "Certificate in Industry 4.0, Innovations and Practical Applications (Level 5)"
     ];
     return (
-        <div className="pb-1 mt-16 lg:mt-12">
+        <div className="pb-1 mt-16 lg:mt-12 ms-auto me-auto max-w-[1500px]">
             <h1 className="text-center text-2xl font-semibold">Available Qualifications</h1>
             <div className="hidden lg:grid lg:grid-cols-4 lg:px-16 px-4 gap-x-4 gap-y-4 lg:gap-y-6 mt-10">
                 {
