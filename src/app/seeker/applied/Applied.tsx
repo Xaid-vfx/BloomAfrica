@@ -19,37 +19,43 @@ export default function Applied(props: { appliedjobs: any[], seekerId: string })
             </div>
             <div className="lg:hidden px-4 my-6">
                 <p className="text-xl font-semibold">Jobs applied</p>
-                <div className="">
-                    {props.appliedjobs.map((job) => {
-                        const [showOption, setshowOption] = useState(false)
-                        return (
-                            <div className="border p-4 my-4 relative">
-                                {
-                                    showOption && <a href={`/all-jobs/job?id=${job?.uid}`} className="bg-[#e0e0e0] p-4 absolute text-sm rounded-xl font-semibold right-1 top-10">
-                                        View Job
-                                    </a>
-                                }
-                                <div className="flex justify-between">
-                                    <p className="font-semibold mb-3 text-lg">{job?.title}</p>
-                                    <SlOptions onClick={() => {
-                                        if (showOption) setshowOption(false)
-                                        else setshowOption(true)
-                                    }} className="text-xl" />
-                                </div>
-                                <div className="flex gap-6">
-                                    <div>
-                                        <p className="text-[#7C8493] mb-1 min-w-max">{job?.location}</p>
-                                        <p className="min-w-max">{job?.type}</p>
+                {props.appliedjobs.length > 0 ? (
+                    <div className="">
+                        {props.appliedjobs.map((job) => {
+                            const [showOption, setshowOption] = useState(false)
+                            return (
+                                <div className="border p-4 my-4 relative">
+                                    {
+                                        showOption && <a href={`/all-jobs/job?id=${job?.uid}`} className="bg-[#e0e0e0] p-4 absolute text-sm rounded-xl font-semibold right-1 top-10">
+                                            View Job
+                                        </a>
+                                    }
+                                    <div className="flex justify-between">
+                                        <p className="font-semibold mb-3 text-lg">{job?.title}</p>
+                                        <SlOptions onClick={() => {
+                                            if (showOption) setshowOption(false)
+                                            else setshowOption(true)
+                                        }} className="text-xl" />
                                     </div>
-                                    <div>
-                                        <p className="text-[#7C8493] mb-1">Date applied</p>
-                                        <p>{job?.created_at.substring(0, job.created_at.indexOf('T'))}</p>
+                                    <div className="flex gap-6">
+                                        <div>
+                                            <p className="text-[#7C8493] mb-1 min-w-max">{job?.location}</p>
+                                            <p className="min-w-max">{job?.type}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-[#7C8493] mb-1">Date applied</p>
+                                            <p>{job?.created_at.substring(0, job.created_at.indexOf('T'))}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })}
-                </div>
+                            )
+                        })}
+                    </div>
+                ) : (
+                    <div className="flex justify-center items-center h-96">
+                        <h1 className="text-xl font-medium">No applications yet.</h1>
+                    </div>
+                )}
             </div>
         </div>
     )

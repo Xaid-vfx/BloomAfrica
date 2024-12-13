@@ -6,17 +6,17 @@ import { useState } from "react";
 export default function Qualifications() {
     const [show, setshow] = useState(false);
     const courses = [
-        "Diploma in Mechanical Engineering (Level 7)",
-        "Diploma in Electrical Engineering (Level 7)",
-        "Diploma in Construction & Civil Engineering (Level 7)",
-        "Diploma in Cosmetology (Level 7)",
-        "Diploma in Hospitality (Level 7)",
-        "Diploma in Fashion Design, Textiles, and Apparel (Level 7)",
-        "Diploma in Food & Culinary (Level 7)",
-        "Diploma in Technology & Computer Science (Level 7)",
-        "Diploma in Business & Entrepreneurship (Level 7)",
-        "Certificate in Green Economy, Innovations and Practical Applications (Level 5)",
-        "Certificate in Industry 4.0, Innovations and Practical Applications (Level 5)"
+        "Mechanical Engineering (Level 1 - 7)",
+        "Electrical Engineering (Level 1 - 7)",
+        "Construction & Civil Engineering (Level 1 - 7)",
+        "Cosmetology (Level 1 - 7)",
+        "Hospitality (Level 1 - 7)",
+        "Fashion Design, Textiles, and Apparel (Level 1 - 7)",
+        "Food & Culinary (Level 1 - 7)",
+        "Technology & Computer Science (Level 1 - 7)",
+        "Business & Entrepreneurship (Level 1 - 7)",
+        "Green Energy, Innovations and Practical Applications (Level 1 - 5)",
+        "Certificate in Industry 4.0, Innovations and Practical Applications (Level 1 - 5)"
     ];
     return (
         <div className="pb-1 mt-16 lg:mt-12 ms-auto me-auto max-w-[1500px]">
@@ -30,7 +30,7 @@ export default function Qualifications() {
                                 <p className="text-[#4A2C84] font-medium my-2 w-[70%]">{item}</p>
                                 <p className="text-[#7C8493] text-xs">Offered by Bloom</p>
                                 <hr className="opacity-80 my-4" />
-                                <p className="text-[#4A2C84] text-xs hover:underline cursor-pointer">Go to course</p>
+                                <p className="text-[#4A2C84] text-xs font-bold"> <span className=' line-through font-normal'>Go to course</span> Coming Soon</p>
                             </div>
                         )
                     })
@@ -45,7 +45,7 @@ export default function Qualifications() {
                                 <p className="text-[#4A2C84] font-medium my-2 w-[70%]">{item}</p>
                                 <p className="text-[#7C8493] text-xs">Offered by Bloom</p>
                                 <hr className="opacity-80 my-4" />
-                                <p className="text-[#4A2C84] text-xs hover:underline cursor-pointer">Go to course</p>
+                                <p className="text-[#4A2C84] text-xs font-bold "><span className=' line-through font-normal'>Go to course</span> Coming Soon</p>
                             </div>
                         )
                     })

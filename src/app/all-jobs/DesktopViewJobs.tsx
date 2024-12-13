@@ -104,7 +104,7 @@ export default function DesktopViewJobs(props: any) {
                         </div>
                         <div><span className="text-[#7C8493]">Sort by:</span> Most relevant</div>
                     </div>
-                    <div className="my-8">
+                    <div className="my-8 ">
                         {jobs ? jobs?.map((job: JobProps) => {
 
                             return (

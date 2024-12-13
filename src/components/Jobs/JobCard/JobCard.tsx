@@ -3,6 +3,9 @@ import Image from "next/image";
 import Logo from '../../../assets/images/Jobs/Company Logo.png'
 import { type } from "os";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react"
+import SaveButton from "@/components/Button/SaveButton";
+
 
 type Props = {
     id: string;
@@ -25,7 +28,7 @@ export default function JobCard(props: Props) {
     }
 
     return (
-        <div className="flex items-center justify-between border-2 rounded-2xl px-6 py-4 my-6">
+        <div className="flex items-center justify-between border-2 rounded-2xl px-6 py-4 my-6 bg-white hover:drop-shadow-lg">
             <div className="flex flex-col">
                 <div className="flex items-center gap-6">
                     <Image src={props.logo ? props.logo : Logo} alt="logo" width={70} height={50} />
@@ -47,7 +50,7 @@ export default function JobCard(props: Props) {
             </div>
             <div className="">
                 <div className="flex flex-col gap-2">
-                    <button className=" text-black border border-black py-3 text-center font-medium rounded-3xl px-14" >Save</button><a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14 hover:bg-[#2f185e]" >Apply</a>
+                <button  className=" text-black border border-black py-3 text-center font-medium rounded-3xl px-14 hover:bg-gray-100 " >Save</button><a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14 hover:bg-[#2f185e]" >Apply</a>
                 </div>
 
                 {/* <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">

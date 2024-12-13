@@ -61,7 +61,7 @@ export default function Navbar(props: { color: string }) {
             <hr className="" />
             <a href="/about"><div className="my-4 font-medium">About</div></a>
             <hr />
-            <a href="/signup"><div className="my-4 font-medium">Mentoring? <span className="text-[#4A2C84]">Post Apprenticeship</span></div></a>
+            <a href="/signup"><div className="my-4 font-medium">Mentor? <span className="text-[#4A2C84]">Post Apprenticeship</span></div></a>
             <hr />
             <div className="relative">
               <a href="/certified"><div className="mt-4 font-medium">Get Certified</div></a>
@@ -94,14 +94,16 @@ export default function Navbar(props: { color: string }) {
           
           </a>
           <div className="hidden text-[16px] lg:flex lg:pl-0 pr-7 min-w-max ">
-            <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,3vw,5rem)]">
+            <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)]">
               <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800 transition-all`}>Home</a>
               <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>About</a>
-              <a href="/signup" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>Mentoring? <span className="text-[#4A2C84]">Post Apprenticeship</span></a>
+              <a href="/signup" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>Mentor? <span className="text-[#4A2C84]">Post Apprenticeship</span></a>
             </div>
-            <div className="flex relative ms-[clamp(1.1rem,2.1vw,5rem)] xl:ms-[clamp(1.1rem,3vw,5rem)]">
+            <div className="flex relative ms-[clamp(1.1rem,2.1vw,5rem)] xl:ms-[clamp(1.1rem,2.5vw,5rem)]">
               <a href="/certified" className={`${currentPage == "certified" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>Get Certified</a>
-              <p className="text-white bg-[#897DD3] rounded-full px-1 py-1 right-0 text-[0.5rem] absolute top-[-17px]">Coming Soon</p>
+              <div className="absolute right-[-30px] top-[-19px]">
+                <p className="text-white bg-[#897DD3] rounded-full px-1 py-1 right-0 text-[0.5rem] ">Coming Soon</p>
+              </div>
             </div>
 
           </div>

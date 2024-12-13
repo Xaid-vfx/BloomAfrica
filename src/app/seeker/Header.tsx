@@ -30,6 +30,11 @@ export default function Header(props: Props) {
         return joinArray;
     }
 
+    function handleClickLogout() {
+        SignOut()
+        router.push('/signup')
+    }
+
     useEffect(() => {
         if (reverseString(page[0]) == 'applied') {
             setCurrentPage("applied")
@@ -53,32 +58,47 @@ export default function Header(props: Props) {
                     </div>
                     <div><IoNotificationsOutline className="text-xl" /></div>
                 </div>
-                <div id="sideBar" className="h-[110vh] bg-[#F8F8FD] w-full overflow-hidden fixed top-0 z-10 duration-200">
+                <div id="sideBar" className=" bg-[#F8F8FD] w-full overflow-hidden fixed top-0 z-10 duration-200 h-full">
+                    <div className="flex flex-col relative h-full w-full">
 
-                    <div className="w-full px-6">
-                        <div className="my-6 relative w-full">
-                            <AiOutlineClose className="text-2xl absolute top-2 cursor-pointer " onClick={() => { setshowNav(false) }} />
-                            <div className="flex justify-center w-full">
-                                <Image src={Bloom} alt="logo" width={120} height={100} />
+                    
+                        <div className="w-full px-6">
+                            <div className="my-6 relative w-full">
+                                <AiOutlineClose className="text-2xl absolute top-2 cursor-pointer " onClick={() => { setshowNav(false) }} />
+                                <div className="flex justify-center w-full">
+                                    <Image src={Bloom} alt="logo" width={120} height={100} />
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="flex flex-col justify-center my-3">
-                            <a href="/seeker/applied" className={`  py-3 cursor-pointer px-4 flex gap-4 items-center  ${currentPage == 'applied' ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
-                                <BiHomeAlt2 className="text-xl" />
-                                <p className=" ">Applied </p>
-                            </a>
-                            <a href="/seeker/saved" className={`my-1 py-3 cursor-pointer px-4 flex gap-4 items-center  ${currentPage == 'saved' ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
-                                <PiBuildings className="text-xl" />
-                                <p className="">Saved </p>
-                            </a>
-                            <a href="/seeker/edit" className={` py-3 cursor-pointer px-4 flex gap-4 items-center  ${currentPage == 'edit' ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
-                                <LuClipboardList className="text-xl" />
-                                <p className="">Edit Profile</p>
-                            </a>
+                            <div className="flex flex-col justify-center my-3">
+                                <a href="/seeker/applied" className={`  py-3 cursor-pointer px-4 flex gap-4 items-center  ${currentPage == 'applied' ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                                    <BiHomeAlt2 className="text-xl" />
+                                    <p className=" ">Applied </p>
+                                </a>
+                                <a href="/seeker/saved" className={`my-1 py-3 cursor-pointer px-4 flex gap-4 items-center  ${currentPage == 'saved' ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                                    <PiBuildings className="text-xl" />
+                                    <p className="">Saved </p>
+                                </a>
+                                <a href="/seeker/edit" className={` py-3 cursor-pointer px-4 flex gap-4 items-center  ${currentPage == 'edit' ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                                    <LuClipboardList className="text-xl" />
+                                    <p className="">Edit Profile</p>
+                                </a>
+                                
+                                        
+                            </div>
+                            
                         </div>
+                        <hr className="h-px bg-gray-200 border-0 mt-6 mb-4"></hr>
+
+                        <a href="/all-jobs" className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold mx-10 justify-center text-center mb-4">Back to Search</a>
+
+                        <button onClick={() => { handleClickLogout() }} 
+                            className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold mx-10 
+                            w-[calc(100%-5rem)] absolute bottom-[4rem] text-center"
+                        >
+                            Log out
+                        </button>
                     </div>
-                    <hr className="h-px bg-gray-200 border-0 mt-6 mb-4"></hr>
                     {/* <div onClick={() => { }} className="text-base font-medium flex justify-center w-full">
                         <p className="text-white bg-[#4A2C84] w-full mx-4 text-center py-3 px-6 rounded-full">+ Post a Job</p>
                     </div> */}
@@ -93,7 +113,7 @@ export default function Header(props: Props) {
                     <p className="text-sm">Good Morning</p>
                     <p className="font-semibold">{props.name}</p>
                 </div>
-                <a href="/all-jobs"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold">Explore Apprenticeships</button></a>
+                <a href="/all-jobs"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold">Back to Search</button></a>
             </div>
             <div className="lg:hidden flex justify-between px-3 py-3 items-center">
                 <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />

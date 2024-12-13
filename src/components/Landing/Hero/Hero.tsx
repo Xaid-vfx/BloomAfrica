@@ -73,7 +73,7 @@ export default function Hero() {
         
         <div className='lg:flex lg:items-center lg:px-12 lg:py-8 pb-10 justify-center ms-auto me-auto max-w-[1500px] relative'>
             <div className="lg:w-[60%]">
-                <div className="px-4 mt-20 flex flex-col justify-center items-center lg:items-start lg:mt-0">
+                <div className="px-4 mt-[3.2rem] flex flex-col justify-center items-center lg:items-start lg:mt-0">
                     <div className="lg:flex lg:items-center lg:w-full lg:justify-between lg:pr-12">
                         <div className="px-5 py-3 text-sm rounded-full text-[#F38968] bg-white">Empower Your Career Journey</div>
                         <Image src={Star} alt="" width={40} className="hidden lg:block" />
