@@ -93,7 +93,6 @@ export default function Navbar(props: { color: string }) {
             <Image src={LogoText} alt="" width={120} />
           
           </a>
-
           <div className="hidden text-[16px] lg:flex lg:pl-0 pr-7 min-w-max ">
             <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)]">
               <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800 transition-all`}>Home</a>
@@ -106,11 +105,9 @@ export default function Navbar(props: { color: string }) {
                 <p className="text-white bg-[#897DD3] rounded-full px-1 py-1 right-0 text-[0.5rem] ">Coming Soon</p>
               </div>
             </div>
-            
 
           </div>
         </div>
-
         <div className="flex gap-2 ">
           <a href="/all-jobs" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-semibold rounded-3xl min-w-max  ">Find Apprenticeships</a>
           <a href="/signup" className="text-sm text-[#4A2C84] border border-[#4A2C84] px-6 py-3 font-semibold rounded-3xl min-w-max">Sign In</a>

@@ -15,6 +15,10 @@ import ShowFilters from "./ShowFilters";
 import DesktopViewJobs from "./DesktopViewJobs";
 import MobileViewJobs from "./MobileViewJobs";
 
+export const metadata: Metadata = {
+    title: 'All Jobs | Bloom'
+}
+
 type JobProps = {
     uid: string;
     handleClick: any;

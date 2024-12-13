@@ -40,7 +40,6 @@ export default function ForSeekersRecruiters() {
                         <a href="/about" className=" border border-black py-3 px-4 text-center rounded-3xl font-medium text-xs lg:text-sm lg:py-3 ml-2 lg:px-8" >Learn More</a></div>
                 </div>
             </div>      
-
             </div>
             <div className="lg:w-1/2 flex flex-col justify-between py-10 lg:py-20 px-6 lg:px-16">
                 <div className=" lg:me-auto max-lg:mx-auto max-w-[640px]  ">

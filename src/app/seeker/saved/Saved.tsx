@@ -4,6 +4,7 @@ import MobileCard from "@/components/Jobs/MobileCard/MobileCard";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner"
 
 export default function Saved(props) {
 
@@ -27,9 +28,9 @@ export default function Saved(props) {
             console.log(error);
         }
         else {
-            alert("Removed Job!!")
+            toast("Removed Job!!")
+            router.refresh()
         }
-        router.refresh()
 
     }
     return (
@@ -50,23 +51,16 @@ export default function Saved(props) {
             </div>
             <div className="lg:hidden px-4 my-6">
                 <p className="text-xl font-semibold">Saved Jobs</p>
-                {props.savedjobs.length > 0 ? (
-                    <div className="flex flex-col gap-4 my-4">
-                        {props.savedjobs.map((job) => {
-                            const [showOption, setshowOption] = useState(false)
-                            return (
-                                <div className="">
-                                    <MobileCard id={job.uid}
-                                        logo={job.logo} title={job.title} location={job.location} type={job.type} category={job.category} />
-                                </div>
-                            )
-                        })}
-                    </div>
-                ) : (
-                    <div className="flex justify-center items-center h-96">
-                        <h1 className="text-xl font-medium">No saved jobs yet.</h1>
-                    </div>
-                )}
+                <div className="flex flex-col gap-4 my-4">
+                    {props.savedjobs.map((job) => {
+                        return (
+                            <div className="">
+                                <MobileCard id={job.uid}
+                                    logo={job.logo} title={job.title} location={job.location} type={job.type} category={job.category} />
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
         </div>
     )

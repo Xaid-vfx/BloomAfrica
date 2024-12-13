@@ -35,7 +35,7 @@ export default function JobCard(props: Props) {
                     <div className="">
                         <h1 className="text-xl font-medium mt-2">{props.title}</h1>
                         <div className="flex mt-2 text-base text-[#515B6F] gap-2 items-baseline">
-                            <p>TechMe</p>
+                            <p>{props.companyName}</p>
                             <p>. {props.location}</p>
                         </div>
                     </div>

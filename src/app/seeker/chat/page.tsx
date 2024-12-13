@@ -7,6 +7,10 @@ import Header from "../Header";
 import ChatClient from "@/components/Chat/Chat";
 import SeekerMessages from "./SeekerMessages";
 
+export const metadata: Metadata = {
+    title: 'Chat | Bloom'
+}
+
 async function fetchSeeker(id: string) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })

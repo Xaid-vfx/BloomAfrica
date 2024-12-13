@@ -3,6 +3,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { toast } from "sonner"
 
 type Props = {
     id: any
@@ -71,11 +72,11 @@ export default function SaveButton(props: Props) {
             return
         }
         if (!await checkifSeekerisRegistered()) {
-            alert("Please register as a seeker to Save this job")
+            toast.error("Please register as a seeker to Save this job")
             return
         }
         if (await checkifSeekerisAlreadySaved()) {
-            alert("Already Saved!!")
+            toast.error("Already Saved!!")
             return
         }
         else {
@@ -106,7 +107,7 @@ export default function SaveButton(props: Props) {
                 console.log(error);
             }
             else
-                alert("Saved job!");
+                toast.success("Saved job!");
             console.log(data);
         }
     }

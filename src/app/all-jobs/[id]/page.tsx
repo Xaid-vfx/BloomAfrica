@@ -11,6 +11,11 @@ import TestComp from "./TestComp";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import JobDescription from "./JobDescription";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Job | Bloom'
+}
 
 export default async function Page({ params,
     searchParams,

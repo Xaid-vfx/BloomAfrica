@@ -149,7 +149,7 @@ export default function EditRecruiter(props: Props) {
                                         <option>Select your state</option>
                                         {
                                             stateList.map((state) => {
-                                                return <option className="bg-[#4A2C84] my-4" value={state.name}>{state.name}</option>
+                                                return <option className="my-4" value={state.name}>{state.name}</option>
                                             })
                                         }
                                     </select>
@@ -181,16 +181,16 @@ export default function EditRecruiter(props: Props) {
                                     <input onChange={(e) => { setcwebsite(e.target.value); setshowSave2(true) }} value={cwebsite} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
                                 <div className="">
-                                    <h2 className="mb-1 text-sm font-medium ">Description</h2>
-                                    <input onChange={(e) => { setsdesc(e.target.value); setshowSave2(true) }} value={cdesc} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
-                                </div>
-                                <div className="">
                                     <h2 className="mb-1 font-medium ">Logo</h2>
                                     <input onChange={(e) => {
                                         console.log(e.target.files[0]);
                                         setlogo(e.target.files[0]); setshowSave2(true)
                                     }} type="file" className="w-full border rounded-lg px-4 py-2 text-sm" />
                                 </div>
+                            </div>
+                            <div className="my-2">
+                                <h2 className="mb-1 text-sm font-medium w-full">Description</h2>
+                                <textarea rows={4} onChange={(e) => { setsdesc(e.target.value); setshowSave2(true) }} value={cdesc} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
                             </div>
                             {
                                 showSave2 && <div className="flex w-full justify-end gap-4">

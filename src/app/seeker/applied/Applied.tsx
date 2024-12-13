@@ -3,22 +3,19 @@ import AppliedTable from "@/components/General/AppliedTable";
 import { useState } from "react";
 import { SlOptions } from "react-icons/sl";
 
-export default function Applied(props) {
+export default function Applied(props: { appliedjobs: any[], seekerId: string }) {
+    function startPayment(row) {
+        console.log(row);
+    }
     return (
         <div className="lg:pt-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
             <div className="hidden lg:block bg-white rounded-xl">
-                {
-                    props.appliedjobs.length > 0 ? (
-                        <>
-                            <h1 className="font-semibold text-2xl px-10 pt-6 pb-3">Recent Applications</h1>
-                            <AppliedTable jobs={props.appliedjobs} />
-                        </>
-                    ) : (
-                        <div className="flex justify-center items-center h-96">
-                            <h1 className="text-xl font-medium">No applications yet.</h1>
-                        </div>
-                    )
-                }
+                <h1 className="font-semibold text-2xl px-10 pt-6 pb-3">All Applications</h1>
+                <AppliedTable
+                    startPayment={startPayment}
+                    jobs={props.appliedjobs}
+                    seekerId={props.seekerId}
+                />
             </div>
             <div className="lg:hidden px-4 my-6">
                 <p className="text-xl font-semibold">Jobs applied</p>

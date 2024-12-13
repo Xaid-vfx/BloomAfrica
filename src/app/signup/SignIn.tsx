@@ -12,21 +12,23 @@ import LeftColomn from "@/components/SignUp/LeftColomn/LeftColomn"
 
 export default function SignIn() {
 
+    const search = useSearchParams()
+    const redirectUrl = search.get('continue')
+    console.log(redirectUrl);
+
     const [email, setemail] = useState('')
     const [password, setpassword] = useState('')
     const [confirmPassword, setconfirmPassword] = useState('')
 
     const [currentPage, setCurrentPage] = useState('signup')
-    const [signUpUserTypeTab, setsignUpUserTypeTab] = useState('seeker')
+    const [signUpUserTypeTab, setsignUpUserTypeTab] = useState(search.get('type') ? search.get('type') : 'seeker')
 
     const router = useRouter()
     const supabase = createClientComponentClient()
     const [user, setuser] = useState([])
 
     const currentUrl = globalThis.window?.location.href
-    const search = useSearchParams()
-    const redirectUrl = search.get('continue')
-    console.log(redirectUrl);
+
 
 
     const handleSignUp = async () => {
@@ -77,7 +79,7 @@ export default function SignIn() {
                     access_type: 'offline',
                     prompt: 'consent'
                 },
-                redirectTo: signUpUserTypeTab == "seeker" ? 'http://localhost:3000/auth/callback?type=/signup/complete_profile&next=' + redirectUrl : 'http://localhost:3000/auth/callback?type=/signup/complete_recruiter_profile'
+                redirectTo: signUpUserTypeTab == "seeker" ? 'https://bloom.africa/auth/callback?route=/signup/complete_profile&next=' + redirectUrl : 'https://bloom.africa/auth/callback?route=/signup/complete_recruiter_profile'
             },
 
         })
