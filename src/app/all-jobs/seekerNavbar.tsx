@@ -68,8 +68,8 @@ export default function SeekerNavbar(props: any) {
             <hr />
           </div>
           {
-            props.user ? <button onClick={() => { toast.success('Signing Out'); SignOut(); router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign out</button> :
-              <button onClick={() => { router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign In</button>
+            props.user ? <button onClick={() => { toast.success('Signing Out'); SignOut(); router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 min-w-max font-medium rounded-3xl">Sign out</button> :
+              <button onClick={() => { router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 min-w-max py-3 font-medium rounded-3xl">Sign In</button>
           }
         </div>
       </div>
@@ -102,7 +102,7 @@ export default function SeekerNavbar(props: any) {
             </div>
           </div>
 
-          {props.user ? <a onClick={() => { SignOut(); router.push('/signup') }} className="text-sm cursor-pointer text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl min-w-max">Sign out</a> : <a href="/signup" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium cursor-pointer rounded-3xl ">Sign in</a>}
+          {props.user ? <a onClick={() => { SignOut(); router.push('/signup') }} className="text-sm cursor-pointer text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl min-w-max">Sign out</a> : <a href="/signup" className=" text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium cursor-pointer min-w-max rounded-3xl ">Sign in</a>}
         </div>
       </div>
     </div>
