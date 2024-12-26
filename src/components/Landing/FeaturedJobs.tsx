@@ -32,7 +32,7 @@ export default function FeaturedJobs() {
             location: "Port Harcourt",
             type: "Full Time",
             company: "Yemi’s Boutique",
-            diploma: "Certificate in Fashion Design, Textiles, and Apparel ",
+            diploma: "Certificate in Fashion Design & Tailoring ",
             description: "Launch your fashion career in Port Harcourt! Learn Textiles, Tailoring & Sewing from..."
         },
         {
@@ -71,7 +71,7 @@ export default function FeaturedJobs() {
     return (
         <div className="bg-[#F8F8FD] py-10 px-4 relative lg:py-16 ">
             <div className="text-center ">
-                <h1 className="text-xl font-semibold lg:text-2xl lg:font-semibold">Featured Apprenticeship </h1>
+                <h1 className="text-xl font-semibold lg:text-2xl lg:font-semibold">Featured Apprenticeships </h1>
                 <p className="text-sm my-2 lg:text-base lg:my-4">
                     Find your career, you deserve it
                 </p>
