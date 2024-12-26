@@ -29,23 +29,28 @@ export default function JobCard(props: Props) {
 
     return (
         <div className="flex items-center justify-between border-2 rounded-2xl px-6 py-4 my-6 bg-white hover:drop-shadow-lg">
-            <div className="flex flex-col">
-                <div className="flex items-center gap-6">
-                    <Image src={props.logo ? props.logo : Logo} alt="logo" width={70} height={50} />
-                    <div className="">
-                        <h1 className="text-xl font-medium mt-2">{props.title}</h1>
-                        <div className="flex mt-2 text-base text-[#515B6F] gap-2 items-baseline">
-                            <p>{props.companyName}</p>
-                            <p>. {props.location}</p>
+            <div className="flex flex-row">
+                <div className='mr-4'>
+                    <Image src={props.logo ? props.logo : Logo} alt="logo" width={50} height={50} />
+                </div>
+                
+                <div className='flex flex-col'>
+                    <div className="flex items-center gap-6">
+                        <div className="">
+                            <h1 className="text-xl font-medium mt-2">{props.title}</h1>
+                            <div className="flex mt-2 text-base text-[#515B6F] gap-2 items-baseline">
+                                <p>{props.companyName}</p>
+                                <p>. {props.location}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="ml-24 flex gap-2 my-4 items-center">
-                    <div className="rounded-3xl text-sm min-w-max px-3 py-2 bg-[#ebfffa] text-[#56CDAD]">{props.type}</div>
-                    <div
-                        className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
-                    {/* <div className="rounded-3xl px-3 py-2 border border-[#FFB836] text-sm text-[#FFB836]">Marketing</div> */}
-                    {props.category && <div className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] min-w-max">{props.category}</div>}
+                    <div className=" flex gap-2 my-4 items-center">
+                        <div className="rounded-3xl text-sm min-w-max px-3 py-2 bg-[#ebfffa] text-[#56CDAD]">{props.type}</div>
+                        <div
+                            className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
+                        {/* <div className="rounded-3xl px-3 py-2 border border-[#FFB836] text-sm text-[#FFB836]">Marketing</div> */}
+                        {props.category && <div className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] min-w-max">{props.category}</div>}
+                    </div>
                 </div>
             </div>
             <div className="">
