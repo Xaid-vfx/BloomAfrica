@@ -6,33 +6,20 @@ export default function FilterSidebar(props: any) {
     const categories = [
         "Agriculture & Farming",
         "Building & Construction",
-        "Education & Tutoring",
-        "Hospitality & Lodging",
-        "Electronics Repair & Sales",
-        "Mechanical Services & Repairs",
+        "Hospitality",
+        "Mechanical Engineering",
+        "Electrical Engineering",
         "Textiles & Tailoring",
-        "Transport & Logistics",
-        "Information Technology & Mobile Services",
-        "Handicrafts & Manufacturing",
-        "Retail & Street Vending",
-        "Automotive Repair & Services",
-        "Energy & Solar Solutions",
-        "Media & Entertainment",
-        "Food & Beverage",
-        "Community & Social Services",
-        "Environmental & Recycling Services",
-        "Creative Arts & Craftsmanship",
-        "Sports & Recreation Services",
-        "Chemical & Soap Making",
-        "Biotechnology & Herbal Products",
-        "Mining & Quarrying",
-        "Fishing & Aquaculture",
-        "Beauty & Cosmetology"
+        "Retail & Business",
+        "Food & Catering",
+        "Arts & Craftsmanship",
+        "Beauty & Cosmetology",
+        "Other"
     ];
 
     const [showAll, setShowAll] = useState(false);
 
-    const displayedCategories = showAll ? categories : categories.slice(0, 5);
+    const displayedCategories = showAll ? categories : categories.slice(0, categories.length);
 
     return (
         <div className="px-10">
@@ -52,7 +39,7 @@ export default function FilterSidebar(props: any) {
                 </div>
 
                 <p className="font-semibold mt-8">Categories</p>
-                <div className="text-[#515B6F] flex flex-col gap-2 max-h-60 overflow-y-auto">
+                <div className="text-[#515B6F] flex flex-col gap-2  overflow-y-auto">
                     {displayedCategories.map((category) => (
                         <div key={category} className='flex'>
                             <input
@@ -65,12 +52,12 @@ export default function FilterSidebar(props: any) {
                         </div>
                     ))}
                 </div>
-                <button
+                {/* <button
                     className="mt-2 text-[#4A2C84] text-xs"
                     onClick={() => setShowAll(!showAll)}
                 >
                     {showAll ? "Show Less" : "Show all"}
-                </button>
+                </button> */}
             </div>
         </div>
     )
