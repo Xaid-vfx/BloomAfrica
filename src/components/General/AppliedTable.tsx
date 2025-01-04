@@ -84,25 +84,14 @@ function createData(
 export default function AppliedTable(props: any) {
     const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
 
-    const fetchPaymentStatuses = async () => {
-        const supabase = createClientComponentClient();
-        const { data, error } = await supabase
-            .from('jobpayments')
-            .select('job_id, status')
-            .eq('seeker_id', props.seekerId);
-
-        if (data) {
-            const statuses = data.reduce((acc, curr) => ({
-                ...acc,
-                [curr.job_id]: curr.status
-            }), {});
-            setPaymentStatuses(statuses);
-        }
-    };
-
     useEffect(() => {
-        fetchPaymentStatuses();
-    }, [props.seekerId]);
+        // Initialize payment statuses from the server-side data
+        const statuses = props.jobs.reduce((acc, job) => ({
+            ...acc,
+            [job.id]: job.paymentStatus
+        }), {});
+        setPaymentStatuses(statuses);
+    }, [props.jobs]);
 
     console.log(props.jobs);
 

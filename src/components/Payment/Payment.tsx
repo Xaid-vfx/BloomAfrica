@@ -7,19 +7,16 @@ interface PaymentProps {
     seekerId: string;
     amount: number;
     onPaymentSuccess?: () => void;
+    initialPaymentStatus?: string;
 }
 
-export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuccess }: PaymentProps) {
-    console.log(seekerId);
-
+export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuccess, initialPaymentStatus }: PaymentProps) {
     const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY
     const [email, setEmail] = useState("zaid@gmail.com")
     const [name, setName] = useState("David Onadipe")
     const [phone, setPhone] = useState("+2348149623803")
-    const [paid, setpaid] = useState(false)
     const [paymentStatus, setPaymentStatus] = useState('');
     const [splitConfig, setSplitConfig] = useState(null);
-    const [initialPaymentStatus, setInitialPaymentStatus] = useState<string | null>(null);
 
     // Fetch split configuration from backend
     const fetchSplitConfig = async () => {
@@ -43,31 +40,7 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
         }
     };
 
-    // Add function to check initial payment status
-    const checkInitialPaymentStatus = async () => {
-        try {
-            const response = await fetch('/api/check-payment-status', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    jobId,
-                    seekerId
-                })
-            });
-            const data = await response.json();
-            if (data.status === 'success') {
-                setInitialPaymentStatus('success');
-            }
-        } catch (error) {
-            console.error('Error checking payment status:', error);
-        }
-    };
-
-    // Modify useEffect to check initial payment status
     useEffect(() => {
-        checkInitialPaymentStatus();
         fetchSplitConfig();
     }, []);
 
@@ -89,7 +62,6 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
             const data = await response.json();
             if (data.status === true) {
                 setPaymentStatus('Payment Successful');
-                setInitialPaymentStatus('success');
                 onPaymentSuccess?.();
             } else {
                 setPaymentStatus('Payment Failed');
@@ -110,7 +82,7 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
         publicKey,
         text: "Pay Now",
         className: "text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl",
-        split: splitConfig, // Use the server-provided split configuration
+        split: splitConfig,
         onSuccess: (reference) => {
             verifyTransaction(reference.reference);
         },
@@ -128,7 +100,9 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
                     {splitConfig ? (
                         <PaystackButton {...componentProps} />
                     ) : (
-                        <p>Loading...</p>
+                        <div className="text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl">
+                            Fetching...
+                        </div>
                     )}
                     {paymentStatus && <p>Payment Status: {paymentStatus}</p>}
                 </>

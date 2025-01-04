@@ -44,20 +44,34 @@ export async function POST(request: Request) {
 
         console.log('Paystack verification response:', response.data);
 
-        // Store payment information
-        const { error: insertError } = await supabase
+        const paymentStatus = response.data.data.status === 'success' ? 'success' : 'failed';
+
+        // Insert into jobpayments table
+        const { error: paymentError } = await supabase
             .from('jobpayments')
             .insert({
                 job_id: jobId,
                 seeker_id: seekerId,
                 amount: amount,
                 reference: reference,
-                status: response.data.data.status === 'success' ? 'success' : 'failed'
+                status: paymentStatus
             });
 
-        if (insertError) {
-            console.error('Database insertion error:', insertError);
-            throw new Error(`Failed to store payment information: ${insertError.message}`);
+        if (paymentError) {
+            console.error('Error inserting payment:', paymentError);
+            throw new Error('Failed to insert payment');
+        }
+
+        // Update Applicants table
+        const { error: applicantError } = await supabase
+            .from('Applicants')
+            .update({ payment_status: paymentStatus })
+            .eq('job_id', jobId)
+            .eq('seeker_id', seekerId);
+
+        if (applicantError) {
+            console.error('Error updating applicant:', applicantError);
+            throw new Error('Failed to update applicant status');
         }
 
         return NextResponse.json({

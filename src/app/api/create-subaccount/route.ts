@@ -111,7 +111,7 @@ export async function POST(request: Request) {
         return NextResponse.json({
             status: true,
             data: paystackData.data,
-            message: existingAccount ? 'Subaccount updated successfully' : 'Subaccount created successfully'
+            message: existingAccount ? 'Account Updated Successfully' : 'Account added successfully'
         });
 
     } catch (error) {

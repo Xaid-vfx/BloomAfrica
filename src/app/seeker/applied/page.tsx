@@ -16,13 +16,29 @@ async function fetchSeeker(id: string) {
     return data;
 }
 
-async function fetchAppliedJobs(id: string) {
+async function fetchAppliedJobsWithPayments(id: string) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
-    const { data, error } = await supabase.from('Applicants').select().eq('seeker_id', id)
 
-    console.log(data);
-    return data;
+    // Fetch both jobs and payment statuses in parallel
+    const [applicantsResponse, paymentsResponse] = await Promise.all([
+        supabase.from('Applicants').select().eq('seeker_id', id),
+        supabase.from('jobpayments').select('job_id, status').eq('seeker_id', id)
+    ]);
+
+    const appliedJobs = await Promise.all(applicantsResponse.data?.map(async (job) => {
+        const { data, error } = await supabase.from('Jobs').select().eq('uid', job.job_id).single();
+
+        // Find payment status for this job
+        const paymentStatus = paymentsResponse.data?.find(payment => payment.job_id === job.job_id)?.status;
+
+        return {
+            ...data,
+            paymentStatus
+        };
+    }));
+
+    return appliedJobs;
 }
 
 export const metadata: Metadata = {
@@ -35,12 +51,7 @@ export default async function page() {
     const user = await getUser();
     const company = await getCompany(user?.id)
     const seeker = await fetchSeeker(user?.id)
-    const appliedjobsid = await fetchAppliedJobs(user?.id)
-    const appliedjobs = await Promise.all(appliedjobsid?.map(async (job) => {
-        const { data, error } = await supabase.from('Jobs').select().eq('uid', job.job_id).single();
-        return data;
-    }));
-
+    const appliedjobs = await fetchAppliedJobsWithPayments(user?.id);
 
     console.log(appliedjobs);
 
