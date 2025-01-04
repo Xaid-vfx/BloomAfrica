@@ -41,7 +41,7 @@ const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
         <div className="lg:hidden my-4 flex flex-col gap-4">
             <p className="lg:hidden text-lg font-semibold">{props.type} Applicants</p>
             {props.applications && props.applications.map((app: any) => {
-                const paymentStatus = paymentStatuses[app.job_id];
+                const paymentStatus = app.payment_status;
 
                 return (
                     <div className="border rounded-md px-5 py-4 bg-white" key={app.seeker_id}>
