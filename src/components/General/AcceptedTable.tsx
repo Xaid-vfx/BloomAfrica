@@ -102,30 +102,33 @@ export default function AcceptedTable(props: any) {
     const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
     const [isLoading, setIsLoading] = React.useState(true);
 
-    useEffect(() => {
-        const fetchPaymentStatuses = async () => {
-            setIsLoading(true);
-            const supabase = createClientComponentClient();
-            const { data, error } = await supabase
-                .from('jobpayments')
-                .select('job_id, status')
-                .eq('seeker_id', props.user.id);
+    // useEffect(() => {
+    //     const fetchPaymentStatuses = async () => {
+    //         setIsLoading(true);
+    //         const supabase = createClientComponentClient();
+    //         const { data, error } = await supabase
+    //             .from('jobpayments')
+    //             .select('job_id, status')
+    //             .eq('seeker_id', props.user.id);
 
-            if (data) {
-                const statuses = data.reduce((acc, curr) => ({
-                    ...acc,
-                    [curr.job_id]: curr.status
-                }), {});
-                setPaymentStatuses(statuses);
-            }
-            setIsLoading(false);
-        };
+    //         console.log(data);
+    //         console.log(props.user.id);
 
-        fetchPaymentStatuses();
-    }, [props.user.id]);
+    //         if (data) {
+    //             const statuses = data.reduce((acc, curr) => ({
+    //                 ...acc,
+    //                 [curr.job_id]: curr.status
+    //             }), {});
+    //             setPaymentStatuses(statuses);
+    //         }
+    //         setIsLoading(false);
+    //     };
+
+    //     fetchPaymentStatuses();
+    // }, [props.user.id]);
 
     const rows = [...props.applications.map((app: any) => {
-        return createData(app.unique_id, app.name, app.status, app.created_at.substring(0, app.created_at.indexOf('T')), "View", app.seeker_id, paymentStatuses[app.job_id] || 'Unpaid');
+        return createData(app.unique_id, app.name, app.status, app.created_at.substring(0, app.created_at.indexOf('T')), "View", app.seeker_id, app.payment_status);
     })];
 
     rows.sort((a, b) => b.id - a.id);
@@ -192,6 +195,8 @@ export default function AcceptedTable(props: any) {
                                     >
                                         {columns.map((column) => {
                                             const value = row[column.id];
+                                            console.log(value);
+
                                             return (
                                                 <TableCell
                                                     key={column.id}
@@ -223,20 +228,12 @@ export default function AcceptedTable(props: any) {
                                                     ) : ""}
 
                                                     {column.id === 'paymentStatus' ? (
-                                                        isLoading ? (
-                                                            <div className="text-center px-4 py-2 rounded-full bg-gray-50">
-                                                                <div className="animate-pulse flex justify-center">
-                                                                    <div className="h-5 w-16 bg-gray-200 rounded-full"></div>
-                                                                </div>
-                                                            </div>
-                                                        ) : (
-                                                            <div className={`text-center px-4 py-2 rounded-full text-sm font-medium ${value === 'success'
-                                                                ? 'bg-green-50 text-green-600'
-                                                                : 'bg-red-50 text-red-600'
-                                                                }`}>
-                                                                {value === 'success' ? 'Paid' : 'Unpaid'}
-                                                            </div>
-                                                        )
+                                                        <div className={`text-center px-4 py-2 rounded-full text-sm font-medium ${value === 'success'
+                                                            ? 'bg-green-50 text-green-600'
+                                                            : 'bg-red-50 text-red-600'
+                                                            }`}>
+                                                            {value === 'success' ? 'Paid' : 'Unpaid'}
+                                                        </div>
                                                     ) : ""}
 
                                                     {column.id === 'action' ? (
