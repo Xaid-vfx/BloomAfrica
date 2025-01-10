@@ -28,7 +28,7 @@ export default function Sidebar(props: Props) {
         
 
         
-            <div className='hidden lg:flex flex-col border-gray-300 border-[1px] w-[20%] h-full rounded-t-xl bg-white relative min-w-[190px]'>
+            <div className='hidden lg:flex flex-col border-gray-300 border-[1px] h-full w-[20%] rounded-t-xl bg-white relative min-w-[190px]'>
                 
                     <div className="flex flex-col justify-center my-6">
                         <div onClick={() => { props.handleChangeTabIndex(0) }} className={`my-2 font-medium py-5 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 0 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
@@ -59,7 +59,7 @@ export default function Sidebar(props: Props) {
                             <p className="text-sm">Bank Details</p>
                         </div>
                     </div>
-                <button onClick={() => { handleClickLogout() }} className="text-sm text-white bg-[#4A2C84] py-3 px-6 rounded-full font-semibold mx-5 xl:mx-10 2xl:mx-16 absolute bottom-14 left-0 right-0">Log out</button>
+                <button onClick={() => { handleClickLogout() }} className="text-sm text-[#4A2C84] bg-[#cfc2e9] py-3 px-6 rounded-full font-semibold mx-5 xl:mx-10 absolute bottom-14 left-0 right-0">Log out</button>
             </div>  
           
             

@@ -51,6 +51,7 @@ export default function RecruiterContent(props: Props) {
             setjobs(data)
         })
     }, [])
+    let H
 
     // if (showNav) {
     //     return (
@@ -84,7 +85,7 @@ export default function RecruiterContent(props: Props) {
     //     )
     // }
     return (
-        <div className="flex flex-col bg-[#F5F5F5] h-screen">
+        <div className="flex flex-col bg-[#F5F5F5] h-screen   ">
             <div>
                 <Header showNav={() => { setshowNav(true) }} currTabIndex={currTabIndex} handleChangeTabIndex={(e: any) => {
                     handleChangeTabIndex(e)
@@ -92,14 +93,16 @@ export default function RecruiterContent(props: Props) {
             </div>
             
 
-            <div className='flex flex-row gap-5 px-5 h-full'>
+            <div className='flex flex-row lg:gap-5 mx-5 h-full '>
 
-            
-                <Sidebar handleChangeTabIndex={(e: any) => {
-                    handleChangeTabIndex(e)
-                }} currTabIndex={currTabIndex} user={props.user} />
+                <div className='h-full '>
+                    <Sidebar handleChangeTabIndex={(e: any) => {
+                        handleChangeTabIndex(e)
+                    }} currTabIndex={currTabIndex} user={props.user} />   
+                </div>
+                
 
-                <div className="w-full flex flex-col ">
+                <div className="w-full flex flex-col max-h-[calc(100vh-95px)] ">
                     
                     
 
@@ -112,7 +115,7 @@ export default function RecruiterContent(props: Props) {
                             setjobid(e)
                         }} user={props.user} company={props.company} jobs={jobs} recruiter={props.recruiter} /> : ""}
                     {currTabIndex == 1 ?
-                        <div className="border h-screen p-20">Messages</div>
+                        <div className="border p-20">Messages</div>
                         : ""}
                     {currTabIndex == 2 ?
                         <EditRecruiter user={props.user} recruiter={props.recruiter} company={props.company} />

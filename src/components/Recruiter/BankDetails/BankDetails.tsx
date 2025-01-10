@@ -136,9 +136,9 @@ export default function BankDetails({ user, recruiter }: Props) {
 
     if (banks.length === 0) {
         return (
-            <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
-                <div className="bg-white rounded-xl p-6 lg:mt-6">
-                    <div className="flex flex-col items-center justify-center h-40">
+            <div className="lg:py-8 lg:px-8  lg:bg-[#F5F5F5] h-[95%] w-full">
+                <div className="bg-white rounded-xl border-gray-300 border-[1px] p-6 lg:mt-6">
+                    <div className="flex flex-col  items-center justify-center h-40">
                         <p className="text-red-500 mb-4">Failed to load banks</p>
                         <button
                             onClick={() => fetchBanks()}

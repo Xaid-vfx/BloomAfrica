@@ -236,12 +236,13 @@ export default function Post(props) {
     };
 
     return (
-        <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
+        <div className='flex flex-col border-gray-300 border-[1px]  w-full rounded-t-xl lg:bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll '>
+            
             <AgreementModal handleAgreement={handleAgreement} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
             <p onClick={() => { props.handleChangeTabIndex(3) }} className="mb-4 hover:underline cursor-pointer text-sm lg:flex items-center gap-1 hidden"><IoMdArrowRoundBack className="text-xl" />Back to job listing</p>
             <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Post a Job</p>
             <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-            <div>
+            <div className='mb-10'>
                 <div className="bg-white rounded-xl p-6 lg:mt-6">
 
                     <div className="flex gap-4">
@@ -463,11 +464,11 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                 )}
                 <button
                     type="submit"
-                    className={`border rounded-lg py-2 mx-4 lg:mx-0 text-sm font-semibold px-16 lg:my-4 mb-6 text-white bg-[#4A2C84] ${loading ? "cursor-not-allowed" : ""}`}
+                    className={`border rounded-full py-3  mx-4 lg:mx-0 text-sm font-semibold px-16 lg:my-4 mb-7 text-white bg-[#4A2C84] ${loading ? "cursor-not-allowed" : ""}`}
                     onClick={handleSubmit}
                     disabled={loading}
                     style={{ pointerEvents: loading ? "none" : "auto" }}>
-                    {loading ? "Posting..." : "Post Job"}
+                    {loading ? "Posting..." : "Post Apprenticeship"}
                 </button>
                 {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
             </div>
