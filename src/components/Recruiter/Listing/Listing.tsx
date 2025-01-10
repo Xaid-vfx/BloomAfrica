@@ -140,7 +140,7 @@ export default function Listing(props: Props) {
     }, [])
     return (
         
-        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl lg:bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll">
+        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll">
             
             <div className="">
                 {showJobApplications ?
@@ -172,11 +172,11 @@ export default function Listing(props: Props) {
                     <div className="jobs flex flex-col gap-6 py-8 lg:py-0">
                         <div className="px-4 lg:px-0">
                             <h1 className="hidden lg:block font-semibold text-lg pb-2 lg:pl-4">Manage Apprenticeships</h1>
-                            <div className=" rounded-xl lg:py-5 lg:px-6">
-                                <h1 className=" text-lg flex items-center gap-2"><p>Total Apprenticeships Listed:</p> <span className="text-xs text-white bg-[#4A2C84] rounded-full py-1 px-2 font-normal">{props.jobs.length}</span></h1>
+                            <div className=" rounded-xl lg:py-5  lg:px-6">
+                                <h1 className=" text-lg flex items-center gap-2"><p>Total Apprenticeships Listed:</p> <span className="text-xs bg-whit text-white bg-[#4A2C84] rounded-full py-1 px-2 font-normal">{props.jobs.length}</span></h1>
                             </div>
                         </div>
-                        <div className="px-4 mb-6 lg:hidden">
+                        <div className="px-4 mb-6 bg-whit lg:hidden">
                             {/* <h1 className="font-medium text-lg">Recent Listings</h1> */}
                             <div className="flex flex-col gap-3">
                                 {props.jobs && props.jobs.map((job: any) => {

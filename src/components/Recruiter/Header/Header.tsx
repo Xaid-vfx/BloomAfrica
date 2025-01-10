@@ -63,7 +63,7 @@ export default function Header(props: Props) {
                     </div>
                     <hr className="h-px bg-gray-200 border-0 mt-6 mb-4"></hr>
                     <div onClick={() => { handleChangeTabIndex(4) }} className="text-base font-medium flex justify-center w-full">
-                        <p className="text-white bg-[#4A2C84] w-full mx-4 text-center py-3 px-6 rounded-full">+ Post a Job</p>
+                        <p className="text-white bg-[#4A2C84] w-full mx-4 text-center py-3 px-6 rounded-full">+ Post Apprenticeship</p>
                     </div>
                 </div>
             </>

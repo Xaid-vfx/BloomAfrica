@@ -89,7 +89,7 @@ export default function Dashboard(props: Props) {
             </div>
             <div className="px-4 mb-6 lg:hidden">
                 <h1 className="font-medium text-lg">Recent Listings</h1>
-                <div className="my-4 flex flex-col gap-3">
+                <div className="my-4 flex flex-col gap-3 overflow-scroll">
                     {jobs && jobs.slice(0, 4).map((job: any) => {
                         return (
                             <div onClick={() => {
