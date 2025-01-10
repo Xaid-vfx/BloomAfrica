@@ -7,6 +7,7 @@ export default function ApplicantDisplay(props) {
 
     return (
         <div className="lg:flex items-start gap-6 h-full">
+            
             <div className="lg:w-[30%] bg-white p-4 pb-2 px-6">
                 <div>
                     <h1 className="text-xl text-[#25324B]">{props.applicant?.name}</h1>

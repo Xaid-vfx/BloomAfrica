@@ -41,14 +41,17 @@ export default function Applications(props: any) {
     }
 
     return (
-        <div className="px-2 sm:px-4 my-4 lg:my-6 lg:m-0">
+        <div className="px-2 sm:px-4 my-4 lg:my-6 lg:m-0 ">
+            <h1 className="font-semibold text-xl ml-4 hidden lg:block mb-5">View Applicants
+            </h1>
+
             <p onClick={() => { props.setshowJobApplications(false); }}
                 className="mb-3 lg:mb-4 hover:underline cursor-pointer text-sm flex items-center gap-1 mx-2 sm:mx-4">
-                <IoMdArrowRoundBack className="text-xl" />Back to Job listings
+                <IoMdArrowRoundBack className="text-xl" />Back to Your Apprenticeships
             </p>
 
             {/* Job Details Header - responsive adjustments */}
-            <div className="bg-white rounded-lg lg:rounded-xl p-3 lg:p-4 mb-4 lg:mb-6 border border-gray-100 mx-2 sm:mx-4">
+            <div className="bg-white rounded-lg lg:rounded-xl p-3 lg:p-4 mb-4 lg:mb-6 border border-gray-200 mx-2 sm:mx-4">
                 <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 sm:gap-0">
                     <div>
                         <h1 className="text-base lg:text-lg font-medium text-gray-900 mb-1">

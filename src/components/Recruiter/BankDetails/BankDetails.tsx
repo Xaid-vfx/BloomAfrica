@@ -142,7 +142,7 @@ export default function BankDetails({ user, recruiter }: Props) {
                         <p className="text-red-500 mb-4">Failed to load banks</p>
                         <button
                             onClick={() => fetchBanks()}
-                            className="bg-[#4A2C84] text-white px-4 py-2 rounded-lg hover:bg-[#3a2266]"
+                            className="bg-[#4A2C84] text-white px-7 py-2 rounded-full hover:bg-[#3a2266]"
                         >
                             Retry
                         </button>
@@ -153,7 +153,9 @@ export default function BankDetails({ user, recruiter }: Props) {
     }
 
     return (
-        <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
+        
+        <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl lg:bg-white lg:pt-7 lg:px-8 pt-5'>
+            
             <div className="bg-white rounded-xl p-6 lg:mt-6">
                 <h1 className="text-2xl font-semibold text-[#4A2C84] mb-6">
                     {existingDetails ? 'Update Bank Details' : 'Add Bank Details'}

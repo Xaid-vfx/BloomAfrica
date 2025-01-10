@@ -139,13 +139,17 @@ export default function Listing(props: Props) {
 
     }, [])
     return (
-        <div className="lg:px-8 lg:py-8 w-full h-full lg:bg-[#F5F5F5] overflow-scroll">
+        
+        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl lg:bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll">
+            
             <div className="">
                 {showJobApplications ?
                     <div>
                         {
                             showApplicantDetails ?
                                 <div className="">
+                                    <h1 className="font-semibold text-xl ml-4 hidden lg:block mb-5">Apprentice Profile
+                                    </h1>
                                     <p onClick={() => { setshowApplicantDetails(false) }} className="hidden lg:flex mb-4 hover:underline cursor-pointer text-sm  items-center gap-1"><IoMdArrowRoundBack className="text-xl" />Back to Applications</p>
 
                                     <p onClick={() => { setshowApplicantDetails(false) }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4"><IoMdArrowRoundBack className="text-xl" />Applicant Details</p>
@@ -167,9 +171,9 @@ export default function Listing(props: Props) {
                     </div> :
                     <div className="jobs flex flex-col gap-6 py-8 lg:py-0">
                         <div className="px-4 lg:px-0">
-                            <h1 className="hidden lg:block font-semibold text-lg pb-2 lg:pl-4">Manage Jobs</h1>
-                            <div className="bg-white rounded-xl lg:py-6 lg:px-6">
-                                <h1 className="font-semibold text-lg flex items-center gap-2"><p>Total jobs:</p> <span className="text-xs text-white bg-[#4A2C84] rounded-full py-1 px-2 font-normal">{props.jobs.length}</span></h1>
+                            <h1 className="hidden lg:block font-semibold text-lg pb-2 lg:pl-4">Manage Apprenticeships</h1>
+                            <div className=" rounded-xl lg:py-5 lg:px-6">
+                                <h1 className=" text-lg flex items-center gap-2"><p>Total Apprenticeships Listed:</p> <span className="text-xs text-white bg-[#4A2C84] rounded-full py-1 px-2 font-normal">{props.jobs.length}</span></h1>
                             </div>
                         </div>
                         <div className="px-4 mb-6 lg:hidden">
@@ -184,7 +188,7 @@ export default function Listing(props: Props) {
                                                 <p className="font-semibold mb-1">{job?.title}</p>
                                                 <div className="text-sm text-[#4A2C84] flex item gap-1"><IoLocationOutline className="text-xl" /> {job?.location}</div>
                                             </div>
-                                            <div className="min-w-fit rounded text-white text-xs py-2 px-2 bg-[#897DD3]">Show more</div>
+                                            <div className="min-w-fit rounded text-white text-xs py-2 px-2 bg-[#897DD3]">View Applicants</div>
                                         </div>
                                     )
                                 })}

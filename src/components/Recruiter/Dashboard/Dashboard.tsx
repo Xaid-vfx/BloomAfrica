@@ -57,7 +57,10 @@ export default function Dashboard(props: Props) {
     }, [])
 
     return (
-        <div className="lg:pt-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
+        
+        <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5'>
+
+        
             <h1 className="lg:font-semibold my-4 lg:my-0 text-base lg:text-xl px-3 lg:px-0 lg:ml-4 ">Good Morning,
                 {' ' + props.recruiter?.name}
             </h1>
@@ -91,12 +94,12 @@ export default function Dashboard(props: Props) {
                         return (
                             <div onClick={() => {
                                 handleJobCardClick(job.uid)
-                            }} className="border rounded-md flex items-center gap-2 justify-between px-5 py-4">
+                            }} className="border rounded-xl flex items-center gap-2 justify-between px-5 py-4">
                                 <div className="">
                                     <p className="font-semibold mb-1">{job?.title}</p>
                                     <div className="text-sm text-[#4A2C84] flex item gap-1"><IoLocationOutline className="text-xl" /> {job?.location}</div>
                                 </div>
-                                <div className="min-w-fit rounded text-white text-xs py-2 px-2 bg-[#897DD3]">Show more</div>
+                                <div className="min-w-fit rounded-full text-white text-sm py-2 px-5 bg-[#4A2C84]">Show More</div>
                             </div>
                         )
                     })}
@@ -117,5 +120,7 @@ export default function Dashboard(props: Props) {
                         <MoonLoader color="#4A2C84" /> </div>} */}
             </div>
         </div>
+            
+        
     )
 }

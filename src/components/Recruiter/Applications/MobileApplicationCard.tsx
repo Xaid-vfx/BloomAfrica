@@ -78,13 +78,13 @@ const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
                             <div className='flex gap-2'>
                                 <button
                                     onClick={() => { props.updateStatus("accepted", app.unique_id); }}
-                                    className="text-xs text-white px-4 rounded-full py-2 bg-[#4A2C84]"
+                                    className="text-xs  px-4 rounded-full py-2 text-white font-bold bg-green-600"
                                 >
                                     Accept
                                 </button>
                                 <button
                                     onClick={() => { props.updateStatus("rejected", app.unique_id); }}
-                                    className="text-xs text-[#4A2C84] border border-[#4A2C84] px-4 rounded-full py-2"
+                                    className="text-xs text-white font-bold bg-red-400  px-4 rounded-full py-2"
                                 >
                                     Reject
                                 </button>
