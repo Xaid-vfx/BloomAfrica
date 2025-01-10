@@ -90,10 +90,10 @@ export default function Header(props: Props) {
                         </div>
                         <hr className="h-px bg-gray-200 border-0 mt-6 mb-4"></hr>
 
-                        <a href="/all-jobs" className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold mx-10 justify-center text-center mb-4">Back to Search</a>
+                        <a href="/all-jobs" className="text-sm text-white bg-[#4A2C84] py-3 px-6 rounded-full font-semibold mx-10 justify-center text-center mb-4">Back to Search</a>
 
                         <button onClick={() => { handleClickLogout() }} 
-                            className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold mx-10 
+                            className="text-sm text-[#4A2C84] bg-[#cfc2e9] py-3 px-6 rounded-full font-bold mx-10 
                             w-[calc(100%-5rem)] absolute bottom-[4rem] text-center"
                         >
                             Log out
@@ -108,12 +108,19 @@ export default function Header(props: Props) {
     }
     return (
         <div>
-            <div className="hidden lg:flex px-8 py-4 justify-between items-center">
-                <div>
-                    <p className="text-sm">Good Morning</p>
-                    <p className="font-semibold">{props.name}</p>
+            <div className="hidden lg:flex w-full px-8 py-4 justify-between mb-5 bg-white items-center border-b-[1px] border-gray-300">
+                <div className='flex flex-row'>
+                    <div className='mr-24'>
+                        <Image src={Bloom} width={120} height={100} />
+                    </div>
+                    <div>
+                        <p className="text-sm">Good Morning</p>
+                        <p className="font-semibold">{props.name}</p>
+                    </div>
                 </div>
+                
                 <a href="/all-jobs"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold">Back to Search</button></a>
+                
             </div>
             <div className="lg:hidden flex justify-between px-3 py-3 items-center">
                 <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />
@@ -123,7 +130,7 @@ export default function Header(props: Props) {
                 </div>
                 <div><IoNotificationsOutline className="text-xl" /></div>
             </div>
-            <hr className="h-px bg-gray-200 border-0"></hr>
+            
         </div>
     )
 }

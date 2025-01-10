@@ -59,7 +59,7 @@ export default function Sidebar(props: Props) {
                             <p className="text-sm">Bank Details</p>
                         </div>
                     </div>
-                <button onClick={() => { handleClickLogout() }} className="text-sm text-[#4A2C84] bg-[#cfc2e9] py-3 px-6 rounded-full font-semibold mx-5 xl:mx-10 absolute bottom-14 left-0 right-0">Log out</button>
+                <button onClick={() => { handleClickLogout() }} className="text-sm text-[#4A2C84] bg-[#ae9ece] py-3 px-6 rounded-full font-semibold mx-5 xl:mx-10 absolute bottom-14 left-0 right-0">Log out</button>
             </div>  
           
             

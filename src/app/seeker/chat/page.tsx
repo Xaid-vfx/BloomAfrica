@@ -59,14 +59,23 @@ export default async function page() {
 
 
     return (
-    <div className="  bg-[#F8F8FD]">
-        <div className="flex w-full justify-center ms-auto me-auto max-w-[1500px]">
-            <Sidebar />
-            <div className="w-full flex flex-col h-screen">
+
+
+        <div className="flex flex-col bg-[#F5F5F5] h-screen   ">
+            <div>
                 <Header name={seeker.name} />
-                <SeekerMessages relations={relations} user={user} />
             </div>
+            <div className='flex flex-row lg:gap-5 mx-5 h-full '>
+                <div className="h-full">
+                    <Sidebar />
+                </div>
+                <div className="w-full flex flex-col max-h-[calc(100vh-95px)]">
+                    <SeekerMessages relations={relations} user={user} />
+                </div>
+            </div>
+                
         </div>
-    </div>
+        
+  
     )
 }

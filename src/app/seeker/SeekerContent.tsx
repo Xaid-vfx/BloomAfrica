@@ -10,12 +10,19 @@ type Props = {
 
 export default function SeekerContent(props: Props) {
     return (
-        <div className="flex w-full">
-            <Sidebar />
-            <div className="w-full flex flex-col h-screen">
+        <div className="flex flex-col bg-[#F5F5F5] h-screen   ">
+            <div>
                 <Header name={props.seeker?.name} />
-                {props.children}
             </div>
+            <div className='flex flex-row lg:gap-5 mx-5 h-full '>
+                <div className="h-full">
+                    <Sidebar />
+                </div>
+                <div className="w-full flex flex-col max-h-[calc(100vh-95px)]">
+                    {props.children}
+                </div>
+            </div>
+            
         </div>
     )
 }
