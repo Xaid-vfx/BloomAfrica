@@ -206,17 +206,10 @@ export default function StickyHeadTable(props: any) {
                                                         padding: '16px 24px',
                                                     }}
                                                 >
+                                                    
                                                     {column.id === 'name' ? (
                                                         <div className='flex items-center gap-4 pr-10 pl-2'>
-                                                            <div className="relative">
-                                                                <Image
-                                                                    src={User}
-                                                                    alt=''
-                                                                    width={48}
-                                                                    height={48}
-                                                                    className='rounded-full object-cover border-2 border-gray-100'
-                                                                />
-                                                            </div>
+                                                            
                                                             <div>
                                                                 <h2 className='font-medium text-gray-900 text-base'>{value}</h2>
                                                             </div>
