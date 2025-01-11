@@ -1,9 +1,11 @@
 'use client'
 import AppliedTable from "@/components/General/AppliedTable";
+import PaymentComponent from "@/components/Payment/Payment";
 import { useState } from "react";
 import { SlOptions } from "react-icons/sl";
 
 export default function Applied(props: { appliedjobs: any[], seekerId: string }) {
+    const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
     function startPayment(row) {
         console.log(row);
     }
@@ -47,6 +49,30 @@ export default function Applied(props: { appliedjobs: any[], seekerId: string })
                                             <p>{job?.created_at.substring(0, job.created_at.indexOf('T'))}</p>
                                         </div>
                                     </div>
+                                    {job.signup_fee > 0 && !paymentStatuses[job.id] && (
+                                        <div className='flex flex-col'>
+                                            <PaymentComponent
+                                                jobId={job.uid}
+                                                seekerId={props.seekerId}
+                                                amount={job.signup_fee}
+                                                onPaymentSuccess={() => {
+                                                    setPaymentStatuses(prev => ({
+                                                        ...prev,
+                                                        [job.id]: 'success'
+                                                    }));
+                                                }}
+                                            />
+                                            <p className='text-xs text-red-600'>Complete the payment to get started</p>
+                                        </div>
+                                    )}
+                                    {paymentStatuses[job.id] && (
+                                        <div className={`text-center px-4 py-2 rounded-3xl ${paymentStatuses[job.id] === 'success'
+                                            ? 'bg-green-100 text-green-800'
+                                            : 'bg-red-100 text-red-800'
+                                            }`}>
+                                            Payment {paymentStatuses[job.id]}
+                                        </div>
+                                    )}
                                 </div>
                             )
                         })}
