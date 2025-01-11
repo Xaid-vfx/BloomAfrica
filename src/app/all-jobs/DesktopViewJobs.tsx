@@ -84,7 +84,7 @@ export default function DesktopViewJobs(props: any) {
     }, [props.location, props.search, selectedCategories, selectedTypes])
 
     return (
-        <div className="hidden lg:block w-full border-t ms-auto me-auto max-w-[1500px]">
+        <div className="hidden lg:block w-full border-t  ms-auto me-auto max-w-[1500px]">
             <div className="flex justify-between py-10 px-10 font-medium">
                 <p>Showing 1-9 of {jobs?.length} results</p>
                 <div className="flex text-[#979ca6] font-light gap-2">
@@ -92,11 +92,11 @@ export default function DesktopViewJobs(props: any) {
                     <p className="text-xs rounded-3xl px-10 py-3 border border-[#D6DDEB]">9 per page</p>
                 </div>
             </div>
-            <div className="flex w-full">
-                <div className=" w-[20%]">
+            <div className="flex w-full gap-5 px-5">
+                <div className=" w-[20%] min-w-[250px]">
                     <FilterSidebar handleCategoryChange={handleCategoryChange} handleTypeChange={handleTypeChange} />
                 </div>
-                <div className=" w-[80%] pl-6 pr-20">
+                <div className=" w-[80%]">
                     <div className="flex justify-between items-center">
                         <div>
                             <h1 className="text-3xl font-semibold">All Apprenticeships</h1>
