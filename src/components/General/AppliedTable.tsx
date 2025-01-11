@@ -172,17 +172,20 @@ export default function AppliedTable(props: any) {
                                                                 View Application
                                                             </button>
                                                             {row.signup_fee > 0 && !paymentStatuses[row.id] && (
-                                                                <PaymentComponent
-                                                                    jobId={row.uid}
-                                                                    seekerId={props.seekerId}
-                                                                    amount={row.signup_fee}
-                                                                    onPaymentSuccess={() => {
-                                                                        setPaymentStatuses(prev => ({
-                                                                            ...prev,
-                                                                            [row.id]: 'success'
-                                                                        }));
-                                                                    }}
-                                                                />
+                                                                <div className='flex flex-col'>
+                                                                    <PaymentComponent
+                                                                        jobId={row.uid}
+                                                                        seekerId={props.seekerId}
+                                                                        amount={row.signup_fee}
+                                                                        onPaymentSuccess={() => {
+                                                                            setPaymentStatuses(prev => ({
+                                                                                ...prev,
+                                                                                [row.id]: 'success'
+                                                                            }));
+                                                                        }}
+                                                                    />
+                                                                    <p className='text-xs text-red-600'>Complete the payment to get started</p>
+                                                                </div>
                                                             )}
                                                             {paymentStatuses[row.id] && (
                                                                 <div className={`text-center px-4 py-2 rounded-3xl ${paymentStatuses[row.id] === 'success'

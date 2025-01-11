@@ -1,6 +1,7 @@
 "use client"
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { useRouter } from "next/router"
 
 type Props = {
     id: any
@@ -8,6 +9,7 @@ type Props = {
 }
 
 export default function Button(props: Props) {
+    const router = useRouter();
     const supabase = createClientComponentClient()
 
 
@@ -94,7 +96,7 @@ export default function Button(props: Props) {
                 console.log(error);
             }
             else
-                alert("Applied for the job!");
+                router.push("seeker/applied")
             console.log(data);
         }
     }

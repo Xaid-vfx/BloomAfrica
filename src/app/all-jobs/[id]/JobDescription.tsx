@@ -47,6 +47,7 @@ export default function JobDescription(props) {
     const [job, setjob] = useState()
     const router = useRouter()
     const [showAgreements, setShowAgreements] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     async function checkifSeekerisRegistered() {
         console.log(props.user?.id);
@@ -111,16 +112,19 @@ export default function JobDescription(props) {
             return;
         }
 
-
+        setIsLoading(true);
         const { data, error } = await supabase
             .from('Applicants')
             .insert({ job_id: id, name: seekerData.name })
 
         if (error) {
             console.log(error);
+            setIsLoading(false);
         }
-        else
+        else {
             toast.success("Applied for the job!");
+            router.push('/seeker/applied')
+        }
     }
 
     async function handleAgreement() {
@@ -179,6 +183,14 @@ export default function JobDescription(props) {
     }, [])
     return (
         <div>
+            {isLoading && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-8 rounded-lg text-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#4A2C84] mx-auto mb-4"></div>
+                        <p className="text-lg font-semibold">Redirecting...</p>
+                    </div>
+                </div>
+            )}
             <AgreementModal handleAgreement={handleAgreement} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
             <div className=" items-center justify-between rounded-xl border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
                 <div className="flex flex-col">
