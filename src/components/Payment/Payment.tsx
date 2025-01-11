@@ -17,6 +17,12 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
     const [phone, setPhone] = useState("+2348149623803")
     const [paymentStatus, setPaymentStatus] = useState('');
     const [splitConfig, setSplitConfig] = useState(null);
+    const [paymentAmount, setPaymentAmount] = useState(0);
+
+    useEffect(() => {
+        setPaymentAmount(amount * 100)
+    }, [amount])
+
 
     // Fetch split configuration from backend
     const fetchSplitConfig = async () => {
@@ -28,7 +34,7 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
                 },
                 body: JSON.stringify({
                     subaccount: "ACCT_qn0go52fe3gaddr",
-                    amount: amount
+                    amount: paymentAmount
                 })
             });
             const data = await response.json();
@@ -74,7 +80,7 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
 
     const componentProps = {
         email,
-        amount,
+        amount: paymentAmount,
         metadata: {
             name,
             phone,

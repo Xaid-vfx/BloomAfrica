@@ -176,7 +176,7 @@ export default function AppliedTable(props: any) {
                                                                     <PaymentComponent
                                                                         jobId={row.uid}
                                                                         seekerId={props.seekerId}
-                                                                        amount={row.signup_fee}
+                                                                        amount={row.signup_fee * 100}
                                                                         onPaymentSuccess={() => {
                                                                             setPaymentStatuses(prev => ({
                                                                                 ...prev,
