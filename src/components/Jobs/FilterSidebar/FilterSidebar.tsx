@@ -22,9 +22,12 @@ export default function FilterSidebar(props: any) {
     const displayedCategories = showAll ? categories : categories.slice(0, categories.length);
 
     return (
-        <div className="px-10">
-            <div className="flex flex-col gap-3">
-                <p className="font-semibold">Types of Employment</p>
+        <div className="">
+            
+            
+            <div className="flex flex-col gap-3   py-8 px-5">
+            
+                <p className="font-semibold ">Types of Employment</p>
                 <div className="text-[#515B6F] flex flex-col gap-2">
                     <div className='flex'>
                         <input type='checkbox' checked={props.selectedTypes?.includes('Full Time')} value="Full Time" onChange={(e) => {

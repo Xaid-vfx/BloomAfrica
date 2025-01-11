@@ -180,7 +180,7 @@ export default function JobDescription(props) {
     return (
         <div>
             <AgreementModal handleAgreement={handleAgreement} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
-            <div className=" items-center justify-between border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
+            <div className=" items-center justify-between rounded-xl border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
                 <div className="flex flex-col">
                     <div className="flex items-center gap-6">
                         <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={70} height={100} />
@@ -200,7 +200,7 @@ export default function JobDescription(props) {
                     </div>
                 </div>
             </div>
-            <div className="py-10 lg:hidden flex flex-col justify-center items-center bg-[#F8F8FD]">
+            <div className="py-10 px-5 lg:hidden flex flex-col text-center justify-center items-center bg-[#F8F8FD]">
                 <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={100} height={50} />
                 <h1 className="text-xl font-semibold mt-2">{job != null ? job?.title : <Skeleton width={200} />}</h1>
                 <div className="flex text-sm text-[#515B6F] gap-1 items-baseline">
@@ -212,9 +212,9 @@ export default function JobDescription(props) {
                     <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14" >Apply</button>
                 </div>
             </div>
-            <div className="flex flex-col-reverse lg:flex-row lg:flex justify-between px-6 lg:px-20 pb-20">
-                <div className="lg:w-[60%]">
-                    <div className="mt-10">
+            <div className="flex flex-col-reverse lg:flex-row lg:flex gap-5 px-6 lg:px-20 pb-20 ">
+                <div className="lg:w-[70%] border-2 rounded-xl p-5">
+                    <div className="mt-5">
                         <h1 className="text-2xl font-semibold">Description</h1>
                         <p className="mb-7 mt-2 text-[#7C8493] text-sm">{job != null ? job?.description : <Skeleton count={4} />}</p>
                     </div>
@@ -231,9 +231,9 @@ export default function JobDescription(props) {
                         <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.extras : <Skeleton count={4} />}</p>
                     </div> */}
                 </div>
-                <div className="lg:w-[30%] mt-10">
+                <div className="lg:w-[30%] mt-10 lg:mt-0 border-2 rounded-xl p-5">
                     <div>
-                        <h1 className="text-2xl font-semibold mb-6 text-[#25324B]">About this Role</h1>
+                        <h1 className="text-2xl font-semibold mb-6 text-[#25324B] mt-5">About this Role</h1>
 
 
                         {/* <div className="bg-[#F8F8FD] py-2 px-2 my-2">
@@ -263,11 +263,11 @@ export default function JobDescription(props) {
                     <hr className="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                     <div>
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Categories</h1>
-                        <p className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit">{job != null ? job?.category : <Skeleton width={150} />}</p>
+                        <p className="rounded-3xl flex flex-wrap border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit">{job != null ? job?.category : <Skeleton width={150} />}</p>
                     </div>
                     <div className="mt-8">
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Skills Required</h1>
-                        <p className="flex gap-2">{job != null ? job?.skills?.map((word, index) => (
+                        <p className="flex flex-wrap gap-2">{job != null ? job?.skills?.map((word, index) => (
                             <span className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit" key={index}>{word.trim()}</span>
                         )) : <Skeleton width={150} />}</p>
                     </div>

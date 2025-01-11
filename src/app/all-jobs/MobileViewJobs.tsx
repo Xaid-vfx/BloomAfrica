@@ -93,7 +93,7 @@ export default function MobileViewJobs(props) {
 
                 {/* Cards */}
                 
-                <div className="flex flex-col gap-4 lg:hidden min-w-max w-full  mx-auto">
+                <div className="flex flex-col gap-4 lg:hidden  w-full  ">
                     {jobs?.map((job: JobProps) => {
                         return <MobileCard
                             id={job.uid}
