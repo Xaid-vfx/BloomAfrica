@@ -244,8 +244,12 @@ export default function JobDescription(props) {
                         </div> */}
 
                         <div className="flex justify-between mt-4">
+                            <p className="text-sm text-[#515B6F]">Signup Fee</p>
+                            <p className="text-sm font-semibold">{job != null ? "₦" + job?.signup_fee : <Skeleton width={150} />}</p>
+                        </div>
+                        <div className="flex justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Compensation</p>
-                            <p className="text-sm font-semibold">{job != null ? job?.minsalary + "-" + job?.maxsalary : <Skeleton width={150} />}</p>
+                            <p className="text-sm font-semibold">{job != null ? "₦" + job?.minsalary + " - " + "₦" + job?.maxsalary : <Skeleton width={150} />}</p>
                         </div>
                         <div className="flex justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Job Type</p>
