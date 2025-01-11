@@ -53,34 +53,32 @@ export default function Sidebar(props: Props) {
     }, [currentPage])
 
     return (
-        <div className="hidden lg:flex w-[20%] h-screen bg-[#F8F8FD]  justify-between">
-            <div className=" py-10 px-5 w-full">
-                <Image src={Bloom} width={120} height={100} />
+        <div className="hidden lg:flex flex-col border-gray-300 border-[1px] h-full w-[20%] rounded-t-xl bg-white relative min-w-[190px] ">
 
-                <div className="flex flex-col justify-center my-6">
-                    <a href="/seeker/applied" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'applied' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
-                        <BiHomeAlt2 className="text-xl" />
-                        <p className="text-sm ">Applied</p>
-                    </a>
+            <div className="flex flex-col justify-center my-6">
+                <a href="/seeker/applied" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'applied' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                    <BiHomeAlt2 className="text-xl" />
+                    <p className="text-sm ">Applied</p>
+                </a>
 
-                    <a href="/seeker/saved" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'saved' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
-                        <PiBuildings className="text-xl" />
-                        <p className="text-sm ">Saved </p>
-                    </a>
+                <a href="/seeker/saved" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'saved' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                    <PiBuildings className="text-xl" />
+                    <p className="text-sm ">Saved </p>
+                </a>
 
-                    <a href="/seeker/edit" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'edit' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
-                        <LuClipboardList className="text-xl" />
-                        <p className="text-sm ">Edit Profile</p>
-                    </a>
-                    <a href="/seeker/chat" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'messages' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
-                        <IoChatboxEllipsesOutline className="text-xl" />
-                        <p className="text-sm ">Messages</p>
-                    </a>
-                </div>
-                <button onClick={() => { handleClickLogout() }} className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold ml-10 absolute bottom-10">Log out</button>
+                <a href="/seeker/edit" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'edit' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                    <LuClipboardList className="text-xl" />
+                    <p className="text-sm ">Edit Profile</p>
+                </a>
+                <a href="/seeker/chat" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'messages' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                    <IoChatboxEllipsesOutline className="text-xl" />
+                    <p className="text-sm ">Messages</p>
+                </a>
+                
             </div>
-            <div
-                className="h-full min-h-[1em] w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20"></div>
+            <button onClick={() => { handleClickLogout() }} className="text-xs text-[#4A2C84] bg-[#cfc2e9] py-3 px-6 rounded-full font-semibold mx-5 xl:mx-10 absolute bottom-10 left-0 right-0">Log out</button>
+            
+            <div className="h-full min-h-[1em] w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20"></div>
         </div>
     )
 }

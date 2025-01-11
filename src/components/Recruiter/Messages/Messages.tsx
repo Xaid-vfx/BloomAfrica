@@ -150,8 +150,11 @@ export default function Messages(props) {
     };
 
     return (
-        <div className="lg:px-8 lg:py-8 flex w-full h-full lg:bg-[#F5F5F5] overflow-scroll">
-            <div className={`${showChat ? 'w-[40%] hidden lg:block' : 'w-full'}  bg-white p-4`}>
+
+        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5 ">
+            <h1 className="font-semibold text-xl ml-4 hidden lg:block">Messages
+            </h1>
+            <div className={`${showChat ? 'w-[40%] hidden lg:block' : 'w-full'} overflow-scroll bg-white p-4`}>
                 {relations?.map((relation) => {
                     return (
                         <div onClick={() => handleChatClick(relation)} className={`flex items-center gap-4 text-black px-4 py-3 cursor-pointer ${selectedUser?.seeker == relation?.conversations?.conversation_participants[0].seeker ? 'bg-[#E9EBFD]' : ''}  hover:bg-[#E9EBFD]`}>

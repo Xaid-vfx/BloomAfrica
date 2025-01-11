@@ -68,7 +68,7 @@ export default function Navbar(props: { color: string }) {
               <p className="text-white bg-[#897DD3] rounded-full px-1 py-1 left-[6.5rem] text-[0.4rem] absolute bottom-2">Coming Soon</p>
             </div>
           </div>
-          <a href="/signup"><button className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-3xl">Sign in</button></a>
+          <a href="/signup"><button className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-full">Sign in</button></a>
         </div>
       </div>
     )
@@ -109,8 +109,8 @@ export default function Navbar(props: { color: string }) {
           </div>
         </div>
         <div className="flex gap-2 ">
-          <a href="/all-jobs" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-semibold rounded-3xl min-w-max  ">Find Apprenticeships</a>
-          <a href="/signup" className="text-sm text-[#4A2C84] border border-[#4A2C84] px-6 py-3 font-semibold rounded-3xl min-w-max">Sign In</a>
+          <a href="/all-jobs" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-semibold rounded-full min-w-max  ">Find Apprenticeships</a>
+          <a href="/signup" className="text-sm text-[#4A2C84] border border-[#4A2C84] px-6 py-3 font-semibold rounded-full min-w-max">Sign In</a>
         </div>
       </div>
 

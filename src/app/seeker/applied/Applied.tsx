@@ -8,7 +8,7 @@ export default function Applied(props: { appliedjobs: any[], seekerId: string })
         console.log(row);
     }
     return (
-        <div className="lg:pt-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
+        <div className="flex flex-col border-gray-300 border-[1px] h-full max-h-[calc(100vh-95px)] w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll">
             <div className="hidden lg:block bg-white rounded-xl">
                 <h1 className="font-semibold text-2xl px-10 pt-6 pb-3">All Applications</h1>
                 <AppliedTable
@@ -17,14 +17,14 @@ export default function Applied(props: { appliedjobs: any[], seekerId: string })
                     seekerId={props.seekerId}
                 />
             </div>
-            <div className="lg:hidden px-4 my-6">
+            <div className="lg:hidden px-4 my-6 ">
                 <p className="text-xl font-semibold">Jobs applied</p>
                 {props.appliedjobs.length > 0 ? (
                     <div className="">
                         {props.appliedjobs.map((job) => {
                             const [showOption, setshowOption] = useState(false)
                             return (
-                                <div className="border p-4 my-4 relative">
+                                <div className="border p-4 my-4 relative rounded-xl">
                                     {
                                         showOption && <a href={`/all-jobs/job?id=${job?.uid}`} className="bg-[#e0e0e0] p-4 absolute text-sm rounded-xl font-semibold right-1 top-10">
                                             View Job

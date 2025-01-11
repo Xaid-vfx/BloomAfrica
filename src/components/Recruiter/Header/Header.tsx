@@ -63,20 +63,25 @@ export default function Header(props: Props) {
                     </div>
                     <hr className="h-px bg-gray-200 border-0 mt-6 mb-4"></hr>
                     <div onClick={() => { handleChangeTabIndex(4) }} className="text-base font-medium flex justify-center w-full">
-                        <p className="text-white bg-[#4A2C84] w-full mx-4 text-center py-3 px-6 rounded-full">+ Post a Job</p>
+                        <p className="text-white bg-[#4A2C84] w-full mx-4 text-center py-3 px-6 rounded-full">+ Post Apprenticeship</p>
                     </div>
                 </div>
             </>
         )
     }
     return (
-        <div>
-            <div className="hidden lg:flex px-8 py-4 justify-between items-center">
-                <div>
-                    <p className="text-sm">Company</p>
-                    <p className="font-semibold">{props.name}</p>
+        <div className='mb-5 bg-white'>
+            <div className="hidden lg:flex px-8 py-4 justify-between items-center ">
+                <div className='flex flex-row'>
+                    <div className='mr-24'>
+                        <Image src={Bloom} width={120} height={100} />
+                    </div>
+                    <div>
+                        <p className="text-sm">Company</p>
+                        <p className="font-semibold">{props.name}</p>
+                    </div>  
                 </div>
-                <a onClick={() => { props.handleChangeTabIndex(4) }}><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-xl font-semibold">+ Post a Job</button></a>
+                <a onClick={() => { props.handleChangeTabIndex(4) }}><button className="text-sm text-white bg-[#4A2C84] py-3 px-6 rounded-full font-semibold">+ Post Apprenticeship</button></a>
             </div>
             <div className="lg:hidden flex justify-between px-3 py-3 items-center">
                 <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />
@@ -86,7 +91,7 @@ export default function Header(props: Props) {
                 </div>
                 <div><IoNotificationsOutline className="text-xl" /></div>
             </div>
-            <hr className="h-px bg-gray-200 border-0"></hr>
+            
         </div>
     )
 }

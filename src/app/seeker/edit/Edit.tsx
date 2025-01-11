@@ -127,7 +127,7 @@ export default function EditSeeker(props: Props) {
     }, [])
 
     return (
-        <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full overflow-scroll">
+        <div className="flex flex-col border-gray-300 border-[1px] h-full max-h-[calc(100vh-95px)] w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll">
             <h1 className="font-semibold text-xl ml-4 hidden lg:block">Edit Profile
             </h1>
             <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Edit Profile</p>
