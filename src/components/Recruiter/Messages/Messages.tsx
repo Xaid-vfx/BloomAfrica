@@ -154,8 +154,8 @@ export default function Messages(props) {
         <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-5 ">
             <h1 className="font-semibold text-xl ml-4 hidden lg:block">Messages
             </h1>
-            <div className='flex flex-row h-full gap-5'>
-                <div className={`${showChat ? 'w-[40%] hidden lg:block' : 'w-full'} overflow-scroll rounded-xl border border-gray-300 bg-white`}>
+            <div className='flex flex-row h-full lg:gap-5'>
+                <div className={`${showChat ? 'lg:w-[40%] hidden lg:block' : 'w-full'} overflow-scroll rounded-xl border border-gray-300 bg-white`}>
                     {relations?.map((relation) => {
                         return (
                             <div onClick={() => handleChatClick(relation)} className={`flex items-center gap-4 text-black px-4 py-3 border-b-[1px] border-gray-200 cursor-pointer ${selectedUser?.seeker == relation?.conversations?.conversation_participants[0].seeker ? 'bg-[#E9EBFD]' : ''}  hover:bg-[#E9EBFD]`}>
@@ -176,7 +176,7 @@ export default function Messages(props) {
                         )
                     })}
                 </div>
-                <div className=' w-[60%]'>
+                <div className=' lg:w-[60%] min-w-0 h-full'>
                     {showChat && <ChatClient back={() => {
                         setshowChat(false);
                     }} sender={props.user} receiver={selectedUser} conversation_id={selectedConvo} />}

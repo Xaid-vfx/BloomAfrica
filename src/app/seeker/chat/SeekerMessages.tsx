@@ -149,8 +149,8 @@ export default function SeekerMessages(props) {
             <h1 className="font-semibold text-xl ml-4 hidden lg:block">Messages
             </h1>
 
-            <div className='flex flex-row w-full h-full gap-5'>
-                <div className={`${showChat ? 'w-[40%] hidden lg:block' : 'w-full'} overflow-scroll rounded-2xl border border-gray-300 bg-white `}>
+            <div className='flex flex-row w-full h-full lg:gap-5'>
+                <div className={`${showChat ? 'lg:w-[40%] w-full hidden lg:block' : 'w-full'} overflow-scroll rounded-2xl border border-gray-300 bg-white `}>
                     {relations.map((relation) => {
                         const name = relation?.conversations?.conversation_participants[0].Recruiters.name;
                         const check = selectedUser?.Recruiters.name === name;
@@ -176,7 +176,7 @@ export default function SeekerMessages(props) {
                         );
                     })}
                 </div>
-                <div className='w-[60%] h-full  '>
+                <div className='  lg:w-[60%] min-w-0 h-full  '>
                     {showChat && <ChatClient
                     back={() => setshowChat(false)}
                     sender={props.user}
