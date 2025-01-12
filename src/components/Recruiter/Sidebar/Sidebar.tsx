@@ -28,33 +28,33 @@ export default function Sidebar(props: Props) {
         
 
         
-            <div className='hidden lg:flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl bg-white relative '>
+            <div className='hidden lg:flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl px-3 bg-white relative '>
                 
                     <div className="flex flex-col justify-center my-6">
-                        <div onClick={() => { props.handleChangeTabIndex(0) }} className={`my-2 font-medium py-5 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 0 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                        <div onClick={() => { props.handleChangeTabIndex(0) }} className={`my-2 font-medium rounded-2xl py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 0 ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                             <BiHomeAlt2 className="text-xl" />
                             <p className="text-sm ">Dashboard</p>
                         </div>
-                        {/* <div onClick={() => { props.handleChangeTabIndex(1) }} className={`my-2 font-medium py-5 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 1 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                        {/* <div onClick={() => { props.handleChangeTabIndex(1) }} className={`my-2 font-medium rounded-2xl py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 1 ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                             <TbMessage className="text-xl" />
                             <p className="text-sm ">Messages</p>
                         </div> */}
-                        <div onClick={() => { props.handleChangeTabIndex(2) }} className={`my-2 font-medium py-5 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 2 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                        <div onClick={() => { props.handleChangeTabIndex(2) }} className={`my-2 font-medium rounded-2xl py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 2 ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                             <PiBuildings className="text-xl" />
                             <p className="text-sm ">Company Profile</p>
                         </div>
-                        <div onClick={() => { props.handleChangeTabIndex(3) }} className={`my-2 font-medium py-5 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 3 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                        <div onClick={() => { props.handleChangeTabIndex(3) }} className={`my-2 font-medium rounded-2xl py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 3 ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                             <LuClipboardList className="text-xl" />
                             <p className="text-sm ">Job Listing</p>
                         </div>
-                        <div onClick={() => { props.handleChangeTabIndex(5) }} className={`my-2 font-medium py-5 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 5 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                        <div onClick={() => { props.handleChangeTabIndex(5) }} className={`my-2 font-medium rounded-2xl py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 5 ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                             <IoChatboxEllipsesOutline className="text-xl" />
                             <p className="text-sm ">Messages</p>
                             <UnreadMessagesDot userId={props.user?.id} />
                         </div>
                         <div onClick={() => { props.handleChangeTabIndex(6) }}
-                            className={`my-2 font-medium py-5 cursor-pointer px-4 flex gap-2 items-center  
-                            ${props.currTabIndex == 6 ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                            className={`my-2 font-medium rounded-2xl py-3 cursor-pointer px-4 flex gap-2 items-center  
+                            ${props.currTabIndex == 6 ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                             <BsBuildingUp className="text-xl" />
                             <p className="text-sm">Bank Details</p>
                         </div>
