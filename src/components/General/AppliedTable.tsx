@@ -167,7 +167,7 @@ export default function AppliedTable(props: any) {
                                                                     console.log(row);
                                                                     console.log(props);
                                                                 }}
-                                                                className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'
+                                                                className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-xl'
                                                             >
                                                                 View Application
                                                             </button>
@@ -188,7 +188,7 @@ export default function AppliedTable(props: any) {
                                                                 </div>
                                                             )}
                                                             {paymentStatuses[row.id] && (
-                                                                <div className={`text-center px-4 py-2 rounded-3xl ${paymentStatuses[row.id] === 'success'
+                                                                <div className={`text-center px-4 py-2 rounded-xl ${paymentStatuses[row.id] === 'success'
                                                                     ? 'bg-green-100 text-green-800'
                                                                     : 'bg-red-100 text-red-800'
                                                                     }`}>

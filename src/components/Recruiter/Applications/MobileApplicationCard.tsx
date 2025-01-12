@@ -60,7 +60,7 @@ const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
                                     {isLoading ? (
                                         <div className="animate-pulse h-4 w-14 bg-gray-200 rounded-full"></div>
                                     ) : (
-                                        <div className={`text-xs font-medium px-4 py-1 rounded-full ${paymentStatus === 'success'
+                                        <div className={`text-xs font-medium px-4 py-1 rounded-full ${paymentStatus === 'success' 
                                             ? 'bg-green-50 border border-green-300 text-green-600'
                                             : 'bg-red-50 text-red-600'
                                             }`}>

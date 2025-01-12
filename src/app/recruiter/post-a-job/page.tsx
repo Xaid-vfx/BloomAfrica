@@ -464,7 +464,7 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                 )}
                 <button
                     type="submit"
-                    className={`border rounded-full py-3  mx-4 lg:mx-0 text-sm font-semibold px-16 lg:my-4 mb-7 text-white bg-[#4A2C84] ${loading ? "cursor-not-allowed" : ""}`}
+                    className={`border rounded-2xl py-3  mx-4 lg:mx-0 text-sm font-semibold px-16 lg:my-4 mb-7 text-white bg-[#4A2C84] ${loading ? "cursor-not-allowed" : ""}`}
                     onClick={handleSubmit}
                     disabled={loading}
                     style={{ pointerEvents: loading ? "none" : "auto" }}>

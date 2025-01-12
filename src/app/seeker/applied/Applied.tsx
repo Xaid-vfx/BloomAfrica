@@ -66,7 +66,7 @@ export default function Applied(props: { appliedjobs: any[], seekerId: string })
                                         </div>
                                     )}
                                     {paymentStatuses[job.id] && (
-                                        <div className={`text-center px-4 py-2 rounded-3xl ${paymentStatuses[job.id] === 'success'
+                                        <div className={`text-center px-4 py-2 rounded-2xl ${paymentStatuses[job.id] === 'success'
                                             ? 'bg-green-100 text-green-800'
                                             : 'bg-red-100 text-red-800'
                                             }`}>

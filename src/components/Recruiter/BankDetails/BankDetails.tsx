@@ -126,7 +126,7 @@ export default function BankDetails({ user, recruiter }: Props) {
             <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
                 <div className="bg-white rounded-xl p-6 lg:mt-6">
                     <div className="flex flex-col items-center justify-center h-40">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#4A2C84] mb-4"></div>
+                        <div className="animate-spin rounded-xl h-8 w-8 border-b-2 border-[#4A2C84] mb-4"></div>
                         <p className="text-sm text-gray-600">Loading bank list...</p>
                     </div>
                 </div>
@@ -142,7 +142,7 @@ export default function BankDetails({ user, recruiter }: Props) {
                         <p className="text-red-500 mb-4">Failed to load banks</p>
                         <button
                             onClick={() => fetchBanks()}
-                            className="bg-[#4A2C84] text-white px-7 py-2 rounded-full hover:bg-[#3a2266]"
+                            className="bg-[#4A2C84] text-white px-7 py-2 rounded-xl hover:bg-[#3a2266]"
                         >
                             Retry
                         </button>
@@ -218,11 +218,11 @@ export default function BankDetails({ user, recruiter }: Props) {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="bg-[#4A2C84] text-white px-6 py-2 rounded-lg disabled:opacity-50 hover:bg-[#3a2266] transition-colors duration-200"
+                        className="bg-[#4A2C84] text-white px-6 py-2 rounded-xl disabled:opacity-50 hover:bg-[#3a2266] transition-colors duration-200"
                     >
                         {loading ? (
                             <div className="flex items-center justify-center gap-2">
-                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                <div className="animate-spin rounded-xl h-4 w-4 border-b-2 border-white"></div>
                                 <span>Saving...</span>
                             </div>
                         ) : (

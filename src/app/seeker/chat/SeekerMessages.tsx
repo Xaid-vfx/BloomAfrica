@@ -166,7 +166,7 @@ export default function SeekerMessages(props) {
                                 <div className="flex justify-between w-full items-center">
                                     <p className="text-sm mt-1 text-[#515B6F]">{relation?.conversations?.last_message}</p>
                                     {relation.unreadMessagesCount > 0 && (
-                                        <p className="text-[.55rem] mt-1 text-white bg-[#4A2C84] px-2 py-1 rounded-full">{relation.unreadMessagesCount}</p>
+                                        <p className="text-[.55rem] mt-1 text-white bg-[#4A2C84] px-2 py-1 rounded-2xl">{relation.unreadMessagesCount}</p>
                                     )}
                                 </div>
                             </div>

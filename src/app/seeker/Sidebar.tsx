@@ -76,7 +76,7 @@ export default function Sidebar(props: Props) {
                 </a>
                 
             </div>
-            <button onClick={() => { handleClickLogout() }} className="text-xs text-[#4A2C84] bg-[#cfc2e9] py-3 px-6 rounded-full font-semibold mx-5 xl:mx-10 absolute bottom-10 left-0 right-0">Log out</button>
+            <button onClick={() => { handleClickLogout() }} className="text-xs text-[#4A2C84] bg-[#cfc2e9] py-3 px-6 rounded-2xl font-semibold mx-5 xl:mx-10 absolute bottom-10 left-0 right-0">Log out</button>
             
             <div className="h-full min-h-[1em] w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20"></div>
         </div>

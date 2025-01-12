@@ -12,7 +12,7 @@ export default function GetStarted() {
                 <br /> <br />
                 Start your apprenticeship journey today. Connect, learn, and grow with the right opportunities to shape your future.
             </p>
-            <a href="/signup" className="mt-10 text-black bg-white px-6 py-3 font-medium rounded-3xl">Get Started</a>
+            <a href="/signup" className="mt-10 text-black bg-white px-6 py-3 font-medium rounded-2xl">Get Started</a>
             <div className="absolute top-0 left-0 lg:hidden">
                 <Image src={VBall} alt="balls" width={60} className="rotate-180 " />
             </div>

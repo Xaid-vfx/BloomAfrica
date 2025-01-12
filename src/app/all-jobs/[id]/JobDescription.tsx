@@ -186,7 +186,7 @@ export default function JobDescription(props) {
             {isLoading && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-8 rounded-lg text-center">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#4A2C84] mx-auto mb-4"></div>
+                        <div className="animate-spin rounded-2xl h-12 w-12 border-t-2 border-b-2 border-[#4A2C84] mx-auto mb-4"></div>
                         <p className="text-lg font-semibold">Redirecting...</p>
                     </div>
                 </div>
@@ -208,7 +208,7 @@ export default function JobDescription(props) {
                 <div className="">
                     <div className="flex gap-6">
                         <SaveButton user={props.user?.id} id={id}></SaveButton>
-                        <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14" >Apply</button>
+                        <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14" >Apply</button>
                     </div>
                 </div>
             </div>
@@ -221,7 +221,7 @@ export default function JobDescription(props) {
                 </div>
                 <div className="flex gap-2 mt-6">
                     <SaveButton user={props.user?.id} id={id}></SaveButton>
-                    <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14" >Apply</button>
+                    <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14" >Apply</button>
                 </div>
             </div>
             <div className="flex flex-col-reverse lg:flex-row lg:flex gap-5 px-6 lg:px-20 pb-20 ">
@@ -279,12 +279,12 @@ export default function JobDescription(props) {
                     <hr className="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                     <div>
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Categories</h1>
-                        <p className="rounded-3xl flex flex-wrap border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit">{job != null ? job?.category : <Skeleton width={150} />}</p>
+                        <p className="rounded-xl flex flex-wrap border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit">{job != null ? job?.category : <Skeleton width={150} />}</p>
                     </div>
                     <div className="mt-8">
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Skills Required</h1>
                         <p className="flex flex-wrap gap-2">{job != null ? job?.skills?.map((word, index) => (
-                            <span className="rounded-3xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit" key={index}>{word.trim()}</span>
+                            <span className="rounded-xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit" key={index}>{word.trim()}</span>
                         )) : <Skeleton width={150} />}</p>
                     </div>
                 </div>

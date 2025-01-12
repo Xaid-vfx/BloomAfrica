@@ -219,7 +219,7 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
                         if (e.key === 'Enter') onSend();
                     }}
                 />
-                <div className="flex bg-[#4A2C84] justify-center items-center px-6 py-2 m-1">
+                <div className="flex bg-[#4A2C84] rounded-xl justify-center items-center px-6 py-2 m-2">
                     <IoMdSend className="text-2xl cursor-pointer text-white" onClick={onSend} />
                 </div>
             </div>

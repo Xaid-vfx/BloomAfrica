@@ -99,7 +99,7 @@ export default function Dashboard(props: Props) {
                                     <p className="font-semibold mb-1">{job?.title}</p>
                                     <div className="text-sm text-[#4A2C84] flex item gap-1"><IoLocationOutline className="text-xl" /> {job?.location}</div>
                                 </div>
-                                <div className="min-w-fit rounded-full text-white text-sm py-2 px-5 bg-[#4A2C84]">Show More</div>
+                                <div className="min-w-fit rounded-2xl text-white text-sm py-2 px-5 bg-[#4A2C84]">Show More</div>
                             </div>
                         )
                     })}

@@ -74,7 +74,7 @@ export default function Applications(props: any) {
                             )}
                         </div>
                     </div>
-                    <div className="bg-[#E9EBFD] text-[#4A2C84] px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium w-fit">
+                    <div className="bg-[#E9EBFD] text-[#4A2C84] px-3 py-2 rounded-xl text-xs sm:text-sm font-medium w-fit">
                         {props.applications?.length} Applications
                     </div>
                 </div>
@@ -85,15 +85,15 @@ export default function Applications(props: any) {
                 <TabsList className="bg-white flex justify-start max-h-none py-8 ">
                     <TabsTrigger value="all" className="mr-2 px-1 text-xs text-left data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                         All
-                        <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-full text-[.55rem]">{props.applications?.length}</span>
+                        <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.55rem]">{props.applications?.length}</span>
                     </TabsTrigger>
                     <TabsTrigger value="accepted" className="mx-2 px-1 text-xs data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                         Accepted
-                        <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-full text-[.55rem]">{acceptedApplications.length}</span>
+                        <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.55rem]">{acceptedApplications.length}</span>
                     </TabsTrigger>
                     <TabsTrigger value="rejected" className="mx-2 px-1 text-xs data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                         Rejected
-                        <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-full text-[.55rem]">{rejectedApplications.length}</span>
+                        <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.55rem]">{rejectedApplications.length}</span>
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="all" className="">
@@ -143,15 +143,15 @@ export default function Applications(props: any) {
                     <TabsList className="bg-white flex justify-start w-full max-h-none py-8 px-4">
                         <TabsTrigger value="all" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                             All applicants
-                            <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-full text-[.60rem]">{props.applications?.length}</span>
+                            <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.60rem]">{props.applications?.length}</span>
                         </TabsTrigger>
                         <TabsTrigger value="accepted" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                             Accepted
-                            <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-full text-[.60rem]">{acceptedApplications.length}</span>
+                            <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.60rem]">{acceptedApplications.length}</span>
                         </TabsTrigger>
                         <TabsTrigger value="rejected" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                             Rejected
-                            <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-full text-[.60rem]">{rejectedApplications.length}</span>
+                            <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.60rem]">{rejectedApplications.length}</span>
                         </TabsTrigger>
                     </TabsList>
                     <TabsContent value="all" className="">

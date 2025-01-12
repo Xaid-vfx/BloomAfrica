@@ -176,19 +176,19 @@ export default function Listing(props: Props) {
                                 <h1 className=" text-lg flex items-center gap-2"><p>Total Apprenticeships Listed:</p> <span className="text-xs bg-whit text-white bg-[#4A2C84] rounded-full py-1 px-2 font-normal">{props.jobs.length}</span></h1>
                             </div>
                         </div>
-                        <div className="px-4 mb-6 bg-whit lg:hidden">
+                        <div className="px-4 mb-6 bg-white lg:hidden">
                             {/* <h1 className="font-medium text-lg">Recent Listings</h1> */}
                             <div className="flex flex-col gap-3">
                                 {props.jobs && props.jobs.map((job: any) => {
                                     return (
                                         <div onClick={() => {
                                             ApplicationsForSelectedJob(job.uid)
-                                        }} className="border rounded-md flex items-center gap-2 justify-between px-5 py-4 bg-white">
+                                        }} className="border rounded-2xl flex items-center gap-2 justify-between p-5 bg-white">
                                             <div className="">
                                                 <p className="font-semibold mb-1">{job?.title}</p>
                                                 <div className="text-sm text-[#4A2C84] flex item gap-1"><IoLocationOutline className="text-xl" /> {job?.location}</div>
                                             </div>
-                                            <div className="min-w-fit rounded text-white text-xs py-2 px-2 bg-[#897DD3]">View Applicants</div>
+                                            <div className="min-w-fit rounded-xl text-white font-semibold text-xs py-4 px-3 bg-[#897DD3]">View Applicants</div>
                                         </div>
                                     )
                                 })}
