@@ -53,7 +53,7 @@ export default function Sidebar(props: Props) {
     }, [currentPage])
 
     return (
-        <div className="hidden lg:flex flex-col border-gray-300 border-[1px] h-full w-[20%] rounded-t-xl bg-white relative min-w-[190px] ">
+        <div className="hidden lg:flex flex-col border-gray-300 border-[1px] h-full w-full] rounded-t-xl bg-white relative ">
 
             <div className="flex flex-col justify-center my-6">
                 <a href="/seeker/applied" className={`my-2 font-medium py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'applied' ? "text-[#4A2C84] font-semibold bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
@@ -80,5 +80,5 @@ export default function Sidebar(props: Props) {
             
             <div className="h-full min-h-[1em] w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20"></div>
         </div>
-    )
+    ) 
 }

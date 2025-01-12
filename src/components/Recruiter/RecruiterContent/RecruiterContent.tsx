@@ -95,7 +95,7 @@ export default function RecruiterContent(props: Props) {
 
             <div className='flex flex-row lg:gap-5 mx-5 h-full '>
 
-                <div className='h-full '>
+                <div className='h-full w-[20%]'>
                     <Sidebar handleChangeTabIndex={(e: any) => {
                         handleChangeTabIndex(e)
                     }} currTabIndex={currTabIndex} user={props.user} />   
