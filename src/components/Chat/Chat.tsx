@@ -175,8 +175,8 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
     const firstUnreadIndex = messages.findIndex((msg) => !msg.read);
 
     return (
-        <div className="h-full w-full lg:w-3/4 flex flex-col bg-[#ededed]">
-            <div className="flex lg:justify-center gap-4 items-center bg-white py-4 lg:py-6 px-4 font-medium">
+        <div className="h-full mb-7  w-full flex flex-col rounded-2xl bg-[#ededed] border border-gray-300">
+            <div className="flex lg:justify-center gap-4 items-center  py-4 lg:py-6 px-4 font-medium">
                 <IoChevronBackCircle onClick={() => { back() }} className="lg:hidden cursor-pointer text-2xl" />
                 <p className="">{receiver.Seekers?.name}{receiver.Recruiters?.name}</p>
             </div>
@@ -191,7 +191,7 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
                     console.log(e);
 
                     return (
-                        <div key={index} className={`px-4 my-3 w-full flex flex-col ${e.sender_id !== sender.id ? '' : 'items-end'}`}>
+                        <div key={index} className={`px-4 my-3 flex flex-col ${e.sender_id !== sender.id ? '' : 'items-end'}`}>
                             {index === firstUnreadIndex && isUnreadMessage && (
                                 <div className="flex items-center justify-center w-full my-2">
                                     <hr className="flex-grow border-t border-gray-300" />
@@ -208,7 +208,7 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
                 })}
                 <div ref={newMessageRef} />
             </div>
-            <div className="lg:w-full flex bg-white border m-1 lg:m-0">
+            <div className="lg:w-full flex bg-white rounded-b-2xl border m-1 lg:m-0">
                 <input
                     value={message}
                     placeholder="Write a message"

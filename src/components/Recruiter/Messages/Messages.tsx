@@ -151,33 +151,38 @@ export default function Messages(props) {
 
     return (
 
-        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 ">
+        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-5 ">
             <h1 className="font-semibold text-xl ml-4 hidden lg:block">Messages
             </h1>
-            <div className={`${showChat ? 'w-[40%] hidden lg:block' : 'w-full'} overflow-scroll bg-white p-4`}>
-                {relations?.map((relation) => {
-                    return (
-                        <div onClick={() => handleChatClick(relation)} className={`flex items-center gap-4 text-black px-4 py-3 cursor-pointer ${selectedUser?.seeker == relation?.conversations?.conversation_participants[0].seeker ? 'bg-[#E9EBFD]' : ''}  hover:bg-[#E9EBFD]`}>
-                            <FaRegUser className="text-2xl" />
-                            <div className="w-full">
-                                <div className="flex justify-between w-full">
-                                    <p className="font-semibold text-sm">{relation?.conversations?.conversation_participants[0].Seekers.name}</p>
-                                    <p className={`text-xs mt-1 ${relation.unreadMessagesCount > 0 ? 'font-semibold text-[#4A2C84]' : 'text-[#7C8493]'}`}>{convertToLocalTime(formatTimestamp(relation?.conversations?.last_message_timestamp))}</p>
-                                </div>
-                                <div className="flex justify-between w-full items-center">
-                                    <p className="text-sm mt-1 text-[#515B6F]">{relation?.conversations?.last_message}</p>
-                                    {relation.unreadMessagesCount > 0 && (
-                                        <p className="text-[.55rem] mt-1 text-white bg-[#4A2C84] px-2 py-1 rounded-full">{relation.unreadMessagesCount}</p>
-                                    )}
+            <div className='flex flex-row h-full gap-5'>
+                <div className={`${showChat ? 'w-[40%] hidden lg:block' : 'w-full'} overflow-scroll rounded-xl border border-gray-300 bg-white`}>
+                    {relations?.map((relation) => {
+                        return (
+                            <div onClick={() => handleChatClick(relation)} className={`flex items-center gap-4 text-black px-4 py-3 border-b-[1px] border-gray-200 cursor-pointer ${selectedUser?.seeker == relation?.conversations?.conversation_participants[0].seeker ? 'bg-[#E9EBFD]' : ''}  hover:bg-[#E9EBFD]`}>
+                                
+                                <div className="w-full">
+                                    <div className="flex justify-between w-full">
+                                        <p className="font-semibold text-sm">{relation?.conversations?.conversation_participants[0].Seekers.name}</p>
+                                        <p className={`text-xs mt-1 ${relation.unreadMessagesCount > 0 ? 'font-semibold text-[#4A2C84]' : 'text-[#7C8493]'}`}>{convertToLocalTime(formatTimestamp(relation?.conversations?.last_message_timestamp))}</p>
+                                    </div>
+                                    <div className="flex justify-between w-full items-center">
+                                        <p className="text-sm mt-1 text-[#515B6F]">{relation?.conversations?.last_message}</p>
+                                        {relation.unreadMessagesCount > 0 && (
+                                            <p className="text-[.55rem] mt-1 text-white bg-[#4A2C84] px-2 py-1 rounded-full">{relation.unreadMessagesCount}</p>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )
-                })}
+                        )
+                    })}
+                </div>
+                <div className=' w-[60%]'>
+                    {showChat && <ChatClient back={() => {
+                        setshowChat(false);
+                    }} sender={props.user} receiver={selectedUser} conversation_id={selectedConvo} />}
+                </div>
             </div>
-            {showChat && <ChatClient back={() => {
-                setshowChat(false);
-            }} sender={props.user} receiver={selectedUser} conversation_id={selectedConvo} />}
+            
         </div>
     );
 }
