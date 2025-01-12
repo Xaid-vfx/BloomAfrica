@@ -60,7 +60,7 @@ export default function Header(props: Props) {
                     </div>
                     <div><IoNotificationsOutline className="text-xl" /></div>
                 </div>
-                <div id="sideBar" className=" bg-[#F8F8FD] w-full overflow-hidden fixed top-0 z-10 duration-200 h-full">
+                <div id="sideBar" className=" bg-[#F8F8FD] w-full overflow-hidden fixed top-0 z-20 duration-200 h-full">
                     <div className="flex flex-col relative h-full w-full">
 
                     

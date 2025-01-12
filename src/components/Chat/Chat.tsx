@@ -175,7 +175,7 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
     const firstUnreadIndex = messages.findIndex((msg) => !msg.read);
 
     return (
-        <div className="h-full mb-7  w-full flex flex-col rounded-2xl bg-[#ededed] border border-gray-300">
+        <div className="h-full mb-7  w-full flex flex-col rounded-xl bg-[#ededed] border border-gray-300">
             <div className="flex lg:justify-center gap-4 items-center  py-4 lg:py-6 px-4 font-medium">
                 <IoChevronBackCircle onClick={() => { back() }} className="lg:hidden cursor-pointer text-2xl" />
                 <p className="">{receiver.Seekers?.name}{receiver.Recruiters?.name}</p>
@@ -208,13 +208,13 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
                 })}
                 <div ref={newMessageRef} />
             </div>
-            <div className="lg:w-full flex bg-white rounded-b-2xl border m-1 lg:m-0">
-                <input
+            <div className="lg:w-full flex bg-white rounded-2xl border m-1 lg:m-0">
+                <input 
                     value={message}
                     placeholder="Write a message"
                     onChange={(e) => setMessage(e.target.value)}
                     type="text"
-                    className="w-full outline-none px-4 py-2 text-sm placeholder:text-sm"
+                    className="w-full  bg-transparent outline-none px-4 py-2 text-sm placeholder:text-sm"
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') onSend();
                     }}

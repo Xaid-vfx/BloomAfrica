@@ -34,7 +34,7 @@ export default function Header(props: Props) {
                     </div>
                     <div><IoNotificationsOutline className="text-xl" /></div>
                 </div>
-                <div id="sideBar" className="h-[110vh] bg-[#F8F8FD] w-full overflow-hidden fixed top-0 z-10 duration-200">
+                <div id="sideBar" className="h-[110vh] bg-[#F8F8FD] w-full overflow-hidden fixed top-0 z-20 duration-200">
 
                     <div className="w-full px-6">
                         <div className="my-6 relative w-full">
