@@ -154,7 +154,7 @@ export default function BankDetails({ user, recruiter }: Props) {
 
     return (
         
-        <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5'>
+        <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll'>
             
             <div className="bg-white rounded-xl p-6 lg:mt-6">
                 <h1 className="text-2xl font-semibold text-[#4A2C84] mb-6">

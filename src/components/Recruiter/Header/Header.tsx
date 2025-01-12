@@ -91,7 +91,9 @@ export default function Header(props: Props) {
                 </div>
                 <div><IoNotificationsOutline className="text-xl" /></div>
             </div>
+            <hr className="h-px bg-gray-300 border-0"></hr>
             
         </div>
+
     )
 }

@@ -28,7 +28,7 @@ export default function Sidebar(props: Props) {
         
 
         
-            <div className='hidden lg:flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl px-3 bg-white relative '>
+            <div className='hidden lg:flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl px-3 bg-white relative '>
                 
                     <div className="flex flex-col justify-center my-6">
                         <div onClick={() => { props.handleChangeTabIndex(0) }} className={`my-2 font-medium rounded-2xl py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 0 ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>

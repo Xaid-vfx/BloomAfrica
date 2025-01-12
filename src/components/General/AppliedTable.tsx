@@ -114,7 +114,8 @@ export default function AppliedTable(props: any) {
     };
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden', borderBottomLeftRadius: "12px", borderBottomRightRadiusRadius: "12px", boxShadow: "none" }}>
+        
+        <Paper sx={{ width: '100%', overflow: 'scroll', borderBottomLeftRadius: "12px", borderBottomRightRadiusRadius: "12px", boxShadow: "none" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -217,5 +218,6 @@ export default function AppliedTable(props: any) {
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </Paper>
+
     );
 }

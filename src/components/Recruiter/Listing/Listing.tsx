@@ -140,7 +140,7 @@ export default function Listing(props: Props) {
     }, [])
     return (
         
-        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll">
+        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll">
             
             <div className="">
                 {showJobApplications ?

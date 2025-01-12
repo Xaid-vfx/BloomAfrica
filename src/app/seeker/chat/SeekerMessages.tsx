@@ -145,7 +145,7 @@ export default function SeekerMessages(props) {
     };
 
     return (
-        <div className="flex flex-col border-gray-300 border-[1px] h-full max-h-[calc(100vh-95px)] w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5 ">
+        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 ">
             <h1 className="font-semibold text-xl ml-4 hidden lg:block">Messages
             </h1>
             <div className={`${showChat ? 'w-[40%] hidden lg:block' : 'w-full'} overflow-scroll  bg-white p-4`}>

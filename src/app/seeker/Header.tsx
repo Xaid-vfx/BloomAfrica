@@ -11,6 +11,8 @@ import { PiBuildings } from "react-icons/pi"
 import Bloom from '../../assets/images/BloomLogo.png'
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+
 
 type Props = {
     name: string
@@ -83,14 +85,18 @@ export default function Header(props: Props) {
                                     <LuClipboardList className="text-xl" />
                                     <p className="">Edit Profile</p>
                                 </a>
+                                <a href="/seeker/chat" className={`my-2 font-medium rounded-2xl py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'chat' ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
+                                    <IoChatboxEllipsesOutline className="text-xl" />
+                                    <p className="text-sm ">Messages</p>
+                                </a>
                                 
                                         
                             </div>
                             
                         </div>
-                        <hr className="h-px bg-gray-200 border-0 mt-6 mb-4"></hr>
+                        <hr className="h-px bg-gray-300 border-0 "></hr>
 
-                        <a href="/all-jobs" className="text-sm text-white bg-[#4A2C84] py-3 px-6 rounded-2xl font-semibold mx-10 justify-center text-center mb-4">Back to Search</a>
+                        <a href="/all-jobs" className="text-sm text-white bg-[#4A2C84] mt-5 py-3 px-6 rounded-2xl font-semibold mx-10 justify-center text-center mb-4">Back to Search</a>
 
                         <button onClick={() => { handleClickLogout() }} 
                             className="text-sm text-[#4A2C84] bg-[#cfc2e9] py-3 px-6 rounded-2xl font-bold mx-10 

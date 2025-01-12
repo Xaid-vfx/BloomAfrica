@@ -34,7 +34,7 @@ export default function Saved(props) {
 
     } 
     return (
-        <div className="flex flex-col border-gray-300 border-[1px] h-full max-h-[calc(100vh-95px)] w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll ">
+        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll ">
             <div className="hidden lg:block bg-white rounded-xl">
                 {
                     props.savedjobs.length > 0 ? (

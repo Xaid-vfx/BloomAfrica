@@ -85,7 +85,7 @@ export default function RecruiterContent(props: Props) {
     //     )
     // }
     return (
-        <div className="flex flex-col bg-[#F5F5F5] h-screen   ">
+        <div className="flex flex-col bg-[#F5F5F5] h-screen pb-5 ">
             <div>
                 <Header showNav={() => { setshowNav(true) }} currTabIndex={currTabIndex} handleChangeTabIndex={(e: any) => {
                     handleChangeTabIndex(e)
@@ -95,14 +95,14 @@ export default function RecruiterContent(props: Props) {
 
             <div className='flex flex-row lg:gap-5 mx-5 h-full '>
 
-                <div className='h-full w-[20%]'>
+                <div className='h-full lg:w-[20%]'>
                     <Sidebar handleChangeTabIndex={(e: any) => {
                         handleChangeTabIndex(e)
                     }} currTabIndex={currTabIndex} user={props.user} />   
                 </div>
                 
 
-                <div className="w-full flex flex-col max-h-[calc(100vh-95px)] ">
+                <div className="w-full flex flex-col h-full max-h-[calc(100vh-116px)]  ">
                     
                     
 

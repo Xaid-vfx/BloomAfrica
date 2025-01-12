@@ -58,7 +58,7 @@ export default function Dashboard(props: Props) {
 
     return (
         
-        <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5'>
+        <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll'>
 
         
             <h1 className="lg:font-semibold my-4 lg:my-0 text-base lg:text-xl px-3 lg:px-0 lg:ml-4 ">Good Morning,
@@ -106,7 +106,7 @@ export default function Dashboard(props: Props) {
                 </div>
                 <div onClick={() => { props.handleChangeTabIndex(3) }} className="flex items-center text-[#4A2C84] gap-2 my-2 justify-center cursor-pointer hover:underline">View All <FaArrowRightLong /></div>
             </div>
-            <div className="hidden lg:block bg-white rounded-xl">
+            <div className="hidden lg:block bg-white rounded-xl pb-7">
                 <h1 className="font-semibold text-2xl px-10 pt-6 pb-3">Recent Applications</h1>
 
                 {

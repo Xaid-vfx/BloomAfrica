@@ -53,7 +53,7 @@ export default function Sidebar(props: Props) {
     }, [currentPage])
 
     return (
-        <div className="hidden lg:flex flex-col border-gray-300 border-[1px] h-full w-full] rounded-t-xl bg-white relative px-3">
+        <div className="hidden lg:flex flex-col border-gray-300 border-[1px] h-full w-full] rounded-xl bg-white relative px-3">
 
             <div className="flex flex-col justify-center my-6">
                 <a href="/seeker/applied" className={`my-2 font-medium rounded-2xl  py-3 cursor-pointer px-4 flex gap-2 items-center  ${currentPage == 'applied' ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>

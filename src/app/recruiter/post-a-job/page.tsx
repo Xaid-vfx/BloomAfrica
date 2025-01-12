@@ -236,7 +236,7 @@ export default function Post(props) {
     };
 
     return (
-        <div className='flex flex-col border-gray-300 border-[1px]  w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll '>
+        <div className='flex flex-col border-gray-300 border-[1px]  w-full h-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll '>
             
             <AgreementModal handleAgreement={handleAgreement} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
             <p onClick={() => { props.handleChangeTabIndex(3) }} className="mb-4 hover:underline cursor-pointer text-sm lg:flex items-center gap-1 hidden"><IoMdArrowRoundBack className="text-xl" />Back to job listing</p>
