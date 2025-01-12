@@ -64,28 +64,28 @@ export default function Dashboard(props: Props) {
             <h1 className="lg:font-semibold my-4 lg:my-0 text-base lg:text-xl px-3 lg:px-0 lg:ml-4 ">Good Morning,
                 {' ' + props.recruiter?.name}
             </h1>
-            <div className="flex flex-col lg:flex-row gap-3 lg:gap-0 px-3 lg:px-0 justify-between lg:mt-6 mb-8">
-                <div className="py-4 px-4 lg:mx-2 border rounded-lg bg-white lg:w-1/3 flex items-center lg:gap-6 gap-3">
+            <div className="flex flex-col lg:flex-row gap-3 px-3 lg:px-0 justify-between lg:mt-6 mb-8">
+                <div className="py-4 px-4  border rounded-lg bg-white w-full flex items-center lg:gap-6 gap-3">
                     <Image src={Posted} alt="" width={60} />
                     <div>
                         <div className="text-xl lg:text-2xl font-medium">{props.jobs.length}</div>
                         <div className="text-[#7C8493] text-sm lg:text-base">Posted Jobs</div>
                     </div>
                 </div>
-                <div className="py-4 px-4 lg:mx-2 border rounded-lg bg-white lg:w-1/3 flex items-center lg:gap-6 gap-3">
+                <div className="py-4 px-4  border rounded-lg bg-white w-full flex items-center lg:gap-6 gap-3">
                     <Image src={Applications} alt="" width={60} />
                     <div>
                         <div className="text-xl lg:text-2xl font-medium">{applications?.length}</div>
                         <div className="text-[#7C8493] text-sm lg:text-base">Applications</div>
                     </div>
                 </div>
-                <div className="py-4 px-4 lg:mx-2 border rounded-lg bg-white lg:w-1/3 flex items-center lg:gap-6 gap-3">
+                {/* <div className="py-4 px-4 lg:mx-2 border rounded-lg bg-white lg:w-1/3 flex items-center lg:gap-6 gap-3">
                     <Image src={Shortlisted} alt="" width={60} />
                     <div>
                         <div className="text-xl lg:text-2xl font-medium">0</div>
                         <div className="text-[#7C8493] text-sm lg:text-base">Shorlisted</div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="px-4 mb-6 lg:hidden">
                 <h1 className="font-medium text-lg">Recent Listings</h1>
