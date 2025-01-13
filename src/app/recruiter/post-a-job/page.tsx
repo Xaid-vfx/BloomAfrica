@@ -28,7 +28,7 @@ export default function Post(props) {
     const [wya, setwya] = useState("")
     const [extras, setextras] = useState("")
     const [limit, setlimit] = useState("")
-    // const [deadline, setdeadline] = useState("")
+    const [deadline, setdeadline] = useState("")
     const [minsalary, setminsalary] = useState("")
     const [maxsalary, setmaxsalary] = useState("")
     const [skills, setskills] = useState([])
@@ -103,7 +103,8 @@ export default function Post(props) {
                     payment_type: paymenttype,
                     accomodation: accomodation,
                     signup_fee: signupfee,
-                    limit: parseInt(limit) || 1
+                    limit: parseInt(limit) || 1,
+                    deadline: deadline || null
                 })
                 .select('uid')
                 .single()
@@ -148,6 +149,7 @@ export default function Post(props) {
                 setsignupfee("");
                 setaccomodation("");
                 setHasSignupFee("");
+                setdeadline("");
                 router.refresh();
             }
         } catch (error) {
@@ -293,6 +295,17 @@ export default function Post(props) {
                                     const value = Math.max(1, parseInt(e.target.value) || 0);
                                     setlimit(value.toString());
                                 }}
+                            />
+                        </div>
+
+                        <div className="mb-1">
+                            <p className="font-[550] text-lg my-1">Application Deadline (Optional)</p>
+                            <input
+                                value={deadline}
+                                className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
+                                type="date"
+                                placeholder="Select deadline date"
+                                onChange={(e) => setdeadline(e.target.value)}
                             />
                         </div>
 
