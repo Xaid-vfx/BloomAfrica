@@ -29,7 +29,7 @@ export default function HowItWorks() {
                         <Image src={goal} alt="" width={60} className="lg:hidden" />
 
                         <h2 className="my-3 font-medium text-xl lg:font-semibold">
-                            Explore Our Opportunities
+                            Find Apprenticeships
                         </h2>
                         <p className="text-xs leading-6 mt-3 text-[#515B6F] max-lg:max-w-[500px]">
                             Browse our extensive collection of apprenticeship opportunities across various industries and locations. Use our search filters to narrow down your options based on your preferences.
@@ -43,7 +43,7 @@ export default function HowItWorks() {
                             Accelerated Learning
                         </h2>
                         <p className="text-xs leading-6 mt-3 text-[#515B6F] max-lg:max-w-[500px]">
-                            While working on-site with your mentor to gain <span className="whitespace-nowrap">hands-on</span> experience, you will also participate in our accelerated curriculum program designed to make you an expert in your field.
+                        Through a dynamic training program and hands-on mentorship, you’ll rapidly develop the knowledge and skills to excel and become an expert in your field.
                         </p>
                     </div>
                     <div className="text-center my-6 flex flex-col items-center py-10 px-6 lg:w-1/3 lg:mx-4 box_shadow rounded-2xl">
@@ -51,10 +51,10 @@ export default function HowItWorks() {
                         <Image src={goal} alt="" width={60} className="lg:hidden" />
 
                         <h2 className="my-3 font-medium text-xl lg:font-semibold">
-                            Get Certified
+                            Launch your Career
                         </h2>
                         <p className="text-xs leading-6 mt-3 text-[#515B6F] max-lg:max-w-[500px]">
-                            After successfully finishing your apprenticeship, you will attain a professional certificate, a prestigious credential that will distinguish you in the competitive job market.
+                        After successfully completing your apprenticeship, you will gain the expertise to start your own business, as well as a certificate to help you stand out in your job search. Choose your path and start building now!
                         </p>
                     
                     </div>
