@@ -15,6 +15,7 @@ import { Dialog } from "@radix-ui/react-dialog";
 import { DialogDemo } from "@/components/Modal/Modal";
 import Applications from "../Applications/Applications";
 import { toast } from "sonner";
+import { deleteJob, getApplicationsForJob } from "@/lib/jobs/jobUtils";
 
 
 type Props = {
@@ -36,57 +37,28 @@ export default function Listing(props: Props) {
     const [selectedJob, setselectedJob] = useState(null)
 
 
-    async function deleteJob(id: string) {
-        console.log(id);
-        const supabase = createClientComponentClient()
-        const { data, error } = await supabase
-            .from('Jobs')
-            .delete()
-            .eq('id', id)
-
-        console.log(data);
-        if (error) {
-            console.log(error);
+    async function handleDeleteJob(id: string) {
+        try {
+            await deleteJob(id);
+            router.refresh();
+        } catch (error) {
+            toast.error("Failed to delete job");
         }
-        else {
-            toast.success("Job Deleted Successfully! Refresh")
-        }
-        router.refresh()
     }
 
     async function ApplicationsForSelectedJob(job_id: string) {
         setloading(true);
-        const supabase = createClientComponentClient();
-
-        // First fetch the job details
-        const { data: jobData, error: jobError } = await supabase
-            .from('Jobs')
-            .select('*')
-            .eq('uid', job_id)
-            .single();
-
-        if (jobError) {
-            console.error('Error fetching job:', jobError);
-            return;
-        }
-
-        setselectedJob(jobData);
-
-        // Then fetch the applications
-        const { data: applications, error } = await supabase
-            .from('Applicants')
-            .select('*')
-            .eq('job_id', job_id);
-
-        if (error) {
-            console.error('Error fetching applications:', error);
-        } else {
+        try {
+            const { job, applications } = await getApplicationsForJob(job_id);
+            setselectedJob(job);
             setselectedJobApplications(applications);
+            setshowJobApplications(true);
+        } catch (error) {
+            toast.error("Failed to fetch applications");
         }
-
-        setshowJobApplications(true);
         setloading(false);
     }
+
     async function fetchApplicantDetails(id: string) {
         console.log(id);
         setloading(true)
@@ -139,9 +111,9 @@ export default function Listing(props: Props) {
 
     }, [])
     return (
-        
+
         <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll">
-            
+
             <div className="">
                 {showJobApplications ?
                     <div>
@@ -199,7 +171,7 @@ export default function Listing(props: Props) {
                             <h1 className="font-semibold text-2xl pb-4 pl-8">All Jobs</h1>
 
                             {
-                                props.jobs.length > 0 ? <JobsTable ApplicationsForSelectedJob={ApplicationsForSelectedJob} delete={deleteJob} jobs={props.jobs} /> : <div className="flex justify-center items-center h-[200px]">
+                                props.jobs.length > 0 ? <JobsTable ApplicationsForSelectedJob={ApplicationsForSelectedJob} delete={handleDeleteJob} jobs={props.jobs} /> : <div className="flex justify-center items-center h-[200px]">
                                     No Jobs found!
                                 </div>
                             }

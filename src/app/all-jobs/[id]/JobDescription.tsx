@@ -21,23 +21,26 @@ import UAParser from "ua-parser-js";
 
 async function getJob(userid: string) {
     const supabase = createClientComponentClient()
-    const { data, error } = await supabase
+    const { data: jobData, error: jobError } = await supabase
         .from('Jobs')
-        .select(`*, 
-        Recruiters(
-            CompanyInfo(
-                name,
-                logo
+        .select(`
+            *,
+            job_applications_count(applicant_count),
+            Recruiters(
+                CompanyInfo(
+                    name,
+                    logo
+                )
             )
-        )`)
+        `)
         .eq('uid', userid)
         .single()
 
-    if (error) {
-        console.log(error);
+    if (jobError) {
+        console.log(jobError);
     }
 
-    return data;
+    return jobData;
 }
 
 export default function JobDescription(props) {
@@ -48,6 +51,8 @@ export default function JobDescription(props) {
     const router = useRouter()
     const [showAgreements, setShowAgreements] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [applicantCount, setApplicantCount] = useState(0);
+    const [isAtCapacity, setIsAtCapacity] = useState(false);
 
     async function checkifSeekerisRegistered() {
         console.log(props.user?.id);
@@ -71,7 +76,6 @@ export default function JobDescription(props) {
     }
 
     async function checkifSeekerisAlreadyApplied() {
-        console.log(props.user?.id);
         const { data, error } = await supabase
             .from('Applicants')
             .select()
@@ -82,25 +86,30 @@ export default function JobDescription(props) {
             console.log(error);
             return false;
         }
-        else {
-            console.log(data.length);
-            if (data.length > 0) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
+
+        return data.length > 0;
     }
 
-
     async function postJob() {
+        // First check if the job is still available
+        const { data: currentCount } = await supabase
+            .from('job_applications_count')
+            .select('applicant_count')
+            .eq('job_id', id)
+            .single();
+
+        if (currentCount?.applicant_count >= job?.limit) {
+            toast.error("This position is no longer accepting applications");
+            setIsAtCapacity(true);
+            return;
+        }
+
+        setIsLoading(true);
         const { data: seekerData, error: seekerError } = await supabase
             .from('Seekers')
             .select()
             .eq('unique_id', props.user?.id)
             .single()
-
 
         if (seekerError) {
             console.error('Error fetching Seeker:', seekerError.message);
@@ -112,7 +121,6 @@ export default function JobDescription(props) {
             return;
         }
 
-        setIsLoading(true);
         const { data, error } = await supabase
             .from('Applicants')
             .insert({ job_id: id, name: seekerData.name })
@@ -176,11 +184,18 @@ export default function JobDescription(props) {
 
     useEffect(() => {
         async function fetchJob() {
-            const data = await getJob(id)
-            setjob(data)
+            const data = await getJob(id);
+            setjob(data);
+
+            const currentCount = data?.job_applications_count?.[0]?.applicant_count || 0;
+            setApplicantCount(currentCount);
+
+            // Check if job is at capacity
+            setIsAtCapacity(currentCount >= (data?.limit || 0));
         }
-        fetchJob()
-    }, [])
+        fetchJob();
+    }, [id]);
+
     return (
         <div>
             {isLoading && (
@@ -208,7 +223,14 @@ export default function JobDescription(props) {
                 <div className="">
                     <div className="flex gap-6">
                         <SaveButton user={props.user?.id} id={id}></SaveButton>
-                        <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-3xl font-medium px-14" >Apply</button>
+                        <button
+                            onClick={handleApplyJob}
+                            className={`text-white py-3 text-center bg-[#4A2C84] rounded-3xl font-medium px-14 ${isAtCapacity ? 'opacity-50 cursor-not-allowed' : ''
+                                }`}
+                            disabled={isAtCapacity}
+                        >
+                            {isAtCapacity ? 'No Longer Accepting' : 'Apply'}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -247,14 +269,6 @@ export default function JobDescription(props) {
                     <div>
                         <h1 className="text-2xl font-semibold mb-6 text-[#25324B] mt-5">About this Role</h1>
 
-
-                        {/* <div className="bg-[#F8F8FD] py-2 px-2 my-2">
-                            <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">
-                                <div className=" bg-green-500 h-1.5 rounded-full w-1/2"></div>
-                            </div>
-                            <p className="text-sm text-[#7C8493]"><span className="text-black font-semibold">5 Applied</span> of 10 capacity</p>
-                        </div> */}
-
                         <div className="flex justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Signup Fee</p>
                             <p className="text-sm font-semibold">{job != null ? job?.signup_fee ? "₦" + job?.signup_fee : "Free" : <Skeleton width={150} />}</p>
@@ -270,6 +284,10 @@ export default function JobDescription(props) {
                         <div className="flex justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Duration</p>
                             <p className="text-sm font-semibold">{job != null ? job?.duration : <Skeleton width={150} />}</p>
+                        </div>
+                        <div className="flex justify-between my-4">
+                            <p className="text-sm text-[#515B6F]">Capacity</p>
+                            <p className="text-sm font-semibold">{job != null ? job?.limit : <Skeleton width={150} />}</p>
                         </div>
                         <div className="flex justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Application Deadline</p>
@@ -288,9 +306,7 @@ export default function JobDescription(props) {
                         )) : <Skeleton width={150} />}</p>
                     </div>
                 </div>
-
             </div>
-
         </div>
     )
 }
