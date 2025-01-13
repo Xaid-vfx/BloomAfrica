@@ -40,15 +40,15 @@ export default async function page() {
     }));
 
     return (
-        <div className="flex flex-col bg-[#F5F5F5] h-screen   ">
+        <div className="flex flex-col bg-[#F5F5F5] h-screen pb-5 ">
             <div>
                 <Header name={seeker.name} />
             </div>
             <div className='flex flex-row lg:gap-5 mx-5 h-full '>
-                <div className="h-full">
+                <div className="h-full lg:w-[20%]">
                     <Sidebar />
                 </div>
-                <div className="w-full flex flex-col max-h-[calc(100vh-95px)]">
+                <div className="w-full lg:w-[80%] flex flex-col lg:max-h-[calc(100vh-116px)] max-h-[calc(100vh-88px)]">
                     <Saved savedjobs={savedjobs} />
                 </div>
             </div>        

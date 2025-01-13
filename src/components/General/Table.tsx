@@ -223,7 +223,7 @@ export default function StickyHeadTable(props: any) {
                                                     {column.id === 'status' ? (
                                                         <div className='text-base'>
                                                             <DropdownMenu>
-                                                                <DropdownMenuTrigger className='px-4 py-2 text-gray-600 border border-gray-200 text-sm gap-2 rounded-full flex items-center hover:bg-gray-50 transition-colors'>
+                                                                <DropdownMenuTrigger className='px-4 py-2 text-gray-600 border border-gray-200 text-sm gap-2 rounded-xl flex items-center hover:bg-gray-50 transition-colors'>
                                                                     Update Status
                                                                     <PiCaretUpDownFill className="text-base" />
                                                                 </DropdownMenuTrigger>
@@ -247,7 +247,7 @@ export default function StickyHeadTable(props: any) {
                                                     ) : ""}
 
                                                     {column.id === 'paymentStatus' ? (
-                                                        <div className={`text-center px-4 py-2 rounded-full text-sm font-medium ${value === 'success'
+                                                        <div className={`text-center px-4 py-2 rounded-xl text-sm font-medium ${value === 'success'
                                                             ? 'bg-green-50 text-green-600'
                                                             : 'bg-red-50 text-red-600'
                                                             }`}>
@@ -261,7 +261,7 @@ export default function StickyHeadTable(props: any) {
                                                                 onClick={() => {
                                                                     props.fetchApplicantDetails(row.uid)
                                                                 }}
-                                                                className='bg-[#E9EBFD] text-[#4A2C84] px-6 py-2 font-medium text-sm rounded-full cursor-pointer text-center w-full hover:bg-[#4A2C84] hover:text-white transition-colors'
+                                                                className='bg-[#E9EBFD] text-[#4A2C84] px-6 py-2 font-medium text-sm rounded-xl cursor-pointer text-center w-full hover:bg-[#4A2C84] hover:text-white transition-colors'
                                                             >
                                                                 View Application
                                                             </button>

@@ -147,9 +147,9 @@ export default function JobsTable(props: any) {
                                                     {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
                                                         <button onClick={() => {
                                                             props.ApplicationsForSelectedJob(row.uid)
-                                                        }} className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl'>
+                                                        }} className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-xl'>
                                                             View Applicants</button>
-                                                        <button onClick={() => { props.delete(row.id) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-3xl'>
+                                                        <button onClick={() => { props.delete(row.id) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-xl'>
                                                             Delete</button>
                                                     </div> : ""}
                                                 </TableCell>

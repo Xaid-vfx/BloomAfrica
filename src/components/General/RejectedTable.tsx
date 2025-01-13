@@ -189,7 +189,7 @@ export default function RejectedTable(props: any) {
                                                     ) : ""}
 
                                                     {column.id === 'paymentStatus' ? (
-                                                        <div className={`text-center px-4 py-2 rounded-full text-sm font-medium ${value === 'success'
+                                                        <div className={`text-center px-4 py-2 rounded-2xl text-sm font-medium ${value === 'success'
                                                             ? 'bg-green-50 text-green-600'
                                                             : 'bg-red-50 text-red-600'
                                                             }`}>
@@ -203,7 +203,7 @@ export default function RejectedTable(props: any) {
                                                                 onClick={() => {
                                                                     props.fetchApplicantDetails(row.uid)
                                                                 }}
-                                                                className='bg-[#E9EBFD] text-[#4A2C84] px-6 py-2 font-medium text-sm rounded-full cursor-pointer text-center w-full hover:bg-[#4A2C84] hover:text-white transition-colors'
+                                                                className='bg-[#E9EBFD] text-[#4A2C84] px-6 py-2 font-medium text-sm rounded-xl cursor-pointer text-center w-full hover:bg-[#4A2C84] hover:text-white transition-colors'
                                                             >
                                                                 View Application
                                                             </button>

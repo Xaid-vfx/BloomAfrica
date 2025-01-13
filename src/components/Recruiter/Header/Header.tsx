@@ -34,7 +34,7 @@ export default function Header(props: Props) {
                     </div>
                     <div><IoNotificationsOutline className="text-xl" /></div>
                 </div>
-                <div id="sideBar" className="h-[110vh] bg-[#F8F8FD] w-full overflow-hidden fixed top-0 z-10 duration-200">
+                <div id="sideBar" className="h-[110vh] bg-[#F8F8FD] w-full overflow-hidden fixed top-0 z-20 duration-200">
 
                     <div className="w-full px-6">
                         <div className="my-6 relative w-full">
@@ -63,7 +63,7 @@ export default function Header(props: Props) {
                     </div>
                     <hr className="h-px bg-gray-200 border-0 mt-6 mb-4"></hr>
                     <div onClick={() => { handleChangeTabIndex(4) }} className="text-base font-medium flex justify-center w-full">
-                        <p className="text-white bg-[#4A2C84] w-full mx-4 text-center py-3 px-6 rounded-full">+ Post Apprenticeship</p>
+                        <p className="text-white bg-[#4A2C84] w-full mx-4 text-center py-3 px-6 rounded-2xl">+ Post Apprenticeship</p>
                     </div>
                 </div>
             </>
@@ -81,7 +81,7 @@ export default function Header(props: Props) {
                         <p className="font-semibold">{props.name}</p>
                     </div>  
                 </div>
-                <a onClick={() => { props.handleChangeTabIndex(4) }}><button className="text-sm text-white bg-[#4A2C84] py-3 px-6 rounded-full font-semibold">+ Post Apprenticeship</button></a>
+                <a onClick={() => { props.handleChangeTabIndex(4) }}><button className="text-sm text-white bg-[#4A2C84] py-3 px-6 rounded-2xl font-semibold">+ Post Apprenticeship</button></a>
             </div>
             <div className="lg:hidden flex justify-between px-3 py-3 items-center">
                 <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />
@@ -91,7 +91,9 @@ export default function Header(props: Props) {
                 </div>
                 <div><IoNotificationsOutline className="text-xl" /></div>
             </div>
+            <hr className="h-px bg-gray-300 border-0"></hr>
             
         </div>
+
     )
 }

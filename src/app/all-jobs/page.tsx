@@ -64,7 +64,7 @@ export default async function AllJobs({ params,
                 <div className="flex flex-col w-full items-center px-4 gap-7 pb-16 py-5 ">
                     <Search />
 
-                    <p className='text-gray-400 text-center font-semibold px-5'>Find the perfect apprenticeship for you.</p>
+                    <p className='text-gray-400 text-center font-semibold px-5'>Find an Apprenticeship, Bloom your Career.</p>
                 </div>
 
                 {/* Mobile view starts */}
