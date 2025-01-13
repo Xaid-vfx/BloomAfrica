@@ -189,9 +189,16 @@ export default function Post(props) {
 
     async function handleSubmit() {
         // Check if any required parameter is empty
-        if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration) {
+        if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration || !limit) {
             setErrorMessage("Please fill in all required fields");
             toast.error("Please fill in all required fields");
+            return;
+        }
+
+        // Validate limit is a positive number
+        if (parseInt(limit) < 1) {
+            setErrorMessage("Number of apprentices must be at least 1");
+            toast.error("Number of apprentices must be at least 1");
             return;
         }
 
@@ -281,9 +288,10 @@ export default function Post(props) {
                                 className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
                                 type="number"
                                 min="1"
+                                required
                                 placeholder="Enter number of apprentices"
                                 onChange={(e) => {
-                                    const value = Math.max(0, parseInt(e.target.value) || 0);
+                                    const value = Math.max(1, parseInt(e.target.value) || 0);
                                     setlimit(value.toString());
                                 }}
                             />
