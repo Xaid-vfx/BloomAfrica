@@ -27,6 +27,7 @@ export default function Post(props) {
     const [res, setres] = useState("")
     const [wya, setwya] = useState("")
     const [extras, setextras] = useState("")
+    const [limit, setlimit] = useState("")
     // const [deadline, setdeadline] = useState("")
     const [minsalary, setminsalary] = useState("")
     const [maxsalary, setmaxsalary] = useState("")
@@ -86,7 +87,24 @@ export default function Post(props) {
 
             const { data: job, error: jobError } = await supabase
                 .from('Jobs')
-                .upsert({ title, description: desc, type, category, location: loc, responsibilities: res, who_we_are: wya, minsalary: minsalary, maxsalary: maxsalary, skills, duration, company_logo: recruiterdata.logo, payment_type: paymenttype, accomodation: accomodation, signup_fee: signupfee })
+                .upsert({
+                    title,
+                    description: desc,
+                    type,
+                    category,
+                    location: loc,
+                    responsibilities: res,
+                    who_we_are: wya,
+                    minsalary: minsalary,
+                    maxsalary: maxsalary,
+                    skills,
+                    duration,
+                    company_logo: recruiterdata.logo,
+                    payment_type: paymenttype,
+                    accomodation: accomodation,
+                    signup_fee: signupfee,
+                    limit: parseInt(limit) || 1
+                })
                 .select('uid')
                 .single()
 
@@ -171,9 +189,16 @@ export default function Post(props) {
 
     async function handleSubmit() {
         // Check if any required parameter is empty
-        if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration) {
+        if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration || !limit) {
             setErrorMessage("Please fill in all required fields");
             toast.error("Please fill in all required fields");
+            return;
+        }
+
+        // Validate limit is a positive number
+        if (parseInt(limit) < 1) {
+            setErrorMessage("Number of apprentices must be at least 1");
+            toast.error("Number of apprentices must be at least 1");
             return;
         }
 
@@ -237,7 +262,6 @@ export default function Post(props) {
 
     return (
         <div className='flex flex-col border-gray-300 border-[1px]  w-full h-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll '>
-            
             <AgreementModal handleAgreement={handleAgreement} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
             <p onClick={() => { props.handleChangeTabIndex(3) }} className="mb-4 hover:underline cursor-pointer text-sm lg:flex items-center gap-1 hidden"><IoMdArrowRoundBack className="text-xl" />Back to job listing</p>
             <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Post a Job</p>
@@ -254,6 +278,22 @@ export default function Post(props) {
                         <div className="mb-1">
                             <p className="font-[550] text-lg my-1">Job Title *</p>
                             <input value={title} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="e.g. Software Engineer" onChange={(e) => { settitle(e.target.value) }} />
+                        </div>
+
+                        <div className="mb-1">
+                            <p className="font-[550] text-lg my-1">How many apprentices will you take? *</p>
+                            <input
+                                value={limit}
+                                className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
+                                type="number"
+                                min="1"
+                                required
+                                placeholder="Enter number of apprentices"
+                                onChange={(e) => {
+                                    const value = Math.max(1, parseInt(e.target.value) || 0);
+                                    setlimit(value.toString());
+                                }}
+                            />
                         </div>
 
                         <div className="my-2">
