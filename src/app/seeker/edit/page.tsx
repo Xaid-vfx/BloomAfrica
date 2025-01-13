@@ -48,7 +48,7 @@ export default async function page() {
                 <div className="h-full lg:w-[20%]">
                     <Sidebar />
                 </div>
-                <div className="w-full lg:w-[80%] flex flex-col lg:max-h-[calc(100vh-116px)]">
+                <div className="w-full lg:w-[80%] flex flex-col lg:max-h-[calc(100vh-116px)] max-h-[calc(100vh-88px)]">
                     <EditSeeker user={user} seeker={seeker} education={education} experience={experience} />
                 </div>
             </div>        

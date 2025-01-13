@@ -127,15 +127,15 @@ export default function EditSeeker(props: Props) {
     }, [])
 
     return (
-        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll">
-            <h1 className="font-semibold text-xl ml-4 hidden lg:block">Edit Profile
+        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:pt-7 lg:px-8 p-5 overflow-scroll">
+            <h1 className="font-bold text-2xl text-[#4A2C84] mb-6 hidden lg:block">Edit Profile
             </h1>
-            <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Edit Profile</p>
+            <p onClick={() => { }} className=" mb-6 lg:hidden hover:underline cursor-pointer text-2xl font-bold text-[#4A2C84] flex items-center gap-4">Edit Profile</p>
             <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-            <div>
-                <div className="bg-white rounded-xl p-6 lg:mt-6">
+            <div className=''>
+                <div className="bg-white rounded-xl ">
                     <div>
-                        <h1 className="text-2xl font-semibold text-[#4A2C84]">Personal Information</h1>
+                        <h1 className="text-2xl font-[500] text-[#4A2C84]">Personal Information</h1>
                         <div className="my-6">
                             <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-fullflex gap-2 w-full">
                                 <div className="">
@@ -197,7 +197,7 @@ export default function EditSeeker(props: Props) {
                         }
                     </div>
                     <div className="mt-10">
-                        <h1 className="text-2xl font-semibold text-[#4A2C84]">Education</h1>
+                        <h1 className="text-2xl font-[500] text-[#4A2C84]">Education</h1>
                         <div className="my-6">
                             <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-full">
                                 <div className="">
@@ -227,7 +227,7 @@ export default function EditSeeker(props: Props) {
                     </div>
 
                     <div className="mt-10">
-                        <h1 className="text-2xl font-semibold text-[#4A2C84]">Work experience</h1>
+                        <h1 className="text-2xl font-[500] text-[#4A2C84]">Work experience</h1>
                         <div className="my-6">
                             <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-full">
                                 <div className="">

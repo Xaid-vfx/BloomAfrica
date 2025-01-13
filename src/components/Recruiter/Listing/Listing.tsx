@@ -140,7 +140,7 @@ export default function Listing(props: Props) {
     }, [])
     return (
         
-        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll">
+        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-0 lg:p-8 overflow-scroll">
             
             <div className="">
                 {showJobApplications ?
@@ -148,7 +148,7 @@ export default function Listing(props: Props) {
                         {
                             showApplicantDetails ?
                                 <div className="">
-                                    <h1 className="font-semibold text-xl ml-4 hidden lg:block mb-5">Apprentice Profile
+                                    <h1 className="font-semibold text-xl  hidden lg:block mb-5">Apprentice Profile
                                     </h1>
                                     <p onClick={() => { setshowApplicantDetails(false) }} className="hidden lg:flex mb-4 hover:underline cursor-pointer text-sm  items-center gap-1"><IoMdArrowRoundBack className="text-xl" />Back to Applications</p>
 
@@ -169,11 +169,11 @@ export default function Listing(props: Props) {
                                 />
                         }
                     </div> :
-                    <div className="jobs flex flex-col gap-6 py-8 lg:py-0">
+                    <div className="jobs flex flex-col gap-6 ">
                         <div className="px-4 lg:px-0">
-                            <h1 className="hidden lg:block font-semibold text-lg pb-2 lg:pl-4">Manage Apprenticeships</h1>
-                            <div className=" rounded-xl lg:py-5  lg:px-6">
-                                <h1 className=" text-lg flex items-center gap-2"><p>Total Apprenticeships Listed:</p> <span className="text-xs bg-whit text-white bg-[#4A2C84] rounded-full py-1 px-2 font-normal">{props.jobs.length}</span></h1>
+                            <h1 className=" font-bold text-[#4A2C84] text-2xl pt-7 pb-6 lg:pt-0 lg:pb-2 ">Manage Apprenticeships</h1>
+                            <div className=" rounded-xl lg:pt-5 pb-2  ">
+                                <h1 className=" text-lg text-gray-600 flex items-center gap-2"><p>Total Apprenticeships Listed:</p> <span className="text-xs  text-white bg-[#4A2C84] rounded-full py-1 px-2 font-normal">{props.jobs.length}</span></h1>
                             </div>
                         </div>
                         <div className="px-4 mb-6 bg-white lg:hidden">
@@ -188,15 +188,15 @@ export default function Listing(props: Props) {
                                                 <p className="font-semibold mb-1">{job?.title}</p>
                                                 <div className="text-sm text-[#4A2C84] flex item gap-1"><IoLocationOutline className="text-xl" /> {job?.location}</div>
                                             </div>
-                                            <div className="min-w-fit rounded-xl text-white font-semibold text-xs py-4 px-3 bg-[#897DD3]">View Applicants</div>
+                                            <div className="min-w-fit rounded-xl text-white font-semibold text-sm py-3 px-3 bg-[#4A2C84]">View Applicants</div>
                                         </div>
                                     )
                                 })}
                             </div>
                         </div>
-                        <div className="bg-white rounded-xl pt-8 hidden lg:block">
+                        <div className="bg-white rounded-xl  hidden lg:block">
 
-                            <h1 className="font-semibold text-2xl pb-4 pl-8">All Jobs</h1>
+                            <h1 className="font-[500] text-2xl text-[#4A2C84] pb-4 ">All Apprenticeships</h1>
 
                             {
                                 props.jobs.length > 0 ? <JobsTable ApplicationsForSelectedJob={ApplicationsForSelectedJob} delete={deleteJob} jobs={props.jobs} /> : <div className="flex justify-center items-center h-[200px]">

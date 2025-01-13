@@ -146,7 +146,7 @@ export default function SeekerMessages(props) {
 
     return (
         <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:p-5 ">
-            <h1 className="font-semibold text-xl ml-4 hidden lg:block">Messages
+            <h1 className="font-bold text-2xl text-[#4A2C84] mb-6  px-3 mt-7">Messages
             </h1>
 
             <div className='flex flex-row w-full h-full lg:gap-5 relative'>

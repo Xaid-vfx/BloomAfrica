@@ -58,13 +58,12 @@ export default function Dashboard(props: Props) {
 
     return (
         
-        <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll'>
+        <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-0 lg:p-8 overflow-scroll'>
 
-        
-            <h1 className="lg:font-semibold my-4 lg:my-0 text-base lg:text-xl px-3 lg:px-0 lg:ml-4 ">Good Morning,
+            <h1 className="text-2xl font-bold text-[#4A2C84] px-4 lg:px-0 mt-7 mb-6 lg:mb-6">Good Morning,
                 {' ' + props.recruiter?.name}
             </h1>
-            <div className="flex flex-col lg:flex-row gap-3 px-3 lg:px-0 justify-between lg:mt-6 mb-8">
+            <div className="flex flex-col lg:flex-row gap-3 px-3 lg:px-0 justify-between lg:mt-0 mb-8">
                 <div className="py-4 px-4  border rounded-lg bg-white w-full flex items-center lg:gap-6 gap-3">
                     <Image src={Posted} alt="" width={60} />
                     <div>
@@ -99,7 +98,7 @@ export default function Dashboard(props: Props) {
                                     <p className="font-semibold mb-1">{job?.title}</p>
                                     <div className="text-sm text-[#4A2C84] flex item gap-1"><IoLocationOutline className="text-xl" /> {job?.location}</div>
                                 </div>
-                                <div className="min-w-fit rounded-2xl text-white text-sm py-2 px-5 bg-[#4A2C84]">Show More</div>
+                                <div className="min-w-fit font-semibold rounded-xl text-white text-sm py-3 px-5 bg-[#4A2C84]">Show More</div>
                             </div>
                         )
                     })}
@@ -107,7 +106,7 @@ export default function Dashboard(props: Props) {
                 <div onClick={() => { props.handleChangeTabIndex(3) }} className="flex items-center text-[#4A2C84] gap-2 my-2 justify-center cursor-pointer hover:underline">View All <FaArrowRightLong /></div>
             </div>
             <div className="hidden lg:block bg-white rounded-xl pb-7">
-                <h1 className="font-semibold text-2xl px-10 pt-6 pb-3">Recent Applications</h1>
+                <h1 className=" text-2xl font-[500] text-[#4A2C84] pt-6 pb-3">Recent Applications</h1>
 
                 {
                     applications == null ? <div className="flex justify-center items-center h-[250px]">

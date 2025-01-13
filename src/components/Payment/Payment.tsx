@@ -87,7 +87,7 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
         },
         publicKey,
         text: "Pay Now",
-        className: "text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl",
+        className: "text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-xl my-3",
         split: splitConfig,
         onSuccess: (reference) => {
             verifyTransaction(reference.reference);
@@ -98,7 +98,7 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
     return (
         <>
             {initialPaymentStatus === 'success' ? (
-                <div className="text-center bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-3xl">
+                <div className="text-center bg-green-100 text-green-800 px-4 py-2 font-semibold rounded-xl">
                     Paid ✓
                 </div>
             ) : (
@@ -106,7 +106,7 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
                     {splitConfig ? (
                         <PaystackButton {...componentProps} />
                     ) : (
-                        <div className="text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-3xl">
+                        <div className="text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-xl">
                             Fetching...
                         </div>
                     )}
