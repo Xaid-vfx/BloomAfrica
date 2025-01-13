@@ -8,12 +8,17 @@ import Applications from '../../../assets/images/Recruiter/Job Open(1).png'
 import Shortlisted from '../../../assets/images/Recruiter/Job Open(2).png'
 import { IoLocationOutline } from "react-icons/io5";
 import { FaArrowRightLong } from "react-icons/fa6";
+import JobsTable from "@/components/General/JobsTable"
+import { deleteJob, getApplicationsForJob } from "@/lib/jobs/jobUtils";
+import { toast } from "sonner"
 
 type Props = {
     user: any
     company: any
     jobs: any
     recruiter: any
+    handleChangeTabIndex: (index: number) => void
+    getJobId: (id: string) => void
 }
 
 export default function Dashboard(props: Props) {
@@ -56,11 +61,26 @@ export default function Dashboard(props: Props) {
         })
     }, [])
 
+    async function handleDeleteJob(id: string) {
+        try {
+            await deleteJob(id);
+            const updatedJobs = jobs.filter(job => job.uid !== id);
+            setjobs(updatedJobs);
+        } catch (error) {
+            toast.error("Failed to delete job");
+        }
+    }
+
+    async function ApplicationsForSelectedJob(job_id: string) {
+        props.getJobId(job_id);
+        props.handleChangeTabIndex(3);
+    }
+
     return (
-        
+
         <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-t-xl bg-white lg:pt-7 lg:px-8 pt-5'>
 
-        
+
             <h1 className="lg:font-semibold my-4 lg:my-0 text-base lg:text-xl px-3 lg:px-0 lg:ml-4 ">Good Morning,
                 {' ' + props.recruiter?.name}
             </h1>
@@ -107,20 +127,27 @@ export default function Dashboard(props: Props) {
                 <div onClick={() => { props.handleChangeTabIndex(3) }} className="flex items-center text-[#4A2C84] gap-2 my-2 justify-center cursor-pointer hover:underline">View All <FaArrowRightLong /></div>
             </div>
             <div className="hidden lg:block bg-white rounded-xl">
-                <h1 className="font-semibold text-2xl px-10 pt-6 pb-3">Recent Applications</h1>
+                <h1 className="font-semibold text-2xl px-10 pt-6 pb-3">Recent Jobs</h1>
 
                 {
-                    applications == null ? <div className="flex justify-center items-center h-[250px]">
-                        <MoonLoader color="#4A2C84" /> </div> : applications?.length > 0 ? <StickyHeadTable user={props.user} applications={applications} /> : <div className="flex justify-center items-center h-[200px]">
-                            No applications found!
+                    jobs.length > 0 ? (
+                        <JobsTable
+                            ApplicationsForSelectedJob={ApplicationsForSelectedJob}
+                            delete={handleDeleteJob}
+                            jobs={props.jobs}
+                        />
+                    ) : (
+                        <div className="flex justify-center items-center h-[200px]">
+                            No Jobs found!
                         </div>
+                    )
                 }
                 {/* {applications?.length > 0 ? <StickyHeadTable applications={applications} /> :
                     <div className="flex justify-center items-center h-[300px]">
                         <MoonLoader color="#4A2C84" /> </div>} */}
             </div>
         </div>
-            
-        
+
+
     )
 }
