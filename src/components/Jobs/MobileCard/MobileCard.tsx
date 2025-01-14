@@ -31,15 +31,15 @@ export default function MobileCard(props: Props) {
                 </div>
                 {/* tags */}
                 <div className="flex gap-2 flex-wrap">
-                    <div className="rounded-3xl min-w-max text-xs px-2 py-1 bg-[#ebfffa] text-[#56CDAD]">{props.type}</div>
+                    <div className="rounded-2xl min-w-max text-xs px-2 py-1 bg-[#ebfffa] text-[#56CDAD]">{props.type}</div>
                     <div
                         className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
-                    <div className="rounded-3xl min-w-max  text-xs px-2 py-1 border border-[#FFB836] text-[#FFB836]">{props.category}</div>
+                    <div className="rounded-2xl min-w-max  text-xs px-2 py-1 border border-[#FFB836] text-[#FFB836]">{props.category}</div>
                     {/* <div className="rounded-3xl text-xs border px-2 py-1 border-[#4A2C84] text-[#4A2C84]">Design</div> */}
                 </div>
                 
                 <a href={`/all-jobs/job?id=${props.id}`} className="mt-3 text-center " >
-                    <p className="text-white py-3 bg-[#4A2C84]  rounded-3xl font-semibold text-xs">Apply</p>
+                    <p className="text-white py-3 bg-[#4A2C84]  rounded-2xl font-semibold text-xs">Apply</p>
                 </a>
 
                 {/* <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">
