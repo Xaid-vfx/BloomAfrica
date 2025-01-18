@@ -154,7 +154,7 @@ export default function Messages(props) {
         <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-0 lg:p-8 relative ">
             <h1 className="font-bold text-2xl text-[#4A2C84] hidden lg:mb-6 lg:block">Messages
             </h1>
-            <div className='flex flex-row h-full lg:gap-5'>
+            <div className='flex flex-row h-full max-h-[calc(100%-3.3rem)] lg:gap-5'>
                 <div className={`${showChat ? 'lg:w-[40%] hidden lg:block' : 'w-full'} overflow-scroll lg:relative absolute bottom-0 top-0 left-0 right-0 z-10 rounded-xl border border-gray-300 bg-white`}>
                     {relations?.map((relation) => {
                         return (
