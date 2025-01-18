@@ -75,15 +75,20 @@ export default function Hero() {
             <div className="lg:w-[60%]">
                 <div className="px-4 mt-[3.2rem] flex flex-col justify-center items-center lg:items-start lg:mt-0">
                     <div className="lg:flex lg:items-center lg:w-full lg:justify-between lg:pr-12">
-                        <div className="px-5 py-3 text-sm rounded-full text-[#F38968] bg-white">Empower Your Career Journey</div>
+                        <div className="px-3 py-2 sm:px-5 sm:py-3 text-xs sm:text-sm rounded-full text-[#F38968] bg-white">Empower Your Career Journey</div>
                         <Image src={Star} alt="" width={40} className="hidden lg:block" />
                     </div>
-                    <h1 className="text-3xl lg:text-4xl leading-loose my-4 text-center font-semibold xl:text-[2.5em] lg:text-left lg:leading-[4rem] lg:my-2 HiddenAnimation lg:max-w-5xl md:max-w-2xl lg:min-w-[689px] ">
+                    <h1 className="hidden sm:block text-[1.875rem] leading-[2.5rem] sm:text-3xl lg:text-4xl sm:leading-loose my-4 text-center font-semibold xl:text-[2.5em] lg:text-left lg:leading-[4rem] lg:my-2 HiddenAnimation lg:max-w-5xl md:max-w-2xl lg:min-w-[689px] ">
                         Discover Exciting <span className="Apprentice pb-4 lg:pb-3 text-[#4A2C84]">Apprenticeship </span>
                         Opportunities With Bloom
                     </h1>
-                    <p className=" text-sm text-[#1A202C] leading-7 mt-2 text-center px-2 lg:px-0 lg:text-left lg:mt-4 lg:text-base lg:w-4/5 HiddenAnimation lg:max-w-2xl md:max-w-xl ">
-                        Bloom connects aspiring professionals with a wide range of apprenticeship opportunities across various industries and sectors.
+                    <h1 className=" sm:hidden text-[1.875rem] leading-[2.5rem] sm:text-3xl lg:text-4xl sm:leading-loose my-4 text-center font-semibold xl:text-[2.5em] lg:text-left lg:leading-[4rem] lg:my-2 HiddenAnimation lg:max-w-5xl md:max-w-2xl lg:min-w-[689px] ">
+                        Discover Exciting <span className="Apprentice pb-4 lg:pb-3 text-[#4A2C84]">Apprenticeship </span>
+                        Opportunities With Bloom
+                    </h1>
+                    
+                    <p className=" text-sm text-[#1A202C] leading-7  text-center px-2 lg:px-0 lg:text-left lg:mt-4 lg:text-base lg:w-4/5 HiddenAnimation lg:max-w-2xl md:max-w-xl ">
+                        Bloom connects ambitious entrepreneurs and professionals with real-world learning opportunities across diverse industries.
                     </p>
 
                 </div>
