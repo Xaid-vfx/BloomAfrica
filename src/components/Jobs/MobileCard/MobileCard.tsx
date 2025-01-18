@@ -21,7 +21,7 @@ export default function MobileCard(props: Props) {
 
     return (
         <a href={`/all-jobs/job?id=${props.id}`} className=" flex  justify-center min-w- " >
-            <div  className="flex flex-col p-5 gap-2 border rounded-lg mx-auto w-full  bg-white hover:drop-shadow-lg ">
+            <div  className="flex flex-col p-5 gap-2 border rounded-2xl mx-auto w-full  bg-white hover:drop-shadow-lg ">
                  
                 <h1 className="text-lg text-left font-medium ">{props.title}</h1>
 
