@@ -161,9 +161,19 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
     }, [messages]);
 
     async function onSend() {
+        // Prevent sending empty messages or messages with only whitespace
+        if (!message.trim()) {
+            return;
+        }
+
         const { data, error } = await client
             .from('messages')
-            .insert([{ text: message, sender_id: sender.id, conversation_id, receiver_id: receiver?.seeker || receiver?.recruiter }]);
+            .insert([{
+                text: message.trim(), // Trim whitespace from message
+                sender_id: sender.id,
+                conversation_id,
+                receiver_id: receiver?.seeker || receiver?.recruiter
+            }]);
 
         if (error) console.error('Error sending message:', error);
         else {
@@ -209,7 +219,7 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
                 <div ref={newMessageRef} />
             </div>
             <div className="lg:w-full flex bg-white rounded-2xl border m-1 lg:m-0">
-                <input 
+                <input
                     value={message}
                     placeholder="Write a message"
                     onChange={(e) => setMessage(e.target.value)}
