@@ -87,8 +87,8 @@ export default function Hero() {
                         Opportunities With Bloom
                     </h1>
                     
-                    <p className=" text-sm text-[#1A202C] leading-7  text-center px-2 lg:px-0 lg:text-left lg:mt-4 lg:text-base lg:w-4/5 HiddenAnimation lg:max-w-2xl md:max-w-xl ">
-                        Bloom connects ambitious entrepreneurs and professionals with real-world learning opportunities across diverse industries.
+                    <p className=" text-[14px] text-[#1A202C] leading-7  text-center px-2 lg:px-0 lg:text-left lg:mt-4 lg:text-base lg:w-4/5 HiddenAnimation lg:max-w-2xl md:max-w-xl ">
+                        Bloom connects ambitious entrepreneurs & professionals with real-world learning opportunities.
                     </p>
 
                 </div>
