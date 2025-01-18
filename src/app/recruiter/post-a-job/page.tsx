@@ -17,6 +17,9 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { TagsInput } from "react-tag-input-component";
 import { toast } from "sonner";
 import UAParser from "ua-parser-js";
+import CountryList from "@/lib/CountryList/CountryList";
+import { getStatesWithCache } from "@/lib/StateList/StateList";
+import { getCitiesWithCache } from "@/lib/CityList/CityList";
 
 export default function Post(props) {
     const [title, settitle] = useState("")
@@ -45,6 +48,17 @@ export default function Post(props) {
 
     const [bankDetails, setBankDetails] = useState<any>(null);
     const [checkingBankDetails, setCheckingBankDetails] = useState(false);
+
+    const [country, setCountry] = useState("");
+    const [state, setState] = useState("");
+    const [stateList, setStateList] = useState<string[]>([]);
+    const [isLoadingStates, setIsLoadingStates] = useState(false);
+
+    const [city, setCity] = useState("");
+    const [cityList, setCityList] = useState<string[]>([]);
+    const [isLoadingCities, setIsLoadingCities] = useState(false);
+
+    const countryList = CountryList();
 
     const supabase = createClientComponentClient()
     const router = useRouter()
@@ -76,6 +90,36 @@ export default function Post(props) {
         "Beauty & Cosmetology"
     ];
 
+    async function fetchStates(countryName: string) {
+        setIsLoadingStates(true);
+        setState(""); // Reset state
+        setCity(""); // Reset city
+        setCityList([]); // Reset city list
+        try {
+            const states = await getStatesWithCache(countryName);
+            setStateList(states);
+        } catch (error) {
+            console.error('Error fetching states:', error);
+            toast.error("Failed to load states");
+        } finally {
+            setIsLoadingStates(false);
+        }
+    }
+
+    async function fetchCities(countryName: string, stateName: string) {
+        setIsLoadingCities(true);
+        setCity(""); // Reset city when state changes
+        try {
+            const cities = await getCitiesWithCache(countryName, stateName);
+            setCityList(cities);
+        } catch (error) {
+            console.error('Error fetching cities:', error);
+            toast.error("Failed to load cities");
+        } finally {
+            setIsLoadingCities(false);
+        }
+    }
+
     async function postJob(agreement_id: string) {
         setLoading(true);
         try {
@@ -92,7 +136,7 @@ export default function Post(props) {
                     description: desc,
                     type,
                     category,
-                    location: loc,
+                    location: `${city}, ${state}, ${country}`,
                     responsibilities: res,
                     who_we_are: wya,
                     minsalary: minsalary,
@@ -104,7 +148,10 @@ export default function Post(props) {
                     accomodation: accomodation,
                     signup_fee: signupfee,
                     limit: parseInt(limit) || 1,
-                    deadline: deadline || null
+                    deadline: deadline || null,
+                    country: country,
+                    state: state,
+                    city: city
                 })
                 .select('uid')
                 .single()
@@ -191,7 +238,7 @@ export default function Post(props) {
 
     async function handleSubmit() {
         // Check if any required parameter is empty
-        if (!title || !desc || !type || !category || !loc || !res || !wya || !skills || !duration || !limit) {
+        if (!title || !desc || !type || !category || !country || !state || !city || !res || !wya || !skills || !duration || !limit) {
             setErrorMessage("Please fill in all required fields");
             toast.error("Please fill in all required fields");
             return;
@@ -372,8 +419,75 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                             </select>
                         </div>
                         <div className="my-2">
-                            <p className="font-[550] text-lg my-1">Job Location *</p>
-                            <input value={loc} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Location" type="text" onChange={(e) => { setloc(e.target.value) }} />
+                            <p className="font-[550] text-lg my-1">Country *</p>
+                            <select
+                                value={country}
+                                onChange={(e) => {
+                                    setCountry(e.target.value);
+                                    fetchStates(e.target.value);
+                                }}
+                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
+                            >
+                                <option value="">Select country</option>
+                                {countryList.map((countryName, index) => (
+                                    <option key={index} value={countryName}>
+                                        {countryName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">State *</p>
+                            <select
+                                value={state}
+                                onChange={(e) => {
+                                    setState(e.target.value);
+                                    if (e.target.value) {
+                                        fetchCities(country, e.target.value);
+                                    }
+                                }}
+                                disabled={isLoadingStates || !country}
+                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
+                            >
+                                <option value="">
+                                    {isLoadingStates
+                                        ? "Loading states..."
+                                        : country
+                                            ? "Select state"
+                                            : "Select a country first"
+                                    }
+                                </option>
+                                {stateList.map((stateName, index) => (
+                                    <option key={index} value={stateName}>
+                                        {stateName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">City *</p>
+                            <select
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                disabled={isLoadingCities || !state}
+                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
+                            >
+                                <option value="">
+                                    {isLoadingCities
+                                        ? "Loading cities..."
+                                        : state
+                                            ? "Select city"
+                                            : "Select a state first"
+                                    }
+                                </option>
+                                {cityList.map((cityName, index) => (
+                                    <option key={index} value={cityName}>
+                                        {cityName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="mt-2">
                             <p className="font-[550] text-lg my-1">Duration *</p>

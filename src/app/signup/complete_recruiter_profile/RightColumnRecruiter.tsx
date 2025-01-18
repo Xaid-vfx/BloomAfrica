@@ -13,6 +13,7 @@ import getUser from "@/lib/getUser/getUser";
 import { toast } from "sonner";
 import getIP from "@/lib/getIP/getIP";
 import UAParser from "ua-parser-js";
+import { getStatesWithCache } from "@/lib/StateList/StateList";
 
 export default function RightColomnRecruiter() {
     const [step, setStep] = useState(1);
@@ -34,13 +35,14 @@ export default function RightColomnRecruiter() {
     const [desc, setdesc] = useState('')
 
     const countryList = CountryList()
-    const [stateList, setstateList] = useState([])
+    const [stateList, setstateList] = useState<string[]>([])
     const year = Year()
     const [currentUser, setcurrentUser] = useState({})
     const [terms, setTerms] = useState(false);
     const [privacy, setPrivacy] = useState(false);
     const [position, setposiion] = useState('')
     const [industry, setIndustry] = useState('');
+    const [isLoadingStates, setIsLoadingStates] = useState(false);
 
     const Industry = [
         "Agriculture & Farming",
@@ -70,20 +72,16 @@ export default function RightColomnRecruiter() {
     ];
 
     async function fetchStates(countryName: string) {
-        const res = await fetch('https://countriesnow.space/api/v0.1/countries/states', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                country: countryName
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                setstateList(data.data.states)
-            })
-            .catch(error => console.error('Error:', error));
+        setIsLoadingStates(true);
+        try {
+            const states = await getStatesWithCache(countryName);
+            setstateList(states);
+        } catch (error) {
+            console.error('Error fetching states:', error);
+            toast.error("Failed to load states");
+        } finally {
+            setIsLoadingStates(false);
+        }
     }
 
     async function handleFirstNext() {
@@ -297,15 +295,25 @@ export default function RightColomnRecruiter() {
 
                         <div className="my-4">
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">State</p>
-                            <select value={state} onChange={(e) => {
-                                setstate(e.target.value)
-                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                <option>Select your state</option>
-                                {
-                                    stateList.map((state) => {
-                                        return <option className="my-4" value={state.name}>{state.name}</option>
-                                    })
-                                }
+                            <select
+                                value={state}
+                                onChange={(e) => setstate(e.target.value)}
+                                disabled={isLoadingStates || !country}
+                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
+                            >
+                                <option value="">
+                                    {isLoadingStates
+                                        ? "Loading states..."
+                                        : country
+                                            ? "Select your state"
+                                            : "Select a country first"
+                                    }
+                                </option>
+                                {stateList.map((stateName, index) => (
+                                    <option key={index} value={stateName}>
+                                        {stateName}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <button className="my-2 text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs" onClick={() => { handleFirstNext() }}>Next</button>
