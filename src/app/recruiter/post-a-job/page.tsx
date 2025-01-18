@@ -27,7 +27,6 @@ export default function Post(props) {
     const [type, settype] = useState("")
     const [category, setcategory] = useState("")
     const [loc, setloc] = useState("")
-    const [res, setres] = useState("")
     const [wya, setwya] = useState("")
     const [extras, setextras] = useState("")
     const [limit, setlimit] = useState("")
@@ -40,6 +39,9 @@ export default function Post(props) {
     const [signupfee, setsignupfee] = useState("")
     const [accomodation, setaccomodation] = useState("")
     const [hasSignupFee, setHasSignupFee] = useState("")
+    const [startDate, setStartDate] = useState("")
+    const [trainingMode, setTrainingMode] = useState("")
+    const [providesCertificate, setProvidesCertificate] = useState("")
 
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
@@ -137,7 +139,6 @@ export default function Post(props) {
                     type,
                     category,
                     location: `${city}, ${state}, ${country}`,
-                    responsibilities: res,
                     who_we_are: wya,
                     minsalary: minsalary,
                     maxsalary: maxsalary,
@@ -151,7 +152,10 @@ export default function Post(props) {
                     deadline: deadline || null,
                     country: country,
                     state: state,
-                    city: city
+                    city: city,
+                    start_date: startDate || null,
+                    training_mode: trainingMode,
+                    provides_certificate: providesCertificate
                 })
                 .select('uid')
                 .single()
@@ -185,7 +189,6 @@ export default function Post(props) {
                 settype("");
                 setcategory("");
                 setloc("");
-                setres("");
                 setwya("");
                 setskills([]);
                 setduration("");
@@ -197,6 +200,9 @@ export default function Post(props) {
                 setaccomodation("");
                 setHasSignupFee("");
                 setdeadline("");
+                setStartDate("");
+                setTrainingMode("");
+                setProvidesCertificate("");
                 router.refresh();
             }
         } catch (error) {
@@ -237,28 +243,26 @@ export default function Post(props) {
     }
 
     async function handleSubmit() {
-        // Check if any required parameter is empty
-        if (!title || !desc || !type || !category || !country || !state || !city || !res || !wya || !skills || !duration || !limit) {
+        if (!title || !desc || !type || !category || !country || !state || !city ||
+            !wya || !skills || !duration || !limit || !startDate || !trainingMode ||
+            !providesCertificate) {
             setErrorMessage("Please fill in all required fields");
             toast.error("Please fill in all required fields");
             return;
         }
 
-        // Validate limit is a positive number
         if (parseInt(limit) < 1) {
             setErrorMessage("Number of apprentices must be at least 1");
             toast.error("Number of apprentices must be at least 1");
             return;
         }
 
-        // Validate signup fee if "Yes" is selected
         if (hasSignupFee === "Yes" && (!signupfee || signupfee === "0")) {
             setErrorMessage("Please enter a signup fee amount");
             toast.error("Please enter a signup fee amount");
             return;
         }
 
-        // If signup fee is entered, check for bank details
         if (hasSignupFee === "Yes") {
             const hasBankDetails = await checkBankDetails();
             if (!hasBankDetails) {
@@ -276,14 +280,12 @@ export default function Post(props) {
         setShowAgreements(true);
     }
 
-    // Sample Data Function
     function fillSampleData() {
         settitle("Software Development Engineer");
         setdesc("We are looking for a passionate Software Engineer to design, develop and install software solutions.");
         settype("Full Time");
         setcategory("Technology");
         setloc("Lagos, Nigeria");
-        setres("Design, develop, and maintain software applications.");
         setwya("We are a tech company focused on innovation.");
         setskills(["JavaScript", "React", "Node.js"]);
         setduration("12 months");
@@ -361,12 +363,6 @@ export default function Post(props) {
                             <textarea value={desc} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Description" onChange={(e) => { setdesc(e.target.value) }}></textarea>
                         </div>
 
-
-                        <div className="my-2">
-                            <p className="font-[550] text-lg my-1">Job Responsibilities *</p>
-                            <textarea value={res} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Responsibilities" onChange={(e) => { setres(e.target.value) }}></textarea>
-                        </div>
-
                         <div className="my-2">
                             <p className="font-[550] text-lg my-1">About us / Company profile *</p>
                             <textarea value={wya} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Briefly introduce your company to potential job applicants. Describe your mission, values, and what sets your company apart.
@@ -374,15 +370,10 @@ export default function Post(props) {
 Highlight why potential employees would want to join your team." onChange={(e) => { setwya(e.target.value) }}></textarea>
                         </div>
                     </div>
-                    {/* <div className="my-1">
-                            <p className="font-semibold text-lg my-1">Job Type *</p>
-                            <input value="" className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Select Job Type" onChange={(e) => { settype(e.target.value) }} />
-                        </div> */}
 
                     <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
 
                     <h1 className="text-2xl font-semibold text-[#4A2C84]">Information</h1>
-
 
                     <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-4">
                         <div className="my-2">
@@ -468,26 +459,12 @@ Highlight why potential employees would want to join your team." onChange={(e) =
 
                         <div className="my-2">
                             <p className="font-[550] text-lg my-1">City *</p>
-                            <select
+                            <input
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
-                                disabled={isLoadingCities || !state}
+                                type="text"
                                 className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
-                            >
-                                <option value="">
-                                    {isLoadingCities
-                                        ? "Loading cities..."
-                                        : state
-                                            ? "Select city"
-                                            : "Select a state first"
-                                    }
-                                </option>
-                                {cityList.map((cityName, index) => (
-                                    <option key={index} value={cityName}>
-                                        {cityName}
-                                    </option>
-                                ))}
-                            </select>
+                            />
                         </div>
                         <div className="mt-2">
                             <p className="font-[550] text-lg my-1">Duration *</p>
@@ -563,6 +540,42 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                                     tag: 'text-xs'
                                 }}
                             />
+                        </div>
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Start Date *</p>
+                            <input
+                                value={startDate}
+                                className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
+                                type="date"
+                                min={new Date().toISOString().split('T')[0]}
+                                placeholder="Select start date"
+                                onChange={(e) => setStartDate(e.target.value)}
+                            />
+                        </div>
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Training Mode *</p>
+                            <select
+                                value={trainingMode}
+                                onChange={(e) => setTrainingMode(e.target.value)}
+                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
+                            >
+                                <option value="">Select training mode</option>
+                                <option value="In-Person">In-Person</option>
+                                <option value="Online">Online</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Will you provide a certificate? *</p>
+                            <select
+                                value={providesCertificate}
+                                onChange={(e) => setProvidesCertificate(e.target.value)}
+                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
+                            >
+                                <option value="">Select option</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
                         </div>
                     </div>
                     {hasSignupFee === "Yes" && (

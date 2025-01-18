@@ -254,7 +254,7 @@ export default function JobDescription(props) {
                     </div>
                     <div className="">
                         <h1 className="text-2xl font-semibold">Responsibilities</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.responsibilities.replace("\n", "<br/>") : <Skeleton count={4} />}</p>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.responsibilities?.replace("\n", "<br/>") : <Skeleton count={4} />}</p>
                     </div>
                     <div className="">
                         <h1 className="text-2xl font-semibold">Who We Are</h1>
@@ -273,22 +273,56 @@ export default function JobDescription(props) {
                             <p className="text-sm text-[#515B6F]">Signup Fee</p>
                             <p className="text-sm font-semibold">{job != null ? job?.signup_fee ? "₦" + job?.signup_fee : "Free" : <Skeleton width={150} />}</p>
                         </div>
+
+                        <div className="flex justify-between mt-4">
+                            <p className="text-sm text-[#515B6F]">Training Mode</p>
+                            <p className="text-sm font-semibold">{job != null ? job?.training_mode : <Skeleton width={150} />}</p>
+                        </div>
+
+                        <div className="flex justify-between mt-4">
+                            <p className="text-sm text-[#515B6F]">Start Date</p>
+                            <p className="text-sm font-semibold">{job != null ? new Date(job?.start_date).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            }) : <Skeleton width={150} />}</p>
+                        </div>
+
+                        <div className="flex justify-between mt-4">
+                            <p className="text-sm text-[#515B6F]">Certificate</p>
+                            <p className="text-sm font-semibold">{job != null ?
+                                job?.provides_certificate === "Yes" ?
+                                    "Yes" :
+                                    "No"
+                                : <Skeleton width={150} />}
+                            </p>
+                        </div>
+
                         <div className="flex justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Compensation</p>
                             <p className="text-sm font-semibold">{job != null ? "₦" + job?.minsalary + " - " + "₦" + job?.maxsalary : <Skeleton width={150} />}</p>
                         </div>
+
                         <div className="flex justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Job Type</p>
                             <p className="text-sm font-semibold">{job != null ? job?.type : <Skeleton width={100} />}</p>
                         </div>
+
                         <div className="flex justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Duration</p>
                             <p className="text-sm font-semibold">{job != null ? job?.duration : <Skeleton width={150} />}</p>
                         </div>
+
+                        <div className="flex justify-between my-4">
+                            <p className="text-sm text-[#515B6F]">Location</p>
+                            <p className="text-sm font-semibold">{job != null ? `${job?.city}, ${job?.state}, ${job?.country}` : <Skeleton width={150} />}</p>
+                        </div>
+
                         <div className="flex justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Capacity</p>
                             <p className="text-sm font-semibold">{job != null ? job?.limit : <Skeleton width={150} />}</p>
                         </div>
+
                         <div className="flex justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Application Deadline</p>
                             <p className="text-sm font-semibold">{job != null ? job?.deadline : <Skeleton width={150} />}</p>
