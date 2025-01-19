@@ -60,7 +60,7 @@ const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
                                     {isLoading ? (
                                         <div className="animate-pulse h-4 w-14 bg-gray-200 rounded-full"></div>
                                     ) : (
-                                        <div className={`text-xs font-medium px-4 py-1 rounded-full ${paymentStatus === 'success' 
+                                        <div className={`text-xs font-medium px-4 py-1 rounded-full ${paymentStatus === 'success'
                                             ? 'bg-green-50 border border-green-300 text-green-600'
                                             : 'bg-red-50 text-red-600'
                                             }`}>
@@ -71,11 +71,16 @@ const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
                             </div>
                         </div>
                         <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-                        <div className="text-[#7C8493] text-sm">Date Applied</div>
-                        <div>{app.created_at.substring(0, app.created_at.indexOf('T'))}</div>
-                        <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                         <div className="flex gap-2 justify-between items-center">
-                            <div className='flex gap-2'>
+                            <div>
+                                <div className="text-[#7C8493] text-sm">Date Applied</div>
+                                <div>{app.created_at.substring(0, app.created_at.indexOf('T'))}</div>
+                            </div>
+                            <DialogDemo seeker_id={app.seeker_id} name={app.name} user_id={props.id} />
+                        </div>
+                        {/* <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr> */}
+
+                        {/* <div className='flex gap-2'>
                                 <button
                                     onClick={() => { props.updateStatus("accepted", app.unique_id); }}
                                     className="text-xs  px-4 rounded-full py-2 text-white font-bold bg-green-600"
@@ -88,9 +93,8 @@ const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
                                 >
                                     Reject
                                 </button>
-                            </div>
-                            <DialogDemo seeker_id={app.seeker_id} name={app.name} user_id={props.id} />
-                        </div>
+                            </div> */}
+
                     </div>
                 );
             })}
