@@ -45,7 +45,7 @@ export function AgreementModal(props) {
                         onLoad={() => {
                             setloading(false)
                         }}
-                        src="https://chfxemferwohrffljtjv.supabase.co/storage/v1/object/public/Docs/Agreement/Employment%20Contract.pdf#toolbar=0&navpanes=0"
+                        src={props.type == 1 ? "https://chfxemferwohrffljtjv.supabase.co/storage/v1/object/public/Docs/Agreement/Oga_Trainer%20Agreement.pdf" : "https://chfxemferwohrffljtjv.supabase.co/storage/v1/object/public/Docs/Agreement/Apprentice%20Agreement.pdf"}
                         style={{ border: 'none' }}
                     />
                 </div>
