@@ -149,7 +149,7 @@ export default function SeekerMessages(props) {
             <h1 className="font-bold text-2xl text-[#4A2C84] mb-6  px-3 mt-7">Messages
             </h1>
 
-            <div className='flex flex-row w-full h-full lg:gap-5 relative'>
+            <div className='flex flex-row w-full h-full lg:gap-5 max-h-[calc(100%-5.2rem)] relative'>
                 <div className={`${showChat ? 'lg:w-[40%] w-full hidden lg:block' : 'w-full'} overflow-scroll lg:relative absolute left-0 right-0 top-0 bottom-0 z-10 rounded-xl border border-gray-300 bg-white `}>
                     {relations.map((relation) => {
                         const name = relation?.conversations?.conversation_participants[0].Recruiters.name;
