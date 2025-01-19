@@ -87,14 +87,14 @@ export default function Applications(props: any) {
                         All
                         <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.55rem]">{props.applications?.length}</span>
                     </TabsTrigger>
-                    <TabsTrigger value="accepted" className="mx-2 px-1 text-xs data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
+                    {/* <TabsTrigger value="accepted" className="mx-2 px-1 text-xs data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                         Accepted
                         <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.55rem]">{acceptedApplications.length}</span>
                     </TabsTrigger>
                     <TabsTrigger value="rejected" className="mx-2 px-1 text-xs data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                         Rejected
                         <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.55rem]">{rejectedApplications.length}</span>
-                    </TabsTrigger>
+                    </TabsTrigger> */}
                 </TabsList>
                 <TabsContent value="all" className="">
                     {props.loading ? (
@@ -109,7 +109,7 @@ export default function Applications(props: any) {
                         </div>
                     )}
                 </TabsContent>
-                <TabsContent value="accepted">
+                {/* <TabsContent value="accepted">
                     {props.loading ? (
                         <div className="flex justify-center items-center h-[300px]">
                             <MoonLoader color="#4A2C84" />
@@ -134,7 +134,7 @@ export default function Applications(props: any) {
                             No rejected applications found!
                         </div>
                     )}
-                </TabsContent>
+                </TabsContent> */}
             </Tabs>
 
 
@@ -145,14 +145,14 @@ export default function Applications(props: any) {
                             All applicants
                             <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.60rem]">{props.applications?.length}</span>
                         </TabsTrigger>
-                        <TabsTrigger value="accepted" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
+                        {/* <TabsTrigger value="accepted" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                             Accepted
                             <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.60rem]">{acceptedApplications.length}</span>
                         </TabsTrigger>
                         <TabsTrigger value="rejected" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
                             Rejected
                             <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.60rem]">{rejectedApplications.length}</span>
-                        </TabsTrigger>
+                        </TabsTrigger> */}
                     </TabsList>
                     <TabsContent value="all" className="">
                         {props.loading ? (
@@ -167,7 +167,7 @@ export default function Applications(props: any) {
                             </div>
                         )}
                     </TabsContent>
-                    <TabsContent value="accepted">
+                    {/* <TabsContent value="accepted">
                         {props.loading ? (
                             <div className="flex justify-center items-center h-[300px]">
                                 <MoonLoader color="#4A2C84" />
@@ -192,7 +192,7 @@ export default function Applications(props: any) {
                                 No rejected applications found!
                             </div>
                         )}
-                    </TabsContent>
+                    </TabsContent> */}
                 </Tabs>
             </div>
         </div>

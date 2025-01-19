@@ -37,11 +37,11 @@ const columns: readonly Column[] = [
         label: 'CANDIDATES',
         minWidth: 170
     },
-    {
-        id: 'status',
-        label: 'ACCEPT/REJECT',
-        minWidth: 100
-    },
+    // {
+    //     id: 'status',
+    //     label: 'ACCEPT/REJECT',
+    //     minWidth: 100
+    // },
     {
         id: 'paymentStatus',
         label: 'PAYMENT STATUS',
@@ -206,10 +206,10 @@ export default function StickyHeadTable(props: any) {
                                                         padding: '16px 24px',
                                                     }}
                                                 >
-                                                    
+
                                                     {column.id === 'name' ? (
                                                         <div className='flex items-center gap-4 pr-10 pl-2'>
-                                                            
+
                                                             <div>
                                                                 <h2 className='font-medium text-gray-900 text-base'>{value}</h2>
                                                             </div>
@@ -220,7 +220,7 @@ export default function StickyHeadTable(props: any) {
                                                         <div className='text-sm text-gray-600'>{value}</div>
                                                     ) : ""}
 
-                                                    {column.id === 'status' ? (
+                                                    {/* {column.id === 'status' ? (
                                                         <div className='text-base'>
                                                             <DropdownMenu>
                                                                 <DropdownMenuTrigger className='px-4 py-2 text-gray-600 border border-gray-200 text-sm gap-2 rounded-xl flex items-center hover:bg-gray-50 transition-colors'>
@@ -244,7 +244,7 @@ export default function StickyHeadTable(props: any) {
                                                                 </DropdownMenuContent>
                                                             </DropdownMenu>
                                                         </div>
-                                                    ) : ""}
+                                                    ) : ""} */}
 
                                                     {column.id === 'paymentStatus' ? (
                                                         <div className={`text-center px-4 py-2 rounded-xl text-sm font-medium ${value === 'success'
