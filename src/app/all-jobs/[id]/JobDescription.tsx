@@ -206,7 +206,7 @@ export default function JobDescription(props) {
                     </div>
                 </div>
             )}
-            <AgreementModal handleAgreement={handleAgreement} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
+            <AgreementModal handleAgreement={handleAgreement} type={0} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
             <div className=" items-center justify-between rounded-xl border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
                 <div className="flex flex-col">
                     <div className="flex items-center gap-6">
