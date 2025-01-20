@@ -7,7 +7,7 @@ import Header from "../Header";
 import Saved from "./Saved";
 
 export const metadata: Metadata = {
-    title: 'Saved Jobs | Bloom'
+    title: 'Saved Apprenticeships | Bloom'
 }
 
 async function fetchSeeker(id: string) {
