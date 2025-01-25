@@ -70,28 +70,15 @@ export default function Post(props) {
     const categories = [
         "Agriculture & Farming",
         "Building & Construction",
-        "Education & Tutoring",
-        "Hospitality & Lodging",
-        "Electronics Repair & Sales",
-        "Mechanical Services & Repairs",
+        "Hospitality",
+        "Mechanical Engineering",
+        "Electrical Engineering",
         "Textiles & Tailoring",
-        "Transport & Logistics",
-        "Information Technology & Mobile Services",
-        "Handicrafts & Manufacturing",
-        "Retail & Street Vending",
-        "Automotive Repair & Services",
-        "Energy & Solar Solutions",
-        "Media & Entertainment",
-        "Food & Beverage",
-        "Community & Social Services",
-        "Environmental & Recycling Services",
-        "Creative Arts & Craftsmanship",
-        "Sports & Recreation Services",
-        "Chemical & Soap Making",
-        "Biotechnology & Herbal Products",
-        "Mining & Quarrying",
-        "Fishing & Aquaculture",
-        "Beauty & Cosmetology"
+        "Retail & Business",
+        "Food & Catering",
+        "Arts & Craftsmanship",
+        "Beauty & Cosmetology",
+        "Other"
     ];
 
     async function fetchStates(countryName: string) {

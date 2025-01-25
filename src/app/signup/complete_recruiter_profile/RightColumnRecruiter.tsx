@@ -41,35 +41,7 @@ export default function RightColomnRecruiter() {
     const [terms, setTerms] = useState(false);
     const [privacy, setPrivacy] = useState(false);
     const [position, setposiion] = useState('')
-    const [industry, setIndustry] = useState('');
     const [isLoadingStates, setIsLoadingStates] = useState(false);
-
-    const Industry = [
-        "Agriculture & Farming",
-        "Building & Construction",
-        "Education & Tutoring",
-        "Hospitality & Lodging",
-        "Electronics Repair & Sales",
-        "Mechanical Services & Repairs",
-        "Textiles & Tailoring",
-        "Transport & Logistics",
-        "Information Technology & Mobile Services",
-        "Handicrafts & Manufacturing",
-        "Retail & Street Vending",
-        "Automotive Repair & Services",
-        "Energy & Solar Solutions",
-        "Media & Entertainment",
-        "Food & Beverage",
-        "Community & Social Services",
-        "Environmental & Recycling Services",
-        "Creative Arts & Craftsmanship",
-        "Sports & Recreation Services",
-        "Chemical & Soap Making",
-        "Biotechnology & Herbal Products",
-        "Mining & Quarrying",
-        "Fishing & Aquaculture",
-        "Beauty & Cosmetology"
-    ];
 
     async function fetchStates(countryName: string) {
         setIsLoadingStates(true);
@@ -112,7 +84,7 @@ export default function RightColomnRecruiter() {
         try {
             const { error } = await supabase
                 .from('CompanyInfo')
-                .insert({ unique_id: uuid, name: companyName, industry: industry, website: url, description: desc, position_in_company: position });
+                .insert({ unique_id: uuid, name: companyName, website: url, description: desc, position_in_company: position });
 
             if (error) throw error;
             return true;
@@ -190,7 +162,7 @@ export default function RightColomnRecruiter() {
     }
 
     async function handleFinish() {
-        if (companyName == "" || industry == "" || position == "" || desc == "") {
+        if (companyName == "" || position == "" || desc == "") {
             toast.error("Please fill all fields");
             return;
         }
@@ -335,21 +307,6 @@ export default function RightColomnRecruiter() {
                         <div className="my-4">
                             <TextInput field="Company Name" type="text" placeholder="Enter your company Name" handleChange={(e) => { setcompanyName(e.target.value) }} />
                         </div>
-
-                        <div className="my-4">
-                            <p className="font-semibold text-xs my-1 text-[#515B6F]">Industry</p>
-                            <select
-                                value={industry}
-                                onChange={(e) => setIndustry(e.target.value)}
-                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
-                            >
-                                <option>Select Industry</option>
-                                {Industry.map((industry) => (
-                                    <option key={industry} value={industry}>{industry}</option>
-                                ))}
-                            </select>
-                        </div>
-
                         <div className="my-4">
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">Position in Company</p>
                             <select value={position} onChange={(e) => {
