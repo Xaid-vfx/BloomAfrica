@@ -110,7 +110,6 @@ export default function DesktopViewJobs(props: any) {
                             return (
                                 <JobCard
                                     id={job.uid}
-                                    logo={job.companylogo}
                                     key={job.uid}
                                     title={job.title}
                                     location={job.location}
@@ -121,7 +120,7 @@ export default function DesktopViewJobs(props: any) {
                                     extras={job.extras}
                                     responsibilities={job.responsibilities}
                                     who_you_are={job.who_you_are}
-                                    companyName={"test"}
+                                    companyName={job.company_name ? job.company_name : "Unknown"}
                                 />
                             );
                         }

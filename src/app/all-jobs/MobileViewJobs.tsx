@@ -92,12 +92,12 @@ export default function MobileViewJobs(props) {
 
 
                 {/* Cards */}
-                
+
                 <div className="flex flex-col gap-4 lg:hidden  w-full  ">
                     {jobs?.map((job: JobProps) => {
                         return <MobileCard
                             id={job.uid}
-                            
+                            key={job.uid}
                             title={job.title}
                             category={job.category}
                             location={job.location}
@@ -107,7 +107,7 @@ export default function MobileViewJobs(props) {
                             extras={job.extras}
                             responsibilities={job.responsibilities}
                             who_you_are={job.who_you_are}
-                            companyName={"test"}
+                            companyName={job.company_name ? job.company_name : "Unknown"}
                         />
                     })}
                 </div>
