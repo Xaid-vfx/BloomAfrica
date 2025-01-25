@@ -341,7 +341,7 @@ export default function Post(props) {
                                 required
                                 placeholder="Enter number of apprentices"
                                 onChange={(e) => {
-                                    const value = Math.max(1, parseInt(e.target.value) || 0);
+                                    const value = Math.max(0, parseInt(e.target.value) || 0);
                                     setlimit(value.toString());
                                 }}
                             />
