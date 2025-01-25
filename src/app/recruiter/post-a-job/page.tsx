@@ -22,6 +22,8 @@ import { getStatesWithCache } from "@/lib/StateList/StateList";
 import { getCitiesWithCache } from "@/lib/CityList/CityList";
 
 export default function Post(props) {
+    console.log(props);
+
     const [title, settitle] = useState("")
     const [desc, setdesc] = useState("")
     const [type, settype] = useState("")
@@ -127,7 +129,12 @@ export default function Post(props) {
         try {
             const { data: recruiterdata, error: recruitererror } = await supabase
                 .from('Recruiters')
-                .select()
+                .select(`
+                    *,
+                    CompanyInfo (
+                        name
+                    )
+                `)
                 .eq('uniqueid', props.user.id)
                 .single()
 
@@ -144,7 +151,7 @@ export default function Post(props) {
                     maxsalary: maxsalary,
                     skills,
                     duration,
-                    company_logo: recruiterdata.logo,
+                    company_name: recruiterdata?.CompanyInfo?.name,
                     payment_type: paymenttype,
                     accomodation: accomodation,
                     signup_fee: signupfee,
