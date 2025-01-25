@@ -145,10 +145,10 @@ export default function SignIn() {
                         {currentPage == "signin" ? <h1 className="text-2xl text-center mb-4">Welcome Back</h1> :
                             <div>
                                 <div className="mb-6 flex rounded-3xl justify-center ">
-                                    <button className={`text-xs px-3 py-2 rounded-l-2xl lg:font-semibold ${signUpUserTypeTab == 'seeker' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B]"}`} onClick={() => { setsignUpUserTypeTab('seeker') }}>Job Seeker</button>
-                                    <button className={`text-xs px-2 py-1 rounded-r-2xl  lg:font-semibold ${signUpUserTypeTab == 'recruiter' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B]"}`} onClick={() => { setsignUpUserTypeTab('recruiter') }}>Recruiters</button>
+                                    <button className={`text-xs px-3 py-2 rounded-l-2xl lg:font-semibold ${signUpUserTypeTab == 'seeker' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B]"}`} onClick={() => { setsignUpUserTypeTab('seeker') }}>Apprentices</button>
+                                    <button className={`text-xs px-2 py-1 rounded-r-2xl  lg:font-semibold ${signUpUserTypeTab == 'recruiter' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B]"}`} onClick={() => { setsignUpUserTypeTab('recruiter') }}>Trainers</button>
                                 </div>
-                                <h1 className="text-2xl text-center mb-4">Create a {signUpUserTypeTab == "seeker" ? "Job seeker" : "Recruiter"} Account</h1>
+                                <h1 className="text-2xl text-center mb-4">Create a {signUpUserTypeTab == "seeker" ? "Apprentices" : "Trainers"} Account</h1>
                             </div>
                         }
                         <div onClick={() => { signInWithGoogle() }} className="border rounded-lg py-2 text-xs text-center flex items-center justify-center gap-2 cursor-pointer"><FcGoogle />
