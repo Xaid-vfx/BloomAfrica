@@ -1,11 +1,21 @@
 'use client'
 import AppliedTable from "@/components/General/AppliedTable";
 import PaymentComponent from "@/components/Payment/Payment";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SlOptions } from "react-icons/sl";
 
 export default function Applied(props: { appliedjobs: any[], seekerId: string }) {
     const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
+
+    useEffect(() => {
+        // Initialize payment statuses from the server-side data
+        const statuses = props.appliedjobs.reduce((acc, job) => ({
+            ...acc,
+            [job.id]: job.paymentStatus
+        }), {});
+        setPaymentStatuses(statuses);
+    }, [props.appliedjobs]);
+
     function startPayment(row) {
         console.log(row);
     }
@@ -26,7 +36,7 @@ export default function Applied(props: { appliedjobs: any[], seekerId: string })
                         {props.appliedjobs.map((job) => {
                             const [showOption, setshowOption] = useState(false)
                             return (
-                                <div className="border p-4 my-4 relative rounded-xl">
+                                <div key={job.uid} className="border p-4 my-4 relative rounded-xl">
                                     {
                                         showOption && <a href={`/all-jobs/job?id=${job?.uid}`} className="bg-[#e0e0e0] p-4 absolute text-sm rounded-xl font-semibold right-1 top-10">
                                             View Job
