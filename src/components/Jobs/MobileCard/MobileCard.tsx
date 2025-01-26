@@ -36,6 +36,7 @@ export default function MobileCard(props: Props) {
                         className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
                     <div className="rounded-2xl min-w-max  text-xs px-2 py-1 border border-[#FFB836] text-[#FFB836]">{props.category}</div>
                     {props.certificate && <div className="rounded-2xl min-w-max  text-xs px-2 py-1 border border-[#4A2C84] text-[#4A2C84]">Certificate</div>}
+                    {props.training_mode && <div className="rounded-2xl min-w-max  text-xs px-2 py-1 border border-[#4A2C84] text-[#4A2C84]">{props.training_mode}</div>}
                     {/* <div className="rounded-3xl text-xs border px-2 py-1 border-[#4A2C84] text-[#4A2C84]">Design</div> */}
                 </div>
 
