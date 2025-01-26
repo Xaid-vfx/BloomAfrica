@@ -108,6 +108,7 @@ export default function MobileViewJobs(props) {
                             responsibilities={job.responsibilities}
                             who_you_are={job.who_you_are}
                             companyName={job.company_name ? job.company_name : "Unknown"}
+                            certificate={job.provides_certificate}
                         />
                     })}
                 </div>

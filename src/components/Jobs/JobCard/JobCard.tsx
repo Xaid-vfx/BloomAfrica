@@ -28,13 +28,13 @@ export default function JobCard(props: Props) {
         router.push("all-jobs/job?id=" + id)
     }
 
-    
+
 
     return (
         <div className="flex items-center justify-between border-2 rounded-2xl px-6 py-4 my-6 bg-white hover:drop-shadow-md">
             <div className="flex flex-row">
-                
-                
+
+
                 <div className='flex flex-col'>
                     <div className="flex items-center gap-6">
                         <div className="">
@@ -51,12 +51,13 @@ export default function JobCard(props: Props) {
                             className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
                         {/* <div className="rounded-3xl px-3 py-2 border border-[#FFB836] text-sm text-[#FFB836]">Marketing</div> */}
                         {props.category && <div className="rounded-xl  border px-3 py-2 font-semibold border-[#4A2C84] text-xs text-[#4A2C84] min-w-max">{props.category}</div>}
+                        {props.certificate && <div className="rounded-xl  border px-3 py-2 font-semibold border-[#4A2C84] text-xs text-[#4A2C84] min-w-max">Certificate</div>}
                     </div>
                 </div>
             </div>
             <div className="">
                 <div className="flex flex-col gap-2">
-                <button  className=" text-black border border-black py-3 text-center font-medium rounded-2xl px-14 hover:bg-gray-100 " >Save</button><a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14 hover:bg-[#2f185e]" >Apply</a>
+                    <button className=" text-black border border-black py-3 text-center font-medium rounded-2xl px-14 hover:bg-gray-100 " >Save</button><a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14 hover:bg-[#2f185e]" >Apply</a>
                 </div>
 
                 {/* <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">

@@ -43,7 +43,7 @@ export default function Post(props) {
     const [hasSignupFee, setHasSignupFee] = useState("")
     const [startDate, setStartDate] = useState("")
     const [trainingMode, setTrainingMode] = useState("")
-    const [providesCertificate, setProvidesCertificate] = useState("")
+    const [providesCertificate, setProvidesCertificate] = useState<boolean | null>(null)
 
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
@@ -196,7 +196,7 @@ export default function Post(props) {
                 setdeadline("");
                 setStartDate("");
                 setTrainingMode("");
-                setProvidesCertificate("");
+                setProvidesCertificate(null);
                 router.refresh();
             }
         } catch (error) {
@@ -562,8 +562,16 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                         <div className="my-2">
                             <p className="font-[550] text-lg my-1">Will you provide a certificate? *</p>
                             <select
-                                value={providesCertificate}
-                                onChange={(e) => setProvidesCertificate(e.target.value)}
+                                value={providesCertificate === null ? "" : providesCertificate ? "Yes" : "No"}
+                                onChange={(e) => {
+                                    if (e.target.value === "Yes") {
+                                        setProvidesCertificate(true);
+                                    } else if (e.target.value === "No") {
+                                        setProvidesCertificate(false);
+                                    } else {
+                                        setProvidesCertificate(null);
+                                    }
+                                }}
                                 className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
                             >
                                 <option value="">Select option</option>
