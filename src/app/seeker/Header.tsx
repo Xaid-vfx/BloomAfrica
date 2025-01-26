@@ -53,12 +53,12 @@ export default function Header(props: Props) {
         return (
             <>
                 <div className="lg:hidden flex justify-between px-3 py-3 items-center">
-                    <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />
+                    <div><IoNotificationsOutline className="text-xl" /></div>
                     <div>
                         <p className="text-sm mb-1">Company</p>
 
                     </div>
-                    <div><IoNotificationsOutline className="text-xl" /></div>
+                    <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />
                 </div>
                 <div id="sideBar" className=" bg-[#F8F8FD] w-full overflow-hidden fixed top-0 z-20 duration-200 h-full">
                     <div className="flex flex-col relative h-full w-full">
@@ -66,10 +66,10 @@ export default function Header(props: Props) {
                     
                         <div className="w-full px-6">
                             <div className="my-6 relative w-full">
-                                <AiOutlineClose className="text-2xl absolute top-2 cursor-pointer " onClick={() => { setshowNav(false) }} />
                                 <div className="flex justify-center w-full">
                                     <Image src={Bloom} alt="logo" width={120} height={100} />
                                 </div>
+                                <AiOutlineClose className="text-2xl absolute right-0 top-2 cursor-pointer " onClick={() => { setshowNav(false) }} />
                             </div>
 
                             <div className="flex flex-col justify-center my-3">
@@ -129,12 +129,12 @@ export default function Header(props: Props) {
                 
             </div>
             <div className="lg:hidden flex justify-between px-3 py-3 items-center">
-                <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />
+                <div><IoNotificationsOutline className="text-xl" /></div>
                 <div>
                     <p className="font-semibold my-2">Dashboard</p>
 
                 </div>
-                <div><IoNotificationsOutline className="text-xl" /></div>
+                <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />
             </div>
             
         </div>

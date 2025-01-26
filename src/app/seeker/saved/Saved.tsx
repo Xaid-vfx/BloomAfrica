@@ -39,18 +39,18 @@ export default function Saved(props) {
                 {
                     props.savedjobs.length > 0 ? (
                         <>
-                            <h1 className="font-bold text-[#4A2C84] text-2xl mb-6">Saved Jobs</h1>
+                            <h1 className="font-bold text-[#4A2C84] text-2xl mb-6">Saved Apprenticeships</h1>
                             <SavedTable delete={deleteJob} jobs={props.savedjobs} />
                         </>
                     ) : (
                         <div className="flex justify-center items-center h-96">
-                            <h1 className="text-xl font-medium">No saved jobs yet.</h1>
+                            <h1 className="text-xl font-medium">No saved Apprenticeships yet.</h1>
                         </div>
                     )
                 }
             </div>
             <div className="lg:hidden px-4 ">
-                <p className="font-bold text-2xl text-[#4A2C84]">Saved Jobs</p>
+                <p className="font-bold text-2xl text-[#4A2C84]">Saved Apprenticeships</p>
                 <div className="flex flex-col gap-4 my-4">
                     {props.savedjobs.map((job) => {
                         return (
