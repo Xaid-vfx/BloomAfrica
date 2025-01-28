@@ -25,18 +25,19 @@ export default function MobileCard(props: Props) {
 
                 <h1 className="text-lg text-left font-medium ">{props.title}</h1>
 
-                <div className="flex text-sm text-[#515B6F] gap-2 items-baseline">
+                <div className="flex flex-col sm:flex-row text-sm text-[#515B6F] gap-2 items-baseline">
                     <p >{props.companyName}</p>
-                    <p>. {props.location}</p>
+                    <p className='hidden font-semibold sm:flex'>| </p>
+                    <p>{props.location}</p>
                 </div>
                 {/* tags */}
                 <div className="flex gap-2 flex-wrap">
-                    <div className="rounded-2xl min-w-max text-xs px-2 py-1 bg-[#ebfffa] text-[#56CDAD]">{props.type}</div>
+                    <div className="rounded-lg min-w-max text-xs px-2 py-1 bg-green-100 text-green-800">{props.type}</div>
                     <div
                         className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
-                    <div className="rounded-2xl min-w-max  text-xs px-2 py-1 border border-[#FFB836] text-[#FFB836]">{props.category}</div>
-                    {props.certificate && <div className="rounded-2xl min-w-max  text-xs px-2 py-1 border border-[#4A2C84] text-[#4A2C84]">Certificate</div>}
-                    {props.training_mode && <div className="rounded-2xl min-w-max  text-xs px-2 py-1 border border-[#4A2C84] text-[#4A2C84]">{props.training_mode}</div>}
+                    <div className="rounded-lg min-w-max  text-xs px-2 py-1 border bg-gray-100  text-[#4A2C84]">{props.category}</div>
+                    {props.certificate && <div className="rounded-lg min-w-max  text-xs px-2 py-1 border bg-gray-100  text-[#4A2C84]">Certificate Available</div>}
+                    {props.training_mode && <div className="rounded-lg min-w-max  text-xs px-2 py-1 border bg-gray-100  text-[#4A2C84]">{props.training_mode}</div>}
                     {/* <div className="rounded-3xl text-xs border px-2 py-1 border-[#4A2C84] text-[#4A2C84]">Design</div> */}
                 </div>
 
