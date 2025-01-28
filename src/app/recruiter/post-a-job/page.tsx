@@ -308,25 +308,110 @@ export default function Post(props) {
     return (
         <div className='flex flex-col border-gray-300 border-[1px]  w-full h-full rounded-xl bg-white lg:pt-7 lg:px-8 pt-5 overflow-scroll '>
             <AgreementModal handleAgreement={handleAgreement} type={1} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
-            <p onClick={() => { props.handleChangeTabIndex(3) }} className="mb-4 hover:underline cursor-pointer text-sm lg:flex items-center gap-1 hidden"><IoMdArrowRoundBack className="text-xl" />Back to job listing</p>
-            <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Post a Job</p>
+            <p onClick={() => { props.handleChangeTabIndex(3) }} className="mb-4 hover:underline cursor-pointer text-sm lg:flex items-center gap-1 hidden"><IoMdArrowRoundBack className="text-xl" />Back to your Apprenticeships</p>
+            <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Post an Apprenticeship</p>
             <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
             <div className='mb-10'>
+
                 <div className="bg-white rounded-xl p-6 lg:mt-6">
 
                     <div className="flex gap-4">
                         <h1 className="text-2xl font-semibold text-[#4A2C84]">General</h1>
                         <button className="text-sm text-[#4A2C84] py-1 px-4 rounded-xl border" onClick={fillSampleData}>Sample data</button>
                     </div>
-
+                    <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                    
                     <div className="flex flex-col gap-2 my-4">
                         <div className="mb-1">
-                            <p className="font-[550] text-lg my-1">Job Title *</p>
+                            <p className="font-[550] text-lg my-1">Apprenticeship Title *</p>
                             <input value={title} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="e.g. Software Engineer" onChange={(e) => { settitle(e.target.value) }} />
                         </div>
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Job Category *</p>
+                            <select value={category} onChange={(e) => {
+                                setcategory(e.target.value)
+                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
+                                <option>Select category</option>
+                                {
+                                    categories.map((category) => {
+                                        return <option key={category} value={category}>{category}</option>
+                                    })
+                                }
+                            </select>
+                        </div>
 
+                        
+                        <div className='flex flex-col  gap-x-5'>
+                            <div className="my-2 w-full">
+                                <p className="font-[550] text-lg my-1">Training Mode *</p>
+                                <div className="flex space-x-2 text-black">
+                                    <button
+                                        className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm min-w-max w-full ${trainingMode === "In-Person" ? "bg-green-500 text-white" : ""}`}
+                                        onClick={() => setTrainingMode("In-Person")}
+                                    >
+                                        In-Person
+                                    </button>
+                                    <button
+                                        className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${trainingMode === "Online" ? "bg-green-500 text-white" : ""}`}
+                                        onClick={() => setTrainingMode("Online")}
+                                    >
+                                        Online
+                                    </button>
+                                    <button
+                                        className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${trainingMode === "Hybrid" ? "bg-green-500 text-white" : ""}`}
+                                        onClick={() => setTrainingMode("Hybrid")}
+                                    >
+                                        Hybrid
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="my-2 w-full">
+                                <p className="font-[550] text-lg my-1">Type *</p>
+                                <div className="flex space-x-2">
+                                    <button
+                                        className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${type === "Full Time" ? "bg-green-500 text-white" : ""}`}
+                                        onClick={() => settype("Full Time")}
+                                    >
+                                        Full Time
+                                    </button>
+                                    <button
+                                        className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${type === "Part Time" ? "bg-green-500 text-white" : ""}`}
+                                        onClick={() => settype("Part Time")}
+                                    >
+                                        Part Time
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div className="mt-2">
+                            <p className="font-[550] text-lg my-1">Duration *</p>
+                            <input value={duration} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Duration" type="text" onChange={(e) => { setduration(e.target.value) }} />
+                        </div>
+                        <div className="mt-2">
+                            <p className="font-[550] text-lg my-1">Required Skills*</p>
+                            <TagsInput
+                                value={skills}
+                                onChange={setskills}
+                                name="Skills"
+                                placeHolder="Enter Required Skills"
+                                classNames={{
+                                    input: '!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full',
+                                    tag: 'text-xs'
+                                }}
+                            />
+                        </div>
+                    </div>
+                        
+
+                    <div className="flex gap-4 mt-10 sm:mt-16">
+                        <h1 className="text-2xl font-semibold text-[#4A2C84]">Deadline and Opening</h1>
+                    </div>
+                    <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                    <div className="flex flex-col gap-2 my-4">
                         <div className="mb-1">
-                            <p className="font-[550] text-lg my-1">How many apprentices will you take? *</p>
+                            <p className="font-[550] text-lg my-1">Maximum Number of Applicants? *</p>
                             <input
                                 value={limit}
                                 className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
@@ -351,59 +436,26 @@ export default function Post(props) {
                                 onChange={(e) => setdeadline(e.target.value)}
                             />
                         </div>
-
                         <div className="my-2">
-                            <p className="font-[550] text-lg my-1">Job Description *</p>
-                            <textarea value={desc} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Description" onChange={(e) => { setdesc(e.target.value) }}></textarea>
-                        </div>
-
-                        <div className="my-2">
-                            <p className="font-[550] text-lg my-1">About us / Company profile *</p>
-                            <textarea value={wya} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Briefly introduce your company to potential job applicants. Describe your mission, values, and what sets your company apart.
-
-Highlight why potential employees would want to join your team." onChange={(e) => { setwya(e.target.value) }}></textarea>
+                            <p className="font-[550] text-lg my-1">What ate does training start? *</p>
+                            <input
+                                value={startDate}
+                                className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
+                                type="date"
+                                min={new Date().toISOString().split('T')[0]}
+                                placeholder="Select start date"
+                                onChange={(e) => setStartDate(e.target.value)}
+                            />
                         </div>
                     </div>
 
+
+                    <div className="flex gap-4 mt-10 sm:mt-16">
+                        <h1 className="text-2xl font-semibold text-[#4A2C84]">Location</h1>
+                    </div>
                     <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-
-                    <h1 className="text-2xl font-semibold text-[#4A2C84]">Information</h1>
-
-                    <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-4">
-                        <div className="my-2">
-                            <p className="font-[550] text-lg my-1">Job Category *</p>
-                            <select value={category} onChange={(e) => {
-                                setcategory(e.target.value)
-                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                <option>Select category</option>
-                                {
-                                    categories.map((category) => {
-                                        return <option key={category} value={category}>{category}</option>
-                                    })
-                                }
-                            </select>
-                        </div>
-                        <div className="my-2">
-                            <p className="font-[550] text-lg my-1">Do you provide accomodation?</p>
-                            <select value={accomodation} onChange={(e) => {
-                                setaccomodation(e.target.value)
-                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                <option>Select</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
-                        <div className="my-2">
-                            <p className="font-[550] text-lg my-1">Type *</p>
-                            <select value={type} onChange={(e) => {
-                                settype(e.target.value)
-                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                <option>Select type</option>
-                                <option value="Full Time">Full Time</option>
-                                <option value="Part Time">Part Time</option>
-                            </select>
-                        </div>
-                        <div className="my-2">
+                    <div className=' flex flex-col sm:flex-row gap-x-5'>
+                        <div className="my-2 w-full">
                             <p className="font-[550] text-lg my-1">Country *</p>
                             <select
                                 value={country}
@@ -422,7 +474,7 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                             </select>
                         </div>
 
-                        <div className="my-2">
+                        <div className="my-2 w-full">
                             <p className="font-[550] text-lg my-1">State *</p>
                             <select
                                 value={state}
@@ -451,7 +503,7 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                             </select>
                         </div>
 
-                        <div className="my-2">
+                        <div className="my-2 w-full">
                             <p className="font-[550] text-lg my-1">City *</p>
                             <input
                                 value={city}
@@ -460,125 +512,68 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                                 className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
                             />
                         </div>
-                        <div className="mt-2">
-                            <p className="font-[550] text-lg my-1">Duration *</p>
-                            <input value={duration} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Duration" type="text" onChange={(e) => { setduration(e.target.value) }} />
-                        </div>
-                        <div className="my-2">
+                    </div>
+
+
+                    <div className="flex gap-4 mt-10 sm:mt-16">
+                        <h1 className="text-2xl font-semibold text-[#4A2C84]">Compensation and Fees</h1>
+                    </div>
+                    <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                    <div className="flex flex-col gap-2 my-4">
+                       <div className="my-2">
                             <p className="font-[550] text-lg my-1">Payment Type *</p>
-                            <select value={paymenttype} onChange={(e) => {
-                                setpaymenttype(e.target.value)
-                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                <option>Select payment type</option>
-                                <option value="Settlement">Settlement</option>
-                                <option value="Monthly">Monthly</option>
-                                <option value="Unpaid">Unpaid</option>
-                            </select>
+                            <div className="flex space-x-2">
+                                <button
+                                    className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${paymenttype === "Unpaid" ? "bg-green-500 text-white" : ""}`}
+                                    onClick={() => setpaymenttype("Unpaid")}
+                                >
+                                    Unpaid
+                                </button>
+                                <button
+                                    className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${paymenttype === "Monthly" ? "bg-green-500 text-white" : ""}`}
+                                    onClick={() => setpaymenttype("Monthly")}
+                                >
+                                    Monthly
+                                </button>
+                                <button
+                                    className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${paymenttype === "Settlement" ? "bg-green-500 text-white" : ""}`}
+                                    onClick={() => setpaymenttype("Settlement")}
+                                >
+                                    Settlement
+                                </button>
+                                
+                            </div>
                         </div>
                         {(paymenttype == "Settlement" || paymenttype == "Monthly") ?
                             <>
                                 <div className="mt-2">
                                     <p className="font-[550] text-lg my-1">Minimum Salary {"(optional)"}</p>
-                                    <input value={minsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Minimum Salary" type="number" onChange={(e) => { setminsalary(e.target.value) }} />
+                                    <input value={minsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-sm" placeholder="Enter Minimum Salary" type="number" onChange={(e) => { setminsalary(e.target.value) }} />
                                 </div>
                                 <div className="mt-2">
                                     <p className="font-[550] text-lg my-1">Maximum Salary {"(optional)"}</p>
-                                    <input value={maxsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Maximum Salary" type="number" onChange={(e) => { setmaxsalary(e.target.value) }} />
+                                    <input value={maxsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-sm" placeholder="Enter Maximum Salary" type="number" onChange={(e) => { setmaxsalary(e.target.value) }} />
                                 </div>
                             </>
                             : ""}
                         <div className="my-2">
                             <p className="font-[550] text-lg my-1">Do you have a signup fee?</p>
-                            <select
-                                value={hasSignupFee}
-                                onChange={async (e) => {
-                                    const value = e.target.value;
-                                    setHasSignupFee(value);
-
-                                    if (value === "Yes") {
-                                        setCheckingBankDetails(true);
-                                        const hasBankDetails = await checkBankDetails();
-                                        if (hasBankDetails) {
-                                            const { data } = await supabase
-                                                .from('RecruiterBankDetails')
-                                                .select('*')
-                                                .eq('recruiter_id', props.user.id)
-                                                .single();
-                                            setBankDetails(data);
-                                        } else {
-                                            setBankDetails(null);
-                                        }
-                                        setCheckingBankDetails(false);
-                                    } else {
-                                        setBankDetails(null);
-                                        setsignupfee("");
-                                        setErrorMessage("");
-                                    }
-                                }}
-                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
-                            >
-                                <option value="">Select</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
-                        <div className="mt-2">
-                            <p className="font-[550] text-lg my-1">Required Skills*</p>
-                            <TagsInput
-                                value={skills}
-                                onChange={setskills}
-                                name="Skills"
-                                placeHolder="Enter Required Skills"
-                                classNames={{
-                                    input: '!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full',
-                                    tag: 'text-xs'
-                                }}
-                            />
-                        </div>
-                        <div className="my-2">
-                            <p className="font-[550] text-lg my-1">Start Date *</p>
-                            <input
-                                value={startDate}
-                                className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
-                                type="date"
-                                min={new Date().toISOString().split('T')[0]}
-                                placeholder="Select start date"
-                                onChange={(e) => setStartDate(e.target.value)}
-                            />
-                        </div>
-                        <div className="my-2">
-                            <p className="font-[550] text-lg my-1">Training Mode *</p>
-                            <select
-                                value={trainingMode}
-                                onChange={(e) => setTrainingMode(e.target.value)}
-                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
-                            >
-                                <option value="">Select training mode</option>
-                                <option value="In-Person">In-Person</option>
-                                <option value="Online">Online</option>
-                                <option value="Hybrid">Hybrid</option>
-                            </select>
-                        </div>
-                        <div className="my-2">
-                            <p className="font-[550] text-lg my-1">Will you provide a certificate? *</p>
-                            <select
-                                value={providesCertificate === null ? "" : providesCertificate ? "Yes" : "No"}
-                                onChange={(e) => {
-                                    if (e.target.value === "Yes") {
-                                        setProvidesCertificate(true);
-                                    } else if (e.target.value === "No") {
-                                        setProvidesCertificate(false);
-                                    } else {
-                                        setProvidesCertificate(null);
-                                    }
-                                }}
-                                className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full"
-                            >
-                                <option value="">Select option</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
+                            <div className="flex space-x-2">
+                                <button
+                                    className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${hasSignupFee === "Yes" ? "bg-green-500 text-white" : ""}`}
+                                    onClick={() => setHasSignupFee("Yes")}
+                                >
+                                    Yes
+                                </button>
+                                <button
+                                    className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${hasSignupFee === "No" ? "bg-green-500 text-white" : ""}`}
+                                    onClick={() => setHasSignupFee("No")}
+                                >
+                                    No
+                                </button>
+                            </div>
+                            
+                        </div> 
                     </div>
                     {hasSignupFee === "Yes" && (
                         <div className="mt-4">
@@ -630,6 +625,68 @@ Highlight why potential employees would want to join your team." onChange={(e) =
                             )}
                         </div>
                     )}
+
+
+
+                    <div className="flex gap-4 mt-10 sm:mt-16">
+                        <h1 className="text-2xl font-semibold text-[#4A2C84]">Extra</h1>
+                    </div>
+                    <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                    <div className="flex flex-col gap-2 my-4">
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">Will you provide a certificate? *</p>
+                            <div className="flex space-x-2">
+                                <button
+                                    className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${providesCertificate === true ? "bg-green-500 text-white" : ""}`}
+                                    onClick={() => setProvidesCertificate(true)}
+                                >
+                                    Yes
+                                </button>
+                                <button
+                                    className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${providesCertificate === false ? "bg-green-500 text-white" : ""}`}
+                                    onClick={() => setProvidesCertificate(false)}
+                                >
+                                    No
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="my-2">
+                        <p className="font-[550] text-lg my-1"> Will you provide accommodation?</p>
+                        <div className="flex space-x-2">
+                            <button
+                                className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${accomodation === "Yes" ? "bg-green-500 text-white" : ""}`}
+                                onClick={() => setaccomodation("Yes")}
+                            >
+                                Yes
+                            </button>
+                            <button
+                                className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${accomodation === "No" ? "bg-green-500 text-white" : ""}`}
+                                onClick={() => setaccomodation("No")}
+                            >
+                                No
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div className="flex gap-4 mt-10 sm:mt-16">
+                        <h1 className="text-2xl font-semibold text-[#4A2C84]">Description & Company Info</h1>
+                    </div>
+                    <hr className="h-px sm:my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                    <div className="flex flex-col gap-2 my-4">
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1"> Description *</p>
+                            <textarea value={desc} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Apprenticeship Description" onChange={(e) => { setdesc(e.target.value) }}></textarea>
+                        </div>
+
+                        <div className="my-2">
+                            <p className="font-[550] text-lg my-1">About us / Company profile *</p>
+                            <textarea value={wya} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Briefly introduce your company to potential applicants. Describe your mission, values, and what sets your company apart. Highlight why potential employees would want to join your team." onChange={(e) => { setwya(e.target.value) }}></textarea>
+                        </div>
+                    </div>
+
+                    
                 </div>
                 {errorMessage && (
                     <div className="text-red-500 text-sm mt-4">
