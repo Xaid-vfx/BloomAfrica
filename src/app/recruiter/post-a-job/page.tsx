@@ -437,7 +437,7 @@ export default function Post(props) {
                             />
                         </div>
                         <div className="my-2">
-                            <p className="font-[550] text-lg my-1">What ate does training start? *</p>
+                            <p className="font-[550] text-lg my-1">What date does training start? *</p>
                             <input
                                 value={startDate}
                                 className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
