@@ -199,7 +199,7 @@ export default function JobDescription(props) {
     return (
         <div>
             {isLoading && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center flex-col justify-center z-50">
                     <div className="bg-white p-8 rounded-lg text-center">
                         <div className="animate-spin rounded-2xl h-12 w-12 border-t-2 border-b-2 border-[#4A2C84] mx-auto mb-4"></div>
                         <p className="text-lg font-semibold">Redirecting...</p>
@@ -207,15 +207,15 @@ export default function JobDescription(props) {
                 </div>
             )}
             <AgreementModal handleAgreement={handleAgreement} type={0} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
-            <div className=" items-center justify-between rounded-xl border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
+            <div className=" items-center flex-col justify-between rounded-xl border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
                 <div className="flex flex-col">
                     <div className="flex items-center gap-6">
                         <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={70} height={100} />
-                        <div className="flex flex-col justify-center ">
+                        <div className="flex flex-col  justify-center ">
                             <h1 className="text-xl font-semibold">{job != null ? job?.title : <Skeleton width={200} height={30} className="mb-2" />}</h1>
-                            <div className="flex text-sm text-[#515B6F] gap-2 items-baseline">
-                                <p>{job?.Recruiters.CompanyInfo.name}</p>
-                                <p>. {job != null ? job?.location : <Skeleton width={100} />}</p>
+                            <div className="flex flex-col text-center text-sm text-[#515B6F] gap-2 mb-3 items-baseline">
+                                <p className='flex mx-auto justify-center'>{job?.Recruiters.CompanyInfo.name}</p>
+                                <p className='flex mx-auto justify-center'> {job != null ? job?.location : <Skeleton width={100} />}</p>
                             </div>
                         </div>
                     </div>
@@ -237,9 +237,9 @@ export default function JobDescription(props) {
             <div className="py-10 px-5 lg:hidden flex flex-col text-center justify-center items-center bg-[#F8F8FD]">
                 <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={100} height={50} />
                 <h1 className="text-xl font-semibold mt-2">{job != null ? job?.title : <Skeleton width={200} />}</h1>
-                <div className="flex text-sm text-[#515B6F] gap-1 items-baseline">
-                    <p>{job?.Recruiters.CompanyInfo.name}</p>
-                    <p>. {job != null ? job?.location : <Skeleton width={100} />}</p>
+                <div className="flex flex-col  text-center text-sm text-[#515B6F] gap-1 mb-2 items-baseline">
+                    <p className='flex mx-auto justify-center'>{job?.Recruiters.CompanyInfo.name}</p>
+                    <p className='flex mx-auto justify-center'> {job != null ? job?.location : <Skeleton width={100} />}</p>
                 </div>
                 <div className="flex gap-2 mt-6">
                     <SaveButton user={props.user?.id} id={id}></SaveButton>
@@ -266,66 +266,66 @@ export default function JobDescription(props) {
                     </div> */}
                 </div>
                 <div className="lg:w-[30%] mt-10 lg:mt-0 border-2 rounded-xl p-5">
-                    <div>
+                    <div className=''>
                         <h1 className="text-2xl font-semibold mb-6 text-[#25324B] mt-5">About this Role</h1>
 
-                        <div className="flex justify-between mt-4">
+                        <div className="flex flex-col justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Signup Fee</p>
-                            <p className="text-sm font-semibold">{job != null ? job?.signup_fee ? "₦" + job?.signup_fee : "Free" : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.signup_fee ? "₦" + job?.signup_fee : "Free" : <Skeleton width={150} />}</p>
                         </div>
 
-                        <div className="flex justify-between mt-4">
+                        <div className="flex flex-col justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Training Mode</p>
-                            <p className="text-sm font-semibold">{job != null ? job?.training_mode : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.training_mode : <Skeleton width={150} />}</p>
                         </div>
 
-                        <div className="flex justify-between mt-4">
+                        <div className="flex flex-col justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Start Date</p>
-                            <p className="text-sm font-semibold">{job != null ? new Date(job?.start_date).toLocaleDateString('en-US', {
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? new Date(job?.start_date).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'long',
                                 day: 'numeric'
                             }) : <Skeleton width={150} />}</p>
                         </div>
 
-                        <div className="flex justify-between mt-4">
+                        <div className="flex flex-col justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Certificate</p>
-                            <p className="text-sm font-semibold">{job != null ?
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ?
                                 job?.provides_certificate === "Yes" ?
-                                    "Yes" :
-                                    "No"
+                                    "Certificate Available" :
+                                    "Unavailable"
                                 : <Skeleton width={150} />}
                             </p>
                         </div>
 
-                        <div className="flex justify-between mt-4">
+                        <div className="flex flex-col justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Compensation</p>
-                            <p className="text-sm font-semibold">{job != null ? "₦" + job?.minsalary + " - " + "₦" + job?.maxsalary : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? "₦" + job?.minsalary + " - " + "₦" + job?.maxsalary : <Skeleton width={150} />}</p>
                         </div>
 
-                        <div className="flex justify-between my-4">
+                        <div className="flex flex-col justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Job Type</p>
-                            <p className="text-sm font-semibold">{job != null ? job?.type : <Skeleton width={100} />}</p>
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.type : <Skeleton width={100} />}</p>
                         </div>
 
-                        <div className="flex justify-between my-4">
+                        <div className="flex flex-col justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Duration</p>
-                            <p className="text-sm font-semibold">{job != null ? job?.duration : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.duration : <Skeleton width={150} />}</p>
                         </div>
 
-                        <div className="flex justify-between my-4">
+                        <div className="flex flex-col justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Location</p>
-                            <p className="text-sm font-semibold">{job != null ? `${job?.city}, ${job?.state}, ${job?.country}` : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? `${job?.city}, ${job?.state}, ${job?.country}` : <Skeleton width={150} />}</p>
                         </div>
 
-                        <div className="flex justify-between my-4">
-                            <p className="text-sm text-[#515B6F]">Capacity</p>
-                            <p className="text-sm font-semibold">{job != null ? job?.limit : <Skeleton width={150} />}</p>
+                        <div className="flex flex-col justify-between my-4">
+                            <p className="text-sm text-[#515B6F]">Maximum Applicants</p>
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.limit : <Skeleton width={150} />}</p>
                         </div>
 
-                        <div className="flex justify-between my-4">
+                        <div className="flex flex-col justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Application Deadline</p>
-                            <p className="text-sm font-semibold">{job != null ? job?.deadline : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.deadline : <Skeleton width={150} />}</p>
                         </div>
                     </div>
                     <hr className="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>

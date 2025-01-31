@@ -33,8 +33,6 @@ export default function JobCard(props: Props) {
     return (
         <div className="flex items-center justify-between border-2 rounded-2xl px-6 py-4 my-6 bg-white hover:drop-shadow-md">
             <div className="flex flex-row">
-
-
                 <div className='flex flex-col'>
                     <div className="flex items-center gap-6">
                         <div className="">
@@ -46,13 +44,13 @@ export default function JobCard(props: Props) {
                         </div>
                     </div>
                     <div className=" flex gap-2 my-4 items-center">
-                        <div className="rounded-xl text-xs min-w-max px-3 py-2 bg-[#ebfffa] font-semibold text-[#56CDAD]">{props.type}</div>
+                        <div className="rounded-xl text-xs min-w-max px-3 py-2  font-semibold bg-green-100 text-green-800">{props.type}</div>
                         <div
                             className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
                         {/* <div className="rounded-3xl px-3 py-2 border border-[#FFB836] text-sm text-[#FFB836]">Marketing</div> */}
-                        {props.category && <div className="rounded-xl  border px-3 py-2 font-semibold border-[#4A2C84] text-xs text-[#4A2C84] min-w-max">{props.category}</div>}
-                        {props.certificate && <div className="rounded-xl  border px-3 py-2 font-semibold border-[#4A2C84] text-xs text-[#4A2C84] min-w-max">Certificate</div>}
-                        {props.training_mode && <div className="rounded-xl  border px-3 py-2 font-semibold border-[#4A2C84] text-xs text-[#4A2C84] min-w-max">{props.training_mode}</div>}
+                        {props.category && <div className="rounded-xl  border px-3 py-2 font-semibold text-xs bg-gray-100  text-[#4A2C84] min-w-max">{props.category}</div>}
+                        {props.certificate && <div className="rounded-xl  border px-3 py-2 font-semibold bg-gray-100  text-xs text-[#4A2C84] min-w-max">Certificate</div>}
+                        {props.training_mode && <div className="rounded-xl  border px-3 py-2 font-semibold bg-gray-100  text-xs text-[#4A2C84] min-w-max">{props.training_mode}</div>}
                     </div>
                 </div>
             </div>
@@ -66,7 +64,6 @@ export default function JobCard(props: Props) {
                 </div>
                 <p className="text-sm text-[#7C8493]"><span className="text-black font-semibold">5 Applied</span> of 10 capacity</p> */}
             </div>
-
         </div>
     )
 }
