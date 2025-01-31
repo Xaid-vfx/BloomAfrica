@@ -91,24 +91,24 @@ export default function Navbar(props: { color: string }) {
         <div className="flex justify-between items-center relative ">
           <a href="/" className="hidden lg:flex lg:items-center lg:gap-2 lg:pl-10">
             <Image src={LogoText} alt="" width={120} />
-          
+
           </a>
         </div>
-          <div className="hidden text-[16px] lg:flex lg:pl-0  mx-auto min-w-max ">
-            <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)]">
-              <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800 transition-all`}>Home</a>
-              <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>About Us</a>
-              <a href="/signup" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>Trainer? <span className="text-[#4A2C84] font-semibold">Post Apprenticeship</span></a>
-            </div>
-            {/* <div className="flex relative ms-[clamp(1.1rem,2.1vw,5rem)] xl:ms-[clamp(1.1rem,2.5vw,5rem)]">
+        <div className="hidden text-[16px] lg:flex lg:pl-0  mx-auto min-w-max ">
+          <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)]">
+            <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800 transition-all`}>Home</a>
+            <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>About Us</a>
+            <a href="/signup?type=recruiter" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>Trainer? <span className="text-[#4A2C84] font-semibold">Post Apprenticeship</span></a>
+          </div>
+          {/* <div className="flex relative ms-[clamp(1.1rem,2.1vw,5rem)] xl:ms-[clamp(1.1rem,2.5vw,5rem)]">
               <a href="/certified" className={`${currentPage == "certified" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>Get Certified</a>
               <div className="absolute right-[-30px] top-[-19px]">
                 <p className="text-white bg-[#897DD3] rounded-full px-1 py-1 right-0 text-[0.5rem] ">Coming Soon</p>
               </div>
             </div> */}
 
-          </div>
-        
+        </div>
+
         <div className="flex gap-2 ">
           <a href="/all-jobs" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-semibold rounded-2xl min-w-max  ">Find Apprenticeships</a>
           <a href="/signup" className="text-sm text-[#4A2C84] border border-[#4A2C84] px-6 py-3 font-semibold rounded-2xl min-w-max">Sign In</a>
