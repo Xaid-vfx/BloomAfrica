@@ -30,10 +30,10 @@ export default function AboutHero() {
             <h1 className="mt-14 font-semibold text-center text-3xl lg:text-5xl HiddenAnimationStats lg:leading-[1.5] lg:mt-0 ms-auto me-auto max-w-[1300px]">
                 Discover Exciting <span className="text-[#4A2C84]">Apprenticeship</span> Opportunities with Bloom
             </h1>
-            <p className="leading-9 hidden lg:block text-center my-6 lg:my-4 text-xl HiddenAnimationStats ms-auto me-auto max-w-[1300px]">
+            <p className="leading-9 hidden lg:block text-center  my-6 lg:my-4 text-xl HiddenAnimationStats ms-auto me-auto max-w-[1300px]">
             We are empowering Africans by creating accessible local opportunities for personal and economic growth. We envision an Africa where the informal economy, alternative education, and non-traditional career paths are democratized, becoming vibrant and sustainable engines of growth. 
             </p>
-            <p className="leading-9 lg:hidden text-justify my-6 lg:my-4 text-[1rem] HiddenAnimationStats ps-12 pe-12 ">
+            <p className="leading-9 lg:hidden text-justify my-6 lg:my-4 text-[1rem] HiddenAnimationStats px-0 sm:ps-12 sm:pe-12 ">
             We are empowering Africans by creating accessible local opportunities for personal and economic growth. We envision an Africa where the informal economy, alternative education, and non-traditional career paths are democratized, becoming vibrant and sustainable engines of growth. 
             </p>
             <Image src={Scribble} alt="scribble" width={100} className="hidden lg:block absolute top-0 left-0 " />
