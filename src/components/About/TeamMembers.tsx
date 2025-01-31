@@ -17,7 +17,7 @@ export default function TeamMembers() {
                     <TeamMemberCard image={David} name="David Onadipe" designation="Founder/ CEO" twitter="https://twitter.com/DavidBL8M" linkedin="https://www.linkedin.com/in/davidonadipe/" />
                     <TeamMemberCard image={Zaid} name="Mohd zaid" designation="Co-founder/ CTO" twitter="https://twitter.com/okzaid" linkedin="https://www.linkedin.com/in/mohd-zaid-3889801b7/" />
                     <TeamMemberCard image={Ernest} name="Ernest Ikeh" designation="Product Designer" twitter="https://x.com/ernestikeh4" linkedin="https://www.linkedin.com/in/ernest-ikeh" />       
-                    <TeamMemberCard image={Nathaniel} name='Nathaniel Enyinnaya (Purest Angel)' designation="Exclusive Partner" />   
+                    <TeamMemberCard image={Nathaniel} name='Nathaniel Enyinnaya' designation="Exclusive Partner" />   
                 </div>
                 
                 
