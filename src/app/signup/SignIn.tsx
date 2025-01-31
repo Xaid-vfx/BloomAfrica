@@ -79,7 +79,7 @@ export default function SignIn() {
                     access_type: 'offline',
                     prompt: 'consent'
                 },
-                redirectTo: signUpUserTypeTab == "seeker" ? 'http://localhost:3000/auth/callback?route=/signup/complete_profile&next=' + redirectUrl : 'http://localhost:3000/auth/callback?route=/signup/complete_recruiter_profile'
+                redirectTo: signUpUserTypeTab == "seeker" ? 'https:/bloom.africa/auth/callback?route=/signup/complete_profile&next=' + redirectUrl : 'https:/bloom.africa/auth/callback?route=/signup/complete_recruiter_profile'
             },
 
         })
