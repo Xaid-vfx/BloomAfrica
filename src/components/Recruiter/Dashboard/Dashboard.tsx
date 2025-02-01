@@ -134,7 +134,7 @@ export default function Dashboard(props: Props) {
                         />
                     ) : (
                         <div className="flex justify-center items-center h-[200px]">
-                            No Jobs found!
+                            No Apprenticeships found!
                         </div>
                     )
                 }
