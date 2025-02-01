@@ -42,6 +42,7 @@ export default function RightColomnRecruiter() {
     const [privacy, setPrivacy] = useState(false);
     const [position, setposiion] = useState('')
     const [isLoadingStates, setIsLoadingStates] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     async function fetchStates(countryName: string) {
         setIsLoadingStates(true);
@@ -162,6 +163,8 @@ export default function RightColomnRecruiter() {
     }
 
     async function handleFinish() {
+        if (isSubmitting) return;
+
         if (companyName == "" || position == "" || desc == "") {
             toast.error("Please fill all fields");
             return;
@@ -171,6 +174,7 @@ export default function RightColomnRecruiter() {
             return;
         }
 
+        setIsSubmitting(true);
         let uuid: string | null = null;
 
         try {
@@ -192,6 +196,8 @@ export default function RightColomnRecruiter() {
             toast.error("Registration failed. Rolling back changes...");
             console.error("Error during registration:", error);
             if (uuid) await rollback(uuid);
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -356,7 +362,14 @@ export default function RightColomnRecruiter() {
                             </div>
                         </div>
 
-                        <button disabled={!(privacy && terms)} onClick={() => { handleFinish() }} className={`text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs ${!(privacy && terms) && 'cursor-not-allowed'}`} >Finish</button>
+                        <button
+                            type="submit"
+                            className={`border rounded-2xl py-3 mx-4 lg:mx-0 text-sm font-semibold px-16 lg:my-4 mb-7 text-white bg-[#4A2C84] ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            onClick={handleFinish}
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? "Submitting..." : "Post Apprenticeship"}
+                        </button>
 
                     </div>
 
