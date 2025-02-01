@@ -190,14 +190,16 @@ export default function RightColomnRecruiter() {
             const userSaved = await step3(uuid);
             if (!userSaved) throw new Error("Step 3 failed.");
 
-            toast.success("Registration complete!");
+            toast.success("Registration complete! Redirecting...");
             router.push('/recruiter');
         } catch (error) {
-            toast.error("Registration failed. Rolling back changes...");
+            toast.error("Registration failed. Redirecting to signup...");
             console.error("Error during registration:", error);
             if (uuid) await rollback(uuid);
-        } finally {
-            setIsSubmitting(false);
+            // Redirect to signup page after a short delay to allow toast to be seen
+            setTimeout(() => {
+                router.push('/signup');
+            }, 2000);
         }
     }
 
@@ -368,7 +370,7 @@ export default function RightColomnRecruiter() {
                             onClick={handleFinish}
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? "Submitting..." : "Post Apprenticeship"}
+                            {isSubmitting ? "Submitting..." : "Submit"}
                         </button>
 
                     </div>
