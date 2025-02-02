@@ -60,7 +60,7 @@ export default function Header(props: Props) {
                                 <BiMessage className="text-xl" />
                                 <p className="">Messages</p>
                             </div>
-                            <div onClick={() => { props.handleChangeTabIndex(6) }}
+                            <div onClick={() => { handleChangeTabIndex(6) }}
                                 className={` py-3 cursor-pointer px-4 flex gap-4 items-center  ${props.currTabIndex == 6 ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                                 <BsBuildingUp className="text-xl" />
                                 <p className="text-sm">Bank Details</p>
