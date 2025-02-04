@@ -124,7 +124,7 @@ export default function Dashboard(props: Props) {
                 <div onClick={() => { props.handleChangeTabIndex(3) }} className="flex items-center text-[#4A2C84] gap-2 my-2 justify-center cursor-pointer hover:underline">View All <FaArrowRightLong /></div>
             </div>
             <div className="hidden lg:block bg-white rounded-xl pb-7">
-                <h1 className="text-2xl font-[500] text-[#4A2C84] pt-6 pb-3">Recent Jobs</h1>
+                <h1 className="text-2xl font-[500] text-[#4A2C84] pt-6 pb-3">Recent Apprenticeships</h1>
                 {
                     jobs.length > 0 ? (
                         <JobsTable
@@ -134,7 +134,7 @@ export default function Dashboard(props: Props) {
                         />
                     ) : (
                         <div className="flex justify-center items-center h-[200px]">
-                            No Jobs found!
+                            No Apprenticeships found!
                         </div>
                     )
                 }

@@ -170,7 +170,7 @@ export default function Listing(props: Props) {
 
                             {
                                 props.jobs.length > 0 ? <JobsTable ApplicationsForSelectedJob={ApplicationsForSelectedJob} delete={handleDeleteJob} jobs={props.jobs} /> : <div className="flex justify-center items-center h-[200px]">
-                                    No Jobs found!
+                                    No Apprenticeships found!
                                 </div>
                             }
                         </div>

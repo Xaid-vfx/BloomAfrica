@@ -45,7 +45,7 @@ export default function Sidebar(props: Props) {
                         </div>
                         <div onClick={() => { props.handleChangeTabIndex(3) }} className={`my-2 font-medium rounded-2xl py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 3 ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                             <LuClipboardList className="text-xl" />
-                            <p className="text-sm ">Job Listing</p>
+                            <p className="text-sm ">My Apprenticeships</p>
                         </div>
                         <div onClick={() => { props.handleChangeTabIndex(5) }} className={`my-2 font-medium rounded-2xl py-3 cursor-pointer px-4 flex gap-2 items-center  ${props.currTabIndex == 5 ? "text-[#4A2C84] font-semibold py-5 bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                             <IoChatboxEllipsesOutline className="text-xl" />

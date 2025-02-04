@@ -49,7 +49,7 @@ export default function JobCard(props: Props) {
                             className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
                         {/* <div className="rounded-3xl px-3 py-2 border border-[#FFB836] text-sm text-[#FFB836]">Marketing</div> */}
                         {props.category && <div className="rounded-xl  border px-3 py-2 font-semibold text-xs bg-gray-100  text-[#4A2C84] min-w-max">{props.category}</div>}
-                        {props.certificate && <div className="rounded-xl  border px-3 py-2 font-semibold bg-gray-100  text-xs text-[#4A2C84] min-w-max">Certificate</div>}
+                        {props.certificate && <div className="rounded-xl  border px-3 py-2 font-semibold bg-gray-100  text-xs text-[#4A2C84] min-w-max">Certificate Available</div>}
                         {props.training_mode && <div className="rounded-xl  border px-3 py-2 font-semibold bg-gray-100  text-xs text-[#4A2C84] min-w-max">{props.training_mode}</div>}
                     </div>
                 </div>

@@ -54,7 +54,7 @@ export default function Header(props: Props) {
                             </div>
                             <div onClick={() => { handleChangeTabIndex(3) }} className={` py-3 cursor-pointer px-4 flex gap-4 items-center  ${props.currTabIndex == 3 ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                                 <LuClipboardList className="text-xl" />
-                                <p className="">Job Listing</p>
+                                <p className="">My Apprenticeships</p>
                             </div>
                             <div onClick={() => { handleChangeTabIndex(5) }} className={` py-3 cursor-pointer px-4 flex gap-4 items-center  ${props.currTabIndex == 5 ? "text-[#4640DE] font-medium bg-[#E9EBFD]" : "text-[#7C8493]"}`}>
                                 <BiMessage className="text-xl" />
