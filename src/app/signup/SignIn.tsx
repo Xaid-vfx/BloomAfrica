@@ -19,6 +19,7 @@ export default function SignIn() {
     const [email, setemail] = useState('')
     const [password, setpassword] = useState('')
     const [confirmPassword, setconfirmPassword] = useState('')
+    const [error, setError] = useState('')
 
     const [currentPage, setCurrentPage] = useState('signup')
     const [signUpUserTypeTab, setsignUpUserTypeTab] = useState(search.get('type') ? search.get('type') : 'seeker')
@@ -32,43 +33,83 @@ export default function SignIn() {
 
 
     const handleSignUp = async () => {
+        try {
+            setError('') // Clear any previous errors
+            if (email === "" || password === "" || confirmPassword === "") {
+                setError("Please enter all fields")
+                return;
+            }
+            else if (password != confirmPassword) {
+                setError('Passwords should match')
+                return;
+            }
+            else if (password.length < 6) {
+                setError('Password should be atleast 6 characters long')
+                return;
+            }
 
-        if (email === "" || password === "" || confirmPassword === "") {
-            alert("Please enter all fields")
-            return;
-        }
-        else if (password != confirmPassword) {
-            alert('Passwords should match')
-            return;
-        }
-        else if (password.length < 6) {
-            alert('Password should be atleast 6 characters long')
-            return;
-        }
-        const res = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                emailRedirectTo: `${location.origin}/all-jobs`,
-            },
-        })
-        console.log(res);
-        if (signUpUserTypeTab == "seeker") {
-            console.log(res);
+            const res = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    emailRedirectTo: `${location.origin}/all-jobs`,
+                },
+            })
 
-            const { data, error } = await supabase.from('Seekers').insert([{ "unique_id": res?.data?.user?.id, "email": email }])
-            console.log(data);
-            console.log(error);
+            if (res.error) {
+                if (res.error.message.includes('already registered')) {
+                    setError('This email is already registered. Please sign in instead.')
+                } else {
+                    setError(`Sign up failed: ${res.error.message}`)
+                }
+                return;
+            }
+
+            if (!res.data?.user?.id) {
+                setError('Sign up failed. Please try again.')
+                return;
+            }
+
+            try {
+                if (signUpUserTypeTab == "seeker") {
+                    const { error } = await supabase.from('Seekers').insert([{
+                        "unique_id": res.data.user.id,
+                        "email": email
+                    }])
+                    if (error) {
+                        if (error.code === '23505') {
+                            setError('This email is already registered. Please sign in instead.')
+                        } else {
+                            throw error;
+                        }
+                        return;
+                    }
+                } else {
+                    const { error } = await supabase.from('Recruiters').insert([{
+                        "uniqueid": res.data.user.id,
+                        "email": email
+                    }])
+                    if (error) {
+                        if (error.code === '23505') {
+                            setError('This email is already registered. Please sign in instead.')
+                        } else {
+                            throw error;
+                        }
+                        return;
+                    }
+                }
+            } catch (error: any) {
+                setError(`Failed to create user profile: ${error.message}`)
+                return;
+            }
+
+            if (res.data.user.aud == "authenticated") {
+                router.push(`signup/verify?email=${email}`)
+            }
+            router.refresh()
+        } catch (error: any) {
+            setError(`An unexpected error occurred: ${error.message}`)
         }
-        else {
-            const { data, error } = await supabase.from('Recruiters').insert([{ "uniqueid": res?.data?.user?.id, "email": email }])
-            console.log(data);
-            console.log(error);
-        }
-        if (res?.data?.user?.aud == "authenticated") {
-            router.push(`signup/verify?email=${email}`)
-        }
-        router.refresh()
     }
 
     const signInWithGoogle = async () => {
@@ -79,7 +120,7 @@ export default function SignIn() {
                     access_type: 'offline',
                     prompt: 'consent'
                 },
-                redirectTo: signUpUserTypeTab == "seeker" ? 'https://www.bloom.africa/auth/callback?route=/signup/complete_profile&next=' + redirectUrl : 'https://www.bloom.africa/auth/callback?route=/signup/complete_recruiter_profile'
+                redirectTo: signUpUserTypeTab == "seeker" ? 'http://localhost:3000/auth/callback?route=/signup/complete_profile&next=' + redirectUrl : 'http://localhost:3000/auth/callback?route=/signup/complete_recruiter_profile'
             },
 
         })
@@ -154,8 +195,14 @@ export default function SignIn() {
                         <div onClick={() => { signInWithGoogle() }} className="border rounded-lg py-2 text-xs text-center flex items-center justify-center gap-2 cursor-pointer"><FcGoogle />
                             {/* currentPage == "signin" ? "Login" : "Sign Up"} */}
                             Continue with Google</div>
-                        <p className="text-xs text-[#97999B] my-5 text-center">Or {currentPage == "signin" ? "Login" : "sign up"} with email</p>
+                        {/* <p className="text-xs text-[#97999B] my-5 text-center">Or {currentPage == "signin" ? "Login" : "sign up"} with email</p>
 
+                        {error && (
+                            <div className="mb-4 p-3 text-sm text-red-500 bg-red-50 rounded-lg border border-red-200">
+                                {error}
+                            </div>
+                        )} */}
+                        {/* 
                         <div>
                             <p className="font-semibold text-xs my-1 text-[#97999B]">Email Address</p>
                             <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Enter email address" value={email} onChange={(e) => { setemail(e.target.value) }} />
@@ -177,7 +224,7 @@ export default function SignIn() {
                                 </div>
                                 <button className="text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold" onClick={() => { handleSignUp() }}>Sign Up</button>
                                 <div className="my-4 text-center text-[#97999B] text-xs">Already have an account? <span className="text-[#4A2C84] cursor-pointer" onClick={() => { setCurrentPage('signin') }}>Sign In</span></div>
-                            </div>}
+                            </div>} */}
 
                     </div>
                 </div>
