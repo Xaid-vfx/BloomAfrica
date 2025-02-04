@@ -81,6 +81,9 @@ export default function Post(props) {
         "Other"
     ];
 
+    // Add this state for tracking which fields have errors
+    const [fieldErrors, setFieldErrors] = useState<Record<string, boolean>>({});
+
     async function fetchStates(countryName: string) {
         setIsLoadingStates(true);
         setState(""); // Reset state
@@ -237,23 +240,92 @@ export default function Post(props) {
     }
 
     async function handleSubmit() {
-        if (!title || !desc || !type || !category || !country || !state || !city ||
-            !wya || !skills || !duration || !limit || !startDate || !trainingMode ||
-            !providesCertificate) {
-            setErrorMessage("Please fill in all required fields");
-            toast.error("Please fill in all required fields");
+        // Define required fields with their display names
+        const requiredFieldsMap = {
+            title: {
+                value: !!title,
+                message: "Please enter apprenticeship title"
+            },
+            description: {
+                value: !!desc,
+                message: "Please enter description"
+            },
+            type: {
+                value: !!type,
+                message: "Please select type"
+            },
+            category: {
+                value: !!category,
+                message: "Please select category"
+            },
+            country: {
+                value: !!country,
+                message: "Please select country"
+            },
+            state: {
+                value: !!state,
+                message: "Please select state"
+            },
+            city: {
+                value: !!city,
+                message: "Please enter city"
+            },
+            whoWeAre: {
+                value: !!wya,
+                message: "Please enter company information"
+            },
+            skills: {
+                value: !!skills && skills.length > 0,
+                message: "Please enter at least one required skill"
+            },
+            duration: {
+                value: !!duration,
+                message: "Please enter duration"
+            },
+            limit: {
+                value: !!limit,
+                message: "Please enter number of apprentices"
+            },
+            startDate: {
+                value: !!startDate,
+                message: "Please select start date"
+            },
+            trainingMode: {
+                value: !!trainingMode,
+                message: "Please select training mode"
+            },
+            providesCertificate: {
+                value: providesCertificate !== null,
+                message: "Please specify if you provide certification"
+            },
+            hasSignupFee: {
+                value: !!hasSignupFee,
+                message: "Please specify if there is a signup fee"
+            },
+            signupFee: {
+                value: hasSignupFee === "No" || (hasSignupFee === "Yes" && !!signupfee && signupfee !== "0"),
+                message: "Please enter signup fee amount"
+            }
+        };
+
+        // Update fieldErrors state based on validation
+        const errors: Record<string, boolean> = {};
+        Object.entries(requiredFieldsMap).forEach(([key, field]) => {
+            errors[key] = !field.value;
+        });
+        setFieldErrors(errors);
+
+        // Find first error and show specific message
+        const firstError = Object.entries(requiredFieldsMap).find(([_, field]) => !field.value);
+        if (firstError) {
+            setErrorMessage(firstError[1].message);
+            toast.error(firstError[1].message);
             return;
         }
 
         if (parseInt(limit) < 1) {
             setErrorMessage("Number of apprentices must be at least 1");
             toast.error("Number of apprentices must be at least 1");
-            return;
-        }
-
-        if (hasSignupFee === "Yes" && (!signupfee || signupfee === "0")) {
-            setErrorMessage("Please enter a signup fee amount");
-            toast.error("Please enter a signup fee amount");
             return;
         }
 
@@ -272,6 +344,22 @@ export default function Post(props) {
         }
 
         setShowAgreements(true);
+    }
+
+    async function fetchBankDetails() {
+        setCheckingBankDetails(true);
+        const hasBankDetails = await checkBankDetails();
+        if (hasBankDetails) {
+            const { data } = await supabase
+                .from('RecruiterBankDetails')
+                .select('*')
+                .eq('recruiter_id', props.user.id)
+                .single();
+            setBankDetails(data);
+        } else {
+            setBankDetails(null);
+        }
+        setCheckingBankDetails(false);
     }
 
     function fillSampleData() {
@@ -320,17 +408,27 @@ export default function Post(props) {
                         <button className="text-sm text-[#4A2C84] py-1 px-4 rounded-xl border" onClick={fillSampleData}>Sample data</button>
                     </div>
                     <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-                    
+
                     <div className="flex flex-col gap-2 my-4">
                         <div className="mb-1">
                             <p className="font-[550] text-lg my-1">Apprenticeship Title *</p>
-                            <input value={title} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="e.g. Software Engineer" onChange={(e) => { settitle(e.target.value) }} />
+                            <input
+                                value={title}
+                                className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.title ? 'border-red-500 bg-red-50' : ''
+                                    }`}
+                                type="text"
+                                placeholder="e.g. Software Engineer"
+                                onChange={(e) => { settitle(e.target.value) }}
+                            />
                         </div>
                         <div className="my-2">
                             <p className="font-[550] text-lg my-1">Job Category *</p>
-                            <select value={category} onChange={(e) => {
-                                setcategory(e.target.value)
-                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
+                            <select
+                                value={category}
+                                onChange={(e) => { setcategory(e.target.value) }}
+                                className={`bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full ${fieldErrors.category ? 'border-red-500 bg-red-50' : ''
+                                    }`}
+                            >
                                 <option>Select category</option>
                                 {
                                     categories.map((category) => {
@@ -340,11 +438,12 @@ export default function Post(props) {
                             </select>
                         </div>
 
-                        
+
                         <div className='flex flex-col  gap-x-5'>
                             <div className="my-2 w-full">
                                 <p className="font-[550] text-lg my-1">Training Mode *</p>
-                                <div className="flex space-x-2 text-black">
+                                <div className={`flex space-x-2 text-black ${fieldErrors.trainingMode ? 'border border-red-500 rounded-lg p-1 bg-red-50' : ''
+                                    }`}>
                                     <button
                                         className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm min-w-max w-full ${trainingMode === "In-Person" ? "bg-green-500 text-white" : ""}`}
                                         onClick={() => setTrainingMode("In-Person")}
@@ -383,7 +482,7 @@ export default function Post(props) {
                                 </div>
                             </div>
                         </div>
-                        
+
 
                         <div className="mt-2">
                             <p className="font-[550] text-lg my-1">Duration *</p>
@@ -397,13 +496,14 @@ export default function Post(props) {
                                 name="Skills"
                                 placeHolder="Enter Required Skills"
                                 classNames={{
-                                    input: '!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full',
+                                    input: `!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full ${fieldErrors.skills ? '!border-red-500 !bg-red-50' : ''
+                                        }`,
                                     tag: 'text-xs'
                                 }}
                             />
                         </div>
                     </div>
-                        
+
 
                     <div className="flex gap-4 mt-10 sm:mt-16">
                         <h1 className="text-2xl font-semibold text-[#4A2C84]">Deadline and Opening</h1>
@@ -520,7 +620,7 @@ export default function Post(props) {
                     </div>
                     <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                     <div className="flex flex-col gap-2 my-4">
-                       <div className="my-2">
+                        <div className="my-2">
                             <p className="font-[550] text-lg my-1">Payment Type *</p>
                             <div className="flex space-x-2">
                                 <button
@@ -541,7 +641,7 @@ export default function Post(props) {
                                 >
                                     Settlement
                                 </button>
-                                
+
                             </div>
                         </div>
                         {(paymenttype == "Settlement" || paymenttype == "Monthly") ?
@@ -561,19 +661,27 @@ export default function Post(props) {
                             <div className="flex space-x-2">
                                 <button
                                     className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${hasSignupFee === "Yes" ? "bg-green-500 text-white" : ""}`}
-                                    onClick={() => setHasSignupFee("Yes")}
+                                    onClick={(e) => {
+                                        setHasSignupFee("Yes")
+                                        fetchBankDetails()
+                                        setsignupfee(e.target.value)
+                                    }
+                                    }
                                 >
                                     Yes
                                 </button>
                                 <button
                                     className={`bg-gray-300 px-4 py-3 rounded-lg border placeholder:text-xs text-sm w-full ${hasSignupFee === "No" ? "bg-green-500 text-white" : ""}`}
-                                    onClick={() => setHasSignupFee("No")}
+                                    onClick={() => {
+                                        setHasSignupFee("No")
+                                        setsignupfee("")
+                                    }}
                                 >
                                     No
                                 </button>
                             </div>
-                            
-                        </div> 
+
+                        </div>
                     </div>
                     {hasSignupFee === "Yes" && (
                         <div className="mt-4">
@@ -677,7 +785,14 @@ export default function Post(props) {
                     <div className="flex flex-col gap-2 my-4">
                         <div className="my-2">
                             <p className="font-[550] text-lg my-1"> Description *</p>
-                            <textarea value={desc} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Apprenticeship Description" onChange={(e) => { setdesc(e.target.value) }}></textarea>
+                            <textarea
+                                value={desc}
+                                rows={8}
+                                className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.description ? 'border-red-500 bg-red-50' : ''
+                                    }`}
+                                placeholder="Enter Apprenticeship Description"
+                                onChange={(e) => { setdesc(e.target.value) }}
+                            ></textarea>
                         </div>
 
                         <div className="my-2">
@@ -686,7 +801,7 @@ export default function Post(props) {
                         </div>
                     </div>
 
-                    
+
                 </div>
                 {errorMessage && (
                     <div className="text-red-500 text-sm mt-4">
@@ -711,6 +826,6 @@ export default function Post(props) {
                 </button>
                 {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
             </div>
-        </div>
+        </div >
     )
 }
