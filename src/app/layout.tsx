@@ -5,7 +5,7 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 
 import { Open_Sans, Roboto_Mono, Montserrat } from 'next/font/google'
 import { Toaster } from '@/components/ui/sonner'
-
+import FacebookPixel from '@/components/FacebookPixel'
 const openSans = Open_Sans({
   subsets: ['latin'],
   display: 'swap',
@@ -40,9 +40,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className} ${robotoMono.variable} font-sans` + inter.className}>{children}</body>
+      <body className={`${montserrat.className} ${robotoMono.variable} font-sans ${inter.className}`}>{children}</body>
       <Toaster />
       <GoogleAnalytics gaId="G-D068BXV1ZQ" />
+      <FacebookPixel />
     </html>
   )
 }
