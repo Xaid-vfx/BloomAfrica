@@ -9,6 +9,7 @@ import SideImage from '../../assets/images/SignIn/LeftIllustration.png'
 import Logo from '../../assets/images/Logo.png'
 import { FcGoogle } from "react-icons/fc";
 import LeftColomn from "@/components/SignUp/LeftColomn/LeftColomn"
+import * as pixel from '../../lib/fpixel'
 
 export default function SignIn() {
 
@@ -30,7 +31,7 @@ export default function SignIn() {
 
     const currentUrl = globalThis.window?.location.href
 
-
+    const [isRedirecting, setIsRedirecting] = useState(false);
 
     const handleSignUp = async () => {
         try {
@@ -113,6 +114,29 @@ export default function SignIn() {
     }
 
     const signInWithGoogle = async () => {
+        const isFacebookBrowser = /FB_IAB|FBAN|FBAV/.test(navigator.userAgent);
+
+        if (isFacebookBrowser) {
+            setIsRedirecting(true);
+            const currentURL = window.location.href;
+
+            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                window.location.href = `x-web-search://?${currentURL}`;
+                setTimeout(() => {
+                    window.location.href = currentURL;
+                }, 500);
+            } else {
+                window.location.href = `intent://${window.location.host}${window.location.pathname}${window.location.search}#Intent;scheme=https;package=com.android.chrome;end`;
+            }
+            return;
+        }
+
+        // Track the event before initiating Google sign-in
+        pixel.event('InitiateGoogleSignIn', {
+            content_category: 'Authentication',
+            content_name: signUpUserTypeTab == "seeker" ? 'Apprentice Google Sign In' : 'Trainer Google Sign In'
+        });
+
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
@@ -120,10 +144,11 @@ export default function SignIn() {
                     access_type: 'offline',
                     prompt: 'consent'
                 },
-                redirectTo: signUpUserTypeTab == "seeker" ? 'https://www.bloom.africa/auth/callback?route=/signup/complete_profile&next=' + redirectUrl : 'https://www.bloom.africa/auth/callback?route=/signup/complete_recruiter_profile'
+                redirectTo: signUpUserTypeTab == "seeker" ?
+                    'https://www.bloom.africa/auth/callback?route=/signup/complete_profile&next=' + redirectUrl :
+                    'https://www.bloom.africa/auth/callback?route=/signup/complete_recruiter_profile'
             },
-
-        })
+        });
         console.log(data);
         console.log("error" + error);
     }
@@ -229,6 +254,15 @@ export default function SignIn() {
                     </div>
                 </div>
             </div>
+
+            {isRedirecting && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white p-4 rounded-lg text-center">
+                        <p className="text-sm mb-2">Opening in default browser...</p>
+                        <div className="w-6 h-6 border-2 border-[#4A2C84] border-t-transparent rounded-full animate-spin mx-auto"></div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
