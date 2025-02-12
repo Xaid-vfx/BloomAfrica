@@ -405,7 +405,7 @@ export default function Post(props) {
 
                     <div className="flex gap-4">
                         <h1 className="text-2xl font-semibold text-[#4A2C84]">General</h1>
-                        <button className="text-sm text-[#4A2C84] py-1 px-4 rounded-xl border" onClick={fillSampleData}>Sample data</button>
+                        {/* <button className="text-sm text-[#4A2C84] py-1 px-4 rounded-xl border" onClick={fillSampleData}>Sample data</button> */}
                     </div>
                     <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
 
