@@ -252,10 +252,10 @@ export default function JobDescription(props) {
                         <h1 className="text-2xl font-semibold">Description</h1>
                         <p className="mb-7 mt-2 text-[#7C8493] text-sm">{job != null ? job?.description : <Skeleton count={4} />}</p>
                     </div>
-                    <div className="">
+                    {/* <div className="">
                         <h1 className="text-2xl font-semibold">Responsibilities</h1>
                         <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.responsibilities?.replace("\n", "<br/>") : <Skeleton count={4} />}</p>
-                    </div>
+                    </div> */}
                     <div className="">
                         <h1 className="text-2xl font-semibold">Who We Are</h1>
                         <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.who_we_are : <Skeleton count={4} />}</p>
