@@ -91,20 +91,20 @@ export default function RecruiterContent(props: Props) {
                     handleChangeTabIndex(e)
                 }} name={props.company ? props.company?.name : ""} />
             </div>
-            
+
 
             <div className='flex flex-row lg:gap-5 mx-5 h-full '>
 
                 <div className='h-full lg:w-[20%]'>
                     <Sidebar handleChangeTabIndex={(e: any) => {
                         handleChangeTabIndex(e)
-                    }} currTabIndex={currTabIndex} user={props.user} />   
+                    }} currTabIndex={currTabIndex} user={props.user} />
                 </div>
-                
+
 
                 <div className="w-full flex flex-col h-full max-h-[calc(100vh-116px)]  ">
-                    
-                    
+
+
 
                     {currTabIndex == 0 ?
                         <Dashboard handleChangeTabIndex={(e: any) => {
@@ -118,17 +118,25 @@ export default function RecruiterContent(props: Props) {
                         <div className="border p-20">Messages</div>
                         : ""}
                     {currTabIndex == 2 ?
-                        <EditRecruiter user={props.user} recruiter={props.recruiter} company={props.company} />
+                        <EditRecruiter user={props.user} recruiter={props.recruiter} company={props.company} handleChangeTabIndex={(e: any) => {
+                            handleChangeTabIndex(e)
+                        }} />
                         : ""}
                     {currTabIndex == 3 ?
-                        <Listing job_id={jobid} user={props.user} jobs={jobs} setjobs={setjobs} />
+                        <Listing job_id={jobid} user={props.user} jobs={jobs} setjobs={setjobs} handleChangeTabIndex={(e: any) => {
+                            handleChangeTabIndex(e)
+                        }} />
                         : ""}
                     {currTabIndex == 4 ? <Post user={props.user} handleChangeTabIndex={(e: any) => {
                         handleChangeTabIndex(e)
                     }} /> : ""}
-                    {currTabIndex == 5 ? <Messages user={props.user} recruiter={props.recruiter} /> : ""}
+                    {currTabIndex == 5 ? <Messages user={props.user} recruiter={props.recruiter} handleChangeTabIndex={(e: any) => {
+                        handleChangeTabIndex(e)
+                    }} /> : ""}
                     {currTabIndex == 6 ?
-                        <BankDetails user={props.user} recruiter={props.recruiter} />
+                        <BankDetails user={props.user} recruiter={props.recruiter} handleChangeTabIndex={(e: any) => {
+                            handleChangeTabIndex(e)
+                        }} />
                         : ""}
                 </div>
             </div>

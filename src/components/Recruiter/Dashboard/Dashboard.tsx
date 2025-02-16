@@ -11,6 +11,11 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import JobsTable from "@/components/General/JobsTable"
 import { deleteJob, getApplicationsForJob } from "@/lib/jobs/jobUtils";
 import { toast } from "sonner"
+import { PiBuildings } from "react-icons/pi";
+import { LuClipboardList } from "react-icons/lu";
+import { BiMessage } from "react-icons/bi";
+import { BsBuildingUp } from "react-icons/bs";
+import { IoAddCircleOutline } from "react-icons/io5";
 
 type Props = {
     user: any
@@ -76,33 +81,70 @@ export default function Dashboard(props: Props) {
         props.handleChangeTabIndex(3);
     }
 
-    return (        
+    return (
         <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-0 lg:p-8 overflow-scroll'>
             <h1 className="text-2xl font-bold text-[#4A2C84] px-4 lg:px-0 mt-7 mb-6 lg:mb-6">Good Morning,
                 {' ' + props.recruiter?.name}
             </h1>
             <div className="flex flex-col lg:flex-row gap-3 px-3 lg:px-0 justify-between lg:mt-0 mb-8">
-                <div className="py-4 px-4  border rounded-lg bg-white w-full flex items-center lg:gap-6 gap-3">
-                    <Image src={Posted} alt="" width={60} />
-                    <div>
-                        <div className="text-xl lg:text-2xl font-medium">{props.jobs.length}</div>
-                        <div className="text-[#7C8493] text-sm lg:text-base">Posted Jobs</div>
+                {/* Mobile navigation buttons */}
+                <div className="lg:hidden flex flex-col gap-3 w-full">
+                    <div className="grid grid-cols-2 gap-3 w-full">
+                        <button
+                            onClick={() => props.handleChangeTabIndex(2)}
+                            className="py-4 px-4 border border-gray-200 rounded-lg bg-white w-full text-center text-[#4A2C84] hover:bg-[#F8F8FD] transition-all flex flex-col items-center gap-2"
+                        >
+                            <PiBuildings className="text-2xl" />
+                            <span>Company Profile</span>
+                        </button>
+                        <button
+                            onClick={() => props.handleChangeTabIndex(3)}
+                            className="py-4 px-4 border border-gray-200 rounded-lg bg-white w-full text-center text-[#4A2C84] hover:bg-[#F8F8FD] transition-all flex flex-col items-center gap-2"
+                        >
+                            <LuClipboardList className="text-2xl" />
+                            <span>My Apprenticeships</span>
+                        </button>
+                        <button
+                            onClick={() => props.handleChangeTabIndex(5)}
+                            className="py-4 px-4 border border-gray-200 rounded-lg bg-white w-full text-center text-[#4A2C84] hover:bg-[#F8F8FD] transition-all flex flex-col items-center gap-2"
+                        >
+                            <BiMessage className="text-2xl" />
+                            <span>Messages</span>
+                        </button>
+                        <button
+                            onClick={() => props.handleChangeTabIndex(6)}
+                            className="py-4 px-4 border border-gray-200 rounded-lg bg-white w-full text-center text-[#4A2C84] hover:bg-[#F8F8FD] transition-all flex flex-col items-center gap-2"
+                        >
+                            <BsBuildingUp className="text-2xl" />
+                            <span>Bank Details</span>
+                        </button>
+                    </div>
+                    <button
+                        onClick={() => props.handleChangeTabIndex(4)}
+                        className="py-4 px-4 rounded-lg border border-gray-200 bg-white w-full text-center text-[#4A2C84] font-medium hover:bg-[#F8F8FD] transition-all flex items-center justify-center gap-2"
+                    >
+                        <IoAddCircleOutline className="text-xl" />
+                        <span>Post Apprenticeship</span>
+                    </button>
+                </div>
+
+                {/* Desktop stats - only visible on lg screens */}
+                <div className="hidden lg:flex w-full gap-3">
+                    <div className="py-4 px-4 border rounded-lg bg-white w-full flex items-center lg:gap-6 gap-3">
+                        <Image src={Posted} alt="" width={60} />
+                        <div>
+                            <div className="text-xl lg:text-2xl font-medium">{props.jobs.length}</div>
+                            <div className="text-[#7C8493] text-sm lg:text-base">Posted Jobs</div>
+                        </div>
+                    </div>
+                    <div className="py-4 px-4 border rounded-lg bg-white w-full flex items-center lg:gap-6 gap-3">
+                        <Image src={Applications} alt="" width={60} />
+                        <div>
+                            <div className="text-xl lg:text-2xl font-medium">{applications?.length}</div>
+                            <div className="text-[#7C8493] text-sm lg:text-base">Applications</div>
+                        </div>
                     </div>
                 </div>
-                <div className="py-4 px-4  border rounded-lg bg-white w-full flex items-center lg:gap-6 gap-3">
-                    <Image src={Applications} alt="" width={60} />
-                    <div>
-                        <div className="text-xl lg:text-2xl font-medium">{applications?.length}</div>
-                        <div className="text-[#7C8493] text-sm lg:text-base">Applications</div>
-                    </div>
-                </div>
-                {/* <div className="py-4 px-4 lg:mx-2 border rounded-lg bg-white lg:w-1/3 flex items-center lg:gap-6 gap-3">
-                    <Image src={Shortlisted} alt="" width={60} />
-                    <div>
-                        <div className="text-xl lg:text-2xl font-medium">0</div>
-                        <div className="text-[#7C8493] text-sm lg:text-base">Shorlisted</div>
-                    </div>
-                </div> */}
             </div>
             <div className="px-4 mb-6 lg:hidden">
                 <h1 className="font-medium text-lg">Recent Listings</h1>
