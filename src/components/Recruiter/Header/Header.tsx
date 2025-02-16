@@ -31,9 +31,7 @@ export default function Header(props: Props) {
                     <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />
                     <div>
                         <p className="text-sm mb-1">Company</p>
-                        <p className="flex gap-2 items-center font-semibold">{props.name}<FaChevronDown /></p>
                     </div>
-                    <div><IoNotificationsOutline className="text-xl" /></div>
                 </div>
                 <div id="sideBar" className="h-[110vh] bg-[#F8F8FD] w-full overflow-hidden fixed top-0 z-20 duration-200">
 
@@ -89,17 +87,13 @@ export default function Header(props: Props) {
                 </div>
                 <a onClick={() => { props.handleChangeTabIndex(4) }}><button className="text-sm text-white bg-[#4A2C84] py-3 px-6 rounded-2xl font-semibold">+ Post Apprenticeship</button></a>
             </div>
-            <div className="lg:hidden flex justify-between px-3 py-3 items-center">
-                <HiOutlineMenuAlt2 className="text-2xl" onClick={() => { setshowNav(true) }} />
+            <div className="lg:hidden flex relative  justify-center px-3 py-3 items-center">
+                <HiOutlineMenuAlt2 className="text-2xl absolute left-5 " onClick={() => { setshowNav(true) }} />
                 <div>
                     <p className="text-sm mb-1">Company</p>
-                    <p className="flex gap-2 items-center font-semibold">{props.name}<FaChevronDown /></p>
                 </div>
-                <div><IoNotificationsOutline className="text-xl" /></div>
             </div>
             <hr className="h-px bg-gray-300 border-0"></hr>
-
         </div>
-
     )
 }
