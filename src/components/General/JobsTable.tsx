@@ -124,6 +124,8 @@ export default function JobsTable(props: any) {
                         {rows
                             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
+                                console.log(row);
+
                                 return (
                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                         {columns.map((column) => {
@@ -149,7 +151,7 @@ export default function JobsTable(props: any) {
                                                             props.ApplicationsForSelectedJob(row.uid)
                                                         }} className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-xl'>
                                                             View Applicants</button>
-                                                        <button onClick={() => { props.delete(row.id) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-xl'>
+                                                        <button onClick={() => { props.delete(row.uid) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-xl'>
                                                             Delete</button>
                                                     </div> : ""}
                                                 </TableCell>
