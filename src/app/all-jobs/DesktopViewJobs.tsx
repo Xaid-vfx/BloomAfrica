@@ -123,6 +123,7 @@ export default function DesktopViewJobs(props: any) {
                                     companyName={job.company_name ? job.company_name : "Unknown"}
                                     certificate={job.provides_certificate}
                                     training_mode={job.training_mode}
+                                    user={props.user}
                                 />
                             );
                         }

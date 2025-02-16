@@ -28,8 +28,6 @@ export default function JobCard(props: Props) {
         router.push("all-jobs/job?id=" + id)
     }
 
-
-
     return (
         <div className="flex items-center justify-between border-2 rounded-2xl px-6 py-4 my-6 bg-white hover:drop-shadow-md">
             <div className="flex flex-row">
@@ -56,7 +54,8 @@ export default function JobCard(props: Props) {
             </div>
             <div className="">
                 <div className="flex flex-col gap-2">
-                    <button className=" text-black border border-black py-3 text-center font-medium rounded-2xl px-14 hover:bg-gray-100 " >Save</button><a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14 hover:bg-[#2f185e]" >Apply</a>
+                    <SaveButton id={props.id} user={props.user.id} />
+                    <a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14 hover:bg-[#2f185e]" >Apply</a>
                 </div>
 
                 {/* <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">
