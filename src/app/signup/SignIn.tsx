@@ -32,6 +32,7 @@ export default function SignIn() {
     const currentUrl = globalThis.window?.location.href
 
     const [isRedirecting, setIsRedirecting] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSignUp = async () => {
         try {
@@ -154,32 +155,34 @@ export default function SignIn() {
     }
 
     const handleSignIn = async () => {
-        const res = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        })
-        console.log(res);
-
-        if (res?.data?.user?.aud == "authenticated") {
-            const id = res.data.user.id;
-            const { data: d1, error: e1 } = await supabase.from('Seekers').select().eq('unique_id', id).single()
-            const { data: d2, error: e2 } = await supabase.from('Recruiters').select().eq('uniqueid', id).single()
-
-            console.log(d1);
-            console.log(d2);
-
-            if (d1) {
-                router.push("/signup/complete_profile")
+        try {
+            setError('') // Clear any previous errors
+            if (!email) {
+                setError('Please enter your email address')
+                return
             }
-            else if (d2) {
-                router.push("/signup/complete_recruiter_profile")
+
+            setIsLoading(true) // Add loading state before API call
+
+            const { data, error } = await supabase.auth.signInWithOtp({
+                email,
+                options: {
+                    emailRedirectTo: `${location.origin}/all-jobs`,
+                }
+            })
+
+            if (error) {
+                setError(`Failed to send OTP: ${error.message}`)
+                return
             }
-            else {
-                console.log(e1);
-                console.log(e2);
-            }
+
+            // Redirect to verify page after sending OTP
+            router.push(`signup/verify?email=${email}&type=${signUpUserTypeTab}`)
+        } catch (error: any) {
+            setError(`An unexpected error occurred: ${error.message}`)
+        } finally {
+            setIsLoading(false) // Reset loading state
         }
-        router.refresh()
     }
 
     useEffect(() => {
@@ -227,6 +230,34 @@ export default function SignIn() {
                                 {error}
                             </div>
                         )} */}
+                        <div>
+                            <p className="font-semibold text-xs my-1 text-[#97999B]">Email Address</p>
+                            <input
+                                className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
+                                type="text"
+                                placeholder="Enter email address"
+                                value={email}
+                                onChange={(e) => { setemail(e.target.value) }}
+                            />
+                        </div>
+
+                        <button
+                            className={`relative text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold mt-4 
+                                ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#3a2266]'}`}
+                            onClick={() => { handleSignIn() }}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? (
+                                <>
+                                    <span className="opacity-0">Sign in with OTP</span>
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                    </div>
+                                </>
+                            ) : (
+                                'Sign in with OTP'
+                            )}
+                        </button>
                         {/* 
                         <div>
                             <p className="font-semibold text-xs my-1 text-[#97999B]">Email Address</p>

@@ -209,11 +209,22 @@ export default function RightColomnRecruiter() {
         return user;
     }
     useEffect(() => {
-        getUser().then(user => {
-            router.refresh();
-            setcurrentUser(user);
-        })
-    }, [])
+        async function fetchUserData() {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user?.email) {
+                    setemail(user.email);
+                    setcurrentUser(user);
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+                toast.error('Failed to fetch user data');
+            }
+        }
+
+        fetchUserData();
+        router.refresh();
+    }, []);
 
 
     return (
@@ -233,9 +244,16 @@ export default function RightColomnRecruiter() {
                             }} />
                         </div>
                         <div className="my-4">
-                            <TextInput value={email} field="Email" type="text" placeholder="Enter your email" handleChange={(e: any) => {
-                                setemail(e.target.value)
-                            }} />
+                            <TextInput
+                                value={email}
+                                field="Email"
+                                type="text"
+                                placeholder="Enter your email"
+                                handleChange={(e: any) => {
+                                    setemail(e.target.value)
+                                }}
+                                disabled={true}
+                            />
                         </div>
                         <div className="my-4">
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">Phone Number</p>
