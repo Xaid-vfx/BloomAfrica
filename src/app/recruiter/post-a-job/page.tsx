@@ -44,6 +44,11 @@ export default function Post(props) {
     const [startDate, setStartDate] = useState("")
     const [trainingMode, setTrainingMode] = useState("")
     const [providesCertificate, setProvidesCertificate] = useState<boolean | null>(null)
+    const [teachingMethod, setTeachingMethod] = useState("")
+    const [learningOutcomes, setLearningOutcomes] = useState<string[]>([])
+    const [scheduling, setScheduling] = useState("")
+    const [outcomes, setOutcomes] = useState("")
+    const [trainerCredentials, setTrainerCredentials] = useState("")
 
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
@@ -152,7 +157,12 @@ export default function Post(props) {
                     city: city,
                     start_date: startDate || null,
                     training_mode: trainingMode,
-                    provides_certificate: providesCertificate
+                    provides_certificate: providesCertificate,
+                    teaching_method: teachingMethod,
+                    learning_outcomes: learningOutcomes,
+                    scheduling: scheduling,
+                    outcomes: outcomes,
+                    trainer_credentials: trainerCredentials,
                 })
                 .select('uid')
                 .single()
@@ -200,6 +210,11 @@ export default function Post(props) {
                 setStartDate("");
                 setTrainingMode("");
                 setProvidesCertificate(null);
+                setTeachingMethod("");
+                setLearningOutcomes([]);
+                setScheduling("");
+                setOutcomes("");
+                setTrainerCredentials("");
                 router.refresh();
             }
         } catch (error) {
@@ -305,6 +320,26 @@ export default function Post(props) {
             signupFee: {
                 value: hasSignupFee === "No" || (hasSignupFee === "Yes" && !!signupfee && signupfee !== "0"),
                 message: "Please enter signup fee amount"
+            },
+            teachingMethod: {
+                value: !!teachingMethod,
+                message: "Please explain your teaching method"
+            },
+            learningOutcomes: {
+                value: !!learningOutcomes && learningOutcomes.length > 0,
+                message: "Please list what apprentices will learn"
+            },
+            scheduling: {
+                value: !!scheduling,
+                message: "Please provide scheduling details"
+            },
+            outcomes: {
+                value: !!outcomes,
+                message: "Please explain the expected outcomes"
+            },
+            trainerCredentials: {
+                value: !!trainerCredentials,
+                message: "Please share your trainer credentials"
             }
         };
 
@@ -788,6 +823,79 @@ export default function Post(props) {
 
 
                         <div className="flex gap-4 mt-10 sm:mt-16">
+                            <h1 className="text-2xl font-semibold text-[#4A2C84]">Training Details</h1>
+                        </div>
+                        <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                        <div className="flex flex-col gap-2 my-4">
+                            <div className="my-2">
+                                <p className="font-[550] text-lg my-1">Teaching Method *</p>
+                                <textarea
+                                    value={teachingMethod}
+                                    rows={4}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.teachingMethod ? 'border-red-500 bg-red-50' : ''
+                                        }`}
+                                    placeholder="Explain your teaching method—will it be hands-on, theory-based, project-focused, or a mix? Mention if learners will work on real-world projects, receive one-on-one mentoring, or have group sessions."
+                                    onChange={(e) => setTeachingMethod(e.target.value)}
+                                ></textarea>
+                            </div>
+
+                            <div className="my-2">
+                                <p className="font-[550] text-lg my-1">What You Will Learn *</p>
+                                <TagsInput
+                                    value={learningOutcomes}
+                                    onChange={setLearningOutcomes}
+                                    name="LearningOutcomes"
+                                    placeHolder="Enter skills and press enter (e.g., 'How to safely use hand tools')"
+                                    classNames={{
+                                        input: `!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full ${fieldErrors.learningOutcomes ? '!border-red-500 !bg-red-50' : ''
+                                            }`,
+                                        tag: 'text-xs'
+                                    }}
+                                />
+                                <p className="text-xs text-gray-500 mt-1">
+                                    List the technical and practical skills your apprentices will develop. Press enter after each item.
+                                </p>
+                            </div>
+
+                            <div className="my-2">
+                                <p className="font-[550] text-lg my-1">Scheduling and Delivery *</p>
+                                <textarea
+                                    value={scheduling}
+                                    rows={4}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.scheduling ? 'border-red-500 bg-red-50' : ''
+                                        }`}
+                                    placeholder="How long will the apprenticeship last? What's the weekly/daily schedule? Mention any breaks or holidays."
+                                    onChange={(e) => setScheduling(e.target.value)}
+                                ></textarea>
+                            </div>
+
+                            <div className="my-2">
+                                <p className="font-[550] text-lg my-1">Career Outcomes *</p>
+                                <textarea
+                                    value={outcomes}
+                                    rows={4}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.outcomes ? 'border-red-500 bg-red-50' : ''
+                                        }`}
+                                    placeholder="Explain how this apprenticeship will help learners in their careers or business. What kind of jobs or opportunities will they be prepared for?"
+                                    onChange={(e) => setOutcomes(e.target.value)}
+                                ></textarea>
+                            </div>
+
+                            <div className="my-2">
+                                <p className="font-[550] text-lg my-1">Trainer Credentials *</p>
+                                <textarea
+                                    value={trainerCredentials}
+                                    rows={4}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.trainerCredentials ? 'border-red-500 bg-red-50' : ''
+                                        }`}
+                                    placeholder="Share your experience, training, achievements, or anything else that shows why you're qualified to teach others in this field. Be as thorough as possible."
+                                    onChange={(e) => setTrainerCredentials(e.target.value)}
+                                ></textarea>
+                            </div>
+                        </div>
+
+
+                        <div className="flex gap-4 mt-10 sm:mt-16">
                             <h1 className="text-2xl font-semibold text-[#4A2C84]">Description & Company Info</h1>
                         </div>
                         <hr className="h-px sm:my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
@@ -799,7 +907,7 @@ export default function Post(props) {
                                     rows={8}
                                     className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.description ? 'border-red-500 bg-red-50' : ''
                                         }`}
-                                    placeholder="Enter Apprenticeship Description"
+                                    placeholder="provide a general but captivating description of what this training is about."
                                     onChange={(e) => { setdesc(e.target.value) }}
                                 ></textarea>
                             </div>
