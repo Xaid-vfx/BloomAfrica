@@ -45,7 +45,7 @@ export default function Post(props) {
     const [trainingMode, setTrainingMode] = useState("")
     const [providesCertificate, setProvidesCertificate] = useState<boolean | null>(null)
     const [teachingMethod, setTeachingMethod] = useState("")
-    const [learningOutcomes, setLearningOutcomes] = useState<string[]>([])
+    const [learningOutcomes, setLearningOutcomes] = useState<string>("")
     const [scheduling, setScheduling] = useState("")
     const [outcomes, setOutcomes] = useState("")
     const [trainerCredentials, setTrainerCredentials] = useState("")
@@ -211,7 +211,7 @@ export default function Post(props) {
                 setTrainingMode("");
                 setProvidesCertificate(null);
                 setTeachingMethod("");
-                setLearningOutcomes([]);
+                setLearningOutcomes("");
                 setScheduling("");
                 setOutcomes("");
                 setTrainerCredentials("");
@@ -262,8 +262,8 @@ export default function Post(props) {
                 message: "Please enter apprenticeship title"
             },
             description: {
-                value: !!desc,
-                message: "Please enter description"
+                value: !!desc && desc.length >= 300,
+                message: desc.length === 0 ? "Please enter description" : "Description must be at least 300 characters"
             },
             type: {
                 value: !!type,
@@ -286,8 +286,8 @@ export default function Post(props) {
                 message: "Please enter city"
             },
             whoWeAre: {
-                value: !!wya,
-                message: "Please enter company information"
+                value: !!wya && wya.length >= 300,
+                message: wya.length === 0 ? "Please enter company information" : "Company information must be at least 300 characters"
             },
             skills: {
                 value: !!skills && skills.length > 0,
@@ -322,24 +322,24 @@ export default function Post(props) {
                 message: "Please enter signup fee amount"
             },
             teachingMethod: {
-                value: !!teachingMethod,
-                message: "Please explain your teaching method"
+                value: !!teachingMethod && teachingMethod.length >= 300,
+                message: teachingMethod.length === 0 ? "Please explain your teaching method" : "Teaching method must be at least 300 characters"
             },
             learningOutcomes: {
-                value: !!learningOutcomes && learningOutcomes.length > 0,
-                message: "Please list what apprentices will learn"
+                value: !!learningOutcomes.trim() && learningOutcomes.length >= 300,
+                message: learningOutcomes.length === 0 ? "Please list what apprentices will learn" : "Learning outcomes must be at least 300 characters"
             },
             scheduling: {
-                value: !!scheduling,
-                message: "Please provide scheduling details"
+                value: !!scheduling && scheduling.length >= 300,
+                message: scheduling.length === 0 ? "Please provide scheduling details" : "Scheduling details must be at least 300 characters"
             },
             outcomes: {
-                value: !!outcomes,
-                message: "Please explain the expected outcomes"
+                value: !!outcomes && outcomes.length >= 300,
+                message: outcomes.length === 0 ? "Please explain the expected outcomes" : "Career outcomes must be at least 300 characters"
             },
             trainerCredentials: {
-                value: !!trainerCredentials,
-                message: "Please share your trainer credentials"
+                value: !!trainerCredentials && trainerCredentials.length >= 300,
+                message: trainerCredentials.length === 0 ? "Please share your trainer credentials" : "Trainer credentials must be at least 300 characters"
             }
         };
 
@@ -821,6 +821,46 @@ export default function Post(props) {
                             </div>
                         </div>
 
+                        <div className="flex gap-4 mt-10 sm:mt-16">
+                            <h1 className="text-2xl font-semibold text-[#4A2C84]">Description & Company Info</h1>
+                        </div>
+                        <hr className="h-px sm:my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                        <div className="flex flex-col gap-2 my-4">
+                            <div className="my-2">
+                                <div className="flex justify-between items-center">
+                                    <p className="font-[550] text-lg my-1">Description *</p>
+                                    <span className="text-xs text-gray-500">{desc.length}</span>
+                                </div>
+                                <textarea
+                                    value={desc}
+                                    rows={8}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.description ? 'border-red-500 bg-red-50' : ''}`}
+                                    placeholder="Provide a general but captivating description of what this training is about."
+                                    onChange={(e) => { setdesc(e.target.value) }}
+                                ></textarea>
+                                {desc.length < 300 && (
+                                    <p className="text-xs mt-1 text-red-500">Minimum 300 characters</p>
+                                )}
+                            </div>
+
+                            <div className="my-2">
+                                <div className="flex justify-between items-center">
+                                    <p className="font-[550] text-lg my-1">About us / Company profile *</p>
+                                    <span className="text-xs text-gray-500">{wya.length}</span>
+                                </div>
+                                <textarea
+                                    value={wya}
+                                    rows={8}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.whoWeAre ? 'border-red-500 bg-red-50' : ''}`}
+                                    placeholder="Briefly introduce your company to potential applicants. Describe your mission, values, and what sets your company apart. Highlight why potential employees would want to join your team."
+                                    onChange={(e) => { setwya(e.target.value) }}
+                                ></textarea>
+                                {wya.length < 300 && (
+                                    <p className="text-xs mt-1 text-red-500">Minimum 300 characters</p>
+                                )}
+                            </div>
+                        </div>
+
 
                         <div className="flex gap-4 mt-10 sm:mt-16">
                             <h1 className="text-2xl font-semibold text-[#4A2C84]">Training Details</h1>
@@ -828,96 +868,96 @@ export default function Post(props) {
                         <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                         <div className="flex flex-col gap-2 my-4">
                             <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Teaching Method *</p>
+                                <div className="flex justify-between items-center">
+                                    <p className="font-[550] text-lg my-1">Teaching Method *</p>
+                                    <span className="text-xs text-gray-500">{teachingMethod.length}</span>
+                                </div>
                                 <textarea
                                     value={teachingMethod}
                                     rows={4}
-                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.teachingMethod ? 'border-red-500 bg-red-50' : ''
-                                        }`}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.teachingMethod ? 'border-red-500 bg-red-50' : ''}`}
                                     placeholder="Explain your teaching method—will it be hands-on, theory-based, project-focused, or a mix? Mention if learners will work on real-world projects, receive one-on-one mentoring, or have group sessions."
                                     onChange={(e) => setTeachingMethod(e.target.value)}
                                 ></textarea>
+                                {teachingMethod.length < 300 && (
+                                    <p className="text-xs mt-1 text-red-500">Minimum 300 characters</p>
+                                )}
                             </div>
 
                             <div className="my-2">
-                                <p className="font-[550] text-lg my-1">What You Will Learn *</p>
-                                <TagsInput
+                                <div className="flex justify-between items-center">
+                                    <p className="font-[550] text-lg my-1">What You Will Learn *</p>
+                                    <span className="text-xs text-gray-500">{learningOutcomes.length}</span>
+                                </div>
+                                <textarea
                                     value={learningOutcomes}
-                                    onChange={setLearningOutcomes}
-                                    name="LearningOutcomes"
-                                    placeHolder="Enter skills and press enter (e.g., 'How to safely use hand tools')"
-                                    classNames={{
-                                        input: `!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full ${fieldErrors.learningOutcomes ? '!border-red-500 !bg-red-50' : ''
-                                            }`,
-                                        tag: 'text-xs'
-                                    }}
-                                />
-                                <p className="text-xs text-gray-500 mt-1">
-                                    List the technical and practical skills your apprentices will develop. Press enter after each item.
-                                </p>
+                                    rows={7}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.learningOutcomes ? 'border-red-500 bg-red-50' : ''}`}
+                                    placeholder={`List the technical and practical skills your apprentices will develop. For example:
+
+•  How to safely use hand and power tools
+•  Measuring, cutting, and assembling wood
+•  Creating furniture from scratch
+•  Applying finishes like paint and varnish
+•  Understanding different types of wood and their uses`}
+                                    onChange={(e) => setLearningOutcomes(e.target.value)}
+                                ></textarea>
+                                {learningOutcomes.length < 300 && (
+                                    <p className="text-xs mt-1 text-red-500">Minimum 300 characters</p>
+                                )}
                             </div>
 
                             <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Scheduling and Delivery *</p>
+                                <div className="flex justify-between items-center">
+                                    <p className="font-[550] text-lg my-1">Scheduling and Delivery *</p>
+                                    <span className="text-xs text-gray-500">{scheduling.length}</span>
+                                </div>
                                 <textarea
                                     value={scheduling}
                                     rows={4}
-                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.scheduling ? 'border-red-500 bg-red-50' : ''
-                                        }`}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.scheduling ? 'border-red-500 bg-red-50' : ''}`}
                                     placeholder="How long will the apprenticeship last? What's the weekly/daily schedule? Mention any breaks or holidays."
                                     onChange={(e) => setScheduling(e.target.value)}
                                 ></textarea>
+                                {scheduling.length < 300 && (
+                                    <p className="text-xs mt-1 text-red-500">Minimum 300 characters</p>
+                                )}
                             </div>
 
                             <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Career Outcomes *</p>
+                                <div className="flex justify-between items-center">
+                                    <p className="font-[550] text-lg my-1">Career Outcomes *</p>
+                                    <span className="text-xs text-gray-500">{outcomes.length}</span>
+                                </div>
                                 <textarea
                                     value={outcomes}
                                     rows={4}
-                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.outcomes ? 'border-red-500 bg-red-50' : ''
-                                        }`}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.outcomes ? 'border-red-500 bg-red-50' : ''}`}
                                     placeholder="Explain how this apprenticeship will help learners in their careers or business. What kind of jobs or opportunities will they be prepared for?"
                                     onChange={(e) => setOutcomes(e.target.value)}
                                 ></textarea>
+                                {outcomes.length < 300 && (
+                                    <p className="text-xs mt-1 text-red-500">Minimum 300 characters</p>
+                                )}
                             </div>
 
                             <div className="my-2">
-                                <p className="font-[550] text-lg my-1">Trainer Credentials *</p>
+                                <div className="flex justify-between items-center">
+                                    <p className="font-[550] text-lg my-1">Trainer Credentials *</p>
+                                    <span className="text-xs text-gray-500">{trainerCredentials.length}</span>
+                                </div>
                                 <textarea
                                     value={trainerCredentials}
                                     rows={4}
-                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.trainerCredentials ? 'border-red-500 bg-red-50' : ''
-                                        }`}
+                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.trainerCredentials ? 'border-red-500 bg-red-50' : ''}`}
                                     placeholder="Share your experience, training, achievements, or anything else that shows why you're qualified to teach others in this field. Be as thorough as possible."
                                     onChange={(e) => setTrainerCredentials(e.target.value)}
                                 ></textarea>
+                                {trainerCredentials.length < 300 && (
+                                    <p className="text-xs mt-1 text-red-500">Minimum 300 characters</p>
+                                )}
                             </div>
                         </div>
-
-
-                        <div className="flex gap-4 mt-10 sm:mt-16">
-                            <h1 className="text-2xl font-semibold text-[#4A2C84]">Description & Company Info</h1>
-                        </div>
-                        <hr className="h-px sm:my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-                        <div className="flex flex-col gap-2 my-4">
-                            <div className="my-2">
-                                <p className="font-[550] text-lg my-1"> Description *</p>
-                                <textarea
-                                    value={desc}
-                                    rows={8}
-                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.description ? 'border-red-500 bg-red-50' : ''
-                                        }`}
-                                    placeholder="provide a general but captivating description of what this training is about."
-                                    onChange={(e) => { setdesc(e.target.value) }}
-                                ></textarea>
-                            </div>
-
-                            <div className="my-2">
-                                <p className="font-[550] text-lg my-1">About us / Company profile *</p>
-                                <textarea value={wya} rows={8} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Briefly introduce your company to potential applicants. Describe your mission, values, and what sets your company apart. Highlight why potential employees would want to join your team." onChange={(e) => { setwya(e.target.value) }}></textarea>
-                            </div>
-                        </div>
-
 
                     </div>
                     {errorMessage && (
