@@ -290,8 +290,8 @@ export default function Post(props) {
                 message: wya.length === 0 ? "Please enter company information" : "Company information must be at least 300 characters"
             },
             skills: {
-                value: !!skills && skills.length > 0,
-                message: "Please enter at least one required skill"
+                value: !!skills && skills.length >= 3,
+                message: skills.length === 0 ? "Please enter required skills" : "Please enter at least 3 required skills"
             },
             duration: {
                 value: !!duration,
@@ -545,6 +545,9 @@ export default function Post(props) {
                                         tag: 'text-xs'
                                     }}
                                 />
+                                {skills.length < 3 && (
+                                    <p className="text-xs mt-1 text-red-500">Minimum 3 skills required</p>
+                                )}
                             </div>
                         </div>
 
