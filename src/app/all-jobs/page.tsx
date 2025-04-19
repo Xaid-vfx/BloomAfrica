@@ -59,7 +59,7 @@ export default async function AllJobs({ params,
 
     return (
         <div>
-            <SeekerNavbar user={user} />
+            <SeekerNavbar user={user || null} />
             <div className="flex flex-col items-center py-7 lg:pb-20 mx-auto justify-center">
                 <div className="flex flex-col w-full items-center px-4 gap-7 pb-16 py-5 ">
                     <Search />
@@ -68,12 +68,22 @@ export default async function AllJobs({ params,
                 </div>
 
                 {/* Mobile view starts */}
-                <MobileViewJobs search={search} location={location} renderjobs={renderJobs} />
+                <MobileViewJobs
+                    user={user || null}
+                    search={search}
+                    location={location}
+                    renderjobs={renderJobs}
+                />
                 {/* Mobile view ends */}
 
                 {/* Desktop view starts */}
 
-                <DesktopViewJobs user={user} search={search} location={location} renderjobs={renderJobs} />
+                <DesktopViewJobs
+                    user={user || null}
+                    search={search}
+                    location={location}
+                    renderjobs={renderJobs}
+                />
 
             </div>
             <Footer />

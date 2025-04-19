@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { IoCloseSharp, IoFilter } from "react-icons/io5";
 import FilterSidebar from "@/components/Jobs/FilterSidebar/FilterSidebar";
+import { MoonLoader } from "react-spinners";
 
 async function getJobs() {
     const supabase = createClientComponentClient()
@@ -26,7 +27,7 @@ async function getJobs() {
     return data;
 }
 
-export default function MobileViewJobs(props) {
+export default function MobileViewJobs(props: any) {
     const [jobs, setjobs] = useState()
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -94,7 +95,7 @@ export default function MobileViewJobs(props) {
                 {/* Cards */}
 
                 <div className="flex flex-col gap-4 lg:hidden  w-full  ">
-                    {jobs?.map((job: JobProps) => {
+                    {jobs ? jobs?.map((job: JobProps) => {
                         return <MobileCard
                             id={job.uid}
                             key={job.uid}
@@ -110,8 +111,10 @@ export default function MobileViewJobs(props) {
                             companyName={job.company_name ? job.company_name : "Unknown"}
                             certificate={job.provides_certificate}
                             training_mode={job.training_mode}
+                            user={props.user || null}
                         />
-                    })}
+                    }) : <div className="flex justify-center items-center h-[250px]">
+                        <MoonLoader color="#4A2C84" /> </div>}
                 </div>
             </div>
 
