@@ -54,7 +54,7 @@ export default function JobCard(props: Props) {
             </div>
             <div className="">
                 <div className="flex flex-col gap-2">
-                    <SaveButton id={props.id} user={props.user.id} />
+                    <SaveButton id={props.id} user={props.user?.id || null} />
                     <a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14 hover:bg-[#2f185e]" >Apply</a>
                 </div>
 
