@@ -252,18 +252,35 @@ export default function JobDescription(props) {
                         <h1 className="text-2xl font-semibold">Description</h1>
                         <p className="mb-7 mt-2 text-[#7C8493] text-sm">{job != null ? job?.description : <Skeleton count={4} />}</p>
                     </div>
-                    {/* <div className="">
-                        <h1 className="text-2xl font-semibold">Responsibilities</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.responsibilities?.replace("\n", "<br/>") : <Skeleton count={4} />}</p>
-                    </div> */}
                     <div className="">
                         <h1 className="text-2xl font-semibold">Who We Are</h1>
                         <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.who_we_are : <Skeleton count={4} />}</p>
                     </div>
-                    {/* <div className="">
-                        <h1 className="text-2xl font-semibold">Nice-To-Haves</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.extras : <Skeleton count={4} />}</p>
-                    </div> */}
+
+                    <div className="">
+                        <h1 className="text-2xl font-semibold">Teaching Method</h1>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.teaching_method : <Skeleton count={4} />}</p>
+                    </div>
+
+                    <div className="">
+                        <h1 className="text-2xl font-semibold">What You Will Learn</h1>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm whitespace-pre-line">{job != null ? job?.learning_outcomes : <Skeleton count={4} />}</p>
+                    </div>
+
+                    <div className="">
+                        <h1 className="text-2xl font-semibold">Scheduling and Delivery</h1>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.scheduling : <Skeleton count={4} />}</p>
+                    </div>
+
+                    <div className="">
+                        <h1 className="text-2xl font-semibold">Career Outcomes</h1>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.outcomes : <Skeleton count={4} />}</p>
+                    </div>
+
+                    <div className="">
+                        <h1 className="text-2xl font-semibold">Trainer Credentials</h1>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.trainer_credentials : <Skeleton count={4} />}</p>
+                    </div>
                 </div>
                 <div className="lg:w-[30%] mt-10 lg:mt-0 border-2 rounded-xl p-5">
                     <div className=''>
