@@ -436,7 +436,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                             <label htmlFor="cvupload" className="cursor-pointer text-xs px-6 py-4 rounded-lg bg-[#D6DDEB] my-4">Choose file
                                 <input type="file" id="cvupload" hidden />
                             </label>
-                            <p className="text-xs mt-5 text-[#A8ADB7]">Optionally upload a Cover letter no larger than 10MB for file types .pdf .doc .docx . Please note: You will need to upload a Cover letter to apply for jobs, however you can skip the CV upload on sign up.</p>
+                            <p className="text-xs mt-5 text-[#A8ADB7]">Optionally upload a Cover letter no larger than 10MB for file types .pdf .doc .docx . Please note: You will need to upload a Cover letter to enroll for jobs, however you can skip the CV upload on sign up.</p>
                         </div>
 
 

@@ -102,6 +102,6 @@ export default function Button(props: Props) {
     }
 
     return (
-        <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14" >Apply</button>
+        <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14" >Enroll</button>
     )
 }
