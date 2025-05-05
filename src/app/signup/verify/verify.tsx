@@ -70,6 +70,7 @@ export default function Verify() {
                     .from('Recruiters')
                     .select()
                     .eq('email', email)
+                    .single()
 
                 console.log(recruiterData)
                 console.log(recruiterError)
