@@ -48,6 +48,7 @@ export default function Verify() {
                     .from('Seekers')
                     .select('*')
                     .eq('email', email)
+                    .maybeSingle()
 
                 console.log('Seeker data:', seekerData)
 
