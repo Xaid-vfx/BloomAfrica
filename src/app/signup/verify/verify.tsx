@@ -84,7 +84,7 @@ export default function Verify() {
                 }
 
                 if (!recruiterData) {
-                    await router.push('/complete_recruiter_profile')
+                    await router.push('/signup/complete_recruiter_profile')
                 } else {
                     await router.push('/recruiter')
                 }
