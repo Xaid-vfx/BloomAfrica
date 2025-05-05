@@ -230,7 +230,7 @@ export default function SignIn() {
                                 {error}
                             </div>
                         )} */}
-                        <div>
+                        {/* <div>
                             <p className="font-semibold text-xs my-1 text-[#97999B]">Email Address</p>
                             <input
                                 className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
@@ -257,7 +257,7 @@ export default function SignIn() {
                             ) : (
                                 'Sign in with OTP'
                             )}
-                        </button>
+                        </button> */}
                         {/* 
                         <div>
                             <p className="font-semibold text-xs my-1 text-[#97999B]">Email Address</p>
