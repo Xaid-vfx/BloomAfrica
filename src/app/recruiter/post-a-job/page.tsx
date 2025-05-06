@@ -546,7 +546,9 @@ export default function Post(props) {
                                     }}
                                 />
                                 {skills.length < 3 && (
-                                    <p className="text-xs mt-1 text-red-500">Minimum 3 skills required</p>
+                                    <p className="text-xs mt-1 text-red-500">
+                                        Minimum 3 skills, press <span className="font-semibold">Enter</span> on your keyboard after typing each skill
+                                    </p>
                                 )}
                             </div>
                         </div>
