@@ -35,7 +35,7 @@ export default function Post(props) {
     const [deadline, setdeadline] = useState("")
     const [minsalary, setminsalary] = useState("")
     const [maxsalary, setmaxsalary] = useState("")
-    const [skills, setskills] = useState([])
+    const [skills, setskills] = useState<string[]>([])
     const [duration, setduration] = useState("")
     const [paymenttype, setpaymenttype] = useState("")
     const [signupfee, setsignupfee] = useState("")
@@ -534,20 +534,37 @@ export default function Post(props) {
                             </div>
                             <div className="mt-2">
                                 <p className="font-[550] text-lg my-1">Required Skills*</p>
-                                <TagsInput
-                                    value={skills}
-                                    onChange={setskills}
-                                    name="Skills"
-                                    placeHolder="Enter Required Skills"
-                                    classNames={{
-                                        input: `!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full ${fieldErrors.skills ? '!border-red-500 !bg-red-50' : ''
-                                            }`,
-                                        tag: 'text-xs'
-                                    }}
-                                />
+                                <div className="flex items-center gap-2">
+                                    <div className="flex-1">
+                                        <TagsInput
+                                            value={skills}
+                                            onChange={setskills}
+                                            name="Skills"
+                                            placeHolder="Enter Required Skills"
+                                            classNames={{
+                                                input: `!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full ${fieldErrors.skills ? '!border-red-500 !bg-red-50' : ''}`,
+                                                tag: 'text-xs'
+                                            }}
+                                        />
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            const input = document.querySelector('input[name="Skills"]') as HTMLInputElement;
+                                            if (input && input.value.trim()) {
+                                                setskills([...skills, input.value.trim()]);
+                                                input.value = '';
+                                            }
+                                        }}
+                                        className="flex-shrink-0 px-3 py-2 bg-[#4A2C84] text-white rounded-lg hover:bg-[#3a2266] transition-colors"
+                                        aria-label="Add skill"
+                                    >
+                                        +
+                                    </button>
+                                </div>
                                 {skills.length < 3 && (
                                     <p className="text-xs mt-1 text-red-500">
-                                        Minimum 3 skills, press <span className="font-semibold">Enter</span> on your keyboard after typing each skill
+                                        Minimum 3 skills required. Type a skill and press Enter or tap the <span className="font-semibold">+</span> button to add it.
                                     </p>
                                 )}
                             </div>
