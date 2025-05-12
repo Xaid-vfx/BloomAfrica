@@ -428,7 +428,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                                 <input type="file" id="cvupload" hidden />
                             </label>
                             <p className="text-xs mt-5 text-[#A8ADB7]">Optionally upload a CV no larger than 10MB for file types .pdf .doc .docx
-                                Please note: You will need to upload a CV to apply for jobs, however
+                                Please note: You will need to upload a CV to enroll for jobs, however
                                 you can skip the CV upload on sign up.</p>
                         </div>
                         <div className="my-4">

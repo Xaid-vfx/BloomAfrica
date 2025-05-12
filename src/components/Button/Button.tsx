@@ -62,11 +62,11 @@ export default function Button(props: Props) {
 
     async function handleApplyJob() {
         if (!await checkifSeekerisRegistered()) {
-            alert("Please register as a seeker to apply for a job")
+            alert("Please register as a seeker to enroll for a job")
             return
         }
         if (await checkifSeekerisAlreadyApplied()) {
-            alert("Already Applied!!")
+            alert("Already Enrolled!!")
             return
         }
         else {

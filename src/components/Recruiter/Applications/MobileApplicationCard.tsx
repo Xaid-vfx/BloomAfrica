@@ -73,7 +73,7 @@ const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
                         <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                         <div className="flex gap-2 justify-between items-center">
                             <div>
-                                <div className="text-[#7C8493] text-sm">Date Applied</div>
+                                <div className="text-[#7C8493] text-sm">Date Enrolled</div>
                                 <div>{app.created_at.substring(0, app.created_at.indexOf('T'))}</div>
                             </div>
                             <DialogDemo seeker_id={app.seeker_id} name={app.name} user_id={props.id} />

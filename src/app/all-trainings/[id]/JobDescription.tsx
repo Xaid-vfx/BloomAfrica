@@ -130,7 +130,7 @@ export default function JobDescription(props) {
             setIsLoading(false);
         }
         else {
-            toast.success("Applied for the job!");
+            toast.success("Enrolled for the job!");
             router.push('/seeker/applied')
         }
     }
@@ -172,11 +172,11 @@ export default function JobDescription(props) {
             return
         }
         if (!await checkifSeekerisRegistered()) {
-            toast("Please register as a seeker to apply for a job")
+            toast("Please register as a seeker to enroll for a job")
             return
         }
         if (await checkifSeekerisAlreadyApplied()) {
-            toast.error("Already Applied!")
+            toast.error("Already Enrolled!")
             return
         }
         setShowAgreements(true)
@@ -229,7 +229,7 @@ export default function JobDescription(props) {
                                 }`}
                             disabled={isAtCapacity}
                         >
-                            {isAtCapacity ? 'No Longer Accepting' : 'Apply'}
+                            {isAtCapacity ? 'No Longer Accepting' : 'Enroll'}
                         </button>
                     </div>
                 </div>
@@ -243,7 +243,7 @@ export default function JobDescription(props) {
                 </div>
                 <div className="flex gap-2 mt-6">
                     <SaveButton user={props.user?.id} id={id}></SaveButton>
-                    <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14" >Apply</button>
+                    <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14" >Enroll</button>
                 </div>
             </div>
             <div className="flex flex-col-reverse lg:flex-row lg:flex gap-5 px-6 lg:px-20 pb-20 ">
