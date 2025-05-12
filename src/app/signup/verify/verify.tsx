@@ -64,7 +64,7 @@ export default function Verify() {
                     await router.push('/signup/complete_profile')
                 } else {
                     console.log('Seeker found, redirecting to all jobs')
-                    await router.push('/all-jobs')
+                    await router.push('/all-trainings')
                 }
             } else {
                 const { data: recruiterData, error: recruiterError } = await supabase

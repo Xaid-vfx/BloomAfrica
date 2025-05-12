@@ -96,7 +96,7 @@ export default function Header(props: Props) {
                         </div>
                         <hr className="h-px bg-gray-300 border-0 "></hr>
 
-                        <a href="/all-jobs" className="text-sm text-white bg-[#4A2C84] mt-5 py-3 px-6 rounded-2xl font-semibold mx-10 justify-center text-center mb-4">Back to Search</a>
+                        <a href="/all-trainings" className="text-sm text-white bg-[#4A2C84] mt-5 py-3 px-6 rounded-2xl font-semibold mx-10 justify-center text-center mb-4">Back to Search</a>
 
                         <button onClick={() => { handleClickLogout() }} 
                             className="text-sm text-[#4A2C84] bg-[#cfc2e9] py-3 px-6 rounded-2xl font-bold mx-10 
@@ -125,7 +125,7 @@ export default function Header(props: Props) {
                     </div>
                 </div>
                 
-                <a href="/all-jobs"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-2xl font-semibold">Back to Search</button></a>
+                <a href="/all-trainings"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-2xl font-semibold">Back to Search</button></a>
                 
             </div>
             <div className="lg:hidden flex justify-between px-3 py-3 items-center">

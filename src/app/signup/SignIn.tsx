@@ -54,7 +54,7 @@ export default function SignIn() {
                 email,
                 password,
                 options: {
-                    emailRedirectTo: `${location.origin}/all-jobs`,
+                    emailRedirectTo: `${location.origin}/all-trainings`,
                 },
             })
 
@@ -167,7 +167,7 @@ export default function SignIn() {
             const { data, error } = await supabase.auth.signInWithOtp({
                 email,
                 options: {
-                    emailRedirectTo: `${location.origin}/all-jobs`,
+                    emailRedirectTo: `${location.origin}/all-trainings`,
                 }
             })
 
@@ -195,7 +195,7 @@ export default function SignIn() {
         // fetchUser().then(data => {
         //     if (data[0]) {
         //         if (data[1] == "seeker" || searchParams.get('type') == "seeker") {
-        //             router.push('/all-jobs')
+        //             router.push('/all-trainings')
         //         }
         //         else if (data[1] == "recruiter" || searchParams.get('type') == "recruiter") {
         //             router.push('/recruiter')

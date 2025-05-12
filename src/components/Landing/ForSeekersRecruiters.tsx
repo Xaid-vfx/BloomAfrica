@@ -36,7 +36,7 @@ export default function ForSeekersRecruiters() {
                         
                     </div>
                     <div> 
-                        <div className="ms-auto max-w-[640px] align-bottom"><a href="/all-jobs" className="border border-[#4A2C84] text-white py-3 px-4 text-center bg-[#4A2C84] rounded-2xl font-medium text-xs lg:text-sm lg:py-3 lg:px-8" >Find Apprenticeships</a>
+                        <div className="ms-auto max-w-[640px] align-bottom"><a href="/all-trainings" className="border border-[#4A2C84] text-white py-3 px-4 text-center bg-[#4A2C84] rounded-2xl font-medium text-xs lg:text-sm lg:py-3 lg:px-8" >Find Apprenticeships</a>
                         <a href="/about" className=" border border-black py-3 px-4 text-center rounded-2xl font-medium text-xs lg:text-sm lg:py-3 ml-2 lg:px-8" >Learn More</a></div>
                 </div>
             </div>      

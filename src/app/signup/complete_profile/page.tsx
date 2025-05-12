@@ -42,8 +42,8 @@ export default async function CompleteProfile({
 
     if (await result) {
         if (searchParams?.continue != "null")
-            redirect('/all-jobs' + searchParams?.continue)
-        else redirect('/all-jobs')
+            redirect('/all-trainings' + searchParams?.continue)
+        else redirect('/all-trainings')
     }
     else {
         return (

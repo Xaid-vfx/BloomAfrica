@@ -25,7 +25,7 @@ export default function JobCard(props: Props) {
 
     const router = useRouter()
     const handleJobCardClick = (id: string) => {
-        router.push("all-jobs/job?id=" + id)
+        router.push("all-trainings/job?id=" + id)
     }
 
     return (
@@ -55,7 +55,7 @@ export default function JobCard(props: Props) {
             <div className="">
                 <div className="flex flex-col gap-2">
                     <SaveButton id={props.id} user={props.user?.id || null} />
-                    <a href={`all-jobs/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14 hover:bg-[#2f185e]" >Enroll</a>
+                    <a href={`all-trainings/job?id=${props.id}`} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14 hover:bg-[#2f185e]" >Enroll</a>
                 </div>
 
                 {/* <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">

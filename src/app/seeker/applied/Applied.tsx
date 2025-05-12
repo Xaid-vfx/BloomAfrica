@@ -38,7 +38,7 @@ export default function Applied(props: { appliedjobs: any[], seekerId: string })
                             return (
                                 <div key={job.uid} className="border p-4 my-4 relative rounded-xl">
                                     {
-                                        showOption && <a href={`/all-jobs/job?id=${job?.uid}`} className="bg-[#e0e0e0] p-4 absolute text-sm rounded-xl font-semibold right-1 top-10">
+                                        showOption && <a href={`/all-trainings/job?id=${job?.uid}`} className="bg-[#e0e0e0] p-4 absolute text-sm rounded-xl font-semibold right-1 top-10">
                                             View Job
                                         </a>
                                     }

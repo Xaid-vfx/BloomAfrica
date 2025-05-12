@@ -264,7 +264,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
             if (!tosSuccess) throw new Error("Step 4 (Terms of Service and Privacy Policy agreements) failed.");
 
             toast.success("Registration complete!");
-            router.push(props.redirectUrl !== "null" ? `/all-jobs${props.redirectUrl}` : '/all-jobs');
+            router.push(props.redirectUrl !== "null" ? `/all-trainings${props.redirectUrl}` : '/all-trainings');
         } catch (error) {
             console.error("Error during registration process:", error);
             toast.error("An unexpected error occurred. Rolling back changes...");

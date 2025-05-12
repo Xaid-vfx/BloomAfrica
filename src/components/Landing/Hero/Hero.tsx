@@ -12,7 +12,7 @@ import Star from "../../../assets/images/Star.png"
 import { error, log } from "console"
 import { addDoc, collection } from "firebase/firestore"
 import { db } from "@/app/firebase.config"
-import Search from "@/app/all-jobs/Search"
+import Search from "@/app/all-trainings/Search"
 import { FiAward } from "react-icons/fi";
 import { FaBookOpen } from "react-icons/fa6";
 

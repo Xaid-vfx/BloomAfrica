@@ -12,7 +12,7 @@ export default function ExploreCategory() {
                 </p>
             </div>
             <div className="my-12 ms-auto me-auto max-w-[1500px]">
-                <p className="flex items-center gap-2 justify-end text-[#4A2C84] text-sm text-right  px-8"><a href="/all-jobs" className="hover:underline cursor-pointer">Show all Jobs </a><FaArrowRightLong /></p>
+                <p className="flex items-center gap-2 justify-end text-[#4A2C84] text-sm text-right  px-8"><a href="/all-trainings" className="hover:underline cursor-pointer">Show all Jobs </a><FaArrowRightLong /></p>
                 <div className="hidden lg:grid grid-cols-4 justify-center px-8">
                     {
                         ["Mechanical Engineering", 

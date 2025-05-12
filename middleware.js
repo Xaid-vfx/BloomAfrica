@@ -9,7 +9,7 @@ export function middleware(request) {
   // If the user is authenticated, continue as normal
   // if (request.url == "/signup/complete_profile") {
   //   if (isAuthenticated) {
-  //     NextResponse.redirect(new URL('/all-jobs', request.url))
+  //     NextResponse.redirect(new URL('/all-trainings', request.url))
   //   }
   // }
 
