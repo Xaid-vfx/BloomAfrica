@@ -21,9 +21,12 @@ type JobProps = {
 
 
 
-async function getJobs() {
+async function getJobs(page: number = 1, pageSize: number = 9) {
     const supabase = createClientComponentClient()
-    const { data, error } = await supabase
+    const from = (page - 1) * pageSize
+    const to = from + pageSize - 1
+
+    const { data, error, count } = await supabase
         .from('Jobs')
         .select(`*, 
         Recruiters(
@@ -31,21 +34,24 @@ async function getJobs() {
                 name,
                 logo
             )
-        )`)
+        )`, { count: 'exact' })
+        .range(from, to)
 
     if (error) {
         console.log(error);
     }
 
-    return data;
+    return { data, count };
 }
 
 export default function DesktopViewJobs(props: any) {
-
-    const [jobs, setjobs] = useState()
+    const [jobs, setjobs] = useState<any[]>([])
+    const [totalJobs, setTotalJobs] = useState<number>(0)
+    const [currentPage, setCurrentPage] = useState<number>(1)
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const arr = ["Software", "Electronics", "Design"]
+    const pageSize = 9; // 9 jobs per page for desktop view
 
     const handleCategoryChange = (category) => {
         if (selectedCategories.includes(category)) {
@@ -65,7 +71,7 @@ export default function DesktopViewJobs(props: any) {
     };
 
     useEffect(() => {
-        getJobs().then((data) => {
+        getJobs(currentPage, pageSize).then(({ data, count }) => {
             const renderJobs = data?.filter(job => {
                 // Check if the title includes the search query (case-insensitive)
                 const titleMatch = job.title.toLowerCase().includes(props.search?.toLowerCase());
@@ -80,16 +86,23 @@ export default function DesktopViewJobs(props: any) {
                 return titleMatch && locationMatch && categoryMatch && typeMatch;
             });
             setjobs(renderJobs)
+            setTotalJobs(count || 0)
         })
-    }, [props.location, props.search, selectedCategories, selectedTypes])
+    }, [props.location, props.search, selectedCategories, selectedTypes, currentPage])
+
+    const totalPages = Math.ceil(totalJobs / pageSize);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
 
     return (
         <div className="hidden lg:block w-full border-t  ms-auto me-auto max-w-[1500px]">
             <div className="flex justify-between py-10 px-10 font-medium">
-                <p>Showing 1-9 of {jobs?.length} results</p>
+                <p>Showing {(currentPage - 1) * pageSize + 1}-{Math.min(currentPage * pageSize, totalJobs)} of {totalJobs} results</p>
                 <div className="flex text-[#979ca6] font-light gap-2">
                     <p className="text-xs rounded-3xl px-10 py-3 border border-[#D6DDEB]">Default</p>
-                    <p className="text-xs rounded-3xl px-10 py-3 border border-[#D6DDEB]">9 per page</p>
+                    <p className="text-xs rounded-3xl px-10 py-3 border border-[#D6DDEB]">{pageSize} per page</p>
                 </div>
             </div>
             <div className="flex w-full gap-5 px-5">
@@ -106,7 +119,6 @@ export default function DesktopViewJobs(props: any) {
                     </div>
                     <div className="my-8 ">
                         {jobs ? jobs?.map((job: JobProps) => {
-
                             return (
                                 <JobCard
                                     id={job.uid}
@@ -130,6 +142,44 @@ export default function DesktopViewJobs(props: any) {
                         ) : <div className="flex justify-center items-center h-[250px]">
                             <MoonLoader color="#4A2C84" /> </div>
                         }
+                    </div>
+                    {/* Pagination Controls */}
+                    <div className="flex justify-center gap-2 mt-8 mb-4">
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className={`px-4 py-2 rounded-lg border ${
+                                currentPage === 1 
+                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                                    : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                            }`}
+                        >
+                            Previous
+                        </button>
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                            <button
+                                key={page}
+                                onClick={() => handlePageChange(page)}
+                                className={`px-4 py-2 rounded-lg border ${
+                                    currentPage === page
+                                        ? 'bg-[#4A2C84] text-white'
+                                        : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                                }`}
+                            >
+                                {page}
+                            </button>
+                        ))}
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            className={`px-4 py-2 rounded-lg border ${
+                                currentPage === totalPages
+                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                    : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                            }`}
+                        >
+                            Next
+                        </button>
                     </div>
                 </div>
             </div>

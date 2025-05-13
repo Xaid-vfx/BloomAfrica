@@ -8,9 +8,12 @@ import { IoCloseSharp, IoFilter } from "react-icons/io5";
 import FilterSidebar from "@/components/Jobs/FilterSidebar/FilterSidebar";
 import { MoonLoader } from "react-spinners";
 
-async function getJobs() {
+async function getJobs(page: number = 1, pageSize: number = 8) {
     const supabase = createClientComponentClient()
-    const { data, error } = await supabase
+    const from = (page - 1) * pageSize
+    const to = from + pageSize - 1
+
+    const { data, error, count } = await supabase
         .from('Jobs')
         .select(`*, 
         Recruiters(
@@ -18,21 +21,25 @@ async function getJobs() {
                 name,
                 logo
             )
-        )`)
+        )`, { count: 'exact' })
+        .range(from, to)
 
     if (error) {
         console.log(error);
     }
 
-    return data;
+    return { data, count };
 }
 
 export default function MobileViewJobs(props: any) {
-    const [jobs, setjobs] = useState()
+    const [jobs, setjobs] = useState<any[]>([])
+    const [totalJobs, setTotalJobs] = useState<number>(0)
+    const [currentPage, setCurrentPage] = useState<number>(1)
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const arr = ["Software", "Electronics", "Design"]
     const [showfilter, setshowfilter] = useState(false)
+    const pageSize = 8; // 8 jobs per page for mobile view
 
 
     const handleCategoryChange = (category) => {
@@ -54,7 +61,7 @@ export default function MobileViewJobs(props: any) {
     };
 
     useEffect(() => {
-        getJobs().then((data) => {
+        getJobs(currentPage, pageSize).then(({ data, count }) => {
             const renderJobs = data?.filter(job => {
                 // Check if the title includes the search query (case-insensitive)
                 const titleMatch = job.title.toLowerCase().includes(props.search?.toLowerCase());
@@ -69,9 +76,15 @@ export default function MobileViewJobs(props: any) {
                 return titleMatch && locationMatch && categoryMatch && typeMatch;
             });
             setjobs(renderJobs)
+            setTotalJobs(count || 0)
         })
-    }, [props.location, props.search, selectedCategories, selectedTypes])
+    }, [props.location, props.search, selectedCategories, selectedTypes, currentPage])
 
+    const totalPages = Math.ceil(totalJobs / pageSize);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
 
     return (
         <div className=" py-10 flex flex-col px-4 lg:hidden w-full mx-auto justify-center max-w-[700px]">
@@ -81,7 +94,9 @@ export default function MobileViewJobs(props: any) {
                     {/* <p className="text-sm">Most relevant</p> */}
                 </div>
                 <div className="flex items-center justify-between">
-                    <p className="text-left my-2 font-light text-sm text-[#7C8493]">Showing {props.renderJobs?.length} results</p>
+                    <p className="text-left my-2 font-light text-sm text-[#7C8493]">
+                        Showing {(currentPage - 1) * pageSize + 1}-{Math.min(currentPage * pageSize, totalJobs)} of {totalJobs} results
+                    </p>
                     {showfilter ? <div className="h-[200vh] m-0 w-full left-0 top-0 z-10 fixed bg-white overflow-scroll">
                         <div onClick={() => { setshowfilter(false) }} className="flex justify-center items-center text-center pt-6 pb-10 text-base cursor-pointer text-red-700"><IoCloseSharp className="text-2xl" /><div>Close</div></div>
                         <FilterSidebar selectedCategories={selectedCategories} selectedTypes={selectedTypes} handleCategoryChange={handleCategoryChange} handleTypeChange={handleTypeChange} />
@@ -115,6 +130,59 @@ export default function MobileViewJobs(props: any) {
                         />
                     }) : <div className="flex justify-center items-center h-[250px]">
                         <MoonLoader color="#4A2C84" /> </div>}
+                </div>
+
+                {/* Mobile Pagination Controls */}
+                <div className="flex justify-center gap-2 mt-6 mb-4">
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={`px-3 py-1.5 text-sm rounded-lg border ${
+                            currentPage === 1 
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                                : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                        }`}
+                    >
+                        Prev
+                    </button>
+                    <div className="flex items-center gap-1">
+                        {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
+                            let pageNum;
+                            if (totalPages <= 3) {
+                                pageNum = i + 1;
+                            } else if (currentPage <= 2) {
+                                pageNum = i + 1;
+                            } else if (currentPage >= totalPages - 1) {
+                                pageNum = totalPages - 2 + i;
+                            } else {
+                                pageNum = currentPage - 1 + i;
+                            }
+                            return (
+                                <button
+                                    key={pageNum}
+                                    onClick={() => handlePageChange(pageNum)}
+                                    className={`px-3 py-1.5 text-sm rounded-lg border ${
+                                        currentPage === pageNum
+                                            ? 'bg-[#4A2C84] text-white'
+                                            : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                                    }`}
+                                >
+                                    {pageNum}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className={`px-3 py-1.5 text-sm rounded-lg border ${
+                            currentPage === totalPages
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                        }`}
+                    >
+                        Next
+                    </button>
                 </div>
             </div>
 
