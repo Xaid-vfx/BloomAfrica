@@ -22,7 +22,7 @@ export default function Search() {
 
     async function handleSearch() {
 
-        router.push("/all-jobs?search=" + query + "&location=" + location)
+        router.push("/all-trainings?search=" + query + "&location=" + location)
 
         setTimeout(() => {
             animateScroll.scrollTo(500, options)
