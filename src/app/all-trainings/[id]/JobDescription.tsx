@@ -223,15 +223,15 @@ export default function JobDescription(props) {
                 </div>
             )}
             <AgreementModal handleAgreement={handleAgreement} type={0} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
-            <div className=" items-center flex-col justify-between rounded-xl border-2 px-6 py-4 my-6 mt-20 mx-20 hidden lg:flex">
-                <div className="flex flex-col">
-                    <div className="flex items-center gap-6">
+            <div className=" items-center flex-col justify-between rounded-xl border-2 px-6 py-4 my-6 mt-20 mx-4 lg:mx-20 hidden lg:flex">
+                <div className="flex flex-col w-full">
+                    <div className="flex items-center gap-6 flex-wrap">
                         <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={70} height={100} />
-                        <div className="flex flex-col  justify-center ">
-                            <h1 className="text-xl font-semibold">{job != null ? job?.title : <Skeleton width={200} height={30} className="mb-2" />}</h1>
+                        <div className="flex flex-col justify-center flex-1 min-w-0">
+                            <h1 className="text-xl font-semibold break-words">{job != null ? job?.title : <Skeleton width={200} height={30} className="mb-2" />}</h1>
                             <div className="flex flex-col text-center text-sm text-[#515B6F] gap-2 mb-3 items-baseline">
-                                <p className='flex mx-auto justify-center'>{job?.Recruiters.CompanyInfo?.name}</p>
-                                <p className='flex mx-auto justify-center'> {job != null ? job?.location : <Skeleton width={100} />}</p>
+                                <p className='flex mx-auto justify-center break-words'>{job?.Recruiters.CompanyInfo?.name}</p>
+                                <p className='flex mx-auto justify-center break-words'> {job != null ? job?.location : <Skeleton width={100} />}</p>
                             </div>
                         </div>
                     </div>
@@ -252,10 +252,10 @@ export default function JobDescription(props) {
             </div>
             <div className="py-10 px-5 lg:hidden flex flex-col text-center justify-center items-center bg-[#F8F8FD]">
                 <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={100} height={50} />
-                <h1 className="text-xl font-semibold mt-2">{job != null ? job?.title : <Skeleton width={200} />}</h1>
-                <div className="flex flex-col  text-center text-sm text-[#515B6F] gap-1 mb-2 items-baseline">
-                    <p className='flex mx-auto justify-center'>{job?.Recruiters.CompanyInfo?.name}</p>
-                    <p className='flex mx-auto justify-center'> {job != null ? job?.location : <Skeleton width={100} />}</p>
+                <h1 className="text-xl font-semibold mt-2 break-words px-4">{job != null ? job?.title : <Skeleton width={200} />}</h1>
+                <div className="flex flex-col text-center text-sm text-[#515B6F] gap-1 mb-2 items-baseline w-full px-4">
+                    <p className='flex mx-auto justify-center break-words'>{job?.Recruiters.CompanyInfo?.name}</p>
+                    <p className='flex mx-auto justify-center break-words'> {job != null ? job?.location : <Skeleton width={100} />}</p>
                 </div>
                 <div className="flex gap-2 mt-6">
                     <SaveButton user={props.user?.id} id={id}></SaveButton>
@@ -268,40 +268,40 @@ export default function JobDescription(props) {
                     </button>
                 </div>
             </div>
-            <div className="flex flex-col-reverse lg:flex-row lg:flex gap-5 px-6 lg:px-20 pb-20 ">
-                <div className="lg:w-[70%] border-2 rounded-xl p-5">
+            <div className="flex flex-col-reverse lg:flex-row lg:flex gap-5 px-4 lg:px-20 pb-20">
+                <div className="lg:w-[70%] border-2 rounded-xl p-4 lg:p-5">
                     <div className="mt-5">
                         <h1 className="text-2xl font-semibold">Description</h1>
-                        <p className="mb-7 mt-2 text-[#7C8493] text-sm">{job != null ? job?.description : <Skeleton count={4} />}</p>
+                        <p className="mb-7 mt-2 text-[#7C8493] text-sm break-words">{job != null ? job?.description : <Skeleton count={4} />}</p>
                     </div>
                     <div className="">
                         <h1 className="text-2xl font-semibold">Who We Are</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.who_we_are : <Skeleton count={4} />}</p>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm break-words">{job != null ? job?.who_we_are : <Skeleton count={4} />}</p>
                     </div>
 
                     <div className="">
                         <h1 className="text-2xl font-semibold">Teaching Method</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.teaching_method : <Skeleton count={4} />}</p>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm break-words">{job != null ? job?.teaching_method : <Skeleton count={4} />}</p>
                     </div>
 
                     <div className="">
                         <h1 className="text-2xl font-semibold">What You Will Learn</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm whitespace-pre-line">{job != null ? job?.learning_outcomes : <Skeleton count={4} />}</p>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm whitespace-pre-line break-words">{job != null ? job?.learning_outcomes : <Skeleton count={4} />}</p>
                     </div>
 
                     <div className="">
                         <h1 className="text-2xl font-semibold">Scheduling and Delivery</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.scheduling : <Skeleton count={4} />}</p>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm break-words">{job != null ? job?.scheduling : <Skeleton count={4} />}</p>
                     </div>
 
                     <div className="">
                         <h1 className="text-2xl font-semibold">Career Outcomes</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.outcomes : <Skeleton count={4} />}</p>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm break-words">{job != null ? job?.outcomes : <Skeleton count={4} />}</p>
                     </div>
 
                     <div className="">
                         <h1 className="text-2xl font-semibold">Trainer Credentials</h1>
-                        <p className="mb-7 my-2 text-[#7C8493] text-sm">{job != null ? job?.trainer_credentials : <Skeleton count={4} />}</p>
+                        <p className="mb-7 my-2 text-[#7C8493] text-sm break-words">{job != null ? job?.trainer_credentials : <Skeleton count={4} />}</p>
                     </div>
                 </div>
                 <div className="lg:w-[30%] mt-10 lg:mt-0 border-2 rounded-xl p-5">
@@ -352,31 +352,31 @@ export default function JobDescription(props) {
                             <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.duration : <Skeleton width={150} />}</p>
                         </div>
 
-                        <div className="flex flex-col justify-between my-4">
+                        <div className="flex flex-col justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Location</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? `${job?.city}, ${job?.state}, ${job?.country}` : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold break-words">{job != null ? `${job?.city}, ${job?.state}, ${job?.country}` : <Skeleton width={150} />}</p>
                         </div>
 
                         <div className="flex flex-col justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Maximum Applicants</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.limit : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold break-words">{job != null ? job?.limit : <Skeleton width={150} />}</p>
                         </div>
 
                         <div className="flex flex-col justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Application Deadline</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.deadline : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold break-words">{job != null ? job?.deadline : <Skeleton width={150} />}</p>
                         </div>
                     </div>
                     <hr className="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                     <div>
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Categories</h1>
-                        <p className="rounded-xl flex flex-wrap border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit">{job != null ? job?.category : <Skeleton width={150} />}</p>
+                        <p className="rounded-xl flex flex-wrap border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] break-words">{job != null ? job?.category : <Skeleton width={150} />}</p>
                     </div>
                     <div className="mt-8">
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Skills Required</h1>
-                        <p className="flex flex-wrap gap-2">{job != null ? job?.skills?.map((word, index) => (
-                            <span className="rounded-xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit" key={index}>{word.trim()}</span>
-                        )) : <Skeleton width={150} />}</p>
+                        <div className="flex flex-wrap gap-2">{job != null ? job?.skills?.map((word, index) => (
+                            <span className="rounded-xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] break-words" key={index}>{word.trim()}</span>
+                        )) : <Skeleton width={150} />}</div>
                     </div>
                 </div>
             </div>
