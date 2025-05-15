@@ -42,7 +42,7 @@ const columns: readonly Column[] = [
 
 interface Data {
     id: number;
-    uid: number;
+    uid: string;
     title: string;
     location: string;
     date: string;
@@ -54,7 +54,7 @@ interface Data {
 
 function createData(
     id: number,
-    uid: number,
+    uid: string,
     title: string,
     location: string,
     date: string,
@@ -84,9 +84,108 @@ function createData(
 //     createData('Brazil', 'BR', 210147125, 8515767),
 // ];
 
+interface PaymentStatusProps {
+    row: Data;
+    seekerId: string;
+    paymentStatuses: { [key: string]: string };
+    setPaymentStatuses: (value: { [key: string]: string }) => void;
+    setJobCapacityStatus: (value: { [key: string]: boolean }) => void;
+    checkJobCapacity: (jobId: string) => Promise<boolean>;
+}
+
+const PaymentStatus: React.FC<PaymentStatusProps> = ({
+    row,
+    seekerId,
+    paymentStatuses,
+    setPaymentStatuses,
+    setJobCapacityStatus,
+    checkJobCapacity
+}) => {
+    const [status, setStatus] = useState<React.ReactNode | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const checkCapacity = async () => {
+            setIsLoading(true);
+            const isAtCapacity = await checkJobCapacity(row.uid);
+            
+            if (isAtCapacity) {
+                setStatus(
+                    <div className="text-center bg-yellow-100 text-yellow-800 px-4 py-2 rounded-xl">
+                        No spots available
+                    </div>
+                );
+            } else if (row.signup_fee > 0 && !paymentStatuses[row.id]) {
+                setStatus(
+                    <div className='flex flex-col'>
+                        <PaymentComponent
+                            jobId={row.uid}
+                            seekerId={seekerId}
+                            amount={row.signup_fee}
+                            onPaymentSuccess={async () => {
+                                setPaymentStatuses(prev => ({
+                                    ...prev,
+                                    [row.id]: 'success'
+                                }));
+                                const newCapacityStatus = await checkJobCapacity(row.uid);
+                                setJobCapacityStatus(prev => ({
+                                    ...prev,
+                                    [row.id]: newCapacityStatus
+                                }));
+                            }}
+                        />
+                        <p className='text-xs text-red-600'>Complete the payment to get started</p>
+                    </div>
+                );
+            } else if (paymentStatuses[row.id]) {
+                setStatus(
+                    <div className={`text-center px-4 py-2 rounded-xl ${
+                        paymentStatuses[row.id] === 'success'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                    }`}>
+                        Payment {paymentStatuses[row.id]}
+                    </div>
+                );
+            }
+            setIsLoading(false);
+        };
+
+        checkCapacity();
+    }, [row.id, row.uid, paymentStatuses[row.id]]);
+
+    if (isLoading) {
+        return (
+            <div className="text-center px-4 py-2">
+                Checking availability...
+            </div>
+        );
+    }
+
+    return status;
+};
+
 export default function AppliedTable(props: any) {
     const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
     const [jobCapacityStatus, setJobCapacityStatus] = useState<{ [key: string]: boolean }>({});
+    const [loadingCapacity, setLoadingCapacity] = useState<{ [key: string]: boolean }>({});
+    const supabase = createClientComponentClient();
+
+    const checkJobCapacity = async (jobId: string) => {
+        const { data, error } = await supabase
+            .from('job_applications_count')
+            .select('confirmed_count')
+            .eq('job_id', jobId)
+            .single();
+
+        if (error) {
+            console.error('Error checking job capacity:', error);
+            return false;
+        }
+
+        const job = props.jobs.find((j: any) => j.uid === jobId);
+        return (data?.confirmed_count || 0) >= (job?.limit || 0);
+    };
 
     useEffect(() => {
         // Initialize payment statuses from the server-side data
@@ -97,11 +196,15 @@ export default function AppliedTable(props: any) {
         setPaymentStatuses(statuses);
 
         // Initialize capacity status for each job
-        const capacityStatus = props.jobs.reduce((acc: any, job: any) => ({
-            ...acc,
-            [job.id]: job.confirmed_count >= job.limit
-        }), {});
-        setJobCapacityStatus(capacityStatus);
+        const initializeCapacityStatus = async () => {
+            const capacityStatus = {};
+            for (const job of props.jobs) {
+                capacityStatus[job.id] = await checkJobCapacity(job.uid);
+            }
+            setJobCapacityStatus(capacityStatus);
+        };
+
+        initializeCapacityStatus();
     }, [props.jobs]);
 
     const rows = [...props.jobs.map((job: any) => {
@@ -130,54 +233,6 @@ export default function AppliedTable(props: any) {
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
-    };
-
-    const renderPaymentStatus = (row: Data) => {
-        if (jobCapacityStatus[row.id]) {
-            return (
-                <div className="text-center bg-yellow-100 text-yellow-800 px-4 py-2 rounded-xl">
-                    No spots available
-                </div>
-            );
-        }
-
-        if (row.signup_fee > 0 && !paymentStatuses[row.id]) {
-            return (
-                <div className='flex flex-col'>
-                    <PaymentComponent
-                        jobId={row.uid}
-                        seekerId={props.seekerId}
-                        amount={row.signup_fee}
-                        onPaymentSuccess={() => {
-                            setPaymentStatuses(prev => ({
-                                ...prev,
-                                [row.id]: 'success'
-                            }));
-                            // Update capacity status after successful payment
-                            setJobCapacityStatus(prev => ({
-                                ...prev,
-                                [row.id]: row.confirmed_count + 1 >= row.job_limit
-                            }));
-                        }}
-                    />
-                    <p className='text-xs text-red-600'>Complete the payment to get started</p>
-                </div>
-            );
-        }
-
-        if (paymentStatuses[row.id]) {
-            return (
-                <div className={`text-center px-4 py-2 rounded-xl ${
-                    paymentStatuses[row.id] === 'success'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                }`}>
-                    Payment {paymentStatuses[row.id]}
-                </div>
-            );
-        }
-
-        return null;
     };
 
     return (
@@ -237,7 +292,14 @@ export default function AppliedTable(props: any) {
                                                             >
                                                                 View Application
                                                             </button>
-                                                            {renderPaymentStatus(row)}
+                                                            <PaymentStatus
+                                                                row={row}
+                                                                seekerId={props.seekerId}
+                                                                paymentStatuses={paymentStatuses}
+                                                                setPaymentStatuses={setPaymentStatuses}
+                                                                setJobCapacityStatus={setJobCapacityStatus}
+                                                                checkJobCapacity={checkJobCapacity}
+                                                            />
                                                         </div>
                                                     )}
                                                 </TableCell>

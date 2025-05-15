@@ -3,6 +3,7 @@ import AppliedTable from "@/components/General/AppliedTable";
 import PaymentComponent from "@/components/Payment/Payment";
 import { useState, useEffect } from "react";
 import { SlOptions } from "react-icons/sl";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 interface Job {
     id: number;
@@ -17,10 +18,116 @@ interface Job {
     paymentStatus?: string;
 }
 
+interface MobilePaymentStatusProps {
+    job: Job;
+    seekerId: string;
+    paymentStatuses: { [key: string]: string };
+    setPaymentStatuses: (value: { [key: string]: string }) => void;
+    setJobCapacityStatus: (value: { [key: string]: boolean }) => void;
+    checkJobCapacity: (jobId: string) => Promise<boolean>;
+}
+
+const MobilePaymentStatus: React.FC<MobilePaymentStatusProps> = ({
+    job,
+    seekerId,
+    paymentStatuses,
+    setPaymentStatuses,
+    setJobCapacityStatus,
+    checkJobCapacity
+}) => {
+    const [status, setStatus] = useState<React.ReactNode | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const checkCapacity = async () => {
+            setIsLoading(true);
+            const isAtCapacity = await checkJobCapacity(job.uid);
+            
+            if (isAtCapacity) {
+                setStatus(
+                    <div className="text-center bg-yellow-100 text-yellow-800 px-4 py-2 rounded-2xl">
+                        No spots available
+                    </div>
+                );
+            } else if (job.signup_fee > 0 && !paymentStatuses[job.id]) {
+                setStatus(
+                    <div className='flex flex-col'>
+                        <PaymentComponent
+                            jobId={job.uid}
+                            seekerId={seekerId}
+                            amount={job.signup_fee}
+                            onPaymentSuccess={async () => {
+                                setPaymentStatuses((prev: { [key: string]: string }) => {
+                                    const newState: { [key: string]: string } = {
+                                        ...prev,
+                                        [job.id]: 'success'
+                                    };
+                                    return newState;
+                                });
+                                const newCapacityStatus = await checkJobCapacity(job.uid);
+                                setJobCapacityStatus((prev: { [key: string]: boolean }) => {
+                                    const newState: { [key: string]: boolean } = {
+                                        ...prev,
+                                        [job.id]: newCapacityStatus
+                                    };
+                                    return newState;
+                                });
+                            }}
+                        />
+                        <p className='text-[13px] text-center font-[500] text-red-600'>
+                            Complete the payment to confirm your apprenticeship
+                        </p>
+                    </div>
+                );
+            } else if (paymentStatuses[job.id]) {
+                setStatus(
+                    <div className={`text-center px-4 py-2 rounded-2xl ${
+                        paymentStatuses[job.id] === 'success'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                    }`}>
+                        Payment {paymentStatuses[job.id]}
+                    </div>
+                );
+            }
+            setIsLoading(false);
+        };
+
+        checkCapacity();
+    }, [job.id, job.uid, paymentStatuses[job.id]]);
+
+    if (isLoading) {
+        return (
+            <div className="text-center px-4 py-2">
+                Checking availability...
+            </div>
+        );
+    }
+
+    return status;
+};
+
 export default function Applied(props: { appliedjobs: Job[], seekerId: string }) {
     const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
     const [jobCapacityStatus, setJobCapacityStatus] = useState<{ [key: string]: boolean }>({});
     const [showOptionMap, setShowOptionMap] = useState<{ [key: string]: boolean }>({});
+    const supabase = createClientComponentClient();
+
+    const checkJobCapacity = async (jobId: string) => {
+        const { data, error } = await supabase
+            .from('job_applications_count')
+            .select('confirmed_count')
+            .eq('job_id', jobId)
+            .single();
+
+        if (error) {
+            console.error('Error checking job capacity:', error);
+            return false;
+        }
+
+        const job = props.appliedjobs.find(j => j.uid === jobId);
+        return (data?.confirmed_count || 0) >= (job?.limit || 0);
+    };
 
     useEffect(() => {
         // Initialize payment statuses from the server-side data
@@ -31,11 +138,15 @@ export default function Applied(props: { appliedjobs: Job[], seekerId: string })
         setPaymentStatuses(statuses);
 
         // Initialize capacity status for each job
-        const capacityStatus = props.appliedjobs.reduce((acc, job) => ({
-            ...acc,
-            [job.id]: (job.confirmed_count || 0) >= job.limit
-        }), {});
-        setJobCapacityStatus(capacityStatus);
+        const initializeCapacityStatus = async () => {
+            const capacityStatus: { [key: number]: boolean } = {};
+            for (const job of props.appliedjobs) {
+                capacityStatus[job.id] = await checkJobCapacity(job.uid);
+            }
+            setJobCapacityStatus(capacityStatus);
+        };
+
+        initializeCapacityStatus();
     }, [props.appliedjobs]);
 
     const toggleShowOption = (jobId: number) => {
@@ -43,56 +154,6 @@ export default function Applied(props: { appliedjobs: Job[], seekerId: string })
             ...prev,
             [jobId]: !prev[jobId]
         }));
-    };
-
-    const renderPaymentStatus = (job: Job) => {
-        if (jobCapacityStatus[job.id]) {
-            return (
-                <div className="text-center bg-yellow-100 text-yellow-800 px-4 py-2 rounded-2xl">
-                    No spots available
-                </div>
-            );
-        }
-
-        if (job.signup_fee > 0 && !paymentStatuses[job.id]) {
-            return (
-                <div className='flex flex-col'>
-                    <PaymentComponent
-                        jobId={job.uid}
-                        seekerId={props.seekerId}
-                        amount={job.signup_fee}
-                        onPaymentSuccess={() => {
-                            setPaymentStatuses(prev => ({
-                                ...prev,
-                                [job.id]: 'success'
-                            }));
-                            // Update capacity status after successful payment
-                            setJobCapacityStatus(prev => ({
-                                ...prev,
-                                [job.id]: (job.confirmed_count + 1) >= job.limit
-                            }));
-                        }}
-                    />
-                    <p className='text-[13px] text-center font-[500] text-red-600'>
-                        Complete the payment to confirm your apprenticeship
-                    </p>
-                </div>
-            );
-        }
-
-        if (paymentStatuses[job.id]) {
-            return (
-                <div className={`text-center px-4 py-2 rounded-2xl ${
-                    paymentStatuses[job.id] === 'success'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                }`}>
-                    Payment {paymentStatuses[job.id]}
-                </div>
-            );
-        }
-
-        return null;
     };
 
     return (
@@ -132,7 +193,14 @@ export default function Applied(props: { appliedjobs: Job[], seekerId: string })
                                         <p className='text-sm'>{job?.created_at.substring(0, job.created_at.indexOf('T'))}</p>
                                     </div>
                                 </div>
-                                {renderPaymentStatus(job)}
+                                <MobilePaymentStatus
+                                    job={job}
+                                    seekerId={props.seekerId}
+                                    paymentStatuses={paymentStatuses}
+                                    setPaymentStatuses={setPaymentStatuses}
+                                    setJobCapacityStatus={setJobCapacityStatus}
+                                    checkJobCapacity={checkJobCapacity}
+                                />
                             </div>
                         ))}
                     </div>
