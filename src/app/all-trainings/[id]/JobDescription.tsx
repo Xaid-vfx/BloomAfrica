@@ -90,7 +90,7 @@ export default function JobDescription(props) {
         return data.length > 0;
     }
 
-    async function postJob() {
+    async function applyForJob() {
         // First check if the job is still available
         const { data: currentCount } = await supabase
             .from('job_applications_count')
@@ -155,7 +155,7 @@ export default function JobDescription(props) {
                 .single()
             if (error) throw error
             else {
-                postJob()
+                applyForJob()
                 setShowAgreements(false)
                 return true;
             }
