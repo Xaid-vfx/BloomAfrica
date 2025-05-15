@@ -19,13 +19,60 @@ import { AgreementModal } from "@/components/Modal/AgreementModal";
 import getIP from "@/lib/getIP/getIP";
 import UAParser from "ua-parser-js";
 
-async function getJob(userid: string) {
+interface Job {
+    uid: string;
+    title: string;
+    description: string;
+    location: string;
+    type: string;
+    signup_fee: number;
+    limit: number;
+    who_we_are: string;
+    teaching_method: string;
+    learning_outcomes: string;
+    scheduling: string;
+    outcomes: string;
+    trainer_credentials: string;
+    companylogo?: string;
+    city: string;
+    state: string;
+    country: string;
+    category: string;
+    skills: string[];
+    duration: string;
+    deadline: string;
+    start_date: string;
+    provides_certificate: string;
+    minsalary: number;
+    maxsalary: number;
+    training_mode: string;
+    Recruiters: {
+        CompanyInfo: {
+            name: string;
+            logo: string;
+        }
+    }
+}
+
+interface JobApplicationCount {
+    applicant_count: number;
+    confirmed_count: number;
+}
+
+interface JobWithCounts extends Job {
+    job_applications_count: JobApplicationCount[];
+}
+
+async function getJob(userid: string): Promise<JobWithCounts | null> {
     const supabase = createClientComponentClient()
     const { data: jobData, error: jobError } = await supabase
         .from('Jobs')
         .select(`
             *,
-            job_applications_count(applicant_count, confirmed_count),
+            job_applications_count(
+                applicant_count,
+                confirmed_count
+            ),
             Recruiters(
                 CompanyInfo(
                     name,
@@ -38,16 +85,17 @@ async function getJob(userid: string) {
 
     if (jobError) {
         console.log(jobError);
+        return null;
     }
 
     return jobData;
 }
 
-export default function JobDescription(props) {
+export default function JobDescription(props: { user: { id: string } }) {
     const supabase = createClientComponentClient()
     const search = useSearchParams()
     const id = search.get('id')
-    const [job, setjob] = useState()
+    const [job, setjob] = useState<JobWithCounts | null>(null)
     const router = useRouter()
     const [showAgreements, setShowAgreements] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -94,17 +142,21 @@ export default function JobDescription(props) {
         // First check if the job is still available
         const { data: currentCount } = await supabase
             .from('job_applications_count')
-            .select('applicant_count')
+            .select('applicant_count, confirmed_count')
             .eq('job_id', id)
             .single();
 
-        // For jobs with signup fee, only count confirmed (paid) applications
-        const isPaidJob = job?.signup_fee > 0;
-        const effectiveCount = isPaidJob 
-            ? (currentCount?.confirmed_count || 0) 
-            : (currentCount?.applicant_count || 0);
+        if (!job) return;
 
-        if (effectiveCount >= job?.limit) {
+        // For jobs with signup fee, only count confirmed (paid) applications
+        const isPaidJob = job.signup_fee > 0;
+        const confirmedCount = currentCount?.confirmed_count || 0;
+        const totalCount = currentCount?.applicant_count || 0;
+        
+        // Use confirmed count for paid jobs, total count for free jobs
+        const effectiveCount = isPaidJob ? confirmedCount : totalCount;
+
+        if (effectiveCount >= job.limit) {
             toast.error("This position is no longer accepting applications");
             setIsAtCapacity(true);
             return;
@@ -200,16 +252,24 @@ export default function JobDescription(props) {
 
     useEffect(() => {
         async function fetchJob() {
+            if (!id) return;
+            
             const data = await getJob(id);
             setjob(data);
 
-            const isPaidJob = data?.signup_fee > 0;
-            const applicantCount = isPaidJob
-                ? (data?.job_applications_count?.[0]?.confirmed_count || 0)
-                : (data?.job_applications_count?.[0]?.applicant_count || 0);
-            setApplicantCount(applicantCount);
+            if (!data) return;
 
-            setIsAtCapacity(applicantCount >= (data?.limit || 0));
+            // For jobs with signup fee, only count confirmed applications
+            const isPaidJob = data.signup_fee > 0;
+            const confirmedCount = data.job_applications_count?.[0]?.confirmed_count || 0;
+            const totalCount = data.job_applications_count?.[0]?.applicant_count || 0;
+            
+            // Use confirmed count for paid jobs, total count for free jobs
+            const effectiveCount = isPaidJob ? confirmedCount : totalCount;
+            setApplicantCount(effectiveCount);
+
+            // Check if at capacity
+            setIsAtCapacity(effectiveCount >= data.limit);
         }
         fetchJob();
     }, [id]);
