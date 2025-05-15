@@ -107,9 +107,21 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
     useEffect(() => {
         const checkCapacity = async () => {
             setIsLoading(true);
+
+            // If this user has already paid, show success message regardless of capacity
+            if (paymentStatuses[row.id] === 'success') {
+                setStatus(
+                    <div className="text-center bg-green-100 text-green-800 px-4 py-2 rounded-xl">
+                        Payment successful
+                    </div>
+                );
+                setIsLoading(false);
+                return;
+            }
+
             const isAtCapacity = await checkJobCapacity(row.uid);
             
-            if (isAtCapacity) {
+            if (isAtCapacity && !paymentStatuses[row.id]) {
                 setStatus(
                     <div className="text-center bg-yellow-100 text-yellow-800 px-4 py-2 rounded-xl">
                         No spots available
@@ -123,15 +135,21 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
                             seekerId={seekerId}
                             amount={row.signup_fee}
                             onPaymentSuccess={async () => {
-                                setPaymentStatuses(prev => ({
-                                    ...prev,
-                                    [row.id]: 'success'
-                                }));
+                                setPaymentStatuses((prev: { [key: string]: string }) => {
+                                    const newState: { [key: string]: string } = {
+                                        ...prev,
+                                        [row.id]: 'success'
+                                    };
+                                    return newState;
+                                });
                                 const newCapacityStatus = await checkJobCapacity(row.uid);
-                                setJobCapacityStatus(prev => ({
-                                    ...prev,
-                                    [row.id]: newCapacityStatus
-                                }));
+                                setJobCapacityStatus((prev: { [key: string]: boolean }) => {
+                                    const newState: { [key: string]: boolean } = {
+                                        ...prev,
+                                        [row.id]: newCapacityStatus
+                                    };
+                                    return newState;
+                                });
                             }}
                         />
                         <p className='text-xs text-red-600'>Complete the payment to get started</p>
