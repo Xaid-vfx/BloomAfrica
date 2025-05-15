@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from "react"
 import { PaystackButton } from 'react-paystack';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface PaymentProps {
     jobId: string;
@@ -67,6 +68,25 @@ export default function PaymentComponent({ jobId, seekerId, amount, onPaymentSuc
 
             const data = await response.json();
             if (data.status === true) {
+                // Update the application status in the database
+                const supabase = createClientComponentClient();
+                const { error: updateError } = await supabase
+                    .from('Applicants')
+                    .update({
+                        is_confirmed: true,
+                        status: 'confirmed',
+                        payment_reference: reference,
+                        payment_date: new Date().toISOString()
+                    })
+                    .eq('job_id', jobId)
+                    .eq('seeker_id', seekerId);
+
+                if (updateError) {
+                    console.error('Error updating application status:', updateError);
+                    setPaymentStatus('Payment Successful but Application Update Failed');
+                    return;
+                }
+
                 setPaymentStatus('Payment Successful');
                 onPaymentSuccess?.();
             } else {

@@ -98,7 +98,13 @@ export default function JobDescription(props) {
             .eq('job_id', id)
             .single();
 
-        if (currentCount?.applicant_count >= job?.limit) {
+        // For jobs with signup fee, only count confirmed (paid) applications
+        const isPaidJob = job?.signup_fee > 0;
+        const effectiveCount = isPaidJob 
+            ? (currentCount?.confirmed_count || 0) 
+            : (currentCount?.applicant_count || 0);
+
+        if (effectiveCount >= job?.limit) {
             toast.error("This position is no longer accepting applications");
             setIsAtCapacity(true);
             return;
@@ -121,16 +127,26 @@ export default function JobDescription(props) {
             return;
         }
 
+        // Insert application with is_confirmed based on signup fee
         const { data, error } = await supabase
             .from('Applicants')
-            .insert({ job_id: id, name: seekerData.name })
+            .insert({ 
+                job_id: id, 
+                name: seekerData.name,
+                is_confirmed: !isPaidJob, // Auto-confirm if no signup fee
+                status: isPaidJob ? 'pending_payment' : 'confirmed'
+            })
 
         if (error) {
             console.log(error);
             setIsLoading(false);
         }
         else {
-            toast.success("Enrolled for the job!");
+            if (isPaidJob) {
+                toast.success("Application submitted! Please complete the payment to confirm your spot.");
+            } else {
+                toast.success("Enrolled for the job!");
+            }
             router.push('/seeker/applied')
         }
     }
