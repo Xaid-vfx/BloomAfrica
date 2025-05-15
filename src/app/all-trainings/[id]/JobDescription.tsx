@@ -203,11 +203,13 @@ export default function JobDescription(props) {
             const data = await getJob(id);
             setjob(data);
 
-            const currentCount = data?.job_applications_count?.[0]?.applicant_count || 0;
-            setApplicantCount(currentCount);
+            const isPaidJob = data?.signup_fee > 0;
+            const applicantCount = isPaidJob
+                ? data?.job_applications_count?.[0]?.confirmed_count || 0
+                : data?.job_applications_count?.[0]?.applicant_count || 0;
+            setApplicantCount(applicantCount);
 
-            // Check if job is at capacity
-            setIsAtCapacity(currentCount >= (data?.limit || 0));
+            setIsAtCapacity(applicantCount >= (data?.limit || 0));
         }
         fetchJob();
     }, [id]);
