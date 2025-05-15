@@ -243,7 +243,13 @@ export default function JobDescription(props) {
                 </div>
                 <div className="flex gap-2 mt-6">
                     <SaveButton user={props.user?.id} id={id}></SaveButton>
-                    <button onClick={() => { handleApplyJob() }} className=" text-white py-3 text-center bg-[#4A2C84]  rounded-2xl font-medium px-14" >Enroll</button>
+                    <button 
+                        onClick={() => { handleApplyJob() }} 
+                        className={`text-white py-3 text-center bg-[#4A2C84] rounded-2xl font-medium px-14 ${isAtCapacity ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={isAtCapacity}
+                    >
+                        {isAtCapacity ? 'No Longer Accepting' : 'Enroll'}
+                    </button>
                 </div>
             </div>
             <div className="flex flex-col-reverse lg:flex-row lg:flex gap-5 px-6 lg:px-20 pb-20 ">
