@@ -18,7 +18,7 @@ interface Column {
     id: 'title' | 'location' | 'date' | 'action';
     label: string;
     minWidth?: number;
-    align?: 'right';
+    align?: 'right' | 'center';
     format?: (value: number) => string;
 }
 
@@ -41,13 +41,15 @@ const columns: readonly Column[] = [
 ];
 
 interface Data {
-    id: number,
-    uid: number,
+    id: number;
+    uid: number;
     title: string;
     location: string;
     date: string;
     action: string;
     signup_fee: number;
+    job_limit: number;
+    confirmed_count: number;
 }
 
 function createData(
@@ -57,10 +59,11 @@ function createData(
     location: string,
     date: string,
     action: string,
-    signup_fee: number
+    signup_fee: number,
+    job_limit: number,
+    confirmed_count: number
 ): Data {
-
-    return { id, uid, title, location, date, action, signup_fee };
+    return { id, uid, title, location, date, action, signup_fee, job_limit, confirmed_count };
 }
 
 // const rows = [
@@ -83,20 +86,36 @@ function createData(
 
 export default function AppliedTable(props: any) {
     const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
+    const [jobCapacityStatus, setJobCapacityStatus] = useState<{ [key: string]: boolean }>({});
 
     useEffect(() => {
         // Initialize payment statuses from the server-side data
-        const statuses = props.jobs.reduce((acc, job) => ({
+        const statuses = props.jobs.reduce((acc: any, job: any) => ({
             ...acc,
             [job.id]: job.paymentStatus
         }), {});
         setPaymentStatuses(statuses);
+
+        // Initialize capacity status for each job
+        const capacityStatus = props.jobs.reduce((acc: any, job: any) => ({
+            ...acc,
+            [job.id]: job.confirmed_count >= job.limit
+        }), {});
+        setJobCapacityStatus(capacityStatus);
     }, [props.jobs]);
 
-    console.log(props.jobs);
-
     const rows = [...props.jobs.map((job: any) => {
-        return createData(job.id, job.uid, job.title, job.location, job.created_at.substring(0, job.created_at.indexOf('T')), "...", job.signup_fee);
+        return createData(
+            job.id,
+            job.uid,
+            job.title,
+            job.location,
+            job.created_at.substring(0, job.created_at.indexOf('T')),
+            "...",
+            job.signup_fee,
+            job.limit,
+            job.confirmed_count || 0
+        );
     })];
 
     rows.sort((a, b) => b.id - a.id);
@@ -113,8 +132,55 @@ export default function AppliedTable(props: any) {
         setPage(0);
     };
 
+    const renderPaymentStatus = (row: Data) => {
+        if (jobCapacityStatus[row.id]) {
+            return (
+                <div className="text-center bg-yellow-100 text-yellow-800 px-4 py-2 rounded-xl">
+                    No spots available
+                </div>
+            );
+        }
+
+        if (row.signup_fee > 0 && !paymentStatuses[row.id]) {
+            return (
+                <div className='flex flex-col'>
+                    <PaymentComponent
+                        jobId={row.uid}
+                        seekerId={props.seekerId}
+                        amount={row.signup_fee}
+                        onPaymentSuccess={() => {
+                            setPaymentStatuses(prev => ({
+                                ...prev,
+                                [row.id]: 'success'
+                            }));
+                            // Update capacity status after successful payment
+                            setJobCapacityStatus(prev => ({
+                                ...prev,
+                                [row.id]: row.confirmed_count + 1 >= row.job_limit
+                            }));
+                        }}
+                    />
+                    <p className='text-xs text-red-600'>Complete the payment to get started</p>
+                </div>
+            );
+        }
+
+        if (paymentStatuses[row.id]) {
+            return (
+                <div className={`text-center px-4 py-2 rounded-xl ${
+                    paymentStatuses[row.id] === 'success'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                }`}>
+                    Payment {paymentStatuses[row.id]}
+                </div>
+            );
+        }
+
+        return null;
+    };
+
     return (
-        
         <Paper sx={{ width: '100%', overflow: 'scroll', borderBottomLeftRadius: "12px", borderBottomRightRadiusRadius: "12px", boxShadow: "none" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="sticky table">
@@ -142,26 +208,25 @@ export default function AppliedTable(props: any) {
                             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                                         {columns.map((column) => {
                                             const value = row[column.id];
                                             return (
                                                 <TableCell key={column.id} align={column.align}>
-                                                    {column.id === 'title' ? (
+                                                    {column.id === 'title' && (
                                                         <div className='flex-col gap-3 pr-10 pl-6'>
-
-
                                                             <h2 className='font-[500] font-sans text-lg'>{value}</h2>
-                                                            <p className='flex gap-1 items-baseline text-sm text-[#4A2C84]'><HiOutlineLocationMarker /> Yaba, Lagos</p>
-
+                                                            <p className='flex gap-1 items-baseline text-sm text-[#4A2C84]'>
+                                                                <HiOutlineLocationMarker /> {row.location}
+                                                            </p>
                                                         </div>
-                                                    ) : ""}
+                                                    )}
 
-                                                    {column.id === 'location' ? <div className='text-base  text-[#7C8493]'>{value}</div> : ""}
+                                                    {column.id === 'location' && <div className='text-base text-[#7C8493]'>{value}</div>}
 
-                                                    {column.id === 'date' ? <div className='text-base text-[#7C8493]'>{value}</div> : ""}
+                                                    {column.id === 'date' && <div className='text-base text-[#7C8493]'>{value}</div>}
 
-                                                    {column.id === 'action' ? (
+                                                    {column.id === 'action' && (
                                                         <div className='flex flex-col gap-2 justify-center py-1'>
                                                             <button
                                                                 onClick={() => {
@@ -172,33 +237,9 @@ export default function AppliedTable(props: any) {
                                                             >
                                                                 View Application
                                                             </button>
-                                                            {row.signup_fee > 0 && !paymentStatuses[row.id] && (
-                                                                <div className='flex flex-col'>
-                                                                    <PaymentComponent
-                                                                        jobId={row.uid}
-                                                                        seekerId={props.seekerId}
-                                                                        amount={row.signup_fee}
-                                                                        onPaymentSuccess={() => {
-                                                                            setPaymentStatuses(prev => ({
-                                                                                ...prev,
-                                                                                [row.id]: 'success'
-                                                                            }));
-                                                                        }}
-                                                                    />
-                                                                    <p className='text-xs text-red-600'>Complete the payment to get started</p>
-                                                                </div>
-                                                            )}
-                                                            {paymentStatuses[row.id] && (
-                                                                <div className={`text-center px-4 py-2 rounded-xl ${paymentStatuses[row.id] === 'success'
-                                                                    ? 'bg-green-100 text-green-800'
-                                                                    : 'bg-red-100 text-red-800'
-                                                                    }`}>
-                                                                    Payment {paymentStatuses[row.id]}
-                                                                </div>
-                                                            )}
+                                                            {renderPaymentStatus(row)}
                                                         </div>
-                                                    ) : ""}
-
+                                                    )}
                                                 </TableCell>
                                             );
                                         })}
@@ -209,7 +250,6 @@ export default function AppliedTable(props: any) {
                 </Table>
             </TableContainer>
             <TablePagination
-                // rowsPerPageOptions={[10, 25, 100]}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
@@ -218,6 +258,5 @@ export default function AppliedTable(props: any) {
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </Paper>
-
     );
 }
