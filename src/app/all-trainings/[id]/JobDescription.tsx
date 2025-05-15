@@ -25,7 +25,7 @@ async function getJob(userid: string) {
         .from('Jobs')
         .select(`
             *,
-            job_applications_count(applicant_count),
+            job_applications_count(applicant_count, confirmed_count),
             Recruiters(
                 CompanyInfo(
                     name,
@@ -205,8 +205,8 @@ export default function JobDescription(props) {
 
             const isPaidJob = data?.signup_fee > 0;
             const applicantCount = isPaidJob
-                ? data?.job_applications_count?.[0]?.confirmed_count || 0
-                : data?.job_applications_count?.[0]?.applicant_count || 0;
+                ? (data?.job_applications_count?.[0]?.confirmed_count || 0)
+                : (data?.job_applications_count?.[0]?.applicant_count || 0);
             setApplicantCount(applicantCount);
 
             setIsAtCapacity(applicantCount >= (data?.limit || 0));
