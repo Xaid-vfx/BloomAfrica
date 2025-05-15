@@ -39,11 +39,14 @@ const MobilePaymentStatus: React.FC<MobilePaymentStatusProps> = ({
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const checkCapacity = async () => {
+        const checkStatus = async () => {
             setIsLoading(true);
             
-            // If this user has already paid, show success message regardless of capacity
-            if (paymentStatuses[job.id] === 'success') {
+            // First check if this application is already paid for
+            const isPaid = paymentStatuses[job.id] === 'success';
+            
+            // If paid, we don't care about capacity - the spot is secured
+            if (isPaid) {
                 setStatus(
                     <div className="text-center bg-green-100 text-green-800 px-4 py-2 rounded-2xl">
                         Payment successful
@@ -53,15 +56,16 @@ const MobilePaymentStatus: React.FC<MobilePaymentStatusProps> = ({
                 return;
             }
 
+            // Only check capacity if not paid
             const isAtCapacity = await checkJobCapacity(job.uid);
             
-            if (isAtCapacity && !paymentStatuses[job.id]) {
+            if (isAtCapacity) {
                 setStatus(
                     <div className="text-center bg-yellow-100 text-yellow-800 px-4 py-2 rounded-2xl">
                         No spots available
                     </div>
                 );
-            } else if (job.signup_fee > 0 && !paymentStatuses[job.id]) {
+            } else if (job.signup_fee > 0) {
                 setStatus(
                     <div className='flex flex-col'>
                         <PaymentComponent
@@ -91,21 +95,11 @@ const MobilePaymentStatus: React.FC<MobilePaymentStatusProps> = ({
                         </p>
                     </div>
                 );
-            } else if (paymentStatuses[job.id]) {
-                setStatus(
-                    <div className={`text-center px-4 py-2 rounded-2xl ${
-                        paymentStatuses[job.id] === 'success'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
-                    }`}>
-                        Payment {paymentStatuses[job.id]}
-                    </div>
-                );
             }
             setIsLoading(false);
         };
 
-        checkCapacity();
+        checkStatus();
     }, [job.id, job.uid, paymentStatuses[job.id]]);
 
     if (isLoading) {
