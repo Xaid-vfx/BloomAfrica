@@ -38,5 +38,5 @@ function determineSplitShare(amount: number): number {
     // } else if (amount >= 50000) {
     //     return 60; // 60% for medium amounts
     // }
-    return 80; // 50% for small amounts
+    return 20; // 50% for small amounts
 } 
