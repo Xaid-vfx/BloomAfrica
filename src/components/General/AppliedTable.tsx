@@ -138,6 +138,7 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
                             jobId={row.uid}
                             seekerId={seekerId}
                             amount={row.signup_fee}
+                            initialPaymentStatus={paymentStatuses[row.id]}
                             onPaymentSuccess={async () => {
                                 setPaymentStatuses((prev: { [key: string]: string }) => {
                                     const newState: { [key: string]: string } = {
@@ -164,7 +165,7 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
         };
 
         checkStatus();
-    }, [row.id, row.uid, paymentStatuses[row.id]]);
+    }, [row.id, row.uid, paymentStatuses, checkJobCapacity, seekerId, row.signup_fee]);
 
     if (isLoading) {
         return (

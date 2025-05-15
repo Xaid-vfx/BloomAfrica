@@ -72,6 +72,7 @@ const MobilePaymentStatus: React.FC<MobilePaymentStatusProps> = ({
                             jobId={job.uid}
                             seekerId={seekerId}
                             amount={job.signup_fee}
+                            initialPaymentStatus={paymentStatuses[job.id]}
                             onPaymentSuccess={async () => {
                                 setPaymentStatuses((prev: { [key: string]: string }) => {
                                     const newState: { [key: string]: string } = {
@@ -100,7 +101,7 @@ const MobilePaymentStatus: React.FC<MobilePaymentStatusProps> = ({
         };
 
         checkStatus();
-    }, [job.id, job.uid, paymentStatuses[job.id]]);
+    }, [job.id, job.uid, paymentStatuses, checkJobCapacity, seekerId, job.signup_fee]);
 
     if (isLoading) {
         return (
