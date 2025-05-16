@@ -1,0 +1,339 @@
+'use client'
+import { useState } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
+// Admin credentials - moved to environment variables
+const ALLOWED_EMAILS = ['mohammad.zaid@gmail.com', 'your.friend@email.com'];
+
+export default function QuickAccountPage() {
+    const [password, setPassword] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [accountType, setAccountType] = useState<'seeker' | 'recruiter'>('seeker');
+    const [customEmail, setCustomEmail] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [createdAccount, setCreatedAccount] = useState<{ email: string; password: string; userId: string } | null>(null);
+    const router = useRouter();
+    const supabase = createClientComponentClient();
+
+    const handleAuth = async (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        try {
+            const response = await fetch('/api/admin/verify-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ password }),
+            });
+
+            if (response.ok) {
+                setIsAuthenticated(true);
+            } else {
+                toast.error('Invalid password');
+            }
+        } catch (error) {
+            console.error('Error verifying password:', error);
+            toast.error('Authentication failed');
+        }
+    };
+
+    const generateRandomEmail = () => {
+        const random = Math.random().toString(36).substring(2, 10);
+        // Using a domain that doesn't require email verification in Supabase
+        return `test_${random}@test.com`;
+    };
+
+    const generateRandomPhoneNumber = () => {
+        // Generate a random 10-digit number
+        const random = Math.floor(Math.random() * 10000000000).toString().padStart(10, '0');
+        return `+234${random}`;
+    };
+
+    const deleteAccount = async () => {
+        if (!createdAccount?.userId || isDeleting) return;
+        setIsDeleting(true);
+
+        try {
+            // 1. Delete from profile tables
+            if (accountType === 'seeker') {
+                await supabase.from('Education').delete().eq('unique_id', createdAccount.userId);
+                await supabase.from('Seekers').delete().eq('unique_id', createdAccount.userId);
+            } else {
+                await supabase.from('CompanyInfo').delete().eq('unique_id', createdAccount.userId);
+                await supabase.from('Recruiters').delete().eq('uniqueid', createdAccount.userId);
+            }
+
+            // 2. Delete from users table
+            await supabase.from('users').delete().eq('email', createdAccount.email);
+
+            // 3. Sign out the user if they're currently signed in
+            await supabase.auth.signOut();
+
+            toast.success('Account data deleted successfully');
+            setCreatedAccount(null);
+        } catch (error) {
+            console.error('Error deleting account:', error);
+            toast.error('Failed to delete account data');
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const createQuickAccount = async () => {
+        if (isLoading) return;
+        setIsLoading(true);
+        setCreatedAccount(null);
+
+        try {
+            const email = customEmail || generateRandomEmail();
+            const defaultPassword = 'Test@123';
+            const phoneNumber = generateRandomPhoneNumber();
+            
+            // 1. Create auth account with confirmed email using our API
+            const response = await fetch('/api/create-test-account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    password: defaultPassword,
+                    accountType
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to create account');
+            }
+
+            const userId = data.user.id;
+
+            // 2. Create user profile based on type
+            if (accountType === 'seeker') {
+                const { error: seekerError } = await supabase
+                    .from('Seekers')
+                    .insert({
+                        unique_id: userId,
+                        name: 'Test User',
+                        email: email,
+                        number: phoneNumber,
+                        dob: '2000-01-01',
+                        gender: 'male',
+                        country: 'Nigeria',
+                        state: 'Lagos'
+                    });
+
+                if (seekerError) throw seekerError;
+
+                // Add education
+                await supabase
+                    .from('Education')
+                    .insert({
+                        unique_id: userId,
+                        level: 'Graduation',
+                        school_name: 'Test University',
+                        field: 'Computer Science',
+                        year: '2024'
+                    });
+
+            } else {
+                // Recruiter account
+                const { error: recruiterError } = await supabase
+                    .from('Recruiters')
+                    .insert({
+                        uniqueid: userId,
+                        name: 'Test Recruiter',
+                        email: email,
+                        number: phoneNumber,
+                        dob: '2000-01-01',
+                        gender: 'male',
+                        country: 'Nigeria',
+                        state: 'Lagos'
+                    });
+
+                if (recruiterError) throw recruiterError;
+
+                // Add company info
+                await supabase
+                    .from('CompanyInfo')
+                    .insert({
+                        unique_id: userId,
+                        name: 'Test Company',
+                        website: 'https://testcompany.com',
+                        description: 'A test company',
+                        position_in_company: 'Recruiter'
+                    });
+            }
+
+            // 3. Add user type
+            await supabase
+                .from('users')
+                .insert({
+                    name: accountType === 'seeker' ? 'Test User' : 'Test Recruiter',
+                    email: email,
+                    type: accountType
+                });
+
+            // Store the created account info
+            setCreatedAccount({ email, password: defaultPassword, userId });
+            toast.success('Account created successfully!');
+
+        } catch (error: any) {
+            console.error('Error creating account:', error);
+            toast.error(error?.message || 'Failed to create account');
+            setCreatedAccount(null);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSignIn = async () => {
+        if (!createdAccount) return;
+        
+        try {
+            const { error: signInError } = await supabase.auth.signInWithPassword({
+                email: createdAccount.email,
+                password: createdAccount.password
+            });
+
+            if (signInError) throw signInError;
+
+            // Redirect based on account type
+            router.push(accountType === 'recruiter' ? '/recruiter' : '/all-trainings');
+        } catch (error: any) {
+            console.error('Error signing in:', error);
+            toast.error('Failed to sign in. Please try again.');
+        }
+    };
+
+    if (!isAuthenticated) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
+                    <div>
+                        <h2 className="text-center text-3xl font-extrabold text-gray-900">
+                            Admin Access
+                        </h2>
+                    </div>
+                    <form className="mt-8 space-y-6" onSubmit={handleAuth}>
+                        <div>
+                            <label htmlFor="password" className="sr-only">
+                                Password
+                            </label>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                required
+                                className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                                placeholder="Enter admin password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <button
+                                type="submit"
+                                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                            >
+                                Access
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8">
+                <h2 className="text-2xl font-bold text-center mb-8">Quick Account Creation</h2>
+                
+                {createdAccount ? (
+                    <div className="space-y-6">
+                        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <h3 className="text-lg font-medium text-green-800 mb-4">Account Created Successfully!</h3>
+                            <div className="space-y-2">
+                                <div>
+                                    <span className="font-medium text-gray-700">Email:</span>
+                                    <span className="ml-2 text-gray-600">{createdAccount.email}</span>
+                                </div>
+                                <div>
+                                    <span className="font-medium text-gray-700">Password:</span>
+                                    <span className="ml-2 text-gray-600">{createdAccount.password}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex gap-4">
+                            <button
+                                onClick={handleSignIn}
+                                className="flex-1 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                            >
+                                Sign In Now
+                            </button>
+                            <button
+                                onClick={deleteAccount}
+                                disabled={isDeleting}
+                                className={`flex-1 flex justify-center py-2 px-4 border border-red-600 rounded-md shadow-sm text-sm font-medium text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 ${
+                                    isDeleting ? 'opacity-50 cursor-not-allowed' : ''
+                                }`}
+                            >
+                                {isDeleting ? 'Deleting...' : 'Delete Account'}
+                            </button>
+                        </div>
+                        <button
+                            onClick={() => setCreatedAccount(null)}
+                            className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                        >
+                            Create Another Account
+                        </button>
+                    </div>
+                ) : (
+                    <div className="space-y-6">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Account Type</label>
+                            <select
+                                value={accountType}
+                                onChange={(e) => setAccountType(e.target.value as 'seeker' | 'recruiter')}
+                                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
+                            >
+                                <option value="seeker">Seeker</option>
+                                <option value="recruiter">Recruiter</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                                Custom Email (Optional)
+                            </label>
+                            <input
+                                type="email"
+                                value={customEmail}
+                                onChange={(e) => setCustomEmail(e.target.value)}
+                                placeholder="Leave empty for random email"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                            />
+                        </div>
+
+                        <button
+                            onClick={createQuickAccount}
+                            disabled={isLoading}
+                            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 ${
+                                isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                            }`}
+                        >
+                            {isLoading ? 'Creating...' : 'Create Account'}
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+} 
