@@ -4,6 +4,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { SupabaseClient } from '@supabase/supabase-js';
+import LoadingOverlay from '@/components/LoadingOverlay/LoadingOverlay';
 
 // Admin credentials - moved to environment variables
 const ALLOWED_EMAILS = ['mohammad.zaid@gmail.com', 'your.friend@email.com'];
@@ -26,6 +27,7 @@ export default function QuickAccountPage() {
     const [createdAccount, setCreatedAccount] = useState<{ email: string; password: string; userId: string } | null>(null);
     const [testAccounts, setTestAccounts] = useState<TestAccount[]>([]);
     const [isLoadingAccounts, setIsLoadingAccounts] = useState(false);
+    const [isSigningIn, setIsSigningIn] = useState(false);
     const router = useRouter();
     const supabase = createClientComponentClient();
 
@@ -271,7 +273,8 @@ export default function QuickAccountPage() {
     };
 
     const handleSignIn = async () => {
-        if (!createdAccount) return;
+        if (!createdAccount || isSigningIn) return;
+        setIsSigningIn(true);
         
         try {
             const { error: signInError } = await supabase.auth.signInWithPassword({
@@ -286,6 +289,7 @@ export default function QuickAccountPage() {
         } catch (error: any) {
             console.error('Error signing in:', error);
             toast.error('Failed to sign in. Please try again.');
+            setIsSigningIn(false);
         }
     };
 
@@ -329,125 +333,148 @@ export default function QuickAccountPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-                <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-                    <h2 className="text-2xl font-bold text-center mb-8">Quick Account Creation</h2>
-                    
-                    {createdAccount ? (
-                        <div className="space-y-6">
-                            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                                <h3 className="text-lg font-medium text-green-800 mb-4">Account Created Successfully!</h3>
-                                <div className="space-y-2">
-                                    <div>
-                                        <span className="font-medium text-gray-700">Email:</span>
-                                        <span className="ml-2 text-gray-600">{createdAccount.email}</span>
-                                    </div>
-                                    <div>
-                                        <span className="font-medium text-gray-700">Password:</span>
-                                        <span className="ml-2 text-gray-600">{createdAccount.password}</span>
+        <>
+            {(isSigningIn || isLoading) && (
+                <LoadingOverlay 
+                    message={isSigningIn 
+                        ? "Signing in to your account..." 
+                        : "Creating your test account..."
+                    } 
+                />
+            )}
+            <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-4xl mx-auto">
+                    <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+                        <h2 className="text-2xl font-bold text-center mb-8">Quick Account Creation</h2>
+                        
+                        {createdAccount ? (
+                            <div className="space-y-6">
+                                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                                    <h3 className="text-lg font-medium text-green-800 mb-4">Account Created Successfully!</h3>
+                                    <div className="space-y-2">
+                                        <div>
+                                            <span className="font-medium text-gray-700">Email:</span>
+                                            <span className="ml-2 text-gray-600">{createdAccount.email}</span>
+                                        </div>
+                                        <div>
+                                            <span className="font-medium text-gray-700">Password:</span>
+                                            <span className="ml-2 text-gray-600">{createdAccount.password}</span>
+                                        </div>
                                     </div>
                                 </div>
+                                <div className="flex gap-4">
+                                    <button
+                                        onClick={handleSignIn}
+                                        disabled={isSigningIn}
+                                        className={`flex-1 flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${
+                                            isSigningIn ? 'opacity-75 cursor-not-allowed' : ''
+                                        }`}
+                                    >
+                                        {isSigningIn ? (
+                                            <>
+                                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Signing in...
+                                            </>
+                                        ) : (
+                                            'Sign In Now'
+                                        )}
+                                    </button>
+                                    <button
+                                        onClick={() => setCreatedAccount(null)}
+                                        className="flex-1 flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                                    >
+                                        Create Another Account
+                                    </button>
+                                </div>
                             </div>
-                            <div className="flex gap-4">
+                        ) : (
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">Account Type</label>
+                                    <select
+                                        value={accountType}
+                                        onChange={(e) => setAccountType(e.target.value as 'seeker' | 'recruiter')}
+                                        className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
+                                    >
+                                        <option value="seeker">Seeker</option>
+                                        <option value="recruiter">Recruiter</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Custom Email (Optional)
+                                    </label>
+                                    <input
+                                        type="email"
+                                        value={customEmail}
+                                        onChange={(e) => setCustomEmail(e.target.value)}
+                                        placeholder="Leave empty for random email"
+                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                                    />
+                                </div>
+
                                 <button
-                                    onClick={handleSignIn}
-                                    className="flex-1 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                    onClick={createQuickAccount}
+                                    disabled={isLoading}
+                                    className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 ${
+                                        isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                                    }`}
                                 >
-                                    Sign In Now
-                                </button>
-                                <button
-                                    onClick={() => setCreatedAccount(null)}
-                                    className="flex-1 flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-                                >
-                                    Create Another Account
+                                    {isLoading ? 'Creating...' : 'Create Account'}
                                 </button>
                             </div>
-                        </div>
-                    ) : (
-                        <div className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Account Type</label>
-                                <select
-                                    value={accountType}
-                                    onChange={(e) => setAccountType(e.target.value as 'seeker' | 'recruiter')}
-                                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
-                                >
-                                    <option value="seeker">Seeker</option>
-                                    <option value="recruiter">Recruiter</option>
-                                </select>
-                            </div>
+                        )}
+                    </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Custom Email (Optional)
-                                </label>
-                                <input
-                                    type="email"
-                                    value={customEmail}
-                                    onChange={(e) => setCustomEmail(e.target.value)}
-                                    placeholder="Leave empty for random email"
-                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                                />
-                            </div>
-
-                            <button
-                                onClick={createQuickAccount}
-                                disabled={isLoading}
-                                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 ${
-                                    isLoading ? 'opacity-50 cursor-not-allowed' : ''
-                                }`}
-                            >
-                                {isLoading ? 'Creating...' : 'Create Account'}
-                            </button>
-                        </div>
-                    )}
-                </div>
-
-                {/* Test Accounts List */}
-                <div className="bg-white rounded-xl shadow-lg p-8">
-                    <h2 className="text-2xl font-bold mb-6">Test Accounts</h2>
-                    {isLoadingAccounts ? (
-                        <div className="text-center py-4">Loading accounts...</div>
-                    ) : testAccounts.length === 0 ? (
-                        <div className="text-center py-4 text-gray-500">No test accounts created yet</div>
-                    ) : (
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Password</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {testAccounts.map((account) => (
-                                        <tr key={account.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{account.email}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{account.password}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">{account.type}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                {new Date(account.created_at).toLocaleDateString()}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                <button
-                                                    onClick={() => deleteTestAccount(account.id, account.email, account.type)}
-                                                    className="text-red-600 hover:text-red-800"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </td>
+                    {/* Test Accounts List */}
+                    <div className="bg-white rounded-xl shadow-lg p-8">
+                        <h2 className="text-2xl font-bold mb-6">Test Accounts</h2>
+                        {isLoadingAccounts ? (
+                            <div className="text-center py-4">Loading accounts...</div>
+                        ) : testAccounts.length === 0 ? (
+                            <div className="text-center py-4 text-gray-500">No test accounts created yet</div>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Password</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {testAccounts.map((account) => (
+                                            <tr key={account.id}>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{account.email}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{account.password}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">{account.type}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    {new Date(account.created_at).toLocaleDateString()}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    <button
+                                                        onClick={() => deleteTestAccount(account.id, account.email, account.type)}
+                                                        className="text-red-600 hover:text-red-800"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 } 
