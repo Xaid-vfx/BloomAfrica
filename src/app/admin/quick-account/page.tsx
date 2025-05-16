@@ -1,11 +1,20 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 // Admin credentials - moved to environment variables
 const ALLOWED_EMAILS = ['mohammad.zaid@gmail.com', 'your.friend@email.com'];
+
+interface TestAccount {
+    id: string;
+    email: string;
+    password: string;
+    type: 'seeker' | 'recruiter';
+    created_at: string;
+}
 
 export default function QuickAccountPage() {
     const [password, setPassword] = useState('');
@@ -15,8 +24,58 @@ export default function QuickAccountPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [createdAccount, setCreatedAccount] = useState<{ email: string; password: string; userId: string } | null>(null);
+    const [testAccounts, setTestAccounts] = useState<TestAccount[]>([]);
+    const [isLoadingAccounts, setIsLoadingAccounts] = useState(false);
     const router = useRouter();
     const supabase = createClientComponentClient();
+
+    // Set up real-time subscription
+    useEffect(() => {
+        if (!isAuthenticated) return;
+
+        // Initial fetch
+        fetchTestAccounts();
+
+        // Set up real-time subscription
+        const channel = supabase
+            .channel('test_accounts_changes')
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'test_accounts'
+                },
+                () => {
+                    console.log('Test accounts changed, refreshing...');
+                    fetchTestAccounts();
+                }
+            )
+            .subscribe();
+
+        // Cleanup subscription
+        return () => {
+            channel.unsubscribe();
+        };
+    }, [isAuthenticated, supabase]);
+
+    const fetchTestAccounts = async () => {
+        setIsLoadingAccounts(true);
+        try {
+            // Use service role API to fetch test accounts
+            const response = await fetch('/api/admin/get-test-accounts');
+            if (!response.ok) {
+                throw new Error('Failed to fetch test accounts');
+            }
+            const data = await response.json();
+            setTestAccounts(data.accounts || []);
+        } catch (error) {
+            console.error('Error fetching test accounts:', error);
+            toast.error('Failed to load test accounts');
+        } finally {
+            setIsLoadingAccounts(false);
+        }
+    };
 
     const handleAuth = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,33 +112,31 @@ export default function QuickAccountPage() {
         return `+234${random}`;
     };
 
-    const deleteAccount = async () => {
-        if (!createdAccount?.userId || isDeleting) return;
-        setIsDeleting(true);
-
+    const deleteTestAccount = async (accountId: string, email: string, type: 'seeker' | 'recruiter') => {
         try {
-            // 1. Delete from profile tables
-            if (accountType === 'seeker') {
-                await supabase.from('Education').delete().eq('unique_id', createdAccount.userId);
-                await supabase.from('Seekers').delete().eq('unique_id', createdAccount.userId);
-            } else {
-                await supabase.from('CompanyInfo').delete().eq('unique_id', createdAccount.userId);
-                await supabase.from('Recruiters').delete().eq('uniqueid', createdAccount.userId);
+            const response = await fetch('/api/admin/delete-test-account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: accountId,
+                    email,
+                    type
+                }),
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.error || 'Failed to delete account');
             }
 
-            // 2. Delete from users table
-            await supabase.from('users').delete().eq('email', createdAccount.email);
-
-            // 3. Sign out the user if they're currently signed in
-            await supabase.auth.signOut();
-
-            toast.success('Account data deleted successfully');
-            setCreatedAccount(null);
-        } catch (error) {
+            // Remove the account from the local state
+            setTestAccounts(prev => prev.filter(account => account.id !== accountId));
+            toast.success('Account deleted successfully');
+        } catch (error: any) {
             console.error('Error deleting account:', error);
-            toast.error('Failed to delete account data');
-        } finally {
-            setIsDeleting(false);
+            toast.error(error.message || 'Failed to delete account');
         }
     };
 
@@ -93,7 +150,7 @@ export default function QuickAccountPage() {
             const defaultPassword = 'Test@123';
             const phoneNumber = generateRandomPhoneNumber();
             
-            // 1. Create auth account with confirmed email using our API
+            // Create account using API
             const response = await fetch('/api/create-test-account', {
                 method: 'POST',
                 headers: {
@@ -114,7 +171,7 @@ export default function QuickAccountPage() {
 
             const userId = data.user.id;
 
-            // 2. Create user profile based on type
+            // Create profile data based on type
             if (accountType === 'seeker') {
                 const { error: seekerError } = await supabase
                     .from('Seekers')
@@ -171,7 +228,7 @@ export default function QuickAccountPage() {
                     });
             }
 
-            // 3. Add user type
+            // Add user type
             await supabase
                 .from('users')
                 .insert({
@@ -180,7 +237,27 @@ export default function QuickAccountPage() {
                     type: accountType
                 });
 
-            // Store the created account info
+            // Create test account record using service role API
+            const testAccountResponse = await fetch('/api/admin/create-test-account-record', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: userId,
+                    email,
+                    password: defaultPassword,
+                    type: accountType
+                }),
+            });
+
+            if (!testAccountResponse.ok) {
+                throw new Error('Failed to create test account record');
+            }
+
+            // Refresh the list
+            await fetchTestAccounts();
+
             setCreatedAccount({ email, password: defaultPassword, userId });
             toast.success('Account created successfully!');
 
@@ -253,86 +330,123 @@ export default function QuickAccountPage() {
 
     return (
         <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text-2xl font-bold text-center mb-8">Quick Account Creation</h2>
-                
-                {createdAccount ? (
-                    <div className="space-y-6">
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                            <h3 className="text-lg font-medium text-green-800 mb-4">Account Created Successfully!</h3>
-                            <div className="space-y-2">
-                                <div>
-                                    <span className="font-medium text-gray-700">Email:</span>
-                                    <span className="ml-2 text-gray-600">{createdAccount.email}</span>
-                                </div>
-                                <div>
-                                    <span className="font-medium text-gray-700">Password:</span>
-                                    <span className="ml-2 text-gray-600">{createdAccount.password}</span>
+            <div className="max-w-4xl mx-auto">
+                <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+                    <h2 className="text-2xl font-bold text-center mb-8">Quick Account Creation</h2>
+                    
+                    {createdAccount ? (
+                        <div className="space-y-6">
+                            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <h3 className="text-lg font-medium text-green-800 mb-4">Account Created Successfully!</h3>
+                                <div className="space-y-2">
+                                    <div>
+                                        <span className="font-medium text-gray-700">Email:</span>
+                                        <span className="ml-2 text-gray-600">{createdAccount.email}</span>
+                                    </div>
+                                    <div>
+                                        <span className="font-medium text-gray-700">Password:</span>
+                                        <span className="ml-2 text-gray-600">{createdAccount.password}</span>
+                                    </div>
                                 </div>
                             </div>
+                            <div className="flex gap-4">
+                                <button
+                                    onClick={handleSignIn}
+                                    className="flex-1 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                >
+                                    Sign In Now
+                                </button>
+                                <button
+                                    onClick={() => setCreatedAccount(null)}
+                                    className="flex-1 flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                                >
+                                    Create Another Account
+                                </button>
+                            </div>
                         </div>
-                        <div className="flex gap-4">
+                    ) : (
+                        <div className="space-y-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">Account Type</label>
+                                <select
+                                    value={accountType}
+                                    onChange={(e) => setAccountType(e.target.value as 'seeker' | 'recruiter')}
+                                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
+                                >
+                                    <option value="seeker">Seeker</option>
+                                    <option value="recruiter">Recruiter</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Custom Email (Optional)
+                                </label>
+                                <input
+                                    type="email"
+                                    value={customEmail}
+                                    onChange={(e) => setCustomEmail(e.target.value)}
+                                    placeholder="Leave empty for random email"
+                                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                                />
+                            </div>
+
                             <button
-                                onClick={handleSignIn}
-                                className="flex-1 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                            >
-                                Sign In Now
-                            </button>
-                            <button
-                                onClick={deleteAccount}
-                                disabled={isDeleting}
-                                className={`flex-1 flex justify-center py-2 px-4 border border-red-600 rounded-md shadow-sm text-sm font-medium text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 ${
-                                    isDeleting ? 'opacity-50 cursor-not-allowed' : ''
+                                onClick={createQuickAccount}
+                                disabled={isLoading}
+                                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 ${
+                                    isLoading ? 'opacity-50 cursor-not-allowed' : ''
                                 }`}
                             >
-                                {isDeleting ? 'Deleting...' : 'Delete Account'}
+                                {isLoading ? 'Creating...' : 'Create Account'}
                             </button>
                         </div>
-                        <button
-                            onClick={() => setCreatedAccount(null)}
-                            className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-                        >
-                            Create Another Account
-                        </button>
-                    </div>
-                ) : (
-                    <div className="space-y-6">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Account Type</label>
-                            <select
-                                value={accountType}
-                                onChange={(e) => setAccountType(e.target.value as 'seeker' | 'recruiter')}
-                                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md"
-                            >
-                                <option value="seeker">Seeker</option>
-                                <option value="recruiter">Recruiter</option>
-                            </select>
-                        </div>
+                    )}
+                </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Custom Email (Optional)
-                            </label>
-                            <input
-                                type="email"
-                                value={customEmail}
-                                onChange={(e) => setCustomEmail(e.target.value)}
-                                placeholder="Leave empty for random email"
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                            />
+                {/* Test Accounts List */}
+                <div className="bg-white rounded-xl shadow-lg p-8">
+                    <h2 className="text-2xl font-bold mb-6">Test Accounts</h2>
+                    {isLoadingAccounts ? (
+                        <div className="text-center py-4">Loading accounts...</div>
+                    ) : testAccounts.length === 0 ? (
+                        <div className="text-center py-4 text-gray-500">No test accounts created yet</div>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Password</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                    {testAccounts.map((account) => (
+                                        <tr key={account.id}>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{account.email}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{account.password}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">{account.type}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {new Date(account.created_at).toLocaleDateString()}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <button
+                                                    onClick={() => deleteTestAccount(account.id, account.email, account.type)}
+                                                    className="text-red-600 hover:text-red-800"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
-
-                        <button
-                            onClick={createQuickAccount}
-                            disabled={isLoading}
-                            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 ${
-                                isLoading ? 'opacity-50 cursor-not-allowed' : ''
-                            }`}
-                        >
-                            {isLoading ? 'Creating...' : 'Create Account'}
-                        </button>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
     );
