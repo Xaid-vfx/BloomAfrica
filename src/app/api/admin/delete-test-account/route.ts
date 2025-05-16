@@ -17,6 +17,35 @@ export async function POST(request: Request) {
     try {
         const { id, email, type } = await request.json();
 
+        // First, get the auth user id using the email
+        const { data: userData, error: userError } = await supabaseAdmin
+            .auth
+            .admin
+            .listUsers();
+
+        if (userError) {
+            console.error('Error fetching users:', userError);
+            throw userError;
+        }
+
+        const authUser = userData.users.find(user => user.email === email);
+        
+        if (!authUser) {
+            console.error('Auth user not found for email:', email);
+            throw new Error('Auth user not found');
+        }
+
+        // Delete from auth.users table
+        const { error: deleteAuthError } = await supabaseAdmin
+            .auth
+            .admin
+            .deleteUser(authUser.id);
+
+        if (deleteAuthError) {
+            console.error('Error deleting auth user:', deleteAuthError);
+            throw deleteAuthError;
+        }
+
         // Delete from profile tables
         if (type === 'seeker') {
             await supabaseAdmin.from('Education').delete().eq('unique_id', id);
@@ -37,19 +66,19 @@ export async function POST(request: Request) {
 
         if (error) {
             console.error('Error deleting test account:', error);
-            return new NextResponse(JSON.stringify({ error: error.message }), {
-                status: 500,
-                headers: { 'Content-Type': 'application/json' },
-            });
+            throw error;
         }
 
         return new NextResponse(JSON.stringify({ success: true }), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error in delete-test-account:', error);
-        return new NextResponse(JSON.stringify({ error: 'Internal server error' }), {
+        return new NextResponse(JSON.stringify({ 
+            error: error.message || 'Internal server error',
+            details: error.details || ''
+        }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
         });
