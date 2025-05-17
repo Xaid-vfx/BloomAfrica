@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { BsBriefcase } from "react-icons/bs";
 import { IoLocationOutline } from "react-icons/io5";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
+import { deleteJob } from "@/lib/jobs/jobUtils";
 
 export default function Applications(props: any) {
     const [seekerChatId, setseekerChatId] = useState<string | null>(null);
@@ -38,6 +39,15 @@ export default function Applications(props: any) {
         }
         props.ApplicationsForSelectedJob(jobDetails.uid);
         router.refresh()
+    }
+
+    async function handleDeleteJob() {
+        try {
+            await deleteJob(jobDetails.uid);
+            props.setshowJobApplications(false);
+        } catch (error) {
+            console.error('Error deleting job:', error);
+        }
     }
 
     return (
@@ -74,8 +84,15 @@ export default function Applications(props: any) {
                             )}
                         </div>
                     </div>
-                    <div className="bg-[#E9EBFD] text-[#4A2C84] px-3 py-2 rounded-xl text-xs sm:text-sm font-medium w-fit">
-                        {props.applications?.length} Applications
+                    <div className="flex gap-2 items-start sm:items-center">
+                        <div className="bg-[#E9EBFD] text-[#4A2C84] px-3 py-2 rounded-xl text-xs sm:text-sm font-medium w-fit">
+                            {props.applications?.length} Applications
+                        </div>
+                        <button 
+                            onClick={handleDeleteJob}
+                            className="bg-white lg:hidden border border-[#c94040] text-[#c94040] px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl">
+                            Delete Listing
+                        </button>
                     </div>
                 </div>
             </div>
