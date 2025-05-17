@@ -16,10 +16,12 @@ type JobProps = {
     responsibilities: string;
     who_you_are: string;
     extras: string;
-    category: string
+    category: string;
+    company_name?: string;
+    provides_certificate?: boolean;
+    training_mode?: string;
+    isVerified?: boolean;
 }
-
-
 
 async function getJobs(page: number = 1, pageSize: number = 9) {
     const supabase = createClientComponentClient()
@@ -35,17 +37,20 @@ async function getJobs(page: number = 1, pageSize: number = 9) {
                 logo
             )
         )`, { count: 'exact' })
+        .order('isVerified', { ascending: false })
         .range(from, to)
 
     if (error) {
-        console.log(error);
+        console.error(error);
     }
+    
+    console.log("Jobs data:", data);
 
     return { data, count };
 }
 
 export default function DesktopViewJobs(props: any) {
-    const [jobs, setjobs] = useState<any[]>([])
+    const [jobs, setjobs] = useState<JobProps[]>([])
     const [totalJobs, setTotalJobs] = useState<number>(0)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -53,16 +58,15 @@ export default function DesktopViewJobs(props: any) {
     const arr = ["Software", "Electronics", "Design"]
     const pageSize = 9; // 9 jobs per page for desktop view
 
-    const handleCategoryChange = (category) => {
+    const handleCategoryChange = (category: string) => {
         if (selectedCategories.includes(category)) {
             setSelectedCategories(selectedCategories.filter(cat => cat !== category));
         } else {
             setSelectedCategories([...selectedCategories, category]);
         }
-        console.log(selectedCategories);
     };
 
-    const handleTypeChange = (type) => {
+    const handleTypeChange = (type: string) => {
         if (selectedTypes.includes(type)) {
             setSelectedTypes(selectedTypes.filter(t => t !== type));
         } else {
@@ -85,7 +89,7 @@ export default function DesktopViewJobs(props: any) {
                 // Return true if both conditions are met
                 return titleMatch && locationMatch && categoryMatch && typeMatch;
             });
-            setjobs(renderJobs)
+            setjobs(renderJobs || []); // Provide empty array as fallback
             setTotalJobs(count || 0)
         })
     }, [props.location, props.search, selectedCategories, selectedTypes, currentPage])
@@ -136,6 +140,7 @@ export default function DesktopViewJobs(props: any) {
                                     certificate={job.provides_certificate}
                                     training_mode={job.training_mode}
                                     user={props.user || null}
+                                    isVerified={job.isVerified}
                                 />
                             );
                         }

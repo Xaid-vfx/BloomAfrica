@@ -7,6 +7,25 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { IoCloseSharp, IoFilter } from "react-icons/io5";
 import FilterSidebar from "@/components/Jobs/FilterSidebar/FilterSidebar";
 import { MoonLoader } from "react-spinners";
+import { log } from "console";
+
+type JobProps = {
+    uid: string;
+    title: string;
+    type: string;
+    location: string;
+    salary: string;
+    description: string;
+    responsibilities: string;
+    who_you_are: string;
+    extras: string;
+    category: string;
+    company_name?: string;
+    provides_certificate?: boolean;
+    training_mode?: string;
+    isVerified?: boolean;
+    logo?: string;
+}
 
 async function getJobs(page: number = 1, pageSize: number = 8) {
     const supabase = createClientComponentClient()
@@ -22,17 +41,18 @@ async function getJobs(page: number = 1, pageSize: number = 8) {
                 logo
             )
         )`, { count: 'exact' })
+        .order('isVerified', { ascending: false }) // Sort verified jobs first
         .range(from, to)
 
     if (error) {
-        console.log(error);
+        console.error(error);
     }
 
     return { data, count };
 }
 
 export default function MobileViewJobs(props: any) {
-    const [jobs, setjobs] = useState<any[]>([])
+    const [jobs, setjobs] = useState<JobProps[]>([])
     const [totalJobs, setTotalJobs] = useState<number>(0)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -42,22 +62,20 @@ export default function MobileViewJobs(props: any) {
     const pageSize = 8; // 8 jobs per page for mobile view
 
 
-    const handleCategoryChange = (category) => {
+    const handleCategoryChange = (category: string) => {
         if (selectedCategories.includes(category)) {
             setSelectedCategories(selectedCategories.filter(cat => cat !== category));
         } else {
             setSelectedCategories([...selectedCategories, category]);
         }
-        console.log(selectedCategories);
     };
 
-    const handleTypeChange = (type) => {
+    const handleTypeChange = (type: string) => {
         if (selectedTypes.includes(type)) {
             setSelectedTypes(selectedTypes.filter(t => t !== type));
         } else {
             setSelectedTypes([...selectedTypes, type]);
         }
-        console.log(selectedTypes);
     };
 
     useEffect(() => {
@@ -75,7 +93,7 @@ export default function MobileViewJobs(props: any) {
                 // Return true if both conditions are met
                 return titleMatch && locationMatch && categoryMatch && typeMatch;
             });
-            setjobs(renderJobs)
+            setjobs(renderJobs || []); // Provide empty array as fallback
             setTotalJobs(count || 0)
         })
     }, [props.location, props.search, selectedCategories, selectedTypes, currentPage])
@@ -110,7 +128,7 @@ export default function MobileViewJobs(props: any) {
                 {/* Cards */}
 
                 <div className="flex flex-col gap-4 lg:hidden  w-full  ">
-                    {jobs ? jobs?.map((job: JobProps) => {
+                    {jobs ? jobs?.map((job) => {
                         return <MobileCard
                             id={job.uid}
                             key={job.uid}
@@ -123,10 +141,11 @@ export default function MobileViewJobs(props: any) {
                             extras={job.extras}
                             responsibilities={job.responsibilities}
                             who_you_are={job.who_you_are}
-                            companyName={job.company_name ? job.company_name : "Unknown"}
+                            companyName={job.company_name || "Unknown"}
                             certificate={job.provides_certificate}
                             training_mode={job.training_mode}
-                            user={props.user || null}
+                            isVerified={job.isVerified}
+                            logo={job.logo || ""}
                         />
                     }) : <div className="flex justify-center items-center h-[250px]">
                         <MoonLoader color="#4A2C84" /> </div>}
