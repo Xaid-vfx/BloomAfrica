@@ -29,10 +29,9 @@ type JobProps = {
 
 async function getJobs(page: number = 1, pageSize: number = 8) {
     const supabase = createClientComponentClient()
-    const from = (page - 1) * pageSize
-    const to = from + pageSize - 1
 
-    const { data, error, count } = await supabase
+    // First get all jobs to sort them properly
+    const { data: allJobs, error: allJobsError, count } = await supabase
         .from('Jobs')
         .select(`*, 
         Recruiters(
@@ -41,14 +40,20 @@ async function getJobs(page: number = 1, pageSize: number = 8) {
                 logo
             )
         )`, { count: 'exact' })
-        .order('isVerified', { ascending: false }) // Sort verified jobs first
-        .range(from, to)
+        .order('isVerified', { ascending: false, nullsFirst: false }) // Put nulls last
+        .order('created_at', { ascending: false })
 
-    if (error) {
-        console.error(error);
+    if (allJobsError) {
+        console.error(allJobsError);
+        return { data: [], count: 0 };
     }
 
-    return { data, count };
+    // Then manually handle pagination
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize;
+    const paginatedData = allJobs?.slice(from, to) || [];
+
+    return { data: paginatedData, count };
 }
 
 export default function MobileViewJobs(props: any) {
