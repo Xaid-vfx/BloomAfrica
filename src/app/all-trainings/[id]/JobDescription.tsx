@@ -43,8 +43,8 @@ interface Job {
     deadline: string;
     start_date: string;
     provides_certificate: string;
-    minsalary: number;
-    maxsalary: number;
+    settlement: string;
+    payment_type: string;
     training_mode: string;
     Recruiters: {
         CompanyInfo: {
@@ -401,7 +401,13 @@ export default function JobDescription(props: { user: { id: string } }) {
 
                         <div className="flex flex-col justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Compensation</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? "₦" + job?.minsalary + " - " + "₦" + job?.maxsalary : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">
+                                {job != null ? 
+                                    job?.payment_type === "Unpaid" ? 
+                                        "Unpaid" : 
+                                        job?.settlement || "Not specified"
+                                    : <Skeleton width={150} />}
+                            </p>
                         </div>
 
                         <div className="flex flex-col justify-between my-4">

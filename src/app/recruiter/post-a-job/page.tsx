@@ -33,8 +33,7 @@ export default function Post(props) {
     const [extras, setextras] = useState("")
     const [limit, setlimit] = useState("")
     const [deadline, setdeadline] = useState("")
-    const [minsalary, setminsalary] = useState("")
-    const [maxsalary, setmaxsalary] = useState("")
+    const [settlement, setSettlement] = useState("")
     const [skills, setskills] = useState<string[]>([])
     const [duration, setduration] = useState("")
     const [paymenttype, setpaymenttype] = useState("")
@@ -142,8 +141,7 @@ export default function Post(props) {
                     category,
                     location: `${city}, ${state}, ${country}`,
                     who_we_are: wya,
-                    minsalary: minsalary,
-                    maxsalary: maxsalary,
+                    settlement: settlement,
                     skills,
                     duration,
                     company_name: recruiterdata?.CompanyInfo?.name,
@@ -199,9 +197,7 @@ export default function Post(props) {
                 setwya("");
                 setskills([]);
                 setduration("");
-                setminsalary("");
-                setmaxsalary("");
-                setextras("");
+                setSettlement("");
                 setpaymenttype("");
                 setsignupfee("");
                 setaccomodation("");
@@ -406,9 +402,7 @@ export default function Post(props) {
         setwya("We are a tech company focused on innovation.");
         setskills(["JavaScript", "React", "Node.js"]);
         setduration("12 months");
-        setminsalary("100000");
-        setmaxsalary("200000");
-        setextras("Remote work available.");
+        setSettlement("100000");
         setpaymenttype("Monthly");
         setsignupfee("5000");
         setaccomodation("Yes");
@@ -707,21 +701,32 @@ export default function Post(props) {
                                     >
                                         Settlement
                                     </button>
-
                                 </div>
                             </div>
-                            {(paymenttype == "Settlement" || paymenttype == "Monthly") ?
-                                <>
-                                    <div className="mt-2">
-                                        <p className="font-[550] text-lg my-1">Minimum Salary {"(optional)"}</p>
-                                        <input value={minsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-sm" placeholder="Enter Minimum Salary" type="number" onChange={(e) => { setminsalary(e.target.value) }} />
-                                    </div>
-                                    <div className="mt-2">
-                                        <p className="font-[550] text-lg my-1">Maximum Salary {"(optional)"}</p>
-                                        <input value={maxsalary} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-sm" placeholder="Enter Maximum Salary" type="number" onChange={(e) => { setmaxsalary(e.target.value) }} />
-                                    </div>
-                                </>
-                                : ""}
+                            {paymenttype === "Settlement" && (
+                                <div className="mt-2">
+                                    <p className="font-[550] text-lg my-1">Settlement Details</p>
+                                    <input 
+                                        value={settlement} 
+                                        className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-sm" 
+                                        placeholder="e.g. A toolbox, Complete set of equipment, $500" 
+                                        type="text" 
+                                        onChange={(e) => setSettlement(e.target.value)} 
+                                    />
+                                </div>
+                            )}
+                            {paymenttype === "Monthly" && (
+                                <div className="mt-2">
+                                    <p className="font-[550] text-lg my-1">Monthly Salary Range</p>
+                                    <input 
+                                        value={settlement} 
+                                        className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-sm" 
+                                        placeholder="e.g. $200 - $300, ₦50,000 - ₦100,000" 
+                                        type="text" 
+                                        onChange={(e) => setSettlement(e.target.value)} 
+                                    />
+                                </div>
+                            )}
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Do you have a signup fee?</p>
                                 <div className="flex space-x-2">
