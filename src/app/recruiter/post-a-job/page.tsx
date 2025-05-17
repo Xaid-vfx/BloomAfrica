@@ -717,7 +717,7 @@ export default function Post(props) {
                             )}
                             {paymenttype === "Monthly" && (
                                 <div className="mt-2">
-                                    <p className="font-[550] text-lg my-1">Monthly Salary Range</p>
+                                    <p className="font-[550] text-lg my-1">Monthly Compensation</p>
                                     <input 
                                         value={settlement} 
                                         className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-sm" 
