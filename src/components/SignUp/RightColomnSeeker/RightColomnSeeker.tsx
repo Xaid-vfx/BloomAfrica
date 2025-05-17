@@ -9,6 +9,12 @@ import Year from "@/lib/Years/Years";
 import { toast } from "sonner";
 import getIP from "@/lib/getIP/getIP";
 import UAParser from "ua-parser-js";
+import { User } from '@supabase/supabase-js';
+
+interface State {
+    name: string;
+    [key: string]: any;
+}
 
 export default function RightColumnSeeker(props: { redirectUrl: string }) {
     const [step, setStep] = useState(1);
@@ -37,12 +43,13 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
 
 
     const countryList = CountryList()
-    const [stateList, setstateList] = useState([])
+    const [stateList, setstateList] = useState<State[]>([])
     const year = Year()
-    const [currentUser, setcurrentUser] = useState({})
+    const [currentUser, setcurrentUser] = useState<User | null>(null)
 
     const [terms, setTerms] = useState(false)
     const [privacy, setPrivacy] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     async function getUser() {
         const { data: { user } } = await supabase.auth.getUser()
@@ -239,12 +246,14 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
     }
 
     async function handleFinish() {
+        if (isSubmitting) return;
         if (!terms || !privacy) {
             toast.error("Please agree to the terms and conditions and privacy policy.");
             return;
         }
 
         let uuid: string | null = null;
+        setIsSubmitting(true);
 
         try {
             // Step 1: Insert Seeker data
@@ -271,6 +280,8 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
 
             // Rollback all inserted data
             if (uuid) await rollback(uuid);
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -292,16 +303,28 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                     </div>
                     <div className="">
                         <div className="my-4">
-                            <TextInput value={name} field="Full Name" type="text" placeholder="Enter your Full Name" handleChange={(e: any) => {
-                                setname(e.target.value)
-                            }} />
+                            <TextInput 
+                                value={name}
+                                extra=""
+                                field="Full Name" 
+                                type="text" 
+                                placeholder="Enter your Full Name" 
+                                handleChange={(e: any) => {
+                                    setname(e.target.value)
+                                }} 
+                            />
                         </div>
                         <div className="my-4">
-                            <TextInput value={currentUser?.email}
+                            <TextInput 
+                                value={currentUser?.email || ''}
                                 extra="read"
-                                field="Email" type="text" placeholder="Enter your email" handleChange={(e: any) => {
+                                field="Email" 
+                                type="text" 
+                                placeholder="Enter your email" 
+                                handleChange={(e: any) => {
                                     setemail(e.target.value)
-                                }} />
+                                }} 
+                            />
                         </div>
                         <div className="my-4">
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">Phone Number</p>
@@ -331,11 +354,9 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                                 fetchStates(e.target.value)
                             }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
                                 <option>Select your country</option>
-                                {
-                                    countryList.map((country) => {
-                                        return <option value={country}>{country}</option>
-                                    })
-                                }
+                                {countryList.map((country, index) => (
+                                    <option key={`country-${index}`} value={country}>{country}</option>
+                                ))}
                             </select>
                         </div>
 
@@ -345,11 +366,9 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                                 setstate(e.target.value)
                             }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
                                 <option>Select your state</option>
-                                {
-                                    stateList.map((state) => {
-                                        return <option className="my-4" value={state.name}>{state.name}</option>
-                                    })
-                                }
+                                {stateList.map((state, index) => (
+                                    <option key={`state-${index}`} className="my-4" value={state.name}>{state.name}</option>
+                                ))}
                             </select>
                         </div>
                         <button className="my-2 text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs" onClick={() => { handleFirstNext() }}>Next</button>
@@ -377,20 +396,36 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                             </select>
                         </div>
                         <div className="my-4">
-                            <TextInput field="Name of Institution / School" type="text" placeholder="Enter School" handleChange={(e: any) => { setschoolName(e.target.value) }} />
+                            <TextInput 
+                                value={schoolName}
+                                extra=""
+                                field="Name of Institution / School" 
+                                type="text" 
+                                placeholder="Enter School" 
+                                handleChange={(e: any) => { 
+                                    setschoolName(e.target.value) 
+                                }} 
+                            />
                         </div>
                         <div className="my-4">
-                            <TextInput field="Field of Study" type="text" placeholder="Enter your field of study" handleChange={(e: any) => { setfield(e.target.value) }} />
+                            <TextInput 
+                                value={field}
+                                extra=""
+                                field="Field of Study" 
+                                type="text" 
+                                placeholder="Enter your field of study" 
+                                handleChange={(e: any) => { 
+                                    setfield(e.target.value) 
+                                }} 
+                            />
                         </div>
                         <div>
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">Year of Graduation</p>
                             <select className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full" onChange={(e) => { setgradYear(e.target.value) }}>
                                 <option>Select year</option>
-                                {
-                                    year.map((year) => {
-                                        return <option value={year}>{year}</option>
-                                    })
-                                }
+                                {year.map((yearValue, index) => (
+                                    <option key={`year-${index}`} value={yearValue}>{yearValue}</option>
+                                ))}
                             </select>
                         </div>
                         <button className="my-4 text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs" onClick={() => { handleSecondNext() }}>Next</button>
@@ -408,10 +443,28 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                     </div>
                     <div className="">
                         <div className="my-4">
-                            <TextInput field="Name of Employer" type="text" placeholder="Enter your company Name" handleChange={() => { }} />
+                            <TextInput 
+                                value={companyName}
+                                extra=""
+                                field="Name of Employer" 
+                                type="text" 
+                                placeholder="Enter your company Name" 
+                                handleChange={(e: any) => { 
+                                    setcompanyName(e.target.value) 
+                                }} 
+                            />
                         </div>
                         <div className="my-4">
-                            <TextInput field="Job Title" type="text" placeholder="Enter job title" handleChange={() => { }} />
+                            <TextInput 
+                                value={jobTitle}
+                                extra=""
+                                field="Job Title" 
+                                type="text" 
+                                placeholder="Enter job title" 
+                                handleChange={(e: any) => { 
+                                    setjobTitle(e.target.value) 
+                                }} 
+                            />
                         </div>
                         <div className="my-4">
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">Start date</p>
@@ -442,14 +495,22 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
 
                         <div className="flex gap-2 my-4">
                             <input onChange={(e) => { setTerms(e.target.checked) }} type="checkbox" />
-                            <p className="text-xs text-[#515B6F]">I agree to the company's <a href="/terms-of-service" target="_blank" className="text-[#4A2C84] underline">Terms and Conditions</a></p>
+                            <p className="text-xs text-[#515B6F]">I agree to the company&apos;s <a href="/terms-of-service" target="_blank" className="text-[#4A2C84] underline">Terms and Conditions</a></p>
                         </div>
                         <div className="flex gap-2 mb-5">
                             <input onChange={(e) => { setPrivacy(e.target.checked) }} type="checkbox" />
-                            <p className="text-xs text-[#515B6F]">I agree to the company's <a target="_blank" href="/privacy-policy" className="text-[#4A2C84] underline">Privacy Policy</a></p>
+                            <p className="text-xs text-[#515B6F]">I agree to the company&apos;s <a target="_blank" href="/privacy-policy" className="text-[#4A2C84] underline">Privacy Policy</a></p>
                         </div>
 
-                        <button disabled={!(privacy && terms)} onClick={() => { handleFinish() }} className={`text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs ${!(privacy && terms) && 'cursor-not-allowed'}`} >Finish</button>
+                        <button 
+                            disabled={!(privacy && terms) || isSubmitting} 
+                            onClick={() => { handleFinish() }} 
+                            className={`my-2 text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs ${
+                                (!(privacy && terms) || isSubmitting) ? 'opacity-70 cursor-not-allowed' : ''
+                            }`}
+                        >
+                            {isSubmitting ? "Submitting..." : "Finish"}
+                        </button>
 
                     </div>
 
