@@ -16,7 +16,7 @@ import Banner from '@/components/Landing/Banner'
 import FacebookBrowserRedirect from '@/components/FacebookBrowserRedirect'
 
 export const metadata: Metadata = {
-  title: 'Bloom'
+  title: 'Bloom Africa - Connect with Top Ogas & Mentors'
 }
 
 export default function Home() {

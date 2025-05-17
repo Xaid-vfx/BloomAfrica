@@ -29,8 +29,8 @@ const montserrat = Montserrat({
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Bloom',
-  description: 'Bloom is a platform that helps you find the perfect apprenticeship for you.',
+  title: 'Bloom Africa - Connect with Top Ogas & Mentors',
+  description: 'Bloom connects aspiring apprentices with top Ogas & mentors, offering hands-on learning, professional development, and career growth opportunities across Africa.',
 }
 
 export default function RootLayout({
