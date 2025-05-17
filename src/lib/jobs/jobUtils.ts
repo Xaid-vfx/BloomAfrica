@@ -13,7 +13,7 @@ export async function deleteJob(id: string) {
         throw error;
     }
 
-    toast.success("Job Deleted Successfully!");
+    toast.success("Job Deleted Successfully, please refresh the page!");
     return data;
 }
 
