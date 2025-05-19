@@ -61,7 +61,7 @@ export default function Navbar(props: { color: string }) {
             <hr className="" />
             <a href="/about"><div className="my-4 font-medium">About</div></a>
             <hr />
-            <a href="/signup"><div className="my-4 font-medium">Mentor? <span className="text-[#4A2C84]">Post Apprenticeship</span></div></a>
+            <a href="/signup?type=recruiter"><div className="my-4 font-medium">Mentor? <span className="text-[#4A2C84]">Post Apprenticeship</span></div></a>
             <hr />
             {/* <div className="relative">
               <a href="/certified"><div className="mt-4 font-medium">Get Certified</div></a>
