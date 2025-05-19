@@ -40,6 +40,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* JSON-LD structured data for Organization */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Bloom Africa",
+            "url": "https://www.bloom.africa",
+            "logo": "https://www.bloom.africa/logo.jpeg"
+          })
+        }} />
+      </head>
       <body className={`${montserrat.className} ${robotoMono.variable} font-sans ${inter.className}`}>{children}</body>
       <Toaster />
       <GoogleAnalytics gaId="G-D068BXV1ZQ" />
