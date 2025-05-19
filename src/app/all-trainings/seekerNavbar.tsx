@@ -60,11 +60,17 @@ export default function SeekerNavbar(props: any) {
           <div className="px-4">
             <a href="/"><div className="my-4 font-medium cursor-pointer">Home</div></a>
             <hr className="" />
-            <a href="/seeker/saved"><div className="my-4 font-medium">Saved</div></a>
+            <a href={props.user ? "/seeker/saved" : "/signup"} className="block">
+              <div className="my-4 font-medium cursor-pointer">Saved</div>
+            </a>
             <hr />
-            <a href="/seeker/applied"><div className="my-4 font-medium">Applied</div></a>
+            <a href={props.user ? "/seeker/applied" : "/signup"} className="block">
+              <div className="my-4 font-medium cursor-pointer">Applied</div>
+            </a>
             <hr />
-            <a href="/seeker/edit"><div className="my-4 font-medium">Profile</div></a>
+            <a href={props.user ? "/seeker/edit" : "/signup"} className="block">
+              <div className="my-4 font-medium cursor-pointer">Profile</div>
+            </a>
             <hr />
           </div>
           {
@@ -95,10 +101,9 @@ export default function SeekerNavbar(props: any) {
 
             <div className="hidden lg:flex lg:px-10 mx-auto justify-center max-w-[600px]">
               <a href="/all-trainings" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all`}>Home</a>
-              <a href="/seeker/edit" className={`${currentPage == "faqs" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Profile</a>
-              <a href="/seeker/saved" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Saved</a>
-              <a href="/seeker/applied" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800  transition-all`}>Applied</a>
-
+              <a href={props.user ? "/seeker/edit" : "/signup"} className={`${currentPage == "faqs" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all cursor-pointer`}>Profile</a>
+              <a href={props.user ? "/seeker/saved" : "/signup"} className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all cursor-pointer`}>Saved</a>
+              <a href={props.user ? "/seeker/applied" : "/signup"} className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all cursor-pointer`}>Applied</a>
             </div>
           </div>
 
