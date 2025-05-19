@@ -381,7 +381,7 @@ export default function JobDescription(props: { user: { id: string } }) {
 
                         <div className="flex flex-col justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Signup Fee</p>
-                            <p className="bg-gray-100 text-[#4A2C84] rounded-lg whitespace-nowrap w-max px-4 py-2 text-base font-semibold border border-gray-200">
+                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-4 py-2 text-base font-semibold border border-gray-200">
                                 {job != null ? 
                                     job?.signup_fee ? 
                                         "₦" + Number(job?.signup_fee).toLocaleString('en-NG') : 
