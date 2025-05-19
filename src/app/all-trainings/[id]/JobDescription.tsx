@@ -381,7 +381,13 @@ export default function JobDescription(props: { user: { id: string } }) {
 
                         <div className="flex flex-col justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Signup Fee</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.signup_fee ? "₦" + job?.signup_fee : "Free" : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-100 text-[#4A2C84] rounded-lg whitespace-nowrap w-max px-4 py-2 text-base font-semibold border border-gray-200">
+                                {job != null ? 
+                                    job?.signup_fee ? 
+                                        "₦" + Number(job?.signup_fee).toLocaleString('en-NG') : 
+                                        "Free" 
+                                    : <Skeleton width={150} />}
+                            </p>
                         </div>
 
                         <div className="flex flex-col justify-between mt-4">
@@ -431,28 +437,28 @@ export default function JobDescription(props: { user: { id: string } }) {
 
                         <div className="flex flex-col justify-between mt-4">
                             <p className="text-sm text-[#515B6F]">Location</p>
-                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold">{job != null ? `${job?.city}, ${job?.state}, ${job?.country}` : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold w-fit">{job != null ? `${job?.city}, ${job?.state}, ${job?.country}` : <Skeleton width={150} />}</p>
                         </div>
 
                         <div className="flex flex-col justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Maximum Applicants</p>
-                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold">{job != null ? job?.limit : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold w-fit">{job != null ? job?.limit : <Skeleton width={150} />}</p>
                         </div>
 
                         <div className="flex flex-col justify-between my-4">
                             <p className="text-sm text-[#515B6F]">Application Deadline</p>
-                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold">{job != null ? job?.deadline : <Skeleton width={150} />}</p>
+                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold w-fit">{job != null ? job?.deadline : <Skeleton width={150} />}</p>
                         </div>
                     </div>
                     <hr className="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                     <div>
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Categories</h1>
-                        <p className="rounded-xl flex flex-wrap border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84]">{job != null ? job?.category : <Skeleton width={150} />}</p>
+                        <p className="rounded-xl flex flex-wrap border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] w-fit">{job != null ? job?.category : <Skeleton width={150} />}</p>
                     </div>
                     <div className="mt-8">
                         <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Skills Required</h1>
                         <div className="flex flex-wrap gap-2">{job != null ? job?.skills?.map((word, index) => (
-                            <span className="rounded-xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] break-words" key={index}>{word.trim()}</span>
+                            <span className="rounded-xl border px-3 py-2 border-[#4A2C84] text-sm text-[#4A2C84] break-words w-fit" key={index}>{word.trim()}</span>
                         )) : <Skeleton width={150} />}</div>
                     </div>
                 </div>
