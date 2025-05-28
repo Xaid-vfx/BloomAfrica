@@ -59,8 +59,8 @@ export default function Navbar(props: { color: string }) {
           <div className="px-4">
             <a href="/"><div className="my-4 font-medium cursor-pointer">Home</div></a>
             <hr className="" />
-            <a href="/about"><div className="my-4 font-medium">About</div></a>
-            <hr />
+            {/* <a href="/about"><div className="my-4 font-medium">About</div></a>
+            <hr /> */}
             <a href="/signup?type=recruiter"><div className="my-4 font-medium">Mentor? <span className="text-[#4A2C84]">Post Apprenticeship</span></div></a>
             <hr />
             {/* <div className="relative">
@@ -97,7 +97,7 @@ export default function Navbar(props: { color: string }) {
         <div className="hidden text-[16px] lg:flex lg:pl-0  mx-auto min-w-max ">
           <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)]">
             <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800 transition-all`}>Home</a>
-            <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>About Us</a>
+            {/* <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>About Us</a> */}
             <a href="/signup?type=recruiter" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>Trainer? <span className="text-[#4A2C84] font-semibold">Post Apprenticeship</span></a>
           </div>
           {/* <div className="flex relative ms-[clamp(1.1rem,2.1vw,5rem)] xl:ms-[clamp(1.1rem,2.5vw,5rem)]">

@@ -26,7 +26,7 @@ export default function Footer() {
           <div className="flex flex-col">
             <h2 className="text-lg font-medium lg:text-xl lg:font-medium">Company</h2>
             <a href="/" className="text-sm font-light my-3">Home</a>
-            <a href="/about" className="text-sm font-light my-3">About</a>
+            {/* <a href="/about" className="text-sm font-light my-3">About</a> */}
           </div>
 
           <div className="mt-12 lg:mt-0 flex flex-col">

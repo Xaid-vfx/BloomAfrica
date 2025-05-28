@@ -34,7 +34,7 @@ export default function About() {
                 <AboutHero />
             </div>
             
-            {/* sdgs */}
+            {/* sdgs
             <div className="lg:py-16 py-20 relative z-0">
                 <Image src={Balls} alt="user" className="hidden lg:block absolute top-0 left-0" width={100} />
                 <Image src={Balls} alt="user" className="lg:hidden absolute top-0 left-0" width={50} />
@@ -85,7 +85,7 @@ export default function About() {
             <div>
                 <TeamMembers />
             </div>
-            <div className="px-4 bg-[#f0f0fb]"><GetStarted /></div>
+            <div className="px-4 bg-[#f0f0fb]"><GetStarted /></div> */}
             <Footer />
         </div>
     )
