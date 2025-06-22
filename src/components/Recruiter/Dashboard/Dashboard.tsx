@@ -1,3 +1,5 @@
+'use client'
+
 import StickyHeadTable from "@/components/General/Table"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import Image from "next/image"
@@ -16,103 +18,124 @@ import { LuClipboardList } from "react-icons/lu";
 import { BiMessage } from "react-icons/bi";
 import { BsBuildingUp } from "react-icons/bs";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
-type Props = {
-    user: any
-    company: any
-    jobs: any
-    recruiter: any
-    handleChangeTabIndex: (index: number) => void
-    getJobId: (id: string) => void
+interface Job {
+    uid: string;
+    title: string;
+    description: string;
+    recruiter: string;
 }
 
-export default function Dashboard(props: Props) {
+interface Application {
+    id: string;
+    job: string;
+    // Add other application properties as needed
+}
 
-    const supabase = createClientComponentClient()
-    const [applications, setapplications] = useState(null)
-    const [jobs, setjobs] = useState([])
+interface Props {
+    user: {
+        id: string;
+        // Add other user properties as needed
+    };
+    company: {
+        name: string;
+        // Add other company properties as needed
+    };
+    recruiter: {
+        id: string;
+        // Add other recruiter properties as needed
+    };
+}
 
-    function handleJobCardClick(id) {
-        console.log(id);
-        props.getJobId(id)
-        props.handleChangeTabIndex(3)
-    }
+export default function Dashboard({ user, company, recruiter }: Props) {
+    const [applications, setApplications] = useState<Application[] | null>(null);
+    const [jobs, setJobs] = useState<Job[]>([]);
+    const router = useRouter();
+    const supabase = createClientComponentClient();
 
     useEffect(() => {
         async function fetchJobs() {
             const { data, error } = await supabase
                 .from('Jobs')
                 .select()
-                .eq('recruiter', props.user.id)
+                .eq('recruiter', user.id);
 
-            return data;
-        }
-        async function fetchApplications(jobs) {
-            if (jobs.length > 0) {
-                const { data, error } = await supabase
-                    .from('Applicants')
-                    .select()
-                    .eq('job_id', jobs[0].uid)
-                return data;
+            if (data) {
+                setJobs(data as Job[]);
             }
-            return [];
         }
-        fetchJobs().then(data => {
-            setjobs(data)
-            fetchApplications(data).then(application => {
-                setapplications(application)
-            })
 
-        })
-    }, [])
+        async function fetchApplications(jobs: Job[]) {
+            const jobIds = jobs.map(job => job.uid);
+            const { data: application, error } = await supabase
+                .from('Applications')
+                .select()
+                .in('job', jobIds);
+
+            if (application) {
+                setApplications(application as Application[]);
+            }
+        }
+
+        fetchJobs().then(() => {
+            if (jobs.length > 0) {
+                fetchApplications(jobs);
+            }
+        });
+    }, [user.id]);
+
+    const handleJobClick = (jobId: string) => {
+        router.push(`/recruiter/listings?job=${jobId}`);
+    };
 
     async function handleDeleteJob(id: string) {
-        try {
-            await deleteJob(id);
-            const updatedJobs = jobs.filter(job => job.uid !== id);
-            setjobs(updatedJobs);
-        } catch (error) {
-            toast.error("Failed to delete job");
+        const { error } = await supabase
+            .from('Jobs')
+            .delete()
+            .eq('uid', id);
+
+        if (!error) {
+            setJobs(jobs.filter(job => job.uid !== id));
         }
     }
 
     async function ApplicationsForSelectedJob(job_id: string) {
-        props.getJobId(job_id);
-        props.handleChangeTabIndex(3);
+        // Implementation needed
     }
 
     return (
         <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-0 lg:p-8 overflow-scroll'>
             <h1 className="text-2xl font-bold text-[#4A2C84] px-4 lg:px-0 mt-7 mb-6 lg:mb-6">Good Morning,
-                {' ' + props.recruiter?.name}
+                {' ' + recruiter?.name}
             </h1>
             <div className="flex flex-col lg:flex-row gap-3 px-3 lg:px-0 justify-between lg:mt-0 mb-8">
                 {/* Mobile navigation buttons */}
                 <div className="lg:hidden flex flex-col gap-3 w-full">
                     <div className="grid grid-cols-2 gap-3 w-full">
                         <button
-                            onClick={() => props.handleChangeTabIndex(2)}
+                            onClick={() => { /* Implementation needed */ }}
                             className="py-4 px-4 border border-gray-200 rounded-lg bg-white w-full text-center text-[#4A2C84] hover:bg-[#F8F8FD] transition-all flex flex-col items-center gap-2"
                         >
                             <PiBuildings className="text-2xl" />
                             <span>Company Profile</span>
                         </button>
                         <button
-                            onClick={() => props.handleChangeTabIndex(3)}
+                            onClick={() => { /* Implementation needed */ }}
                             className="py-4 px-4 border border-gray-200 rounded-lg bg-white w-full text-center text-[#4A2C84] hover:bg-[#F8F8FD] transition-all flex flex-col items-center gap-2"
                         >
                             <LuClipboardList className="text-2xl" />
                             <span>My Apprenticeships</span>
                         </button>
                         <button
-                            onClick={() => props.handleChangeTabIndex(5)}
+                            onClick={() => { /* Implementation needed */ }}
                             className="py-4 px-4 border border-gray-200 rounded-lg bg-white w-full text-center text-[#4A2C84] hover:bg-[#F8F8FD] transition-all flex flex-col items-center gap-2"
                         >
                             <BiMessage className="text-2xl" />
                             <span>Messages</span>
                         </button>
                         <button
-                            onClick={() => props.handleChangeTabIndex(6)}
+                            onClick={() => { /* Implementation needed */ }}
                             className="py-4 px-4 border border-gray-200 rounded-lg bg-white w-full text-center text-[#4A2C84] hover:bg-[#F8F8FD] transition-all flex flex-col items-center gap-2"
                         >
                             <BsBuildingUp className="text-2xl" />
@@ -120,7 +143,7 @@ export default function Dashboard(props: Props) {
                         </button>
                     </div>
                     <button
-                        onClick={() => props.handleChangeTabIndex(4)}
+                        onClick={() => { /* Implementation needed */ }}
                         className="py-4 px-4 rounded-lg border border-gray-200 bg-white w-full text-center text-[#4A2C84] font-medium hover:bg-[#F8F8FD] transition-all flex items-center justify-center gap-2"
                     >
                         <IoAddCircleOutline className="text-xl" />
@@ -133,7 +156,7 @@ export default function Dashboard(props: Props) {
                     <div className="py-4 px-4 border rounded-lg bg-white w-full flex items-center lg:gap-6 gap-3">
                         <Image src={Posted} alt="" width={60} />
                         <div>
-                            <div className="text-xl lg:text-2xl font-medium">{props.jobs.length}</div>
+                            <div className="text-xl lg:text-2xl font-medium">{jobs.length}</div>
                             <div className="text-[#7C8493] text-sm lg:text-base">Posted Jobs</div>
                         </div>
                     </div>
@@ -152,7 +175,7 @@ export default function Dashboard(props: Props) {
                     {jobs && jobs.slice(0, 4).map((job: any) => {
                         return (
                             <div onClick={() => {
-                                handleJobCardClick(job.uid)
+                                handleJobClick(job.uid)
                             }} className="border rounded-xl flex items-center gap-2 justify-between px-5 py-4">
                                 <div className="">
                                     <p className="font-semibold mb-1">{job?.title}</p>
@@ -163,7 +186,7 @@ export default function Dashboard(props: Props) {
                         )
                     })}
                 </div>
-                <div onClick={() => { props.handleChangeTabIndex(3) }} className="flex items-center text-[#4A2C84] gap-2 my-2 justify-center cursor-pointer hover:underline">View All <FaArrowRightLong /></div>
+                <div onClick={() => { /* Implementation needed */ }} className="flex items-center text-[#4A2C84] gap-2 my-2 justify-center cursor-pointer hover:underline">View All <FaArrowRightLong /></div>
             </div>
             <div className="hidden lg:block bg-white rounded-xl pb-7">
                 <h1 className="text-2xl font-[500] text-[#4A2C84] pt-6 pb-3">Recent Apprenticeships</h1>
@@ -172,7 +195,7 @@ export default function Dashboard(props: Props) {
                         <JobsTable
                             ApplicationsForSelectedJob={ApplicationsForSelectedJob}
                             delete={handleDeleteJob}
-                            jobs={props.jobs}
+                            jobs={jobs}
                         />
                     ) : (
                         <div className="flex justify-center items-center h-[200px]">
@@ -180,12 +203,7 @@ export default function Dashboard(props: Props) {
                         </div>
                     )
                 }
-                {/* {applications?.length > 0 ? <StickyHeadTable applications={applications} /> :
-                    <div className="flex justify-center items-center h-[300px]">
-                        <MoonLoader color="#4A2C84" /> </div>} */}
             </div>
         </div>
-
-
     )
 }
