@@ -56,9 +56,9 @@ export default function MobileCard(props: Props) {
                     {/* <div className="rounded-3xl text-xs border px-2 py-1 border-[#4A2C84] text-[#4A2C84]">Design</div> */}
                 </div>
 
-                <a href={`/all-trainings/job?id=${props.id}`} className="mt-3 text-center " >
+                {/*<a href={`/all-trainings/job?id=${props.id}`} className="mt-3 text-center " >
                     <p className="text-white py-3 bg-[#4A2C84]  rounded-2xl font-semibold text-xs">Enroll</p>
-                </a>
+                </a>*/}
 
                 {/* <div className="w-full bg-gray-200 h-1.5 mt-4 mb-2">
                     <div className=" bg-green-500 h-1.5 rounded-full w-1/2"></div>
