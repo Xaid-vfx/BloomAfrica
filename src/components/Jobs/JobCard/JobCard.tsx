@@ -33,7 +33,7 @@ export default function JobCard(props: Props) {
     }
 
     return (
-        <div className="flex items-center justify-between border-2 rounded-2xl px-6 py-4 my-6 bg-white hover:drop-shadow-md">
+        <div className="flex items-center justify-between border rounded-2xl px-6 py-4 my-6 bg-white hover:drop-shadow-md">
             <div className="flex flex-row">
                 <div className='flex flex-col'>
                     <div className="flex items-center gap-6">
