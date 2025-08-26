@@ -126,10 +126,10 @@ export default function SaveButton(props: Props) {
     }, [])
 
     if (saved) {
-        return <button className="  text-black border border-neutral-400 py-3 text-center font-medium rounded-2xl px-14" >Saved</button>
+        return <button className="  text-black border border-black py-3 text-center font-medium rounded-2xl px-14" >Saved</button>
     }
 
     return (
-        <button onClick={() => { handleApplyJob() }} className="  text-black border border-neutral-400  py-3 text-center font-medium rounded-2xl px-14" >Save</button>
+        <button onClick={() => { handleApplyJob() }} className="  text-black border border-black py-3 text-center font-medium rounded-2xl px-14" >Save</button>
     )
 }

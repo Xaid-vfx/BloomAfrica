@@ -208,19 +208,19 @@ export default function SignIn() {
     return (
         <div className="h-screen w-full">
             <div className="flex h-full">
-                
-                <div className="w-full flex items-center justify-center lg:w-full bg-[#f5f7fa]">
+                <LeftColomn />
+                <div className="w-full flex items-center justify-center lg:w-[55%]">
                     <div className="lg:w-1/2 w-full px-10">
                         {currentPage == "signin" ? <h1 className="text-2xl text-center mb-4">Welcome Back</h1> :
                             <div>
                                 <div className="mb-6 flex rounded-3xl justify-center ">
-                                    <button className={`text-xs px-3 py-2 rounded-l-2xl lg:font-semibold border-y border-l border-neutral-300 ${signUpUserTypeTab == 'seeker' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B] bg-white"}`} onClick={() => { setsignUpUserTypeTab('seeker') }}>I'm an Apprentice</button>
-                                    <button className={`text-xs px-2 py-1 rounded-r-2xl   lg:font-semibold border-y border-r border-neutral-300 ${signUpUserTypeTab == 'recruiter' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B] bg-white"}`} onClick={() => { setsignUpUserTypeTab('recruiter') }}>I'm a Trainer</button>
+                                    <button className={`text-xs px-3 py-2 rounded-l-2xl lg:font-semibold ${signUpUserTypeTab == 'seeker' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B]"}`} onClick={() => { setsignUpUserTypeTab('seeker') }}>Apprentices</button>
+                                    <button className={`text-xs px-2 py-1 rounded-r-2xl  lg:font-semibold ${signUpUserTypeTab == 'recruiter' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B]"}`} onClick={() => { setsignUpUserTypeTab('recruiter') }}>Trainers</button>
                                 </div>
                                 <h1 className="text-2xl text-center mb-4">Create a {signUpUserTypeTab == "seeker" ? "Apprentices" : "Trainers"} Account</h1>
                             </div>
                         }
-                        <div onClick={() => { signInWithGoogle() }} className="border bg-white rounded-lg py-2 text-xs text-center flex items-center max-w-[30rem] mx-auto justify-center gap-2 cursor-pointer"><FcGoogle />
+                        <div onClick={() => { signInWithGoogle() }} className="border rounded-lg py-2 text-xs text-center flex items-center justify-center gap-2 cursor-pointer"><FcGoogle />
                             {/* currentPage == "signin" ? "Login" : "Sign Up"} */}
                             Continue with Google</div>
                         {/* <p className="text-xs text-[#97999B] my-5 text-center">Or {currentPage == "signin" ? "Login" : "sign up"} with email</p>
@@ -297,4 +297,3 @@ export default function SignIn() {
         </div>
     )
 }
-

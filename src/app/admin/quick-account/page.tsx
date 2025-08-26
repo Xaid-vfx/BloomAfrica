@@ -19,7 +19,7 @@ interface TestAccount {
 
 export default function QuickAccountPage() {
     const [password, setPassword] = useState('');
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [accountType, setAccountType] = useState<'seeker' | 'recruiter'>('seeker');
     const [customEmail, setCustomEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +81,7 @@ export default function QuickAccountPage() {
 
     const handleAuth = async (e: React.FormEvent) => {
         e.preventDefault();
-
+        
         try {
             const response = await fetch('/api/admin/verify-password', {
                 method: 'POST',
@@ -151,7 +151,7 @@ export default function QuickAccountPage() {
             const email = customEmail || generateRandomEmail();
             const defaultPassword = 'Test@123';
             const phoneNumber = generateRandomPhoneNumber();
-
+            
             // Create account using API
             const response = await fetch('/api/create-test-account', {
                 method: 'POST',
@@ -275,7 +275,7 @@ export default function QuickAccountPage() {
     const handleSignIn = async () => {
         if (!createdAccount || isSigningIn) return;
         setIsSigningIn(true);
-
+        
         try {
             const { error: signInError } = await supabase.auth.signInWithPassword({
                 email: createdAccount.email,
@@ -335,18 +335,18 @@ export default function QuickAccountPage() {
     return (
         <>
             {(isSigningIn || isLoading) && (
-                <LoadingOverlay
-                    message={isSigningIn
-                        ? "Signing in to your account..."
+                <LoadingOverlay 
+                    message={isSigningIn 
+                        ? "Signing in to your account..." 
                         : "Creating your test account..."
-                    }
+                    } 
                 />
             )}
             <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto">
                     <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
                         <h2 className="text-2xl font-bold text-center mb-8">Quick Account Creation</h2>
-
+                        
                         {createdAccount ? (
                             <div className="space-y-6">
                                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
@@ -366,8 +366,9 @@ export default function QuickAccountPage() {
                                     <button
                                         onClick={handleSignIn}
                                         disabled={isSigningIn}
-                                        className={`flex-1 flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${isSigningIn ? 'opacity-75 cursor-not-allowed' : ''
-                                            }`}
+                                        className={`flex-1 flex justify-center items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${
+                                            isSigningIn ? 'opacity-75 cursor-not-allowed' : ''
+                                        }`}
                                     >
                                         {isSigningIn ? (
                                             <>
@@ -419,8 +420,9 @@ export default function QuickAccountPage() {
                                 <button
                                     onClick={createQuickAccount}
                                     disabled={isLoading}
-                                    className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''
-                                        }`}
+                                    className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 ${
+                                        isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                                    }`}
                                 >
                                     {isLoading ? 'Creating...' : 'Create Account'}
                                 </button>

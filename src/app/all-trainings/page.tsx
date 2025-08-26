@@ -60,10 +60,11 @@ export default async function AllJobs({ params,
     return (
         <div>
             <SeekerNavbar user={user || null} />
-            <div className="flex flex-col items-center py-0 lg:pb-20 mx-auto justify-center">
-                <div className="flex flex-col w-full items-center px-4 gap-7 pb-15 py-5 ">
+            <div className="flex flex-col items-center py-7 lg:pb-20 mx-auto justify-center">
+                <div className="flex flex-col w-full items-center px-4 gap-7 pb-16 py-5 ">
                     <Search />
 
+                    <p className='text-gray-400 text-center font-semibold px-5'>Find an Apprenticeship, Bloom your Career.</p>
                 </div>
 
                 {/* Mobile view starts */}

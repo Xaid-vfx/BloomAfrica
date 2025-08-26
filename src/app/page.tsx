@@ -14,35 +14,33 @@ import ForSeekersRecruiters from '@/components/Landing/ForSeekersRecruiters'
 import Testimonials from '@/components/Landing/Testimonials'
 import Banner from '@/components/Landing/Banner'
 import FacebookBrowserRedirect from '@/components/FacebookBrowserRedirect'
-import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Bloom Africa - Connect with Top Ogas & Mentors'
 }
 
 export default function Home() {
-  // return (
-  //   <main className="flex flex-col ">
-  //     <FacebookBrowserRedirect />
-  //     <div className='hidden lg:block gradient'>
-  //       <Navbar />
-  //       <Hero />
-  //       <Banner />
-  //     </div>
-  //     <div className='lg:hidden gradientmobile'>
-  //       <Navbar />
-  //       <Hero />
-  //       <Banner />
-  //     </div>
-  //     <HowItWorks />
-  //     <FeaturedJobs />
-  //     <ExploreCategory />
-  //     <ForSeekersRecruiters />
-  //     <Testimonials />
-  //     {/* <MoreReasons /> */}
-  //     <div className="px-4 bg-[#ffffff]"><GetStarted /></div>
-  //     <Footer />
-  //   </main>
-  // )
-  redirect('/all-trainings')
+  return (
+    <main className="flex flex-col ">
+      <FacebookBrowserRedirect />
+      <div className='hidden lg:block gradient'>
+        <Navbar />
+        <Hero />
+        <Banner />
+      </div>
+      <div className='lg:hidden gradientmobile'>
+        <Navbar />
+        <Hero />
+        <Banner />
+      </div>
+      <HowItWorks />
+      <FeaturedJobs />
+      <ExploreCategory />
+      <ForSeekersRecruiters />
+      <Testimonials />
+      {/* <MoreReasons /> */}
+      <div className="px-4 bg-[#ffffff]"><GetStarted /></div>
+      <Footer />
+    </main>
+  )
 }

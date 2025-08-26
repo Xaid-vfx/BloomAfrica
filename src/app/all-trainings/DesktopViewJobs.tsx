@@ -4,7 +4,6 @@ import JobCard from "@/components/Jobs/JobCard/JobCard"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useEffect, useState } from "react"
 import { MoonLoader, SyncLoader } from "react-spinners"
-import HowTo from "../welcome/howto"
 
 type JobProps = {
     uid: string;
@@ -125,7 +124,6 @@ export default function DesktopViewJobs(props: any) {
                         </div>
                         <div><span className="text-[#7C8493]">Sort by:</span> Most relevant</div>
                     </div>
-                    <HowTo />
                     <div className="my-8 ">
                         {jobs ? jobs?.map((job: JobProps) => {
                             return (
