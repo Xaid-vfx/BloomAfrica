@@ -74,6 +74,9 @@ export default function Navbar(props: { color: string }) {
               </div>
               {mobileServicesOpen && (
                 <div className="pl-4 pb-2">
+                  <a href="/signup">
+                    <div className="py-2 font-medium text-sm">For Apprentices</div>
+                  </a>
                   <a href="/signup?type=recruiter">
                     <div className="py-2 font-medium text-sm">For Companies</div>
                   </a>
@@ -128,6 +131,9 @@ export default function Navbar(props: { color: string }) {
               {servicesDropdownOpen && (
                 <div className="absolute top-full pt-2 left-0 z-20">
                   <div className="bg-white shadow-lg rounded-lg py-2 min-w-[200px] border border-gray-100">
+                    <a href="/signup" className="block px-4 py-2 text-sm font-medium hover:bg-purple-50 hover:text-purple-800 transition-colors">
+                      For Apprentices
+                    </a>
                     <a href="/signup?type=recruiter" className="block px-4 py-2 text-sm font-medium hover:bg-purple-50 hover:text-purple-800 transition-colors">
                       For Companies
                     </a>
