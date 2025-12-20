@@ -52,10 +52,12 @@ export default function RootLayout({
           })
         }} />
       </head>
-      <body className={`${montserrat.className} ${robotoMono.variable} font-sans ${inter.className}`}>{children}</body>
-      <Toaster />
-      <GoogleAnalytics gaId="G-D068BXV1ZQ" />
-      <FacebookPixel />
+      <body className={`${montserrat.className} ${robotoMono.variable} font-sans ${inter.className}`}>
+        {children}
+        <Toaster />
+        <GoogleAnalytics gaId="G-D068BXV1ZQ" />
+        <FacebookPixel />
+      </body>
     </html>
   )
 }

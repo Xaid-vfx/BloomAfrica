@@ -1,62 +1,54 @@
-import Image from "next/image";
-import step1 from '../../assets/images/step1.png'
-import step2 from '../../assets/images/step2.png'
-import step3 from '../../assets/images/step3.png'
-import balls from '../../assets/images/BallsLanding.png'
-import quarter from '../../assets/images/SideCircle.png'
-import star from '../../assets/images/4SidedStar.png'
-import goal from '../../assets/images/Goal.png'
+import { CheckCircle, Code, Rocket } from "lucide-react"
 
 export default function HowItWorks() {
     return (
-        <div className="bg-[#ffffff] py-10 px-4 relative lg:py-24 ">
-            <Image src={balls} alt="balls" width={30} className="absolute right-0 top-0 lg:hidden" />
-            <Image src={star} alt="star" width={40} className="absolute left-14 top-14 hidden lg:block" />
-            <Image src={star} alt="star" width={30} className="absolute left-60 top-28 hidden lg:block" />
-            <Image src={quarter} alt="quarter" width={200} className="absolute right-0 top-0 hidden lg:block" />
-            
+        <div className="bg-grey-50 py-16 px-4 lg:py-24">
             <div className="ms-auto me-auto lg:max-w-[1500px] max-lg:max-w-[700px]">
-                <div className="text-center">
-                    <h1 className="text-2xl font-semibold lg:text-3xl lg:font-semibold">How Bloom Works</h1>
-                    <p className="text-sm my-2 leading-6 px-6 lg:text-lg lg:my-4">
-                        Explore our handpicked selection of featured apprenticeship opportunities below.
+                <div className="text-center mb-12">
+                    <h1 className="text-3xl font-semibold lg:text-4xl text-grey-900">How It Works</h1>
+                    <p className="text-base my-3 leading-6 px-6 lg:text-lg text-grey-600">
+                        Join our fellowship in three simple steps
                     </p>
                 </div>
-                
-                <div className="lg:flex lg:px-10 pt-10">
-                    <div className="text-center my-6 flex flex-col items-center py-10 px-6 lg:w-1/3 lg:mx-4 box_shadow rounded-2xl">
-                        <Image src={goal} alt="" width={80} className="hidden lg:block" />
-                        <Image src={goal} alt="" width={60} className="lg:hidden" />
 
-                        <h2 className="my-3 font-medium text-xl lg:font-semibold">
-                            Find Apprenticeships
+                <div className="lg:flex lg:px-10 gap-8">
+                    <div className="text-center my-6 flex flex-col items-center py-10 px-8 lg:w-1/3 bg-white border border-grey-200 rounded-xl hover:border-[#4A2C84] transition-colors">
+                        <div className="text-[#4A2C84] mb-4">
+                            <CheckCircle size={64} strokeWidth={1.5} />
+                        </div>
+
+                        <h2 className="my-3 font-medium text-xl text-grey-900">
+                            Apply & Get Accepted
                         </h2>
-                        <p className="text-xs leading-6 mt-3 text-[#515B6F] max-lg:max-w-[500px]">
-                            Browse our extensive collection of apprenticeship opportunities across various industries and locations. Use our search filters to narrow down your options based on your preferences.
+                        <p className="text-sm leading-6 mt-3 text-grey-600 max-lg:max-w-[500px]">
+                            Submit your application and complete our technical assessment. We select driven individuals ready to build real products and grow professionally.
                         </p>
                     </div>
-                    <div className="text-center my-6 flex flex-col items-center py-10 px-6 lg:w-1/3 lg:mx-4 box_shadow rounded-2xl">
-                        <Image src={goal} alt="" width={80} className="hidden lg:block" />
-                        <Image src={goal} alt="" width={60} className="lg:hidden" />
-                        
-                        <h2 className="my-3 font-medium text-xl lg:font-semibold">
-                            Accelerated Learning
+
+                    <div className="text-center my-6 flex flex-col items-center py-10 px-8 lg:w-1/3 bg-white border border-grey-200 rounded-xl hover:border-[#4A2C84] transition-colors">
+                        <div className="text-[#4A2C84] mb-4">
+                            <Code size={64} strokeWidth={1.5} />
+                        </div>
+
+                        <h2 className="my-3 font-medium text-xl text-grey-900">
+                            Train & Build
                         </h2>
-                        <p className="text-xs leading-6 mt-3 text-[#515B6F] max-lg:max-w-[500px]">
-                        Through a dynamic training program and hands-on mentorship, you’ll rapidly develop the knowledge and skills to excel and become an expert in your field.
+                        <p className="text-sm leading-6 mt-3 text-grey-600 max-lg:max-w-[500px]">
+                            Get embedded in an active startup. Follow our structured curriculum while building production features under expert mentorship from senior engineers.
                         </p>
                     </div>
-                    <div className="text-center my-6 flex flex-col items-center py-10 px-6 lg:w-1/3 lg:mx-4 box_shadow rounded-2xl">
-                        <Image src={goal} alt="" width={80} className="hidden lg:block" />
-                        <Image src={goal} alt="" width={60} className="lg:hidden" />
 
-                        <h2 className="my-3 font-medium text-xl lg:font-semibold">
-                            Launch your Career
+                    <div className="text-center my-6 flex flex-col items-center py-10 px-8 lg:w-1/3 bg-white border border-grey-200 rounded-xl hover:border-[#4A2C84] transition-colors">
+                        <div className="text-[#4A2C84] mb-4">
+                            <Rocket size={64} strokeWidth={1.5} />
+                        </div>
+
+                        <h2 className="my-3 font-medium text-xl text-grey-900">
+                            Launch Your Career
                         </h2>
-                        <p className="text-xs leading-6 mt-3 text-[#515B6F] max-lg:max-w-[500px]">
-                        After successfully completing your apprenticeship, you will gain the expertise to start your own business, as well as a certificate to help you stand out in your job search. Choose your path and start building now!
+                        <p className="text-sm leading-6 mt-3 text-grey-600 max-lg:max-w-[500px]">
+                            Graduate with a verified portfolio of real products, startup experience, and technical certifications that companies value. 95% hired within 3 months.
                         </p>
-                    
                     </div>
                 </div>
             </div>

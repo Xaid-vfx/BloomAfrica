@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="flex items-center gap-2">
             <Image src={BloomLogoWhite} alt="logo" width={120} />
           </div>
-          <p className="text-xs leading-6 mt-2 lg:text-sm lg:mt-4 lg:leading-7">Join Bloom today and become part of a community committed to continuous learning and professional excellence.</p>
+          <p className="text-xs leading-6 mt-2 lg:text-sm lg:mt-4 lg:leading-7">Join Bloom and become part of a community of builders shaping Africa's tech future through real product experience and expert mentorship.</p>
 
           <div className="socialicons mt-5 mb-8 flex gap-4 lg:mt-6">
             <a target="blank" href="https://x.com/_bloomAfrica" className="bg-black p-3 rounded-full cursor-pointer"><FaXTwitter /></a>

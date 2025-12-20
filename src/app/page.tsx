@@ -2,47 +2,33 @@ import Footer from '@/components/Footer/Footer'
 import Navbar from '../components/navbar/Navbar'
 import Hero from '@/components/Landing/Hero/Hero'
 import { Metadata } from 'next'
-import Demo from '@/components/Demo/Demo'
 import HowItWorks from '@/components/Landing/HowItWorks'
-import HowItWorks2 from '@/components/Landing/HowItWorks2'
 import GetStarted from '@/components/GetStartedBanner/GetStarted'
-import MoreReasons from '@/components/Landing/MoreReasons'
-import EYNTK from '@/components/Landing/EYNTK'
-import FeaturedJobs from '@/components/Landing/FeaturedJobs'
-import ExploreCategory from '@/components/Landing/ExploreCategory'
-import ForSeekersRecruiters from '@/components/Landing/ForSeekersRecruiters'
+import FeaturedPrograms from '@/components/Landing/FeaturedPrograms'
+import TechTracks from '@/components/Landing/TechTracks'
+import ForFellows from '@/components/Landing/ForFellows'
 import Testimonials from '@/components/Landing/Testimonials'
-import Banner from '@/components/Landing/Banner'
 import FacebookBrowserRedirect from '@/components/FacebookBrowserRedirect'
-import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
-  title: 'Bloom Africa - Connect with Top Ogas & Mentors'
+  title: 'Bloom Africa - Technical Fellowship Program'
 }
 
 export default function Home() {
-  // return (
-  //   <main className="flex flex-col ">
-  //     <FacebookBrowserRedirect />
-  //     <div className='hidden lg:block gradient'>
-  //       <Navbar />
-  //       <Hero />
-  //       <Banner />
-  //     </div>
-  //     <div className='lg:hidden gradientmobile'>
-  //       <Navbar />
-  //       <Hero />
-  //       <Banner />
-  //     </div>
-  //     <HowItWorks />
-  //     <FeaturedJobs />
-  //     <ExploreCategory />
-  //     <ForSeekersRecruiters />
-  //     <Testimonials />
-  //     {/* <MoreReasons /> */}
-  //     <div className="px-4 bg-[#ffffff]"><GetStarted /></div>
-  //     <Footer />
-  //   </main>
-  // )
-  redirect('/all-trainings')
+  return (
+    <main className="flex flex-col">
+      <FacebookBrowserRedirect />
+      <div className='bg-white'>
+        <Navbar color="white" />
+        <Hero />
+      </div>
+      <HowItWorks />
+      <FeaturedPrograms />
+      <TechTracks />
+      <ForFellows />
+      <Testimonials />
+      <div className="px-4 bg-white"><GetStarted /></div>
+      <Footer />
+    </main>
+  )
 }

@@ -18,6 +18,16 @@ const config = {
       },
     },
     extend: {
+      colors: {
+        'grey': {
+          50: '#F8F9FA',
+          100: '#F1F3F5',
+          200: '#E9ECEF',
+          600: '#6B7280',
+          700: '#4B5563',
+          900: '#1F2937',
+        },
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

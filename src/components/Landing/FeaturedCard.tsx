@@ -3,57 +3,71 @@ import Image from "next/image";
 import Logo from '../../assets/images/Jobs/Company Logo.png';
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import { RiGraduationCapLine } from "react-icons/ri";
+import { Clock } from "lucide-react";
 
 type Props = {
     id: string;
     title: string;
     type: string;
     location: string;
-    salary: string;
+    salary?: string;
     description: string;
-    responsibilities: string;
-    who_you_are: string;
-    extras: string;
+    responsibilities?: string;
+    who_you_are?: string;
+    extras?: string;
     company: string;
-    diploma: string;
+    diploma: string; // Duration for fellowships
+    technologies?: string[];
 }
 
 export default function FeaturedCard(props: Props) {
     return (
-        <div className="py-6 px-6 my-4 mx-2 box_shadow bg-white rounded-xl">
-            <div className="flex items-center">
-                <Image src={Logo} alt=" " width={50} className="bg-[#E9EBFD] rounded-lg" />
-                <div className="rounded-3xl font-semibold px-3 py-2 text-[#4A2C84]">{props.title}</div>
+        <div className="py-6 px-6 my-4 mx-2 bg-white rounded-xl border border-grey-200 hover:border-[#4A2C84] transition-colors">
+            <div className="flex items-center gap-3">
+                <Image src={Logo} alt=" " width={50} className="bg-grey-100 rounded-lg p-2" />
+                <div className="font-semibold text-sm text-grey-900">{props.title}</div>
             </div>
-            <hr className="mt-4 mb-3 opacity-50" />
+            <hr className="mt-4 mb-3 border-grey-200" />
 
-            <h1 className="text-base font-medium">{props.company}</h1>
-            <div className="flex flex-col h-[170px]">
-                <div className=" h-[60px]">
-                    <div className="flex mt-2 text-xs text-[#515B6F] gap-3 items-baseline">
-                        <p className="flex items-center gap-1"> <HiOutlineLocationMarker className="text-[#4A2C84] text-lg font-semibold" /> {props.location}</p>
-                        <p className="flex items-center gap-1"> <FaRegCalendarAlt className="text-[#4A2C84] text-base font-semibold" /> {props.type}</p>
+            <h1 className="text-sm font-medium text-grey-700">{props.company}</h1>
+            <div className="flex flex-col min-h-[170px]">
+                <div className="mt-2">
+                    <div className="flex flex-wrap text-xs text-grey-600 gap-3 items-center mb-2">
+                        <p className="flex items-center gap-1">
+                            <HiOutlineLocationMarker className="text-[#4A2C84] text-base" />
+                            {props.location}
+                        </p>
+                        <p className="flex items-center gap-1">
+                            <FaRegCalendarAlt className="text-[#4A2C84] text-sm" />
+                            {props.type}
+                        </p>
                     </div>
-                    <p className="mt-1 flex items-center gap-1 text-xs text-[#515B6F]"> <RiGraduationCapLine className="text-[#4A2C84] text-lg font-semibold" /> {props.diploma}
+                    <p className="flex items-center gap-1 text-xs text-grey-600">
+                        <Clock className="text-[#4A2C84]" size={16} />
+                        {props.diploma}
                     </p>
                 </div>
-                <p className="w-full text-xs mt-3 leading-6 text-[#515B6F] ">
+                <p className="w-full text-xs mt-4 leading-6 text-grey-600">
                     {props.description}
                 </p>
             </div>
 
-            {/* tags */}
-            <div className="">
-                <hr className="mt-4 mb-3 opacity-50" />
+            {/* Technologies */}
+            <div>
+                <hr className="mt-4 mb-3 border-grey-200" />
                 <div className="flex flex-wrap gap-2 my-4">
-
-                    <div className="rounded-md text-xs px-3 py-1 bg-[#fc7c1320] text-[#E09100]">Education</div>
-                    <div className="rounded-md text-xs border px-3 py-1 bg-[#56cdad27] text-[#56CDAD]">Finance</div>
-                    <div className="rounded-md text-xs border px-3 py-1 bg-[#E9EBFD] text-[#8989FF]">Technology</div>
+                    {props.technologies?.slice(0, 3).map((tech, index) => (
+                        <div key={index} className="rounded-md text-xs px-3 py-1 bg-grey-100 text-grey-700 font-medium">
+                            {tech}
+                        </div>
+                    ))}
+                    {props.technologies && props.technologies.length > 3 && (
+                        <div className="rounded-md text-xs px-3 py-1 bg-grey-100 text-grey-600">
+                            +{props.technologies.length - 3} more
+                        </div>
+                    )}
                 </div>
             </div>
-
         </div>
     )
 }

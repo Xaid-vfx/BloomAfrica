@@ -6,11 +6,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { CgMenuRightAlt } from "react-icons/cg";
 import { CiMenuFries } from "react-icons/ci";
+import { ChevronDown } from "lucide-react";
 
 export default function Navbar(props: { color: string }) {
 
   const [navbarIsVisible, setnavbarIsVisible] = useState(false)
   const [currentPage, setCurrentPage] = useState("")
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
 
   const url = reverseString(globalThis.window?.location.href)
   const page = url?.split("/")
@@ -61,7 +64,22 @@ export default function Navbar(props: { color: string }) {
             <hr className="" />
             {/* <a href="/about"><div className="my-4 font-medium">About</div></a>
             <hr /> */}
-            <a href="/signup?type=recruiter"><div className="my-4 font-medium">Mentor? <span className="text-[#4A2C84]">Post Apprenticeship</span></div></a>
+            <div>
+              <div
+                className="my-4 font-medium cursor-pointer flex items-center justify-between"
+                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+              >
+                <span>Our Services</span>
+                <ChevronDown className={`transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} size={20} />
+              </div>
+              {mobileServicesOpen && (
+                <div className="pl-4 pb-2">
+                  <a href="/signup?type=recruiter">
+                    <div className="py-2 font-medium text-sm">For Companies</div>
+                  </a>
+                </div>
+              )}
+            </div>
             <hr />
             {/* <div className="relative">
               <a href="/certified"><div className="mt-4 font-medium">Get Certified</div></a>
@@ -95,10 +113,28 @@ export default function Navbar(props: { color: string }) {
           </a>
         </div>
         <div className="hidden text-[16px] lg:flex lg:pl-0  mx-auto min-w-max ">
-          <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)]">
+          <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)] items-center">
             <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800 transition-all`}>Home</a>
             {/* <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>About Us</a> */}
-            <a href="/signup?type=recruiter" className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>Trainer? <span className="text-[#4A2C84] font-semibold">Post Apprenticeship</span></a>
+            <div
+              className="relative"
+              onMouseEnter={() => setServicesDropdownOpen(true)}
+              onMouseLeave={() => setServicesDropdownOpen(false)}
+            >
+              <div className="flex items-center gap-1 text-sm font-medium cursor-pointer hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800 transition-all">
+                <span>Our Services</span>
+                <ChevronDown className={`transition-transform ${servicesDropdownOpen ? 'rotate-180' : ''}`} size={16} />
+              </div>
+              {servicesDropdownOpen && (
+                <div className="absolute top-full pt-2 left-0 z-20">
+                  <div className="bg-white shadow-lg rounded-lg py-2 min-w-[200px] border border-gray-100">
+                    <a href="/signup?type=recruiter" className="block px-4 py-2 text-sm font-medium hover:bg-purple-50 hover:text-purple-800 transition-colors">
+                      For Companies
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           {/* <div className="flex relative ms-[clamp(1.1rem,2.1vw,5rem)] xl:ms-[clamp(1.1rem,2.5vw,5rem)]">
               <a href="/certified" className={`${currentPage == "certified" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>Get Certified</a>
@@ -110,7 +146,7 @@ export default function Navbar(props: { color: string }) {
         </div>
 
         <div className="flex gap-2 ">
-          <a href="/all-trainings" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-semibold rounded-2xl min-w-max  ">Find Apprenticeships</a>
+          <a href="/all-trainings" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-semibold rounded-2xl min-w-max  ">Explore Programs</a>
           <a href="/signup" className="text-sm text-[#4A2C84] border border-[#4A2C84] px-6 py-3 font-semibold rounded-2xl min-w-max">Sign In</a>
         </div>
       </div>
