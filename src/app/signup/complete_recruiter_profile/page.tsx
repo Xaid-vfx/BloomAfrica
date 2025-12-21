@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import getUser from "@/lib/getUser/getUser";
 
 export const metadata: Metadata = {
-    title: 'Complete Recruiter Profile | Bloom'
+    title: 'Complete Recruiter Profile | Prentis'
 }
 
 async function checkIfUserExists(id: string | undefined) {

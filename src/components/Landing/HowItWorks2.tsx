@@ -18,7 +18,7 @@ export default function HowItWorks2() {
                     <p className='text-sm my-2 flex items-center gap-2'>
                         <Image src={check} alt='check' width={15} />Facilitates faster professional development and career advancement.</p>
                     <p className='text-sm my-2 flex items-center gap-2'>
-                        <Image src={check} alt='check' width={15} />Bloom Apprenticeship facilitates hands-on learning experiences.</p>
+                        <Image src={check} alt='check' width={15} />Prentis Apprenticeship facilitates hands-on learning experiences.</p>
                     <p className='text-sm my-2 flex items-center gap-2'>
                         <Image src={check} alt='check' width={15} />Offers a convenient and accessible online environment for users.</p>
 

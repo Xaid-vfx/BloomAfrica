@@ -1,9 +1,7 @@
 import { FaFacebook, FaLinkedinIn, FaRocket, FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { RiLinksFill } from "react-icons/ri";
-import Logo from "../../assets/images/Logo.png"
-import BloomLogoWhite from "../../assets/images/BloomLogoWhite.png"
-import Image from "next/image";
+import PrentisLogoWhite from "../Logo/PrentisLogoWhite";
 
 export default function Footer() {
   return (
@@ -11,14 +9,14 @@ export default function Footer() {
       <div className=" px-8 py-10 text-white lg:flex lg:justify-between lg:px-24 ms-auto me-auto max-w-[1750px] ">
         <div className="lg:w-1/3">
           <div className="flex items-center gap-2">
-            <Image src={BloomLogoWhite} alt="logo" width={120} />
+            <PrentisLogoWhite />
           </div>
-          <p className="text-xs leading-6 mt-2 lg:text-sm lg:mt-4 lg:leading-7">Join Bloom and become part of a community of builders shaping Africa's tech future through real product experience and expert mentorship.</p>
+          <p className="text-xs leading-6 mt-2 lg:text-sm lg:mt-4 lg:leading-7">Join Prentis and become part of a community of builders shaping Africa's tech future through real product experience and expert mentorship.</p>
 
           <div className="socialicons mt-5 mb-8 flex gap-4 lg:mt-6">
             <a target="blank" href="https://x.com/_bloomAfrica" className="bg-black p-3 rounded-full cursor-pointer"><FaXTwitter /></a>
             <a target="blank" href="https://www.linkedin.com/company/bloomafrica1" className="bg-black p-3 rounded-full cursor-pointer"><FaLinkedinIn /></a>
-            <a target="blank" href="https://facebook.com/BloomApprenticeships1" className="bg-black p-3 rounded-full cursor-pointer"><FaFacebook /></a>
+            <a target="blank" href="https://facebook.com/PrentisApprenticeships1" className="bg-black p-3 rounded-full cursor-pointer"><FaFacebook /></a>
           </div>
         </div>
 
@@ -37,7 +35,7 @@ export default function Footer() {
         </div>
       </div>
       <hr className="border-[#505050]" />
-      <div className="py-6 bg-[#1D1B1B] text-center text-white font-light">Bloom 2024. All Rights Reserved</div>
+      <div className="py-6 bg-[#1D1B1B] text-center text-white font-light">Prentis 2025. All Rights Reserved</div>
     </div>
   )
 }

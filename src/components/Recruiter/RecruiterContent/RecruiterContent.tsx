@@ -8,10 +8,9 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import EditRecruiter from "./EditRecruiter";
 import Post from "@/app/recruiter/post-a-job/page";
 import { AiOutlineClose } from "react-icons/ai";
-import Image from "next/image";
 import { BiHomeAlt2 } from "react-icons/bi";
 import { PiBuildings } from "react-icons/pi";
-import Bloom from '../../../assets/images/BloomLogo.png'
+import PrentisLogo from '@/components/Logo/PrentisLogo'
 import { LuClipboardList } from "react-icons/lu";
 import ChatClient from "../../Chat/Chat";
 import Messages from "../Messages/Messages";
@@ -59,7 +58,7 @@ export default function RecruiterContent(props: Props) {
     //             <div className="w-full px-6 duration-1000">
     //                 <div className="my-6 relative w-full">
     //                     <AiOutlineClose className="text-2xl absolute top-2 cursor-pointer " onClick={() => { setshowNav(false) }} />
-    //                     <div className="flex justify-center w-full"><Image src={Bloom} width={120} height={100} /></div>
+    //                     <div className="flex justify-center w-full"><PrentisLogo width={120} height={100} /></div>
     //                 </div>
 
     //                 <div className="flex flex-col justify-center my-3">

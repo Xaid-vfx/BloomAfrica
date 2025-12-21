@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = 'https://bloom.africa' // Replace with your actual domain
+    const baseUrl = 'https://prentis.ng' // Replace with your actual domain
 
     // Public routes that should be indexed
     const routes = [

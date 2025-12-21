@@ -23,7 +23,7 @@ import { SchoolIcon, WorkflowIcon } from "lucide-react"
 import Timeline from "./TImeline"
 
 export const metadata: Metadata = {
-    title: 'About | Bloom'
+    title: 'About | Prentis'
 }
 
 export default function About() {

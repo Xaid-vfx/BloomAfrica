@@ -5,7 +5,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: 'FAQs | Bloom'
+    title: 'FAQs | Prentis'
 }
 
 export default function Faqs() {

@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-    title: 'Complete Apprentice Profile | Bloom'
+    title: 'Complete Apprentice Profile | Prentis'
 }
 
 async function checkIfUserExists(id: string) {

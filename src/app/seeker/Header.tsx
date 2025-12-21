@@ -8,8 +8,7 @@ import { HiOutlineMenuAlt2 } from "react-icons/hi"
 import { IoNotificationsOutline } from "react-icons/io5"
 import { LuClipboardList } from "react-icons/lu"
 import { PiBuildings } from "react-icons/pi"
-import Bloom from '../../assets/images/BloomLogo.png'
-import Image from "next/image"
+import PrentisLogo from '@/components/Logo/PrentisLogo'
 import { useRouter } from "next/navigation"
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
@@ -67,7 +66,7 @@ export default function Header(props: Props) {
                         <div className="w-full px-6">
                             <div className="my-6 relative w-full">
                                 <div className="flex justify-center w-full">
-                                    <Image src={Bloom} alt="logo" width={120} height={100} />
+                                    <PrentisLogo /> width={120} height={100} />
                                 </div>
                                 <AiOutlineClose className="text-2xl absolute right-0 top-2 cursor-pointer " onClick={() => { setshowNav(false) }} />
                             </div>
@@ -117,7 +116,7 @@ export default function Header(props: Props) {
             <div className="hidden lg:flex w-full px-8 py-4 justify-between mb-5 bg-white items-center border-b-[1px] border-gray-300">
                 <div className='flex flex-row'>
                     <div className='mr-24'>
-                        <Image src={Bloom} width={120} height={100} />
+                        <PrentisLogo width={120} height={100} />
                     </div>
                     <div>
                         <p className="text-sm">Good Morning</p>

@@ -28,7 +28,7 @@ export default function AboutHero() {
     return (
         <div className="lg:px-20 px-4 lg:py-24 py-20 lg:bg-[#F8F8FD] relative">
             <h1 className="mt-14 font-semibold text-center text-3xl lg:text-5xl HiddenAnimationStats lg:leading-[1.5] lg:mt-0 ms-auto me-auto max-w-[1300px]">
-                Discover Exciting <span className="text-[#4A2C84]">Apprenticeship</span> Opportunities with Bloom
+                Discover Exciting <span className="text-[#4A2C84]">Apprenticeship</span> Opportunities with Prentis
             </h1>
             <p className="leading-9 hidden lg:block text-center  my-6 lg:my-4 text-xl HiddenAnimationStats ms-auto me-auto max-w-[1300px]">
             We are empowering Africans by creating accessible local opportunities for personal and economic growth. We envision an Africa where the informal economy, alternative education, and non-traditional career paths are democratized, becoming vibrant and sustainable engines of growth. 

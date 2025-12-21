@@ -14,7 +14,7 @@ import JobDescription from "./JobDescription";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: 'Job | Bloom'
+    title: 'Job | Prentis'
 }
 
 export default async function Page({ params,

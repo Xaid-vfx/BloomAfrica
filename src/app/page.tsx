@@ -11,7 +11,7 @@ import Testimonials from '@/components/Landing/Testimonials'
 import FacebookBrowserRedirect from '@/components/FacebookBrowserRedirect'
 
 export const metadata: Metadata = {
-  title: 'Bloom Africa - Technical Fellowship Program'
+  title: 'Prentis - Technical Fellowship Program'
 }
 
 export default function Home() {

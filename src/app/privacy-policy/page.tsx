@@ -4,7 +4,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: 'Policies | Bloom'
+    title: 'Policies | Prentis'
 }
 
 export default function PrivacyPolicy() {
@@ -15,7 +15,7 @@ export default function PrivacyPolicy() {
                 <h1 className="text-3xl font-medium text-center">Bloom Privacy Policy</h1>
                 <p className="text-sm my-4 text-center ">Last Updated: 16th Aug, 2024</p>
                 <p className="text-sm my-10">
-                    Bloom respects and understands the importance of your privacy – and is therefore committed to affording complete protection to the personal information of our customers who use our products and services or visitors of our website, and of the learners whose information we may have access to and when you enroll on our website for an open position. It is in recognition of this need for security, compliance with the Nigeria Data Protection Act 2023 and Secured management of any information received /collected by us that Bloom has established this Privacy Policy. This privacy policy is applicable to our websites – www.bloom.africa and any services we provide. It also applies to our marketing practices. We ensure total transparency in all our dealings. Data Privacy is important to us and we strive to be transparent in our data collection and use practices.
+                    Bloom respects and understands the importance of your privacy – and is therefore committed to affording complete protection to the personal information of our customers who use our products and services or visitors of our website, and of the learners whose information we may have access to and when you enroll on our website for an open position. It is in recognition of this need for security, compliance with the Nigeria Data Protection Act 2023 and Secured management of any information received /collected by us that Bloom has established this Privacy Policy. This privacy policy is applicable to our websites – www.prentis.ng and any services we provide. It also applies to our marketing practices. We ensure total transparency in all our dealings. Data Privacy is important to us and we strive to be transparent in our data collection and use practices.
                 </p>
                 <h2 className="font-medium text-xl mt-8">1. WHAT INFORMATION IS COLLECTED?</h2>
                 <div className="text-sm flex flex-col">

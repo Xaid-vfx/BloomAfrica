@@ -10,7 +10,7 @@ export default function Beliefs() {
             </div>
             <div className="lg:w-[55%] py-14 text-justify flex flex-col gap-6 px-4 lg:px-20 justify-center items-center">
                 <h1 className="text-2xl lg:text-4xl font-semibold">Our Mission</h1>
-                <p className="text-sm leading-7">At Bloom, our mission is to empower Africans by creating accessible local opportunities for personal and economic growth. We envision an Africa where the informal economy, alternative education, and non-traditional career paths are democratized, becoming vibrant and sustainable engines of growth.
+                <p className="text-sm leading-7">At Prentis, our mission is to empower Africans by creating accessible local opportunities for personal and economic growth. We envision an Africa where the informal economy, alternative education, and non-traditional career paths are democratized, becoming vibrant and sustainable engines of growth.
                     <br /><br />
                     We believe that harnessing Africa's informal economy can entirely reshape the global narrative. Our platform serves as a catalyst for change, enabling users to upskill themselves, grow their businesses, and connect with a world of employment opportunities.</p>
             </div>

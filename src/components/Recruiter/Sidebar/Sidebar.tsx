@@ -1,7 +1,6 @@
 'use client'
 
-import Image from "next/image";
-import Bloom from '../../../assets/images/BloomLogo.png'
+import PrentisLogo from '@/components/Logo/PrentisLogo'
 import { BiHomeAlt2 } from "react-icons/bi";
 import { LuClipboardList } from "react-icons/lu";
 import { PiBuildings } from "react-icons/pi";

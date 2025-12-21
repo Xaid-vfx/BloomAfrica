@@ -8,7 +8,7 @@ import ChatClient from "@/components/Chat/Chat";
 import SeekerMessages from "./SeekerMessages";
 
 export const metadata: Metadata = {
-    title: 'Chat | Bloom'
+    title: 'Chat | Prentis'
 }
 
 async function fetchSeeker(id: string) {

@@ -42,7 +42,7 @@ async function fetchAppliedJobsWithPayments(id: string) {
 }
 
 export const metadata: Metadata = {
-    title: 'Applied Jobs | Bloom'
+    title: 'Applied Jobs | Prentis'
 }
 
 export default async function page() {

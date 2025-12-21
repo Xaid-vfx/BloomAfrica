@@ -5,7 +5,7 @@ import CountryList from "@/lib/CountryList/CountryList"
 import { useRouter } from "next/navigation"
 
 export const metadata: Metadata = {
-    title: 'Edit Profile | Bloom'
+    title: 'Edit Profile | Prentis'
 }
 
 

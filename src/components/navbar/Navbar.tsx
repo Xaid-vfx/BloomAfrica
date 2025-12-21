@@ -1,8 +1,6 @@
 'use client'
 import { RxHamburgerMenu, RxCross1 } from "react-icons/rx";
-import LogoText from "../../assets/images/BloomLogo.png"
-import Logo from "../../assets/images/Logo.png"
-import Image from "next/image";
+import PrentisLogo from "../Logo/PrentisLogo";
 import { useEffect, useState } from "react";
 import { CgMenuRightAlt } from "react-icons/cg";
 import { CiMenuFries } from "react-icons/ci";
@@ -45,10 +43,10 @@ export default function Navbar(props: { color: string }) {
   if (navbarIsVisible) {
 
     return (
-      <div className="h-[200vh] w-screen px-4 overflow-hidden fixed top-0 gradient z-10 ">
+      <div className="h-[200vh] w-screen px-6 lg:px-12 overflow-hidden fixed top-0 gradient z-10 ">
         <div className="py-6 flex justify-between items-center lg:justify-normal">
           <a href="/" className="lg:hidden">
-            <Image src={LogoText} alt="logo" width={120} />
+            <PrentisLogo />
           </a>
           <div className="menu text-2xl lg:hidden cursor-pointer">
             <RxCross1 onClick={() => {
@@ -96,10 +94,10 @@ export default function Navbar(props: { color: string }) {
   }
 
   return (
-    <div className={`px-4 py-6 flex justify-between items-center lg:justify-normal  ${props.color == "white" ? 'bg-white' : ''}`}>
+    <div className={`px-6 lg:px-12 py-6 flex justify-between items-center lg:justify-normal  ${props.color == "white" ? 'bg-white' : ''}`}>
 
       <a href="/" className="lg:hidden">
-        <Image src={LogoText} alt="logo" width={120} />
+        <PrentisLogo />
       </a>
       <div className="menu gap-4 items-center flex text-3xl lg:hidden">
         <a href="/signup" className="text-sm text-[#4A2C84]">Sign in</a>
@@ -111,8 +109,7 @@ export default function Navbar(props: { color: string }) {
       <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full ms-auto me-auto max-w-[1600px]">
         <div className="flex justify-between items-center relative ">
           <a href="/" className="hidden lg:flex lg:items-center lg:gap-2 lg:pl-10">
-            <Image src={LogoText} alt="" width={120} />
-
+            <PrentisLogo />
           </a>
         </div>
         <div className="hidden text-[16px] lg:flex lg:pl-0  mx-auto min-w-max ">

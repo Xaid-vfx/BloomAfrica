@@ -4,8 +4,7 @@ import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { FaChevronDown } from "react-icons/fa";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { useState } from "react";
-import Image from "next/image";
-import Bloom from '../../../assets/images/BloomLogo.png'
+import PrentisLogo from '@/components/Logo/PrentisLogo'
 import { BiHomeAlt2, BiMessage } from "react-icons/bi";
 import { PiBuildings } from "react-icons/pi";
 import { LuClipboardList } from "react-icons/lu";
@@ -41,7 +40,7 @@ export default function Header({ name }: Props) {
                     <div className="w-full px-6">
                         <div className="my-6 relative w-full">
                             <AiOutlineClose className="text-2xl absolute top-2 cursor-pointer " onClick={() => { setShowNav(false) }} />
-                            <div className="flex justify-center w-full"><Image src={Bloom} width={120} height={100} alt="Bloom Logo" /></div>
+                            <div className="flex justify-center w-full"><PrentisLogo width={120} height={100} alt="Prentis Logo" /></div>
                         </div>
 
                         <div className="flex flex-col justify-center my-3">
@@ -85,10 +84,10 @@ export default function Header({ name }: Props) {
                         onClick={() => setShowNav(true)}
                     />
                     <Image
-                        src={Bloom}
+                        src={Prentis}
                         width={120}
                         height={100}
-                        alt="Bloom Logo"
+                        alt="Prentis Logo"
                         className="cursor-pointer"
                         onClick={() => handleNavigation('/recruiter/dashboard')}
                     />
@@ -97,7 +96,7 @@ export default function Header({ name }: Props) {
                     <div className="flex items-center gap-2">
                         <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
                             <Image
-                                src={Bloom}
+                                src={Prentis}
                                 width={40}
                                 height={40}
                                 alt="Profile"

@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import ClientWrapper from "./ClientWrapper"
 
 export const metadata: Metadata = {
-    title: 'Sign Up | Bloom'
+    title: 'Sign Up | Prentis'
 }
 
 export default function Page() {

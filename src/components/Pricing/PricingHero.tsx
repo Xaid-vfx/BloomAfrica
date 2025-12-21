@@ -12,7 +12,7 @@ export default function PricingHero() {
                 <div className="flex items-center flex-col">
                     <p className="text-sm lg:text-base lg:font-medium lg:text-[#4A2C84]">Pricing</p>
                     <h1 className="mt-6 mb-10 text-xl font-semibold lg:text-3xl">
-                        Pricing offers and their associated features for <br className="hidden lg:block" /> Bloom
+                        Pricing offers and their associated features for <br className="hidden lg:block" /> Prentis
                     </h1>
 
                     <div className="flex rounded-3xl justify-center lg:mt-14 box_shadow p-1">

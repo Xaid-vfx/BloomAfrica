@@ -63,7 +63,7 @@ export default function ForSeekersRecruiters() {
                             </p>
                             <p className="my-8 flex font-[350] items-start gap-4">
                                 <Image src={Image4} alt="1" width={38} />
-                                Bloom is very easy to use, you can set your own fees, customize schedules, and manage everything effortlessly, giving you complete control over your apprenticeship program. 
+                                Prentis is very easy to use, you can set your own fees, customize schedules, and manage everything effortlessly, giving you complete control over your apprenticeship program. 
                                 <br /> <br /> 
                             </p>
                         </div>

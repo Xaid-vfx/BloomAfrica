@@ -16,7 +16,7 @@ import DesktopViewJobs from "./DesktopViewJobs";
 import MobileViewJobs from "./MobileViewJobs";
 
 export const metadata: Metadata = {
-    title: 'All Jobs | Bloom'
+    title: 'All Jobs | Prentis'
 }
 
 type JobProps = {

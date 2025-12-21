@@ -9,7 +9,7 @@ import Footer from "@/components/Footer/Footer"
 import Qualifications from "./Qualifications"
 
 export const metadata: Metadata = {
-    title: 'Get Certified | Bloom'
+    title: 'Get Certified | Prentis'
 }
 
 export default function About() {

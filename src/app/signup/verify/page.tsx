@@ -3,7 +3,7 @@ import Verify from './verify'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Verify | Bloom'
+    title: 'Verify | Prentis'
 }
 
 // This component passed as a fallback to the Suspense boundary

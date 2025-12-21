@@ -4,7 +4,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: 'Terms of Service | Bloom'
+    title: 'Terms of Service | Prentis'
 }
 
 const BloomTermsOfService = () => {
@@ -13,14 +13,14 @@ const BloomTermsOfService = () => {
             <Navbar />
             <div className="px-24 py-10">
                 <p style={{ textAlign: "center" }}>
-                    <strong>BLOOM'S TERMS OF SERVICES</strong>
+                    <strong>PRENTIS'S TERMS OF SERVICES</strong>
                 </p>
                 <p
                     className="NormalWeb"
                     style={{ marginTop: "14pt", marginBottom: "14pt", fontSize: "9.5pt" }}
                 >
                     <span style={{ fontFamily: "Arial" }}>
-                        PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY BEFORE USING THE BLOOM
+                        PLEASE READ THESE TERMS AND CONDITIONS CAREFULLY BEFORE USING THE PRENTIS
                         WEBSITE
                     </span>
                 </p>
@@ -40,7 +40,7 @@ const BloomTermsOfService = () => {
                         Your use of this website (
                     </span>
                     <a
-                        href="http://www.bloom.africa"
+                        href="http://www.prentis.ng"
                         target="_blank"
                         style={{ textDecoration: "none" }}
                     >
@@ -48,7 +48,7 @@ const BloomTermsOfService = () => {
                             className="Hyperlink"
                             style={{ fontFamily: "Arial", fontSize: "9.5pt", color: "#4285f4" }}
                         >
-                            www.bloom.africa
+                            www.prentis.ng
                         </span>
                     </a>
                     <span style={{ fontFamily: "Arial", fontSize: "9.5pt" }}>
@@ -230,7 +230,7 @@ const BloomTermsOfService = () => {
                         </span>
                         <span style={{ fontFamily: "Arial", fontSize: "9.5pt" }}>&nbsp;</span>
                         <a
-                            href="http://www.bloom.africa"
+                            href="http://www.prentis.ng"
                             target="_blank"
                             style={{ textDecoration: "none" }}
                         >
@@ -238,7 +238,7 @@ const BloomTermsOfService = () => {
                                 className="Hyperlink"
                                 style={{ fontFamily: "Arial", fontSize: "9.5pt", color: "#4285f4" }}
                             >
-                                www.bloom.africa
+                                www.prentis.ng
                             </span>
                         </a>
                         <span style={{ fontFamily: "Arial", fontSize: "9.5pt" }}>&nbsp;</span>

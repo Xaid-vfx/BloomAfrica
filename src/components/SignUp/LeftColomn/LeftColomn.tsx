@@ -8,7 +8,7 @@ export default function LeftColomn() {
             <div className="w-full max-w-[640px] mx-auto">
                 <div className="flex items-center">
                     <Image src={Logo} alt="" width={60} />
-                    <p className="text-3xl">Bloom</p>
+                    <p className="text-3xl">Prentis</p>
                 </div>
                 <div className="py-10 flex justify-center">
                     <Image src={SideImage} alt="" width={500} />

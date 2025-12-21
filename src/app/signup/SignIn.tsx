@@ -146,8 +146,8 @@ export default function SignIn() {
                     prompt: 'consent'
                 },
                 redirectTo: signUpUserTypeTab == "seeker" ?
-                    'https://www.bloom.africa/auth/callback?route=/signup/complete_profile&next=' + redirectUrl :
-                    'https://www.bloom.africa/auth/callback?route=/signup/complete_recruiter_profile'
+                    'https://www.prentis.ng/auth/callback?route=/signup/complete_profile&next=' + redirectUrl :
+                    'https://www.prentis.ng/auth/callback?route=/signup/complete_recruiter_profile'
             },
         });
         console.log(data);

@@ -29,8 +29,8 @@ const montserrat = Montserrat({
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Bloom Africa - Connect with Top Ogas & Mentors',
-  description: 'Bloom connects aspiring apprentices with top Ogas & mentors, offering hands-on learning, professional development, and career growth opportunities across Africa.',
+  title: 'Prentis - Connect with Top Ogas & Mentors',
+  description: 'Prentis connects aspiring apprentices with top Ogas & mentors, offering hands-on learning, professional development, and career growth opportunities across Africa.',
 }
 
 export default function RootLayout({
@@ -46,9 +46,9 @@ export default function RootLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            "name": "Bloom Africa",
-            "url": "https://www.bloom.africa",
-            "logo": "https://www.bloom.africa/logo.jpeg"
+            "name": "Prentis",
+            "url": "https://www.prentis.ng",
+            "logo": "https://www.prentis.ng/logo.jpeg"
           })
         }} />
       </head>

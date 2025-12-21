@@ -6,7 +6,7 @@ import SeekerContent from "./SeekerContent";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: 'Apprentice Dashboard | Bloom'
+    title: 'Apprentice Dashboard | Prentis'
 }
 
 async function fetchSeeker(id: string) {

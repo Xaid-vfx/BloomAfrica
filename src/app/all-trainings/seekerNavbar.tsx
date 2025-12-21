@@ -2,7 +2,6 @@
 import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
 import LogoText from "../../assets/images/BloomLogo.png"
 import Logo from "../../assets/images/Logo.png"
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SignOut } from "@/lib/Signout/Signout";
@@ -46,7 +45,7 @@ export default function SeekerNavbar(props: any) {
       <div className="h-[200vh] w-screen px-6 overflow-hidden fixed top-0 bg-white z-10">
         <div className="py-5 flex justify-between items-center lg:justify-normal">
           <a href="/" className="lg:hidden">
-            <Image src={LogoText} alt="logo" width={120} />
+            <Image src={LogoText} alt="logo" />
           </a>
           <div className="menu text-2xl lg:hidden cursor-pointer">
             <RxCross1 onClick={() => {
@@ -86,7 +85,7 @@ export default function SeekerNavbar(props: any) {
     <div className="px-6 py-5 flex justify-between items-center lg:justify-normal">
       <div className="flex justify-between items-center relative w-[100%] ms-auto me-auto max-w-[1600px]">
         <a href="/" className="lg:hidden">
-          <Image src={LogoText} alt="logo" width={120} />
+          <Image src={LogoText} alt="logo" />
         </a>
         <div className="menu text-2xl lg:hidden">
           <RxHamburgerMenu onClick={() => { setnavbarIsVisible(true) }} />
@@ -95,7 +94,7 @@ export default function SeekerNavbar(props: any) {
         <div className="hidden lg:flex lg:items-center lg:w-full">
           <div className="flex items-center w-full">
             <a href="/" className="hidden lg:flex lg:items-center lg:gap-2 lg:pr-0 lg:pl-0">
-              <Image src={LogoText} alt="" width={120} />
+              <Image src={LogoText} alt="" />
               <h1 className="text-3xl font-medium"></h1>
             </a>
 
