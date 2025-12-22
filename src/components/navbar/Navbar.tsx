@@ -106,7 +106,7 @@ export default function Navbar(props: { color: string }) {
         }} />
       </div>
 
-      <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full ms-auto me-auto max-w-[1600px]">
+      <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full ms-auto me-auto max-w-[1250px]">
         <div className="flex justify-between items-center relative ">
           <a href="/" className="hidden lg:flex lg:items-center lg:gap-2 lg:pl-10">
             <PrentisLogo />
