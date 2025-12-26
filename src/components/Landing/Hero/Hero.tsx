@@ -25,22 +25,25 @@ export default function Hero() {
         <div className='lg:px-12 lg:py-16 pb-10 ms-auto me-auto max-w-[1500px]'>
             <div className="px-4 mt-[3.2rem] flex flex-col justify-center items-center lg:mt-0">
                 <div className="flex items-center w-full justify-center">
-                    <div className="px-5 py-3 text-sm rounded-full text-[#4A2C84] bg-grey-100 font-medium">Africa's Premier Technical Fellowship</div>
+                    <div className="px-5 py-3 text-sm rounded-full text-[#4A2C84] bg-grey-100 font-medium">Africa's Premier Apprenticeship Platform</div>
                 </div>
                 <h1 className="text-[1.875rem] leading-[2.5rem] sm:text-3xl lg:text-5xl sm:leading-tight my-6 text-center font-semibold lg:leading-tight lg:my-6 HiddenAnimation lg:max-w-3xl">
-                    Build Real Products. <span className="text-[#4A2C84]">Gain Verified Experience.</span>
+                    The Home of <span className="text-[#4A2C84]">Real Apprenticeships.</span>
                 </h1>
 
+                <p className="text-base text-grey-700 leading-relaxed text-center px-2 lg:px-0 lg:text-lg HiddenAnimation lg:max-w-2xl mb-2">
+                    Find the perfect program for any career path.
+                </p>
                 <p className="text-base text-grey-700 leading-relaxed text-center px-2 lg:px-0 lg:text-lg HiddenAnimation lg:max-w-2xl">
-                    Get embedded in active startups, build live products, and earn a portfolio that proves your expertise—all with structured training and guided curriculum.
+                    Master a craft or a trade, gain real experience, and earn accredited qualifications to land your dream job or start your own company.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-8 lg:mt-10 items-center justify-center">
                     <Link href="/all-trainings" className="btn-primary px-8 py-3 rounded-lg text-center min-w-[200px]">
-                        Apply to Fellowship
+                        Find an Apprenticeship
                     </Link>
                     <Link href="/all-trainings" className="btn-secondary px-8 py-3 rounded-lg text-center min-w-[200px]">
-                        Explore Programs
+                        Explore Career Paths
                     </Link>
                 </div>
             </div>

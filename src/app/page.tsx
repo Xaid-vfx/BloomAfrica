@@ -2,16 +2,15 @@ import Footer from '@/components/Footer/Footer'
 import Navbar from '../components/navbar/Navbar'
 import Hero from '@/components/Landing/Hero/Hero'
 import { Metadata } from 'next'
-import HowItWorks from '@/components/Landing/HowItWorks'
 import GetStarted from '@/components/GetStartedBanner/GetStarted'
-import FeaturedPrograms from '@/components/Landing/FeaturedPrograms'
-import TechTracks from '@/components/Landing/TechTracks'
-import ForFellows from '@/components/Landing/ForFellows'
 import Testimonials from '@/components/Landing/Testimonials'
 import FacebookBrowserRedirect from '@/components/FacebookBrowserRedirect'
+import ChooseCareerPath from '@/components/Landing/ChooseCareerPath'
+import IndustriesMaster from '@/components/Landing/IndustriesMaster'
+import WhyChoosePrentis from '@/components/Landing/WhyChoosePrentis'
 
 export const metadata: Metadata = {
-  title: 'Prentis - Technical Fellowship Program'
+  title: 'Prentis - The Home of Real Apprenticeships'
 }
 
 export default function Home() {
@@ -22,10 +21,9 @@ export default function Home() {
         <Navbar color="white" />
         <Hero />
       </div>
-      <HowItWorks />
-      <FeaturedPrograms />
-      <TechTracks />
-      <ForFellows />
+      <ChooseCareerPath />
+      <IndustriesMaster />
+      <WhyChoosePrentis />
       <Testimonials />
       <div className="px-4 bg-white"><GetStarted /></div>
       <Footer />
