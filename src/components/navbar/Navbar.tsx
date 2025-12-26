@@ -46,7 +46,7 @@ export default function Navbar(props: { color: string }) {
       <div className="h-[200vh] w-screen px-6 lg:px-12 overflow-hidden fixed top-0 gradient z-10 ">
         <div className="py-6 flex justify-between items-center lg:justify-normal">
           <a href="/" className="lg:hidden">
-            <PrentisLogo />
+            <PrentisLogo className="!text-[#D4BBFF]" />
           </a>
           <div className="menu text-2xl lg:hidden cursor-pointer">
             <RxCross1 onClick={() => {
@@ -94,13 +94,13 @@ export default function Navbar(props: { color: string }) {
   }
 
   return (
-    <div className={`px-6 lg:px-12 py-6 flex justify-between items-center lg:justify-normal  ${props.color == "white" ? 'bg-white' : ''}`}>
+    <div className={`px-6 lg:px-12 py-6 flex justify-between items-center lg:justify-normal  ${props.color == "white" ? 'bg-[#1a0d35]' : ''}`}>
 
       <a href="/" className="lg:hidden">
-        <PrentisLogo />
+        <PrentisLogo className="!text-[#D4BBFF]" />
       </a>
-      <div className="menu gap-4 items-center flex text-3xl lg:hidden">
-        <a href="/signup" className="text-sm text-[#4A2C84]">Sign in</a>
+      <div className="menu gap-4 items-center flex text-3xl lg:hidden text-white">
+        <a href="/signup" className="text-sm text-white">Sign in</a>
         <CgMenuRightAlt onClick={() => {
           setnavbarIsVisible(true)
         }} />
@@ -109,19 +109,19 @@ export default function Navbar(props: { color: string }) {
       <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full ms-auto me-auto max-w-[1250px]">
         <div className="flex justify-between items-center relative ">
           <a href="/" className="hidden lg:flex lg:items-center lg:gap-2 lg:pl-10">
-            <PrentisLogo />
+            <PrentisLogo className="!text-[#D4BBFF]" />
           </a>
         </div>
         <div className="hidden text-[16px] lg:flex lg:pl-0  mx-auto min-w-max ">
           <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)] items-center">
-            <a href="/" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800 transition-all`}>Home</a>
+            <a href="/" className={`${currentPage == "home" ? "border-b-2 border-white text-white" : "text-white"} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-white transition-all`}>Home</a>
             {/* <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>About Us</a> */}
             <div
               className="relative"
               onMouseEnter={() => setServicesDropdownOpen(true)}
               onMouseLeave={() => setServicesDropdownOpen(false)}
             >
-              <div className="flex items-center gap-1 text-sm font-medium cursor-pointer hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800 transition-all">
+              <div className="flex items-center gap-1 text-sm font-medium cursor-pointer hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-white transition-all text-white">
                 <span>Our Services</span>
                 <ChevronDown className={`transition-transform ${servicesDropdownOpen ? 'rotate-180' : ''}`} size={16} />
               </div>
@@ -149,8 +149,8 @@ export default function Navbar(props: { color: string }) {
         </div>
 
         <div className="flex gap-2 ">
-          <a href="/all-trainings" className="text-sm text-white bg-[#4A2C84] px-6 py-3 font-semibold rounded-2xl min-w-max  ">Explore Programs</a>
-          <a href="/signup" className="text-sm text-[#4A2C84] border border-[#4A2C84] px-6 py-3 font-semibold rounded-2xl min-w-max">Sign In</a>
+          <a href="/all-trainings" className="text-sm text-[#1a0d35] bg-white px-6 py-3 font-semibold rounded-2xl min-w-max hover:bg-white/90 transition-all">Explore Programs</a>
+          <a href="/signup" className="text-sm text-white border-2 border-white px-6 py-3 font-semibold rounded-2xl min-w-max hover:bg-white/10 transition-all">Sign In</a>
         </div>
       </div>
 
