@@ -6,6 +6,7 @@ import GetStarted from '@/components/GetStartedBanner/GetStarted'
 import Testimonials from '@/components/Landing/Testimonials'
 import FacebookBrowserRedirect from '@/components/FacebookBrowserRedirect'
 import ChooseCareerPath from '@/components/Landing/ChooseCareerPath'
+import CertificationSection from '@/components/Landing/CertificationSection'
 import IndustriesMaster from '@/components/Landing/IndustriesMaster'
 import WhyChoosePrentis from '@/components/Landing/WhyChoosePrentis'
 
@@ -22,6 +23,7 @@ export default function Home() {
         <Hero />
       </div>
       <ChooseCareerPath />
+      <CertificationSection />
       <IndustriesMaster />
       <WhyChoosePrentis />
       <Testimonials />
