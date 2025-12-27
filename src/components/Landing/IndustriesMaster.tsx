@@ -90,15 +90,20 @@ export default function IndustriesMaster() {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                    {industries.map((industry) => (
-                        <IndustryCard
-                            key={industry.id}
-                            icon={industry.icon}
-                            title={industry.title}
-                            description={industry.description}
-                            href={`/all-trainings?search=${encodeURIComponent(industry.title)}`}
-                        />
-                    ))}
+                    {industries.map((industry, index) => {
+                        const colors = ['#3B82F6', '#14B8A6', '#FF6B6B', '#8B5CF6', '#F59E0B']
+                        const color = colors[index % colors.length]
+                        return (
+                            <IndustryCard
+                                key={industry.id}
+                                icon={industry.icon}
+                                title={industry.title}
+                                description={industry.description}
+                                href={`/all-trainings?search=${encodeURIComponent(industry.title)}`}
+                                color={color}
+                            />
+                        )
+                    })}
                 </div>
             </div>
         </div>

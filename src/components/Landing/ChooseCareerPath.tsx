@@ -22,14 +22,14 @@ export default function ChooseCareerPath() {
     const tracks = [
         {
             id: "artisan",
-            title: "The Artisan Track",
+            title: "Learn From an Artisan",
             icon: <Hammer size={48} strokeWidth={1.5} />,
             description: "Learn specialized crafts and trades by working alongside master craftspeople in their workshops—from tailoring and welding to furniture-making and engine repair.",
             result: ["On Completion: You will become an expert and master in the craft or trade you choose."]
         },
         {
             id: "corporate",
-            title: "The Corporate Track",
+            title: "Learn Inside a Company",
             icon: <Building2 size={48} strokeWidth={1.5} />,
             description: "Train inside established companies with clear career paths and professional standards. Learn from experienced teams using real systems.",
             result: ["On Completion: You will receive employment offers from the companies that train you."]
@@ -37,7 +37,7 @@ export default function ChooseCareerPath() {
     ]
 
     return (
-        <div className="bg-grey-50 py-20 px-6">
+        <div className="bg-[#F8FAFC] py-20 px-6">
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-12 HiddenAnimation">
                     <h2 className="text-3xl font-semibold lg:text-4xl text-grey-900">
@@ -49,7 +49,7 @@ export default function ChooseCareerPath() {
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-8">
-                    {tracks.map((track) => (
+                    {tracks.map((track, index) => (
                         <div key={track.id} className="HiddenAnimation">
                             <TrackCard
                                 icon={track.icon}
@@ -57,6 +57,7 @@ export default function ChooseCareerPath() {
                                 description={track.description}
                                 result={track.result}
                                 ctaLink="/all-trainings"
+                                color={index === 0 ? '#14B8A6' : '#FF6B6B'}
                             />
                         </div>
                     ))}

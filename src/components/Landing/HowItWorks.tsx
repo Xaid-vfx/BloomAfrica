@@ -12,8 +12,8 @@ export default function HowItWorks() {
                 </div>
 
                 <div className="lg:flex lg:px-10 gap-8">
-                    <div className="text-center my-6 flex flex-col items-center py-10 px-8 lg:w-1/3 bg-white border border-grey-200 rounded-xl hover:border-[#4A2C84] transition-colors">
-                        <div className="text-[#4A2C84] mb-4">
+                    <div className="text-center my-6 flex flex-col items-center py-10 px-8 lg:w-1/3 bg-white border border-grey-200 rounded-xl hover:border-[#3B82F6] transition-colors">
+                        <div className="text-[#3B82F6] mb-4">
                             <CheckCircle size={64} strokeWidth={1.5} />
                         </div>
 
@@ -25,8 +25,8 @@ export default function HowItWorks() {
                         </p>
                     </div>
 
-                    <div className="text-center my-6 flex flex-col items-center py-10 px-8 lg:w-1/3 bg-white border border-grey-200 rounded-xl hover:border-[#4A2C84] transition-colors">
-                        <div className="text-[#4A2C84] mb-4">
+                    <div className="text-center my-6 flex flex-col items-center py-10 px-8 lg:w-1/3 bg-white border border-grey-200 rounded-xl hover:border-[#14B8A6] transition-colors">
+                        <div className="text-[#14B8A6] mb-4">
                             <Code size={64} strokeWidth={1.5} />
                         </div>
 
@@ -38,8 +38,8 @@ export default function HowItWorks() {
                         </p>
                     </div>
 
-                    <div className="text-center my-6 flex flex-col items-center py-10 px-8 lg:w-1/3 bg-white border border-grey-200 rounded-xl hover:border-[#4A2C84] transition-colors">
-                        <div className="text-[#4A2C84] mb-4">
+                    <div className="text-center my-6 flex flex-col items-center py-10 px-8 lg:w-1/3 bg-white border border-grey-200 rounded-xl hover:border-[#10B981] transition-colors">
+                        <div className="text-[#10B981] mb-4">
                             <Rocket size={64} strokeWidth={1.5} />
                         </div>
 

@@ -158,8 +158,8 @@ body {
 }
 
 .tech-card:hover {
-  border-color: #4A2C84;
-  box-shadow: rgba(74, 44, 132, 0.1) 0px 2px 12px;
+  border-color: #3B82F6;
+  box-shadow: rgba(59, 130, 246, 0.1) 0px 2px 12px;
 }
 
 .text-grey-900 {
@@ -187,15 +187,15 @@ body {
 }
 
 .text-purple-primary {
-  color: #4A2C84;
+  color: #3B82F6;
 }
 
 .bg-purple-primary {
-  background-color: #4A2C84;
+  background-color: #3B82F6;
 }
 
 .btn-primary {
-  background-color: #4A2C84;
+  background-color: #3B82F6;
   color: #FFFFFF;
   padding: 0.75rem 2rem;
   border-radius: 0.5rem;
@@ -204,14 +204,14 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: #6B4C9A;
-  box-shadow: rgba(74, 44, 132, 0.2) 0px 4px 16px;
+  background-color: #2563EB;
+  box-shadow: rgba(59, 130, 246, 0.3) 0px 4px 16px;
 }
 
 .btn-secondary {
   background-color: transparent;
-  color: #4A2C84;
-  border: 1px solid #4A2C84;
+  color: #3B82F6;
+  border: 1px solid #3B82F6;
   padding: 0.75rem 2rem;
   border-radius: 0.5rem;
   font-weight: 500;

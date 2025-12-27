@@ -26,13 +26,13 @@ export default function WhyChoosePrentis() {
     ]
 
     return (
-        <div className="bg-grey-50 py-20 px-6">
+        <div className="bg-[#0F172A] py-20 px-6">
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl font-semibold lg:text-4xl text-grey-900">
+                    <h2 className="text-3xl font-semibold lg:text-4xl text-white">
                         Why Choose Prentis
                     </h2>
-                    <p className="text-grey-600 mt-4 text-lg max-w-2xl mx-auto">
+                    <p className="text-white/70 mt-4 text-lg max-w-2xl mx-auto">
                         Build your career with the right support and credentials
                     </p>
                 </div>

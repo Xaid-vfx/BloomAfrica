@@ -7,7 +7,7 @@ import { CarouselSpacing } from "./CenterMode";
 export default function Testimonials() {
     const [activeSlideIndex, setActiveSlideIndex] = useState(0);
     return (
-        <div className="gradient2">
+        <div className="bg-white">
             <div className="w-full py-20 flex flex-col justify-center items-center overflow-hidden ms-auto me-auto max-w-[1600px]">
                 <h1 className="text-center text-2xl lg:text-3xl font-semibold text-grey-900 flex justify-center pb-4 w-[90%] lg:w-[60%]">
                     What Our Fellows Say

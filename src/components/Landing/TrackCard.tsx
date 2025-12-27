@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 
 type TrackCardProps = {
@@ -6,12 +8,13 @@ type TrackCardProps = {
     description: string
     result: string[]
     ctaLink: string
+    color?: string
 }
 
-export default function TrackCard({ icon, title, description, result, ctaLink }: TrackCardProps) {
+export default function TrackCard({ icon, title, description, result, ctaLink, color = '#3B82F6' }: TrackCardProps) {
     return (
-        <div className="h-full border border-grey-200 rounded-xl p-8 bg-white hover:border-[#4A2C84] transition-colors flex flex-col">
-            <div className="text-[#4A2C84] mb-6 flex justify-center">
+        <div className={`h-full border border-grey-200 rounded-xl p-8 bg-white transition-all flex flex-col shadow-sm hover:shadow-md`} style={{ borderColor: 'rgb(233, 236, 239)' }} onMouseEnter={(e) => e.currentTarget.style.borderColor = color} onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgb(233, 236, 239)'}>
+            <div className="mb-6 flex justify-center" style={{ color }}>
                 {icon}
             </div>
 
@@ -28,7 +31,7 @@ export default function TrackCard({ icon, title, description, result, ctaLink }:
             <ul className="space-y-3 mt-6 mb-6">
                 {result.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
-                        <span className="text-[#4A2C84] text-xl font-bold leading-none">•</span>
+                        <span className="text-xl font-bold leading-none" style={{ color }}>•</span>
                         <span className="text-base font-semibold text-grey-900 leading-relaxed">{item}</span>
                     </li>
                 ))}

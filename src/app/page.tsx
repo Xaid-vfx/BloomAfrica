@@ -18,8 +18,8 @@ export default function Home() {
   return (
     <main className="flex flex-col">
       <FacebookBrowserRedirect />
-      <div className='bg-[#1a0d35]'>
-        <Navbar color="white" />
+      <div className='bg-white'>
+        <Navbar color="light" />
         <Hero />
       </div>
       <ChooseCareerPath />
