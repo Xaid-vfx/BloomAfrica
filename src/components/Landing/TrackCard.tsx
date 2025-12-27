@@ -39,7 +39,10 @@ export default function TrackCard({ icon, title, description, result, ctaLink, c
 
             <Link
                 href={ctaLink}
-                className="btn-primary px-6 py-3 rounded-lg text-center"
+                className="px-6 py-3 rounded-lg text-center text-white font-semibold transition-all"
+                style={{ backgroundColor: color }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
                 Find Apprenticeship
             </Link>
