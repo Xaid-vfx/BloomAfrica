@@ -8,10 +8,11 @@ type TrackCardProps = {
     description: string
     result: string[]
     ctaLink: string
+    ctaText: string
     color?: string
 }
 
-export default function TrackCard({ icon, title, description, result, ctaLink, color = '#3B82F6' }: TrackCardProps) {
+export default function TrackCard({ icon, title, description, result, ctaLink, ctaText, color = '#14B8A6' }: TrackCardProps) {
     return (
         <div className={`h-full border border-grey-200 rounded-xl p-8 bg-white transition-all flex flex-col shadow-sm hover:shadow-md`} style={{ borderColor: 'rgb(233, 236, 239)' }} onMouseEnter={(e) => e.currentTarget.style.borderColor = color} onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgb(233, 236, 239)'}>
             <div className="mb-6 flex justify-center" style={{ color }}>
@@ -44,7 +45,7 @@ export default function TrackCard({ icon, title, description, result, ctaLink, c
                 onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
                 onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
-                Find Apprenticeship
+                {ctaText}
             </Link>
         </div>
     )

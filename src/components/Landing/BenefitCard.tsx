@@ -6,8 +6,8 @@ type Props = {
 
 export default function BenefitCard({ icon, title, description }: Props) {
     return (
-        <div className="border border-white/10 rounded-xl p-6 hover:border-[#FF6B6B] transition-all bg-white/5 backdrop-blur-sm hover:bg-white/10">
-            <div className="text-[#FF6B6B] mb-4">
+        <div className="border border-white/10 rounded-xl p-6 hover:border-[#14B8A6] transition-all bg-white/5 backdrop-blur-sm hover:bg-white/10">
+            <div className="text-[#14B8A6] mb-4">
                 {icon}
             </div>
             <h3 className="text-xl font-medium text-white mb-3">

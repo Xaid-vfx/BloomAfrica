@@ -10,7 +10,7 @@ type IndustryCardProps = {
     color?: string
 }
 
-export default function IndustryCard({ icon, title, description, href, color = '#3B82F6' }: IndustryCardProps) {
+export default function IndustryCard({ icon, title, description, href, color = '#14B8A6' }: IndustryCardProps) {
     return (
         <Link
             href={href}            className="border border-grey-200 rounded-lg p-6 bg-white hover:bg-grey-50 transition-all cursor-pointer flex flex-col items-center text-center"

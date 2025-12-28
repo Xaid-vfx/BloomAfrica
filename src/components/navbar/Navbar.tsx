@@ -43,10 +43,10 @@ export default function Navbar(props: { color: string }) {
   if (navbarIsVisible) {
 
     return (
-      <div className="h-[200vh] w-screen px-6 lg:px-12 overflow-hidden fixed top-0 gradient z-10 ">
+      <div className="h-[200vh] w-screen px-6 lg:px-12 overflow-hidden fixed top-0 gradient z-50 ">
         <div className="py-6 flex justify-between items-center lg:justify-normal">
           <a href="/" className="lg:hidden">
-            <PrentisLogo className="!text-[#6D28D9]" />
+            <PrentisLogo className="!text-[#14B8A6]" />
           </a>
           <div className="menu text-2xl lg:hidden cursor-pointer">
             <RxCross1 onClick={() => {
@@ -87,20 +87,20 @@ export default function Navbar(props: { color: string }) {
               <p className="text-white bg-[#897DD3] rounded-full px-1 py-1 left-[6.5rem] text-[0.4rem] absolute bottom-2">Coming Soon</p>
             </div> */}
           </div>
-          <a href="/signup"><button className="mt-10 w-full text-sm text-white bg-[#6D28D9] px-6 py-3 font-medium rounded-2xl">Sign in</button></a>
+          <a href="/signup"><button className="mt-10 w-full text-sm text-white bg-[#14B8A6] px-6 py-3 font-medium rounded-2xl">Sign in</button></a>
         </div>
       </div>
     )
   }
 
   return (
-    <div className={`px-6 lg:px-12 py-4 flex justify-between items-center lg:justify-normal  ${props.color == "light" ? 'bg-white border-b border-grey-200' : props.color == "white" ? 'bg-[#0F172A]' : ''}`}>
+    <div className={`px-6 lg:px-12 py-4 flex justify-between items-center lg:justify-normal  ${props.color == "light" ? 'bg-[#0A1F44]' : props.color == "white" ? 'bg-[#0F172A]' : ''}`}>
 
       <a href="/" className="lg:hidden">
-        <PrentisLogo className="!text-[#60A5FA]" />
+        <PrentisLogo className="!text-white" />
       </a>
-      <div className={`menu gap-4 items-center flex text-3xl lg:hidden ${props.color == "light" ? 'text-grey-900' : 'text-white'}`}>
-        <a href="/signup" className={`text-sm ${props.color == "light" ? 'text-grey-900' : 'text-white'}`}>Sign in</a>
+      <div className={`menu gap-4 items-center flex text-3xl lg:hidden ${props.color == "light" ? 'text-white' : 'text-white'}`}>
+        <a href="/signup" className={`text-sm ${props.color == "light" ? 'text-white' : 'text-white'}`}>Sign in</a>
         <CgMenuRightAlt onClick={() => {
           setnavbarIsVisible(true)
         }} />
@@ -109,30 +109,30 @@ export default function Navbar(props: { color: string }) {
       <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full ms-auto me-auto max-w-[1250px]">
         <div className="flex justify-between items-center relative ">
           <a href="/" className="hidden lg:flex lg:items-center lg:gap-2">
-            <PrentisLogo className="!text-[#6D28D9]" />
+            <PrentisLogo className="!text-white" />
           </a>
         </div>
         <div className="hidden text-[16px] lg:flex lg:pl-0  mx-auto min-w-max ">
           <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)] items-center">
-            <a href="/" className={`${currentPage == "home" ? `border-b-2 ${props.color == "light" ? 'border-grey-900 text-grey-900' : 'border-white text-white'}` : `${props.color == "light" ? 'text-grey-700' : 'text-white'}`} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-grey-900' : 'hover:border-white'} transition-all`}>Home</a>
-            <a href="/all-trainings" className={`${props.color == "light" ? 'text-grey-700' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-grey-900' : 'hover:border-white'} transition-all`}>Explore Programs</a>
+            <a href="/" className={`${currentPage == "home" ? `border-b-2 ${props.color == "light" ? 'border-white text-white' : 'border-white text-white'}` : `${props.color == "light" ? 'text-white' : 'text-white'}`} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>Home</a>
+            <a href="/all-trainings" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>Explore Programs</a>
             {/* <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>About Us</a> */}
             <div
               className="relative"
               onMouseEnter={() => setServicesDropdownOpen(true)}
               onMouseLeave={() => setServicesDropdownOpen(false)}
             >
-              <div className={`flex items-center gap-1 text-sm font-medium cursor-pointer hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-grey-900 text-grey-700' : 'hover:border-white text-white'} transition-all`}>
+              <div className={`flex items-center gap-1 text-sm font-medium cursor-pointer hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white text-white' : 'hover:border-white text-white'} transition-all`}>
                 <span>Our Services</span>
                 <ChevronDown className={`transition-transform ${servicesDropdownOpen ? 'rotate-180' : ''}`} size={16} />
               </div>
               {servicesDropdownOpen && (
                 <div className="absolute top-full pt-2 left-0 z-20">
                   <div className="bg-white shadow-lg rounded-lg py-2 min-w-[200px] border border-gray-100">
-                    <a href="/signup" className="block px-4 py-2 text-sm font-medium hover:bg-purple-50 hover:text-purple-800 transition-colors">
+                    <a href="/signup" className="block px-4 py-2 text-sm font-medium hover:bg-teal-50 hover:text-[#14B8A6] transition-colors">
                       For Apprentices
                     </a>
-                    <a href="/signup?type=recruiter" className="block px-4 py-2 text-sm font-medium hover:bg-purple-50 hover:text-purple-800 transition-colors">
+                    <a href="/signup?type=recruiter" className="block px-4 py-2 text-sm font-medium hover:bg-teal-50 hover:text-[#14B8A6] transition-colors">
                       For Companies
                     </a>
                   </div>
@@ -150,7 +150,7 @@ export default function Navbar(props: { color: string }) {
         </div>
 
         <div className="flex gap-2 ">
-          <a href="/signup" className={`text-sm border-2 px-6 py-3 font-semibold rounded-2xl min-w-max transition-all ${props.color == "light" ? 'border-grey-900 text-grey-900 hover:bg-grey-100' : 'text-white border-white hover:bg-white/10'}`}>Sign In</a>
+          <a href="/signup" className={`text-sm border-2 px-6 py-3 font-semibold rounded-2xl min-w-max transition-all ${props.color == "light" ? 'border-white text-white hover:bg-white/10' : 'text-white border-white hover:bg-white/10'}`}>Sign In</a>
         </div>
       </div>
 

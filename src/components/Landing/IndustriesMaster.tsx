@@ -91,7 +91,7 @@ export default function IndustriesMaster() {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                     {industries.map((industry, index) => {
-                        const colors = ['#3B82F6', '#14B8A6', '#FF6B6B', '#8B5CF6', '#F59E0B']
+                        const colors = ['#14B8A6', '#0A1F44', '#2DD4BF', '#1A3A64', '#0D9488']
                         const color = colors[index % colors.length]
                         return (
                             <IndustryCard

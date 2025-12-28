@@ -12,7 +12,7 @@ export default function ForSeekersRecruiters() {
             <div className="lg:w-1/2 flex flex-col justify-between py-10 lg:py-20 px-6 lg:px-16 bg-white ">
                 <div className=" lg:ms-auto max-lg:mx-auto max-w-[640px]">
                     <div className="lg:ms-auto max-lg:mx-auto max-w-[640px]">
-                        <div className="text-base font-semibold text-[#3B82F6]">For Apprentices</div>
+                        <div className="text-base font-semibold text-[#14B8A6]">For Apprentices</div>
                         <div className="text-3xl font-semibold my-4">Go from Apprentice to Entreprenuer</div>
 
                         <div className="text-sm lg:text-base mb-12">
@@ -36,7 +36,7 @@ export default function ForSeekersRecruiters() {
                         
                     </div>
                     <div>
-                        <div className="ms-auto max-w-[640px] align-bottom"><a href="/all-trainings" className="border border-[#3B82F6] text-white py-3 px-4 text-center bg-[#3B82F6] rounded-2xl font-medium text-xs lg:text-sm lg:py-3 lg:px-8" >Find Apprenticeships</a>
+                        <div className="ms-auto max-w-[640px] align-bottom"><a href="/all-trainings" className="border border-[#14B8A6] text-white py-3 px-4 text-center bg-[#14B8A6] rounded-2xl font-medium text-xs lg:text-sm lg:py-3 lg:px-8" >Find Apprenticeships</a>
                         {/* <a href="/about" className=" border border-black py-3 px-4 text-center rounded-2xl font-medium text-xs lg:text-sm lg:py-3 ml-2 lg:px-8" >Learn More</a>*/}</div> 
                 </div>
             </div>      
@@ -44,7 +44,7 @@ export default function ForSeekersRecruiters() {
             <div className="lg:w-1/2 flex flex-col justify-between py-10 lg:py-20 px-6 lg:px-16">
                 <div className=" lg:me-auto max-lg:mx-auto max-w-[640px]  ">
                     <div className="lg:me-auto max-lg:mx-auto max-w-[640px]">
-                        <div className="text-base font-semibold text-[#FF6B6B]">For Ogas & Mentors</div>
+                        <div className="text-base font-semibold text-[#0A1F44]">For Ogas & Mentors</div>
                         <div className="text-3xl font-semibold my-4">Connect with Hardworking Apprentices</div>
 
                         <div className="text-sm lg:text-base mb-12">
@@ -69,7 +69,7 @@ export default function ForSeekersRecruiters() {
                         </div>
                     </div>
                     <div>
-                        <div className="me-auto max-w-[640px] "><a href="/signup" className="border border-[#FF6B6B] text-white py-3 px-4 text-center bg-[#FF6B6B] rounded-2xl font-medium text-xs lg:text-sm lg:py-3 lg:px-8" >Become a Trainer</a>
+                        <div className="me-auto max-w-[640px] "><a href="/signup" className="border border-[#0A1F44] text-white py-3 px-4 text-center bg-[#0A1F44] rounded-2xl font-medium text-xs lg:text-sm lg:py-3 lg:px-8" >Become a Trainer</a>
                         {/* <a href="/about" className=" border border-black py-3 px-4 text-center rounded-2xl font-medium text-xs lg:text-sm lg:py-3 ml-2 lg:px-8" >Learn More</a>*/}</div> 
                     </div>
                 </div>
