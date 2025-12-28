@@ -37,6 +37,14 @@ export default function Hero() {
             {/* Dark Overlay */}
             <div className="absolute top-0 left-0 w-full h-full bg-black/60"></div>
 
+            {/* Decorative Blobs */}
+            <svg viewBox="0 0 500 500" className="absolute top-0 right-0 w-[400px] h-[400px] md:w-[500px] md:h-[500px] opacity-12 pointer-events-none" style={{ transform: 'translate(25%, -25%)' }}>
+                <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
+            </svg>
+            <svg viewBox="0 0 400 400" className="absolute bottom-20 left-0 w-[250px] h-[250px] md:w-[300px] md:h-[300px] opacity-10 pointer-events-none" style={{ transform: 'translate(-30%, 0)' }}>
+                <path fill="#2DD4BF" d="M340.5,175.5c-12.3,47.8-49,84.5-96.8,96.8c-47.8,12.3-97.5-4.5-131.3-44.2c-33.8-39.8-45.3-94.2-30.2-143.4c15.1-49.2,51.2-84.5,94.2-86.2c43-1.8,91.8,28.5,115.8,75C316.2,121,352.8,127.7,340.5,175.5z"/>
+            </svg>
+
             {/* Content */}
             <div className='lg:px-12 lg:pt-16 lg:pb-24 pb-10 ms-auto me-auto max-w-[1500px] relative z-10'>
                 <div className="px-4 mt-[3.2rem] flex flex-col justify-center items-center lg:mt-0">
