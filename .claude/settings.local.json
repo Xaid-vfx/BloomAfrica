@@ -10,7 +10,8 @@
       "Bash(taskkill:*)",
       "Bash(if exist .next rmdir /s /q .next)",
       "mcp__ide__getDiagnostics",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(timeout /t 1)"
     ],
     "deny": [],
     "ask": []

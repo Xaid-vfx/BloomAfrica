@@ -156,7 +156,7 @@ export default function MobileViewJobs(props: any) {
                             logo={job.logo || ""}
                         />
                     }) : <div className="flex justify-center items-center h-[250px]">
-                        <MoonLoader color="#4A2C84" /> </div>}
+                        <MoonLoader color="#14B8A6" /> </div>}
                 </div>
 
                 {/* Mobile Pagination Controls */}
@@ -165,9 +165,9 @@ export default function MobileViewJobs(props: any) {
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
                         className={`px-3 py-1.5 text-sm rounded-lg border ${
-                            currentPage === 1 
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                                : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                            currentPage === 1
+                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                : 'bg-white text-[#14B8A6] hover:bg-gray-50'
                         }`}
                     >
                         Prev
@@ -190,8 +190,8 @@ export default function MobileViewJobs(props: any) {
                                     onClick={() => handlePageChange(pageNum)}
                                     className={`px-3 py-1.5 text-sm rounded-lg border ${
                                         currentPage === pageNum
-                                            ? 'bg-[#4A2C84] text-white'
-                                            : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                                            ? 'bg-[#14B8A6] text-white'
+                                            : 'bg-white text-[#14B8A6] hover:bg-gray-50'
                                     }`}
                                 >
                                     {pageNum}
@@ -205,7 +205,7 @@ export default function MobileViewJobs(props: any) {
                         className={`px-3 py-1.5 text-sm rounded-lg border ${
                             currentPage === totalPages
                                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                                : 'bg-white text-[#14B8A6] hover:bg-gray-50'
                         }`}
                     >
                         Next

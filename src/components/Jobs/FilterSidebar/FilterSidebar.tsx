@@ -30,12 +30,12 @@ export default function FilterSidebar(props: any) {
                 <p className="font-semibold ">Types of Employment</p>
                 <div className="text-[#515B6F] flex flex-col gap-2">
                     <div className='flex'>
-                        <input type='checkbox' checked={props.selectedTypes?.includes('Full Time')} value="Full Time" onChange={(e) => {
+                        <input type='checkbox' className="accent-[#14B8A6]" checked={props.selectedTypes?.includes('Full Time')} value="Full Time" onChange={(e) => {
                             props.handleTypeChange("Full Time")
                         }} /><p className="ml-3 text-sm">Full Time</p>
                     </div>
                     <div className='flex'>
-                        <input type='checkbox' checked={props.selectedTypes?.includes('Part Time')} value="Part Time" onChange={(e) => {
+                        <input type='checkbox' className="accent-[#14B8A6]" checked={props.selectedTypes?.includes('Part Time')} value="Part Time" onChange={(e) => {
                             props.handleTypeChange("Part Time")
                         }} /><p className="ml-3 text-sm">Part Time</p>
                     </div>
@@ -47,6 +47,7 @@ export default function FilterSidebar(props: any) {
                         <div key={category} className='flex'>
                             <input
                                 type='checkbox'
+                                className="accent-[#14B8A6]"
                                 checked={props.selectedCategories?.includes(category)}
                                 value={category}
                                 onChange={() => props.handleCategoryChange(category)}

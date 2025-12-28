@@ -1,14 +1,11 @@
+import type { Metadata } from "next";
 import Footer from "@/components/Footer/Footer";
 import GetStarted from "@/components/GetStartedBanner/GetStarted";
 import FilterSidebar from "@/components/Jobs/FilterSidebar/FilterSidebar";
 import JobCard from "@/components/Jobs/JobCard/JobCard";
 import MobileCard from "@/components/Jobs/MobileCard/MobileCard";
 import SeekerNavbar from "./seekerNavbar";
-import { useRouter } from "next/navigation";
-import { FaLocationArrow, FaSearch, FaSearchLocation } from "react-icons/fa";
-import { FaLocationPin, FaLocationPinLock, FaSearchengin } from "react-icons/fa6";
 import getUser from "@/lib/getUser/getUser";
-import { useEffect, useState } from "react";
 import getJobs from "@/lib/getJobs/getJobs";
 import Search from "./Search";
 import ShowFilters from "./ShowFilters";

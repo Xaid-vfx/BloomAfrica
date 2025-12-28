@@ -2,9 +2,13 @@
 import FilterSidebar from "@/components/Jobs/FilterSidebar/FilterSidebar"
 import JobCard from "@/components/Jobs/JobCard/JobCard"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { MoonLoader, SyncLoader } from "react-spinners"
 import HowTo from "../welcome/howto"
+import { useRouter, useSearchParams } from 'next/navigation'
+import CompactJobListItem from '@/components/Jobs/CompactJobListItem/CompactJobListItem'
+import JobDetailPanel from '@/components/Jobs/JobDetailPanel/JobDetailPanel'
+import FilterDropdown from '@/components/Jobs/FilterDropdown/FilterDropdown'
 
 type JobProps = {
     uid: string;
@@ -24,7 +28,7 @@ type JobProps = {
     isVerified?: boolean;
 }
 
-async function getJobs(page: number = 1, pageSize: number = 9) {
+async function getJobs(page: number = 1, pageSize: number = 15) {
     const supabase = createClientComponentClient()
 
     // First get all jobs to sort them properly
@@ -54,13 +58,19 @@ async function getJobs(page: number = 1, pageSize: number = 9) {
 }
 
 export default function DesktopViewJobs(props: any) {
+    const searchParams = useSearchParams()
+    const router = useRouter()
+    const urlSelectedId = searchParams.get('selected')
+
     const [jobs, setjobs] = useState<JobProps[]>([])
     const [totalJobs, setTotalJobs] = useState<number>(0)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedJobId, setSelectedJobId] = useState<string | null>(urlSelectedId)
+    const [isFilterOpen, setIsFilterOpen] = useState(false)
     const arr = ["Software", "Electronics", "Design"]
-    const pageSize = 9; // 9 jobs per page for desktop view
+    const pageSize = 15; // 15 jobs per page for desktop view
 
     const handleCategoryChange = (category: string) => {
         if (selectedCategories.includes(category)) {
@@ -77,6 +87,11 @@ export default function DesktopViewJobs(props: any) {
             setSelectedTypes([...selectedTypes, type]);
         }
     };
+
+    const handleJobSelect = (jobId: string) => {
+        setSelectedJobId(jobId)
+        router.push(`/all-trainings?selected=${jobId}`, { scroll: false } as any)
+    }
 
     useEffect(() => {
         getJobs(currentPage, pageSize).then(({ data, count }) => {
@@ -98,70 +113,77 @@ export default function DesktopViewJobs(props: any) {
         })
     }, [props.location, props.search, selectedCategories, selectedTypes, currentPage])
 
+    // Sync selectedJobId with URL parameter
+    useEffect(() => {
+        if (urlSelectedId) {
+            setSelectedJobId(urlSelectedId)
+        }
+    }, [urlSelectedId])
+
+    // Auto-select first job when jobs load
+    useEffect(() => {
+        if (jobs.length > 0 && !selectedJobId) {
+            const firstJobId = jobs[0].uid
+            setSelectedJobId(firstJobId)
+            router.push(`/all-trainings?selected=${firstJobId}`, { scroll: false } as any)
+        }
+    }, [jobs, selectedJobId, router])
+
     const totalPages = Math.ceil(totalJobs / pageSize);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
+        setSelectedJobId(null); // Clear selection - first job will auto-select
     };
 
     return (
-        <div className="hidden lg:block w-full border-t  ms-auto me-auto max-w-[1500px]">
-            <div className="flex justify-between py-10 px-10 font-medium">
-                <p>Showing {(currentPage - 1) * pageSize + 1}-{Math.min(currentPage * pageSize, totalJobs)} of {totalJobs} results</p>
-                <div className="flex text-[#979ca6] font-light gap-2">
-                    <p className="text-xs rounded-3xl px-10 py-3 border border-[#D6DDEB]">Default</p>
-                    <p className="text-xs rounded-3xl px-10 py-3 border border-[#D6DDEB]">{pageSize} per page</p>
-                </div>
+        <div className="hidden lg:block w-full border-t ms-auto me-auto max-w-[1500px]">
+            {/* Filter Dropdown at Top */}
+            <div className="px-10 pt-10">
+                <FilterDropdown
+                    isOpen={isFilterOpen}
+                    onToggle={() => setIsFilterOpen(!isFilterOpen)}
+                    selectedTypes={selectedTypes}
+                    selectedCategories={selectedCategories}
+                    onTypeChange={handleTypeChange}
+                    onCategoryChange={handleCategoryChange}
+                />
             </div>
-            <div className="flex w-full gap-5 px-5">
-                <div className=" w-[20%] min-w-[250px]">
-                    <FilterSidebar handleCategoryChange={handleCategoryChange} handleTypeChange={handleTypeChange} />
-                </div>
-                <div className=" w-[80%]">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <h1 className="text-3xl font-semibold">All Apprenticeships</h1>
-                            <p className="my-2 text-[#7C8493]">Showing {jobs?.length} results for {props.search == '' ? ' ' : props.search}  jobs {props.location == '' ? '' : ' in ' + props.location}</p>
-                        </div>
-                        <div><span className="text-[#7C8493]">Sort by:</span> Most relevant</div>
-                    </div>
+
+            {/* Results count */}
+            <div className="px-10 py-4">
+                <p>Showing {(currentPage - 1) * pageSize + 1}-{Math.min(currentPage * pageSize, totalJobs)} of {totalJobs} results</p>
+            </div>
+
+            {/* Split Layout: Job List (40%) + Detail Panel (60%) */}
+            <div className="flex gap-5 px-5">
+                {/* Left: Job List */}
+                <div className="w-[40%] pr-2">
                     <HowTo />
-                    <div className="my-8 ">
-                        {jobs ? jobs?.map((job: JobProps) => {
-                            return (
-                                <JobCard
-                                    id={job.uid}
-                                    key={job.uid}
-                                    title={job.title}
-                                    location={job.location}
-                                    salary={job.salary}
-                                    type={job.type}
-                                    category={job.category}
-                                    description={job.description}
-                                    extras={job.extras}
-                                    responsibilities={job.responsibilities}
-                                    who_you_are={job.who_you_are}
-                                    companyName={job.company_name ? job.company_name : "Unknown"}
-                                    certificate={job.provides_certificate}
-                                    training_mode={job.training_mode}
-                                    user={props.user || null}
-                                    isVerified={job.isVerified}
-                                />
-                            );
-                        }
-                        ) : <div className="flex justify-center items-center h-[250px]">
-                            <MoonLoader color="#4A2C84" /> </div>
-                        }
+                    <div className="flex flex-col gap-2 mt-4">
+                        {jobs ? jobs.map((job: JobProps) => (
+                            <CompactJobListItem
+                                key={job.uid}
+                                job={job}
+                                isSelected={selectedJobId === job.uid}
+                                onClick={() => handleJobSelect(job.uid)}
+                            />
+                        )) : (
+                            <div className="flex justify-center items-center h-[250px]">
+                                <MoonLoader color="#14B8A6" />
+                            </div>
+                        )}
                     </div>
-                    {/* Pagination Controls */}
+
+                    {/* Pagination */}
                     <div className="flex justify-center gap-2 mt-8 mb-4">
                         <button
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
                             className={`px-4 py-2 rounded-lg border ${
-                                currentPage === 1 
-                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                                    : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                                currentPage === 1
+                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                    : 'bg-white text-[#14B8A6] hover:bg-gray-50'
                             }`}
                         >
                             Previous
@@ -172,8 +194,8 @@ export default function DesktopViewJobs(props: any) {
                                 onClick={() => handlePageChange(page)}
                                 className={`px-4 py-2 rounded-lg border ${
                                     currentPage === page
-                                        ? 'bg-[#4A2C84] text-white'
-                                        : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                                        ? 'bg-[#14B8A6] text-white'
+                                        : 'bg-white text-[#14B8A6] hover:bg-gray-50'
                                 }`}
                             >
                                 {page}
@@ -185,12 +207,23 @@ export default function DesktopViewJobs(props: any) {
                             className={`px-4 py-2 rounded-lg border ${
                                 currentPage === totalPages
                                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                    : 'bg-white text-[#4A2C84] hover:bg-gray-50'
+                                    : 'bg-white text-[#14B8A6] hover:bg-gray-50'
                             }`}
                         >
                             Next
                         </button>
                     </div>
+                </div>
+
+                {/* Right: Detail Panel */}
+                <div className="w-[60%] border-l pl-5 h-screen sticky top-0 overflow-y-auto">
+                    {selectedJobId ? (
+                        <JobDetailPanel jobId={selectedJobId} user={props.user} />
+                    ) : (
+                        <div className="flex items-center justify-center h-full text-gray-400">
+                            <p>Select a job to view details</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

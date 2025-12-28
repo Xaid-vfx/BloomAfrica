@@ -1,7 +1,6 @@
 'use client'
 import { RxCross1, RxHamburgerMenu } from "react-icons/rx";
-import LogoText from "../../assets/images/BloomLogo.png"
-import Logo from "../../assets/images/Logo.png"
+import PrentisLogo from "@/components/Logo/PrentisLogo";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SignOut } from "@/lib/Signout/Signout";
@@ -45,7 +44,7 @@ export default function SeekerNavbar(props: any) {
       <div className="h-[200vh] w-screen px-6 overflow-hidden fixed top-0 bg-white z-10">
         <div className="py-5 flex justify-between items-center lg:justify-normal">
           <a href="/" className="lg:hidden">
-            <Image src={LogoText} alt="logo" />
+            <PrentisLogo className="!text-[#14B8A6]" />
           </a>
           <div className="menu text-2xl lg:hidden cursor-pointer">
             <RxCross1 onClick={() => {
@@ -73,8 +72,8 @@ export default function SeekerNavbar(props: any) {
             <hr />
           </div>
           {
-            props.user ? <button onClick={() => { toast.success('Signing Out'); SignOut(); router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 py-3 min-w-max font-medium rounded-2xl">Sign out</button> :
-              <button onClick={() => { router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#4A2C84] px-6 min-w-max py-3 font-medium rounded-2xl">Sign In</button>
+            props.user ? <button onClick={() => { toast.success('Signing Out'); SignOut(); router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#14B8A6] hover:bg-[#0D9488] px-6 py-3 min-w-max font-medium rounded-2xl transition-colors">Sign out</button> :
+              <button onClick={() => { router.push('/signup') }} className="mt-10 w-full text-sm text-white bg-[#14B8A6] hover:bg-[#0D9488] px-6 min-w-max py-3 font-medium rounded-2xl transition-colors">Sign In</button>
           }
         </div>
       </div>
@@ -85,7 +84,7 @@ export default function SeekerNavbar(props: any) {
     <div className="px-6 py-5 flex justify-between items-center lg:justify-normal">
       <div className="flex justify-between items-center relative w-[100%] ms-auto me-auto max-w-[1600px]">
         <a href="/" className="lg:hidden">
-          <Image src={LogoText} alt="logo" />
+          <PrentisLogo className="!text-[#14B8A6]" />
         </a>
         <div className="menu text-2xl lg:hidden">
           <RxHamburgerMenu onClick={() => { setnavbarIsVisible(true) }} />
@@ -94,19 +93,18 @@ export default function SeekerNavbar(props: any) {
         <div className="hidden lg:flex lg:items-center lg:w-full">
           <div className="flex items-center w-full">
             <a href="/" className="hidden lg:flex lg:items-center lg:gap-2 lg:pr-0 lg:pl-0">
-              <Image src={LogoText} alt="" />
-              <h1 className="text-3xl font-medium"></h1>
+              <PrentisLogo className="!text-[#14B8A6]" />
             </a>
 
             <div className="hidden lg:flex lg:px-10 mx-auto justify-center max-w-[600px]">
-              <a href="/all-trainings" className={`${currentPage == "home" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all`}>Home</a>
-              <a href={props.user ? "/seeker/edit" : "/signup"} className={`${currentPage == "faqs" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all cursor-pointer`}>Profile</a>
-              <a href={props.user ? "/seeker/saved" : "/signup"} className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all cursor-pointer`}>Saved</a>
-              <a href={props.user ? "/seeker/applied" : "/signup"} className={`${currentPage == "pricing" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-purple-800 transition-all cursor-pointer`}>Applied</a>
+              <a href="/all-trainings" className={`${currentPage == "home" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all`}>Home</a>
+              <a href={props.user ? "/seeker/edit" : "/signup"} className={`${currentPage == "faqs" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Profile</a>
+              <a href={props.user ? "/seeker/saved" : "/signup"} className={`${currentPage == "about" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Saved</a>
+              <a href={props.user ? "/seeker/applied" : "/signup"} className={`${currentPage == "pricing" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Applied</a>
             </div>
           </div>
 
-          {props.user ? <a onClick={() => { SignOut(); router.push('/signup') }} className="text-sm cursor-pointer text-white bg-[#4A2C84] px-6 py-3 font-medium rounded-2xl min-w-max">Sign out</a> : <a href="/signup" className=" text-sm text-white bg-[#4A2C84] px-6 py-3 font-medium cursor-pointer min-w-max rounded-2xl ">Sign in</a>}
+          {props.user ? <a onClick={() => { SignOut(); router.push('/signup') }} className="text-sm cursor-pointer text-white bg-[#14B8A6] hover:bg-[#0D9488] px-6 py-3 font-medium rounded-2xl min-w-max transition-colors">Sign out</a> : <a href="/signup" className=" text-sm text-white bg-[#14B8A6] hover:bg-[#0D9488] px-6 py-3 font-medium cursor-pointer min-w-max rounded-2xl transition-colors">Sign in</a>}
         </div>
       </div>
     </div>
