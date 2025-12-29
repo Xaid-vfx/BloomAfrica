@@ -82,7 +82,7 @@ export default function SeekerNavbar(props: any) {
 
   return (
     <div className="px-6 py-5 flex justify-between items-center lg:justify-normal">
-      <div className="flex justify-between items-center relative w-[100%] ms-auto me-auto max-w-[1600px]">
+      <div className="flex justify-between items-center relative w-[100%] ms-auto me-auto max-w-[1300px]">
         <a href="/" className="lg:hidden">
           <PrentisLogo className="!text-[#14B8A6]" />
         </a>

@@ -77,7 +77,7 @@ export default function Header({ name }: Props) {
     }
     return (
         <div className="bg-white py-4 px-6">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center max-w-[1300px] mx-auto">
                 <div className="flex items-center gap-4">
                     <HiOutlineMenuAlt2
                         className="text-2xl lg:hidden cursor-pointer"

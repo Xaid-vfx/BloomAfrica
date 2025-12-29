@@ -99,8 +99,8 @@ export default function JobDetailPanel({ jobId, user }: Props) {
     // Helper Components
     const SectionHeader = ({ icon: Icon, title }: { icon: any, title: string }) => (
         <div className="flex items-center gap-3 mb-4">
-            <div className="bg-[#14B8A6]/10 p-2 rounded-lg">
-                <Icon size={24} className="text-[#14B8A6]" />
+            <div className="bg-[#0A1F44]/10 p-2 rounded-lg">
+                <Icon size={24} className="text-[#0A1F44]" />
             </div>
             <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
         </div>
@@ -110,8 +110,8 @@ export default function JobDetailPanel({ jobId, user }: Props) {
         icon: any, label: string, value: React.ReactNode, loading: boolean
     }) => (
         <div className="flex items-center gap-3 py-2">
-            <div className="bg-[#14B8A6]/10 p-2 rounded-lg flex-shrink-0">
-                <Icon size={18} className="text-[#14B8A6]" />
+            <div className="bg-[#0A1F44]/10 p-2 rounded-lg flex-shrink-0">
+                <Icon size={18} className="text-[#0A1F44]" />
             </div>
             <div className="flex-1 min-w-0">
                 <p className="text-xs text-gray-600 mb-0.5">{label}</p>
@@ -307,7 +307,7 @@ export default function JobDetailPanel({ jobId, user }: Props) {
             {isLoading && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center flex-col justify-center z-50">
                     <div className="bg-white p-8 rounded-lg text-center">
-                        <div className="animate-spin rounded-2xl h-12 w-12 border-t-2 border-b-2 border-[#14B8A6] mx-auto mb-4"></div>
+                        <div className="animate-spin rounded-2xl h-12 w-12 border-t-2 border-b-2 border-[#0A1F44] mx-auto mb-4"></div>
                         <p className="text-lg font-semibold">Redirecting...</p>
                     </div>
                 </div>
@@ -364,7 +364,7 @@ export default function JobDetailPanel({ jobId, user }: Props) {
                                         Certificate
                                     </span>
                                 )}
-                                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-[#14B8A6]/30 bg-[#14B8A6]/10 text-xs font-medium text-[#14B8A6]">
+                                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-[#0A1F44]/30 bg-[#0A1F44]/10 text-xs font-medium text-[#0A1F44]">
                                     <Briefcase size={12} />
                                     {job.type}
                                 </span>
@@ -377,8 +377,8 @@ export default function JobDetailPanel({ jobId, user }: Props) {
                         <SaveButton user={user?.id} id={jobId} />
                         <button
                             onClick={handleApplyJob}
-                            className={`text-white py-3 px-6 text-center bg-[#14B8A6] rounded-lg font-medium transition-all duration-200 hover:bg-[#0D9488] focus:ring-2 focus:ring-[#14B8A6] focus:ring-offset-2 ${
-                                isAtCapacity ? 'opacity-50 cursor-not-allowed hover:bg-[#14B8A6]' : ''
+                            className={`text-white py-3 px-6 text-center bg-[#0A1F44] rounded-lg font-medium transition-all duration-200 hover:bg-[#1E3A8A] focus:ring-2 focus:ring-[#0A1F44] focus:ring-offset-2 ${
+                                isAtCapacity ? 'opacity-50 cursor-not-allowed hover:bg-[#0A1F44]' : ''
                             }`}
                             disabled={isAtCapacity}
                         >
@@ -468,28 +468,43 @@ export default function JobDetailPanel({ jobId, user }: Props) {
 
                     {/* Key Details */}
                     <div className="space-y-1 mb-6">
-                        <SidebarField
-                            icon={Monitor}
-                            label="Training Mode"
-                            value={job?.training_mode}
-                            loading={!job}
-                        />
-                        <SidebarField
-                            icon={Calendar}
-                            label="Start Date"
-                            value={job ? new Date(job.start_date).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                            }) : null}
-                            loading={!job}
-                        />
-                        <SidebarField
-                            icon={Award}
-                            label="Certificate"
-                            value={job?.provides_certificate === "Yes" ? "Available" : "Not Available"}
-                            loading={!job}
-                        />
+                        <div className="flex items-center gap-3 py-2">
+                            <div className="bg-[#14B8A6]/10 p-2 rounded-lg flex-shrink-0">
+                                <Monitor size={18} className="text-[#14B8A6]" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-xs text-gray-600 mb-0.5">Training Mode</p>
+                                {!job ? <Skeleton width={100} height={16} /> : (
+                                    <p className="text-sm font-semibold text-gray-900">{job.training_mode}</p>
+                                )}
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3 py-2">
+                            <div className="bg-[#14B8A6]/10 p-2 rounded-lg flex-shrink-0">
+                                <Calendar size={18} className="text-[#14B8A6]" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-xs text-gray-600 mb-0.5">Start Date</p>
+                                {!job ? <Skeleton width={100} height={16} /> : (
+                                    <p className="text-sm font-semibold text-gray-900">{new Date(job.start_date).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    })}</p>
+                                )}
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3 py-2">
+                            <div className="bg-[#14B8A6]/10 p-2 rounded-lg flex-shrink-0">
+                                <Award size={18} className="text-[#14B8A6]" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-xs text-gray-600 mb-0.5">Certificate</p>
+                                {!job ? <Skeleton width={100} height={16} /> : (
+                                    <p className="text-sm font-semibold text-gray-900">{job.provides_certificate === "Yes" ? "Available" : "Not Available"}</p>
+                                )}
+                            </div>
+                        </div>
                         <SidebarField
                             icon={Wallet}
                             label="Compensation"

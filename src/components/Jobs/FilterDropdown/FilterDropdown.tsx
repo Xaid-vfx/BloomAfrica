@@ -47,7 +47,7 @@ export default function FilterDropdown(props: Props) {
                 <div className="flex items-center gap-3">
                     <span className="font-semibold text-gray-900">Filters</span>
                     {activeFilterCount > 0 && (
-                        <span className="text-sm bg-[#14B8A6] text-white px-2 py-0.5 rounded-full">
+                        <span className="text-sm bg-[#0A1F44] text-white px-2 py-0.5 rounded-full">
                             {activeFilterCount}
                         </span>
                     )}
@@ -60,7 +60,7 @@ export default function FilterDropdown(props: Props) {
                                 </span>
                             ))}
                             {props.selectedCategories?.slice(0, 2).map(category => (
-                                <span key={category} className="text-xs bg-[#14B8A6]/10 text-[#14B8A6] px-2 py-1 rounded-md border border-[#14B8A6]/30">
+                                <span key={category} className="text-xs bg-[#0A1F44]/10 text-[#0A1F44] px-2 py-1 rounded-md border border-[#0A1F44]/30">
                                     {category}
                                 </span>
                             ))}
@@ -79,7 +79,7 @@ export default function FilterDropdown(props: Props) {
                                 e.stopPropagation();
                                 handleClearAll();
                             }}
-                            className="text-sm text-[#14B8A6] hover:text-[#0D9488] font-medium"
+                            className="text-sm text-[#0A1F44] hover:text-[#1E3A8A] font-medium"
                         >
                             Clear all
                         </span>
@@ -109,7 +109,7 @@ export default function FilterDropdown(props: Props) {
                                     <div key={type} className='flex items-center'>
                                         <input
                                             type='checkbox'
-                                            className="accent-[#14B8A6] cursor-pointer"
+                                            className="accent-[#0A1F44] cursor-pointer"
                                             checked={props.selectedTypes?.includes(type)}
                                             onChange={() => props.onTypeChange(type)}
                                             id={`type-${type}`}
@@ -130,7 +130,7 @@ export default function FilterDropdown(props: Props) {
                                     <div key={category} className='flex items-center'>
                                         <input
                                             type='checkbox'
-                                            className="accent-[#14B8A6] cursor-pointer"
+                                            className="accent-[#0A1F44] cursor-pointer"
                                             checked={props.selectedCategories?.includes(category)}
                                             onChange={() => props.onCategoryChange(category)}
                                             id={`category-${category}`}

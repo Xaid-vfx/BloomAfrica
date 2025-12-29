@@ -23,16 +23,16 @@ export default function CompactJobListItem({ job, isSelected, onClick }: Props) 
             className={`
                 flex flex-col p-4 gap-2 border rounded-xl cursor-pointer transition-all
                 ${isSelected
-                    ? 'border-l-4 border-l-[#14B8A6] bg-[#14B8A6]/5 border-[#14B8A6]/30 shadow-sm'
+                    ? 'border-l-4 border-l-[#0A1F44] bg-[#0A1F44]/5 border-[#0A1F44]/30 shadow-sm'
                     : 'border-gray-200 hover:bg-gray-50 hover:shadow-sm'
                 }
             `}
         >
             {/* Verified Badge */}
             {job.isVerified && (
-                <span className="text-xs text-[#14B8A6] bg-[#14B8A6]/10 px-2 py-1 rounded-full flex items-center gap-1 w-fit">
+                <span className="text-xs text-[#0A1F44] bg-[#0A1F44]/10 px-2 py-1 rounded-full flex items-center gap-1 w-fit">
                     <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 0L9.86593 1.86593L12.364 1.13407L13.0959 3.63204L15.5939 4.36391L14.862 6.86187L16.728 8.72781L14.862 10.5937L15.5939 13.0917L13.0959 13.8236L12.364 16.3215L9.86593 15.5897L8 17.4556L6.13407 15.5897L3.63611 16.3215L2.90424 13.8236L0.40628 13.0917L1.13815 10.5937L-0.727783 8.72781L1.13815 6.86187L0.40628 4.36391L2.90424 3.63204L3.63611 1.13407L6.13407 1.86593L8 0Z" fill="#14B8A6"/>
+                        <path d="M8 0L9.86593 1.86593L12.364 1.13407L13.0959 3.63204L15.5939 4.36391L14.862 6.86187L16.728 8.72781L14.862 10.5937L15.5939 13.0917L13.0959 13.8236L12.364 16.3215L9.86593 15.5897L8 17.4556L6.13407 15.5897L3.63611 16.3215L2.90424 13.8236L0.40628 13.0917L1.13815 10.5937L-0.727783 8.72781L1.13815 6.86187L0.40628 4.36391L2.90424 3.63204L3.63611 1.13407L6.13407 1.86593L8 0Z" fill="#0A1F44"/>
                         <path d="M11.0625 6.125L7.0625 10.125L5 8.0625" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     Verified

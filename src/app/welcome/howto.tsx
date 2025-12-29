@@ -39,8 +39,8 @@ export default function HowTo({ onClick, isSelected }: HowToProps) {
         onClick={onClick}
         className={`lg:flex hidden items-center border-2 rounded-xl px-6 p-4 my-6 shadow-md hover:shadow-lg transition-all relative overflow-hidden ${
           isSelected
-            ? 'border-[#14B8A6] bg-[#14B8A6]/[0.08]'
-            : 'border-[#14B8A6]/40 bg-[#14B8A6]/[0.04]'
+            ? 'border-[#0A1F44] bg-[#0A1F44]/[0.08]'
+            : 'border-[#0A1F44]/40 bg-[#0A1F44]/[0.04]'
         } ${onClick ? 'cursor-pointer' : ''}`}
       >
         <div className="flex flex-row">

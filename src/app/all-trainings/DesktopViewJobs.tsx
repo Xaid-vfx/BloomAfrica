@@ -180,7 +180,7 @@ export default function DesktopViewJobs(props: any) {
                             />
                         )) : (
                             <div className="flex justify-center items-center h-[250px]">
-                                <MoonLoader color="#14B8A6" />
+                                <MoonLoader color="#0A1F44" />
                             </div>
                         )}
                     </div>
@@ -193,7 +193,7 @@ export default function DesktopViewJobs(props: any) {
                             className={`px-4 py-2 rounded-lg border ${
                                 currentPage === 1
                                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                    : 'bg-white text-[#14B8A6] hover:bg-gray-50'
+                                    : 'bg-white text-[#0A1F44] hover:bg-gray-50'
                             }`}
                         >
                             Previous
@@ -204,8 +204,8 @@ export default function DesktopViewJobs(props: any) {
                                 onClick={() => handlePageChange(page)}
                                 className={`px-4 py-2 rounded-lg border ${
                                     currentPage === page
-                                        ? 'bg-[#14B8A6] text-white'
-                                        : 'bg-white text-[#14B8A6] hover:bg-gray-50'
+                                        ? 'bg-[#0A1F44] text-white'
+                                        : 'bg-white text-[#0A1F44] hover:bg-gray-50'
                                 }`}
                             >
                                 {page}
@@ -217,7 +217,7 @@ export default function DesktopViewJobs(props: any) {
                             className={`px-4 py-2 rounded-lg border ${
                                 currentPage === totalPages
                                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                    : 'bg-white text-[#14B8A6] hover:bg-gray-50'
+                                    : 'bg-white text-[#0A1F44] hover:bg-gray-50'
                             }`}
                         >
                             Next

@@ -114,18 +114,19 @@ export default function Header(props: Props) {
     return (
         <div>
             <div className="hidden lg:flex w-full px-8 py-4 justify-between mb-5 bg-white items-center border-b-[1px] border-gray-300">
-                <div className='flex flex-row'>
-                    <div className='mr-24'>
-                        <PrentisLogo width={120} height={100} />
+                <div className="flex justify-between items-center w-full max-w-[1300px] mx-auto">
+                    <div className='flex flex-row'>
+                        <div className='mr-24'>
+                            <PrentisLogo width={120} height={100} />
+                        </div>
+                        <div>
+                            <p className="text-sm">Good Morning</p>
+                            <p className="font-semibold">{props.name}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p className="text-sm">Good Morning</p>
-                        <p className="font-semibold">{props.name}</p>
-                    </div>
+
+                    <a href="/all-trainings"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-2xl font-semibold">Back to Search</button></a>
                 </div>
-                
-                <a href="/all-trainings"><button className="text-xs text-white bg-[#4A2C84] py-3 px-6 rounded-2xl font-semibold">Back to Search</button></a>
-                
             </div>
             <div className="lg:hidden flex justify-between px-3 py-3 items-center">
                 <div><IoNotificationsOutline className="text-xl" /></div>
