@@ -46,14 +46,11 @@ export default function MobileCard(props: Props) {
                     <p>{props.location}</p>
                 </div>
                 {/* tags */}
-                <div className="flex gap-2 flex-wrap">
-                    <div className="rounded-lg min-w-max text-xs px-2 py-1 bg-green-100 text-green-800">{props.type}</div>
-                    <div
-                        className=" w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
-                    <div className="rounded-lg min-w-max  text-xs px-2 py-1 border bg-gray-100  text-[#14B8A6]">{props.category}</div>
-                    {props.certificate && <div className="rounded-lg min-w-max  text-xs px-2 py-1 border bg-gray-100  text-[#14B8A6]">Certificate Available</div>}
-                    {props.training_mode && <div className="rounded-lg min-w-max  text-xs px-2 py-1 border bg-gray-100  text-[#14B8A6]">{props.training_mode}</div>}
-                    {/* <div className="rounded-3xl text-xs border px-2 py-1 border-[#14B8A6] text-[#14B8A6]">Design</div> */}
+                <div className="grid grid-cols-2 gap-1.5">
+                    <div className="rounded-md text-[11px] px-2 py-1 bg-green-100 text-green-800 text-center truncate">{props.type}</div>
+                    <div className="rounded-md text-[11px] px-2 py-1 border bg-gray-100 text-[#14B8A6] text-center truncate">{props.category}</div>
+                    {props.certificate && <div className="rounded-md text-[11px] px-2 py-1 border bg-gray-100 text-[#14B8A6] text-center truncate">Certificate</div>}
+                    {props.training_mode && <div className="rounded-md text-[11px] px-2 py-1 border bg-gray-100 text-[#14B8A6] text-center truncate">{props.training_mode}</div>}
                 </div>
 
                 {/*<a href={`/all-trainings/job?id=${props.id}`} className="mt-3 text-center " >

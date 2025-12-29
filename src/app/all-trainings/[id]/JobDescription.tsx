@@ -110,14 +110,14 @@ export default function JobDescription(props: { user: { id: string } }) {
     const SidebarField = ({ icon: Icon, label, value, loading, useTeal = false }: {
         icon: any, label: string, value: React.ReactNode, loading: boolean, useTeal?: boolean
     }) => (
-        <div className="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">
-            <div className={`${useTeal ? 'bg-[#14B8A6]/10' : 'bg-[#0A1F44]/10'} p-2 rounded-lg flex-shrink-0`}>
-                <Icon size={16} className={useTeal ? 'text-[#14B8A6]' : 'text-[#0A1F44]'} />
+        <div className="flex items-start gap-2 py-2 lg:border-b border-gray-100 lg:last:border-0">
+            <div className={`${useTeal ? 'bg-[#14B8A6]/10' : 'bg-[#0A1F44]/10'} p-1.5 rounded-md flex-shrink-0`}>
+                <Icon size={14} className={useTeal ? 'text-[#14B8A6]' : 'text-[#0A1F44]'} />
             </div>
             <div className="flex-1 min-w-0">
-                <p className="text-xs text-gray-600 mb-1">{label}</p>
-                {loading ? <Skeleton width={100} height={16} /> : (
-                    <p className="text-sm font-semibold text-gray-900 break-words">{value}</p>
+                <p className="text-[10px] text-gray-600 mb-0.5">{label}</p>
+                {loading ? <Skeleton width={100} height={14} /> : (
+                    <p className="text-xs font-semibold text-gray-900 break-words">{value}</p>
                 )}
             </div>
         </div>
@@ -352,18 +352,18 @@ export default function JobDescription(props: { user: { id: string } }) {
                     </div>
                 </div>
             </div>
-            <div className="py-10 px-5 lg:hidden flex flex-col text-center justify-center items-center bg-white border-b border-gray-100">
-                <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={100} height={50} />
-                <h1 className="text-xl font-semibold mt-2 break-words px-4 text-[#0A1F44]">{job != null ? job?.title : <Skeleton width={200} />}</h1>
-                <div className="flex flex-col text-center text-sm text-[#515B6F] gap-1 mb-2 items-baseline w-full px-4">
+            <div className="py-5 px-5 lg:hidden flex flex-col text-center justify-center items-center bg-white border-b border-gray-100">
+                <Image src={job != null ? job?.companylogo != null ? job.companylogo : Logo : Logo} alt="logo" width={60} height={30} className="mb-2" />
+                <h1 className="text-lg font-semibold break-words px-4 text-[#0A1F44]">{job != null ? job?.title : <Skeleton width={200} />}</h1>
+                <div className="flex flex-col text-center text-xs text-[#515B6F] gap-0.5 mb-3 items-baseline w-full px-4">
                     <p className='flex mx-auto justify-center break-words'>{job?.Recruiters.CompanyInfo?.name}</p>
                     <p className='flex mx-auto justify-center break-words'> {job != null ? job?.location : <Skeleton width={100} />}</p>
                 </div>
-                <div className="flex gap-2 mt-6">
+                <div className="flex gap-2 mt-2">
                     <SaveButton user={props.user?.id} id={id}></SaveButton>
                     <button
                         onClick={() => { handleApplyJob() }}
-                        className={`text-white py-3 text-center bg-[#0A1F44] rounded-2xl font-medium px-14 transition-all hover:bg-[#1E3A8A] ${isAtCapacity ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`text-white py-2.5 text-center bg-[#0A1F44] rounded-2xl font-medium px-12 text-sm transition-all hover:bg-[#1E3A8A] ${isAtCapacity ? 'opacity-50 cursor-not-allowed' : ''}`}
                         disabled={isAtCapacity}
                     >
                         {isAtCapacity ? 'No Longer Accepting' : 'Enroll'}
@@ -406,17 +406,17 @@ export default function JobDescription(props: { user: { id: string } }) {
                         <p className="mb-7 my-2 text-[#7C8493] text-sm break-words">{job != null ? job?.trainer_credentials : <Skeleton count={4} />}</p>
                     </div>
                 </div>
-                <div className="lg:w-[30%] mt-10 lg:mt-0 border-2 rounded-xl p-5">
+                <div className="lg:w-[30%] mt-10 lg:mt-0 border-2 rounded-xl lg:p-5 p-4">
                     <div className=''>
-                        <h1 className="text-2xl font-semibold mb-6 text-[#25324B] mt-5">About this Role</h1>
+                        <h1 className="lg:text-2xl text-xl font-semibold lg:mb-6 mb-4 text-[#25324B] lg:mt-5 mt-3">About this Role</h1>
 
                         {/* Signup Fee - Featured */}
-                        <div className="bg-gradient-to-br from-[#14B8A6]/5 to-[#14B8A6]/10 border-2 border-[#14B8A6]/20 rounded-xl p-4 mb-6">
-                            <div className="flex items-center gap-2 mb-2">
-                                <DollarSign size={20} className="text-[#14B8A6]" />
-                                <p className="text-sm text-gray-600">Signup Fee</p>
+                        <div className="bg-gradient-to-br from-[#14B8A6]/5 to-[#14B8A6]/10 border-2 border-[#14B8A6]/20 rounded-xl lg:p-4 p-3 lg:mb-6 mb-4">
+                            <div className="flex items-center gap-2 lg:mb-2 mb-1">
+                                <DollarSign size={18} className="text-[#14B8A6]" />
+                                <p className="text-xs lg:text-sm text-gray-600">Signup Fee</p>
                             </div>
-                            <p className="text-2xl font-bold text-gray-900">
+                            <p className="lg:text-2xl text-xl font-bold text-gray-900">
                                 {job ? (
                                     job.signup_fee ? `₦${Number(job.signup_fee).toLocaleString('en-NG')}` : "Free"
                                 ) : <Skeleton width={100} />}
@@ -424,7 +424,7 @@ export default function JobDescription(props: { user: { id: string } }) {
                         </div>
 
                         {/* Key Details */}
-                        <div className="space-y-0 mb-6">
+                        <div className="lg:space-y-0 lg:mb-6 mb-4 grid lg:grid-cols-1 grid-cols-2 gap-x-2">
                             <SidebarField
                                 icon={Monitor}
                                 label="Training Mode"
@@ -488,15 +488,15 @@ export default function JobDescription(props: { user: { id: string } }) {
                             />
                         </div>
                     </div>
-                    <hr className="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+                    <hr className="h-px lg:my-6 my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                     <div>
-                        <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Categories</h1>
-                        <p className="rounded-lg border px-3 py-2 border-[#14B8A6]/30 bg-[#14B8A6]/10 text-sm text-[#14B8A6] font-medium w-fit">{job != null ? job?.category : <Skeleton width={150} />}</p>
+                        <h1 className="lg:text-2xl text-lg font-semibold lg:mb-4 mb-3 text-[#25324B]">Categories</h1>
+                        <p className="rounded-lg border lg:px-3 lg:py-2 px-2.5 py-1.5 border-[#14B8A6]/30 bg-[#14B8A6]/10 lg:text-sm text-xs text-[#14B8A6] font-medium w-fit">{job != null ? job?.category : <Skeleton width={150} />}</p>
                     </div>
-                    <div className="mt-8">
-                        <h1 className="text-2xl font-semibold mb-4 text-[#25324B]">Skills Required</h1>
+                    <div className="lg:mt-8 mt-6">
+                        <h1 className="lg:text-2xl text-lg font-semibold lg:mb-4 mb-3 text-[#25324B]">Skills Required</h1>
                         <div className="flex flex-wrap gap-2">{job != null ? job?.skills?.map((word, index) => (
-                            <span className="rounded-lg border px-3 py-2 border-[#14B8A6]/30 bg-[#14B8A6]/10 text-sm text-[#14B8A6] font-medium break-words w-fit" key={index}>{word.trim()}</span>
+                            <span className="rounded-lg border lg:px-3 lg:py-2 px-2.5 py-1.5 border-[#14B8A6]/30 bg-[#14B8A6]/10 lg:text-sm text-xs text-[#14B8A6] font-medium break-words w-fit" key={index}>{word.trim()}</span>
                         )) : <Skeleton width={150} />}</div>
                     </div>
                 </div>
