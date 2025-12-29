@@ -22,7 +22,7 @@ export default function TrainerHero() {
     }, [])
 
     return (
-        <div className='relative overflow-hidden w-full bg-gradient-to-br from-[#0A1F44] to-[#0F2B54]'>
+        <div className='relative overflow-hidden w-full'>
             {/* Decorative Blobs */}
             <svg viewBox="0 0 500 500" className="absolute top-0 right-0 w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] lg:w-[350px] lg:h-[350px] 2xl:w-[500px] 2xl:h-[500px] opacity-12 pointer-events-none" style={{ transform: 'translate(25%, -25%)' }}>
                 <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
@@ -32,7 +32,7 @@ export default function TrainerHero() {
             </svg>
 
             {/* Content */}
-            <div className='lg:px-12 lg:pt-16 lg:pb-24 py-20 px-6 ms-auto me-auto max-w-[1500px] relative z-10'>
+            <div className='lg:px-12 lg:pt-16 py-20 px-6 ms-auto me-auto max-w-[1500px] relative z-10'>
                 <div className="flex flex-col justify-center items-center">
                     {/* Badge */}
                     <div className="flex items-center w-full justify-center">
@@ -43,18 +43,18 @@ export default function TrainerHero() {
 
                     {/* Headline */}
                     <h1 className="text-[2.5rem] leading-[2.8rem] sm:text-4xl lg:text-6xl sm:leading-tight my-6 text-center font-semibold lg:leading-tight lg:my-6 HiddenAnimation lg:max-w-5xl text-white">
-                        Transform Lives, Build Your <span className="text-[#14B8A6]">Legacy</span>
+                        Train and Manage Your Apprenticeships <span className="text-[#14B8A6]">All in One Place</span>
                     </h1>
 
                     {/* Subheadline */}
                     <p className="text-lg text-white/90 leading-relaxed text-center px-2 lg:px-0 lg:text-xl HiddenAnimation lg:max-w-3xl">
-                        Join Nigeria's premier apprenticeship platform as a trainer. Shape the next generation while growing your revenue and prestige.
+                        Whether you're a master artisan or a company, use Prentis to create programs, manage learners, and grow your impact.
                     </p>
 
                     {/* CTA Button */}
                     <div className="mt-8 lg:mt-10 flex justify-center">
                         <Link href="/signup?type=recruiter" className="bg-[#14B8A6] text-white px-8 py-4 rounded-lg text-center min-w-[220px] font-semibold hover:bg-[#0D9488] transition-all shadow-lg hover:shadow-xl">
-                            Become a Trainer
+                            Get Started
                         </Link>
                     </div>
                 </div>

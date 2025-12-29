@@ -23,40 +23,32 @@ export default function StatsSection() {
     ]
 
     return (
-        <div className="py-20 px-6 lg:py-28 lg:px-12 bg-white relative overflow-hidden">
-            {/* Decorative Blob */}
-            <svg viewBox="0 0 400 400" className="absolute bottom-0 right-0 w-[250px] h-[250px] md:w-[350px] md:h-[350px] opacity-[0.04] pointer-events-none" style={{ transform: 'translate(25%, 25%)' }}>
-                <path fill="#14B8A6" d="M340.5,175.5c-12.3,47.8-49,84.5-96.8,96.8c-47.8,12.3-97.5-4.5-131.3-44.2c-33.8-39.8-45.3-94.2-30.2-143.4c15.1-49.2,51.2-84.5,94.2-86.2c43-1.8,91.8,28.5,115.8,75C316.2,121,352.8,127.7,340.5,175.5z"/>
-            </svg>
-
+        <div className="py-8 px-6 lg:py-12 lg:px-12 relative">
             <div className="max-w-[1500px] mx-auto relative z-10">
-                {/* Section Header */}
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-semibold text-[#1F2937] mb-4">
-                        Join a Growing Community
-                    </h2>
-                    <p className="text-lg text-[#6B7280] lg:max-w-2xl mx-auto">
-                        Thousands of trainers and apprentices are already building the future on Prentis
-                    </p>
-                </div>
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                    {stats.map((stat, index) => (
-                        <div key={index} className="text-center">
-                            <div className="mb-3">
-                                <div className="text-4xl lg:text-5xl font-bold text-[#14B8A6] mb-2">
+                {/* Stats Grid with Glass Background */}
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 lg:p-8">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                        {stats.map((stat, index) => (
+                            <div
+                                key={index}
+                                className={`text-center px-3 lg:px-4 ${
+                                    index % 2 === 1 ? 'border-l border-white/20' : ''
+                                } ${
+                                    index >= 2 ? 'lg:border-l lg:border-white/20' : ''
+                                }`}
+                            >
+                                <div className="text-2xl lg:text-4xl font-bold text-[#14B8A6] mb-1">
                                     {stat.number}
                                 </div>
-                                <div className="text-lg lg:text-xl font-semibold text-[#1F2937]">
+                                <div className="text-xs lg:text-base font-semibold text-white mb-1">
                                     {stat.label}
                                 </div>
+                                <p className="text-[10px] lg:text-sm text-white/70 hidden lg:block">
+                                    {stat.description}
+                                </p>
                             </div>
-                            <p className="text-sm text-[#6B7280]">
-                                {stat.description}
-                            </p>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

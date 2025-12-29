@@ -1,6 +1,7 @@
 import { Hammer, Building2, CheckCircle } from 'lucide-react'
+import Link from 'next/link'
 
-export default function BottomLineComparison() {
+export default function TrainerTypesComparison() {
     return (
         <div className="py-20 px-6 lg:py-28 lg:px-12 bg-gradient-to-br from-[#0A1F44] to-[#0F2B54] relative overflow-hidden">
             {/* Decorative Blobs */}
@@ -15,10 +16,10 @@ export default function BottomLineComparison() {
                 {/* Section Header */}
                 <div className="text-center mb-16">
                     <h2 className="text-3xl lg:text-4xl font-semibold text-white mb-4">
-                        The Bottom Line
+                        Who Can Train on Prentis?
                     </h2>
                     <p className="text-lg text-white/70 lg:max-w-2xl mx-auto">
-                        Clear benefits for every type of trainer on the Prentis platform
+                        Two types of trainers use Prentis to manage apprenticeships and build talent
                     </p>
                 </div>
 
@@ -35,30 +36,41 @@ export default function BottomLineComparison() {
                             </h3>
                         </div>
 
+                        <p className="text-white/70 mb-6">
+                            Independent workshop owners and craft masters
+                        </p>
+
                         <div className="mb-6">
                             <p className="text-xl font-medium text-[#14B8A6] mb-4">
-                                Revenue & Prestige
+                                What You Get
                             </p>
                         </div>
 
-                        <div className="space-y-4">
+                        <div className="space-y-4 mb-8">
                             <div className="flex items-start gap-3">
                                 <CheckCircle className="text-[#10B981] flex-shrink-0 mt-1" size={20} />
-                                <p className="text-white/80">Earn from enrollment fees with accredited programs</p>
+                                <p className="text-white/80">Command higher fees with accredited programs</p>
                             </div>
                             <div className="flex items-start gap-3">
                                 <CheckCircle className="text-[#10B981] flex-shrink-0 mt-1" size={20} />
-                                <p className="text-white/80">Build professional reputation as a verified master trainer</p>
+                                <p className="text-white/80">Build professional reputation as verified trainer</p>
                             </div>
                             <div className="flex items-start gap-3">
                                 <CheckCircle className="text-[#10B981] flex-shrink-0 mt-1" size={20} />
-                                <p className="text-white/80">Officially certify apprentices and track their progress</p>
+                                <p className="text-white/80">Certify apprentices and track their progress</p>
                             </div>
                             <div className="flex items-start gap-3">
                                 <CheckCircle className="text-[#10B981] flex-shrink-0 mt-1" size={20} />
-                                <p className="text-white/80">Expand your workshop's reach beyond your local area</p>
+                                <p className="text-white/80">Expand reach beyond your local area</p>
                             </div>
                         </div>
+
+                        <Link
+                            href="/signup?type=recruiter"
+                            className="block w-full text-center bg-[#14B8A6] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#0D9488] transition-all"
+                        >
+                            Get Started
+                        </Link>
                     </div>
 
                     {/* Companies Card */}
@@ -68,17 +80,21 @@ export default function BottomLineComparison() {
                                 <Building2 className="text-[#14B8A6]" size={32} />
                             </div>
                             <h3 className="text-2xl font-semibold text-white">
-                                Companies
+                                Companies & Businesses
                             </h3>
                         </div>
 
+                        <p className="text-white/70 mb-6">
+                            Startups to corporations building talent pipelines
+                        </p>
+
                         <div className="mb-6">
                             <p className="text-xl font-medium text-[#14B8A6] mb-4">
-                                Efficiency & Growth
+                                What You Get
                             </p>
                         </div>
 
-                        <div className="space-y-4">
+                        <div className="space-y-4 mb-8">
                             <div className="flex items-start gap-3">
                                 <CheckCircle className="text-[#10B981] flex-shrink-0 mt-1" size={20} />
                                 <p className="text-white/80">Reduce recruitment costs with trained-to-hire talent</p>
@@ -96,6 +112,13 @@ export default function BottomLineComparison() {
                                 <p className="text-white/80">Access pre-vetted, ambitious talent eager to work</p>
                             </div>
                         </div>
+
+                        <Link
+                            href="/signup?type=recruiter"
+                            className="block w-full text-center bg-[#14B8A6] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#0D9488] transition-all"
+                        >
+                            Get Started
+                        </Link>
                     </div>
                 </div>
             </div>
