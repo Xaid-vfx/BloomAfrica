@@ -12,6 +12,11 @@ import { toast } from "sonner"
 import { AgreementModal } from "@/components/Modal/AgreementModal";
 import getIP from "@/lib/getIP/getIP";
 import UAParser from "ua-parser-js";
+import {
+    FileText, Building2, BookOpen, GraduationCap, Calendar,
+    TrendingUp, Award, DollarSign, Monitor, Clock, MapPin,
+    Users, Briefcase, Wallet, AlertCircle, Image as ImageIcon
+} from 'lucide-react';
 
 interface Job {
     uid: string;
@@ -91,6 +96,32 @@ async function getJob(userid: string): Promise<JobWithCounts | null> {
 }
 
 export default function JobDetailPanel({ jobId, user }: Props) {
+    // Helper Components
+    const SectionHeader = ({ icon: Icon, title }: { icon: any, title: string }) => (
+        <div className="flex items-center gap-3 mb-4">
+            <div className="bg-[#14B8A6]/10 p-2 rounded-lg">
+                <Icon size={24} className="text-[#14B8A6]" />
+            </div>
+            <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+        </div>
+    );
+
+    const SidebarField = ({ icon: Icon, label, value, loading }: {
+        icon: any, label: string, value: React.ReactNode, loading: boolean
+    }) => (
+        <div className="flex items-center gap-3 py-2">
+            <div className="bg-[#14B8A6]/10 p-2 rounded-lg flex-shrink-0">
+                <Icon size={18} className="text-[#14B8A6]" />
+            </div>
+            <div className="flex-1 min-w-0">
+                <p className="text-xs text-gray-600 mb-0.5">{label}</p>
+                {loading ? <Skeleton width={100} height={16} /> : (
+                    <p className="text-sm font-semibold text-gray-900">{value}</p>
+                )}
+            </div>
+        </div>
+    );
+
     const supabase = createClientComponentClient()
     const [job, setjob] = useState<JobWithCounts | null>(null)
     const router = useRouter()
@@ -285,28 +316,64 @@ export default function JobDetailPanel({ jobId, user }: Props) {
 
             {/* Header */}
             <div className="bg-white shadow-sm rounded-xl border px-6 py-5 mb-6 sticky top-0 z-10">
-                <div className="flex w-full justify-between items-start gap-4">
-                    <div className="flex flex-col justify-center min-w-0 flex-1">
-                        <h1 className="text-2xl font-semibold text-gray-900 break-words mb-2">
-                            {job != null ? job?.title : <Skeleton width={300} height={32} />}
-                        </h1>
-                        <div className="flex items-center gap-4 text-sm text-gray-600">
-                            <div className="flex items-center gap-1">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                </svg>
-                                <span className="break-words">{job?.Recruiters.CompanyInfo?.name}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                <span className="break-words">{job != null ? job?.location : <Skeleton width={100} />}</span>
-                            </div>
+                <div className="flex gap-4 items-start">
+                    {/* Company Logo */}
+                    <div className="flex-shrink-0">
+                        <div className="w-16 h-16 bg-gray-50 rounded-lg p-2 border border-gray-200">
+                            {job?.Recruiters?.CompanyInfo?.logo ? (
+                                <Image
+                                    src={job.Recruiters.CompanyInfo.logo}
+                                    alt={job.Recruiters.CompanyInfo.name}
+                                    width={60}
+                                    height={60}
+                                    className="object-contain"
+                                />
+                            ) : (
+                                <ImageIcon className="w-full h-full text-gray-400" />
+                            )}
                         </div>
                     </div>
-                    <div className="flex items-center gap-3 flex-shrink-0">
+
+                    {/* Title and Metadata */}
+                    <div className="flex-1 min-w-0">
+                        <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+                            {job ? job.title : <Skeleton width={300} height={32} />}
+                        </h1>
+
+                        <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+                            <div className="flex items-center gap-1">
+                                <Building2 size={16} />
+                                <span>{job?.Recruiters?.CompanyInfo?.name || <Skeleton width={100} />}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <MapPin size={16} />
+                                <span>{job ? job.location : <Skeleton width={100} />}</span>
+                            </div>
+                        </div>
+
+                        {/* Metadata Badges */}
+                        {job && (
+                            <div className="flex flex-wrap gap-2">
+                                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-[#14B8A6]/30 bg-[#14B8A6]/10 text-xs font-medium text-[#14B8A6]">
+                                    <Monitor size={12} />
+                                    {job.training_mode}
+                                </span>
+                                {job.provides_certificate === "Yes" && (
+                                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-[#14B8A6]/30 bg-[#14B8A6]/10 text-xs font-medium text-[#14B8A6]">
+                                        <Award size={12} />
+                                        Certificate
+                                    </span>
+                                )}
+                                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg border border-[#14B8A6]/30 bg-[#14B8A6]/10 text-xs font-medium text-[#14B8A6]">
+                                    <Briefcase size={12} />
+                                    {job.type}
+                                </span>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex items-start gap-3 flex-shrink-0">
                         <SaveButton user={user?.id} id={jobId} />
                         <button
                             onClick={handleApplyJob}
@@ -315,7 +382,7 @@ export default function JobDetailPanel({ jobId, user }: Props) {
                             }`}
                             disabled={isAtCapacity}
                         >
-                            {isAtCapacity ? 'No Longer Accepting' : 'Enroll Now'}
+                            {isAtCapacity ? 'Full' : 'Enroll Now'}
                         </button>
                     </div>
                 </div>
@@ -324,128 +391,161 @@ export default function JobDetailPanel({ jobId, user }: Props) {
             {/* Main content + Sidebar */}
             <div className="flex flex-col lg:flex-row gap-5">
                 {/* Main content (70%) */}
-                <div className="lg:w-[70%] border rounded-xl p-5">
-                    <div className="mt-5">
-                        <h2 className="text-xl font-semibold mb-2">Description</h2>
-                        <p className="mb-7 text-[#7C8493] text-sm break-words whitespace-pre-line">{job != null ? job?.description : <Skeleton count={4} />}</p>
-                    </div>
-                    <div className="">
-                        <h2 className="text-xl font-semibold mb-2">Who We Are</h2>
-                        <p className="mb-7 text-[#7C8493] text-sm break-words whitespace-pre-line">{job != null ? job?.who_we_are : <Skeleton count={4} />}</p>
-                    </div>
-
-                    <div className="">
-                        <h2 className="text-xl font-semibold mb-2">Teaching Method</h2>
-                        <p className="mb-7 text-[#7C8493] text-sm break-words whitespace-pre-line">{job != null ? job?.teaching_method : <Skeleton count={4} />}</p>
+                <div className="lg:w-[70%] border rounded-xl p-6 lg:p-8">
+                    {/* Description */}
+                    <div className="border-b border-gray-100 pb-8 mb-8">
+                        <SectionHeader icon={FileText} title="Description" />
+                        <p className="text-sm leading-7 text-gray-600 whitespace-pre-line">
+                            {job ? job.description : <Skeleton count={3} />}
+                        </p>
                     </div>
 
-                    <div className="">
-                        <h2 className="text-xl font-semibold mb-2">What You Will Learn</h2>
-                        <p className="mb-7 text-[#7C8493] text-sm whitespace-pre-line break-words">{job != null ? job?.learning_outcomes : <Skeleton count={4} />}</p>
+                    {/* Who We Are */}
+                    <div className="border-b border-gray-100 pb-8 mb-8">
+                        <SectionHeader icon={Building2} title="Who We Are" />
+                        <p className="text-sm leading-7 text-gray-600 whitespace-pre-line">
+                            {job ? job.who_we_are : <Skeleton count={3} />}
+                        </p>
                     </div>
 
-                    <div className="">
-                        <h2 className="text-xl font-semibold mb-2">Scheduling and Delivery</h2>
-                        <p className="mb-7 text-[#7C8493] text-sm break-words whitespace-pre-line">{job != null ? job?.scheduling : <Skeleton count={4} />}</p>
+                    {/* Teaching Method */}
+                    <div className="border-b border-gray-100 pb-8 mb-8">
+                        <SectionHeader icon={BookOpen} title="Teaching Method" />
+                        <p className="text-sm leading-7 text-gray-600 whitespace-pre-line">
+                            {job ? job.teaching_method : <Skeleton count={3} />}
+                        </p>
                     </div>
 
-                    <div className="">
-                        <h2 className="text-xl font-semibold mb-2">Career Outcomes</h2>
-                        <p className="mb-7 text-[#7C8493] text-sm break-words whitespace-pre-line">{job != null ? job?.outcomes : <Skeleton count={4} />}</p>
+                    {/* What You Will Learn */}
+                    <div className="border-b border-gray-100 pb-8 mb-8">
+                        <SectionHeader icon={GraduationCap} title="What You Will Learn" />
+                        <p className="text-sm leading-7 text-gray-600 whitespace-pre-line">
+                            {job ? job.learning_outcomes : <Skeleton count={3} />}
+                        </p>
                     </div>
 
-                    <div className="">
-                        <h2 className="text-xl font-semibold mb-2">Trainer Credentials</h2>
-                        <p className="mb-7 text-[#7C8493] text-sm break-words whitespace-pre-line">{job != null ? job?.trainer_credentials : <Skeleton count={4} />}</p>
+                    {/* Scheduling and Delivery */}
+                    <div className="border-b border-gray-100 pb-8 mb-8">
+                        <SectionHeader icon={Calendar} title="Scheduling and Delivery" />
+                        <p className="text-sm leading-7 text-gray-600 whitespace-pre-line">
+                            {job ? job.scheduling : <Skeleton count={3} />}
+                        </p>
+                    </div>
+
+                    {/* Career Outcomes */}
+                    <div className="border-b border-gray-100 pb-8 mb-8">
+                        <SectionHeader icon={TrendingUp} title="Career Outcomes" />
+                        <p className="text-sm leading-7 text-gray-600 whitespace-pre-line">
+                            {job ? job.outcomes : <Skeleton count={3} />}
+                        </p>
+                    </div>
+
+                    {/* Trainer Credentials */}
+                    <div>
+                        <SectionHeader icon={Award} title="Trainer Credentials" />
+                        <p className="text-sm leading-7 text-gray-600 whitespace-pre-line">
+                            {job ? job.trainer_credentials : <Skeleton count={3} />}
+                        </p>
                     </div>
                 </div>
 
                 {/* Sidebar (30%) */}
-                <div className="lg:w-[30%] border rounded-xl p-5 h-fit">
-                    <div className=''>
-                        <h2 className="text-xl font-semibold mb-6 text-[#25324B]">About this Role</h2>
+                <div className="lg:w-[30%] border rounded-xl p-6 h-fit">
+                    <h2 className="text-xl font-semibold mb-6 text-gray-900">About this Role</h2>
 
-                        <div className="flex flex-col justify-between mt-4">
-                            <p className="text-sm text-[#515B6F] mb-1">Signup Fee</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-4 py-2 text-base font-semibold border border-gray-200">
-                                {job != null ?
-                                    job?.signup_fee ?
-                                        "₦" + Number(job?.signup_fee).toLocaleString('en-NG') :
-                                        "Free"
-                                    : <Skeleton width={150} />}
-                            </p>
+                    {/* Signup Fee - Featured */}
+                    <div className="bg-gradient-to-br from-[#14B8A6]/5 to-[#14B8A6]/10 border-2 border-[#14B8A6]/20 rounded-xl p-4 mb-6">
+                        <div className="flex items-center gap-2 mb-2">
+                            <DollarSign size={20} className="text-[#14B8A6]" />
+                            <p className="text-sm text-gray-600">Signup Fee</p>
                         </div>
+                        <p className="text-2xl font-bold text-gray-900">
+                            {job ? (
+                                job.signup_fee ? `₦${Number(job.signup_fee).toLocaleString('en-NG')}` : "Free"
+                            ) : <Skeleton width={100} />}
+                        </p>
+                    </div>
 
-                        <div className="flex flex-col justify-between mt-4">
-                            <p className="text-sm text-[#515B6F] mb-1">Training Mode</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.training_mode : <Skeleton width={150} />}</p>
-                        </div>
-
-                        <div className="flex flex-col justify-between mt-4">
-                            <p className="text-sm text-[#515B6F] mb-1">Start Date</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? new Date(job?.start_date).toLocaleDateString('en-US', {
+                    {/* Key Details */}
+                    <div className="space-y-1 mb-6">
+                        <SidebarField
+                            icon={Monitor}
+                            label="Training Mode"
+                            value={job?.training_mode}
+                            loading={!job}
+                        />
+                        <SidebarField
+                            icon={Calendar}
+                            label="Start Date"
+                            value={job ? new Date(job.start_date).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'long',
                                 day: 'numeric'
-                            }) : <Skeleton width={150} />}</p>
-                        </div>
-
-                        <div className="flex flex-col justify-between mt-4">
-                            <p className="text-sm text-[#515B6F] mb-1">Certificate</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ?
-                                job?.provides_certificate === "Yes" ?
-                                    "Certificate Available" :
-                                    "Unavailable"
-                                : <Skeleton width={150} />}
-                            </p>
-                        </div>
-
-                        <div className="flex flex-col justify-between mt-4">
-                            <p className="text-sm text-[#515B6F] mb-1">Compensation</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">
-                                {job != null ?
-                                    job?.payment_type === "Unpaid" ?
-                                        "Unpaid" :
-                                        job?.settlement || "Not specified"
-                                    : <Skeleton width={150} />}
-                            </p>
-                        </div>
-
-                        <div className="flex flex-col justify-between my-4">
-                            <p className="text-sm text-[#515B6F] mb-1">Job Type</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.type : <Skeleton width={100} />}</p>
-                        </div>
-
-                        <div className="flex flex-col justify-between my-4">
-                            <p className="text-sm text-[#515B6F] mb-1">Duration</p>
-                            <p className="bg-gray-200 rounded-lg whitespace-nowrap w-max px-2 py-1 text-sm font-semibold">{job != null ? job?.duration : <Skeleton width={150} />}</p>
-                        </div>
-
-                        <div className="flex flex-col justify-between mt-4">
-                            <p className="text-sm text-[#515B6F] mb-1">Location</p>
-                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold w-fit">{job != null ? `${job?.city}, ${job?.state}, ${job?.country}` : <Skeleton width={150} />}</p>
-                        </div>
-
-                        <div className="flex flex-col justify-between my-4">
-                            <p className="text-sm text-[#515B6F] mb-1">Maximum Applicants</p>
-                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold w-fit">{job != null ? job?.limit : <Skeleton width={150} />}</p>
-                        </div>
-
-                        <div className="flex flex-col justify-between my-4">
-                            <p className="text-sm text-[#515B6F] mb-1">Application Deadline</p>
-                            <p className="bg-gray-200 rounded-lg px-2 py-1 text-sm font-semibold w-fit">{job != null ? job?.deadline : <Skeleton width={150} />}</p>
-                        </div>
+                            }) : null}
+                            loading={!job}
+                        />
+                        <SidebarField
+                            icon={Award}
+                            label="Certificate"
+                            value={job?.provides_certificate === "Yes" ? "Available" : "Not Available"}
+                            loading={!job}
+                        />
+                        <SidebarField
+                            icon={Wallet}
+                            label="Compensation"
+                            value={job?.payment_type === "Unpaid" ? "Unpaid" : job?.settlement || "Not specified"}
+                            loading={!job}
+                        />
+                        <SidebarField
+                            icon={Briefcase}
+                            label="Job Type"
+                            value={job?.type}
+                            loading={!job}
+                        />
+                        <SidebarField
+                            icon={Clock}
+                            label="Duration"
+                            value={job?.duration}
+                            loading={!job}
+                        />
+                        <SidebarField
+                            icon={MapPin}
+                            label="Location"
+                            value={job ? `${job.city}, ${job.state}, ${job.country}` : null}
+                            loading={!job}
+                        />
+                        <SidebarField
+                            icon={Users}
+                            label="Max Applicants"
+                            value={job?.limit}
+                            loading={!job}
+                        />
+                        <SidebarField
+                            icon={AlertCircle}
+                            label="Deadline"
+                            value={job?.deadline}
+                            loading={!job}
+                        />
                     </div>
-                    <hr className="h-px my-6 bg-gray-200 border-0 p-0"></hr>
-                    <div>
-                        <h2 className="text-lg font-semibold mb-4 text-[#25324B]">Category</h2>
-                        <p className="rounded-lg border px-3 py-2 border-[#14B8A6]/30 bg-[#14B8A6]/10 text-sm text-[#14B8A6] w-fit font-medium">{job != null ? job?.category : <Skeleton width={150} />}</p>
+
+                    {/* Category */}
+                    <div className="border-t border-gray-100 pt-6">
+                        <h2 className="text-lg font-semibold mb-4 text-gray-900">Category</h2>
+                        <p className="rounded-lg border px-3 py-2 border-[#14B8A6]/30 bg-[#14B8A6]/10 text-sm text-[#14B8A6] w-fit font-medium">
+                            {job ? job.category : <Skeleton width={150} />}
+                        </p>
                     </div>
-                    <div className="mt-8">
-                        <h2 className="text-lg font-semibold mb-4 text-[#25324B]">Skills Required</h2>
-                        <div className="flex flex-wrap gap-2">{job != null ? job?.skills?.map((word, index) => (
-                            <span className="rounded-lg border px-3 py-2 border-[#14B8A6]/30 bg-[#14B8A6]/10 text-sm text-[#14B8A6] break-words w-fit font-medium" key={index}>{word.trim()}</span>
-                        )) : <Skeleton width={150} />}</div>
+
+                    {/* Skills */}
+                    <div className="mt-6">
+                        <h2 className="text-lg font-semibold mb-4 text-gray-900">Skills Required</h2>
+                        <div className="flex flex-wrap gap-2">
+                            {job ? job.skills?.map((word, index) => (
+                                <span className="rounded-lg border px-3 py-2 border-[#14B8A6]/30 bg-[#14B8A6]/10 text-sm text-[#14B8A6] w-fit font-medium" key={index}>
+                                    {word.trim()}
+                                </span>
+                            )) : <Skeleton width={150} />}
+                        </div>
                     </div>
                 </div>
             </div>

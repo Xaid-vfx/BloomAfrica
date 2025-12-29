@@ -133,7 +133,7 @@ export default function MobileViewJobs(props: any) {
 
                 {/* Cards */}
 
-                <HowTo/>
+                {currentPage === 1 && <HowTo/>}
 
                 <div className="flex flex-col gap-4 lg:hidden  w-full  ">
                     {jobs ? jobs?.map((job) => {

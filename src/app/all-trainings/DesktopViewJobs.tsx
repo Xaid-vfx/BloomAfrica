@@ -93,6 +93,11 @@ export default function DesktopViewJobs(props: any) {
         router.push(`/all-trainings?selected=${jobId}`, { scroll: false } as any)
     }
 
+    const handleHowToSelect = () => {
+        setSelectedJobId('howto')
+        router.push(`/all-trainings?selected=howto`, { scroll: false } as any)
+    }
+
     useEffect(() => {
         getJobs(currentPage, pageSize).then(({ data, count }) => {
             const renderJobs = data?.filter(job => {
@@ -120,14 +125,19 @@ export default function DesktopViewJobs(props: any) {
         }
     }, [urlSelectedId])
 
-    // Auto-select first job when jobs load
+    // Auto-select HowTo on page 1, or first job on other pages
     useEffect(() => {
-        if (jobs.length > 0 && !selectedJobId) {
-            const firstJobId = jobs[0].uid
-            setSelectedJobId(firstJobId)
-            router.push(`/all-trainings?selected=${firstJobId}`, { scroll: false } as any)
+        if (!selectedJobId) {
+            if (currentPage === 1) {
+                setSelectedJobId('howto')
+                router.push(`/all-trainings?selected=howto`, { scroll: false } as any)
+            } else if (jobs.length > 0) {
+                const firstJobId = jobs[0].uid
+                setSelectedJobId(firstJobId)
+                router.push(`/all-trainings?selected=${firstJobId}`, { scroll: false } as any)
+            }
         }
-    }, [jobs, selectedJobId, router])
+    }, [selectedJobId, router, currentPage, jobs])
 
     const totalPages = Math.ceil(totalJobs / pageSize);
 
@@ -159,7 +169,7 @@ export default function DesktopViewJobs(props: any) {
             <div className="flex gap-5 px-5">
                 {/* Left: Job List */}
                 <div className="w-[40%] pr-2">
-                    <HowTo />
+                    {currentPage === 1 && <HowTo onClick={handleHowToSelect} isSelected={selectedJobId === 'howto'} />}
                     <div className="flex flex-col gap-2 mt-4">
                         {jobs ? jobs.map((job: JobProps) => (
                             <CompactJobListItem
@@ -217,7 +227,100 @@ export default function DesktopViewJobs(props: any) {
 
                 {/* Right: Detail Panel */}
                 <div className="w-[60%] border-l pl-5 h-screen sticky top-0 overflow-y-auto">
-                    {selectedJobId ? (
+                    {selectedJobId === 'howto' ? (
+                        <div className="p-8">
+                            <div className="mb-6">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <h1 className="text-3xl font-bold text-[#0A1F44]">How to Use Prentis</h1>
+                                    <span className="text-sm text-[#14B8A6] bg-[#14B8A6]/15 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                                        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8 0L9.86593 1.86593L12.364 1.13407L13.0959 3.63204L15.5939 4.36391L14.862 6.86187L16.728 8.72781L14.862 10.5937L15.5939 13.0917L13.0959 13.8236L12.364 16.3215L9.86593 15.5897L8 17.4556L6.13407 15.5897L3.63611 16.3215L2.90424 13.8236L0.40628 13.0917L1.13815 10.5937L-0.727783 8.72781L1.13815 6.86187L0.40628 4.36391L2.90424 3.63204L3.63611 1.13407L6.13407 1.86593L8 0Z" fill="#14B8A6"/>
+                                            <path d="M11.0625 6.125L7.0625 10.125L5 8.0625" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                        Welcome Guide
+                                    </span>
+                                </div>
+                                <p className="text-lg text-[#515B6F]">Get a guaranteed certificate and hands-on support to launch your own business after training.</p>
+                            </div>
+
+                            <div className="space-y-8">
+                                <section>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                                            <span className="text-green-800 font-bold">1</span>
+                                        </div>
+                                        <h2 className="text-xl font-semibold text-[#0A1F44]">Getting Started</h2>
+                                    </div>
+                                    <div className="ml-10 space-y-3 text-[#515B6F]">
+                                        <p>Welcome to Prentis! Here's how to begin your journey:</p>
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            <li>Browse through available apprenticeships in various fields</li>
+                                            <li>Click on any training to view detailed information</li>
+                                            <li>Review the requirements, duration, and certification details</li>
+                                            <li>Apply directly to apprenticeships that match your interests</li>
+                                        </ul>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <div className="w-8 h-8 rounded-full bg-[#14B8A6]/20 flex items-center justify-center">
+                                            <span className="text-[#14B8A6] font-bold">2</span>
+                                        </div>
+                                        <h2 className="text-xl font-semibold text-[#0A1F44]">Quick Tips</h2>
+                                    </div>
+                                    <div className="ml-10 space-y-3 text-[#515B6F]">
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            <li>Use the filter options at the top to narrow down apprenticeships by category and type</li>
+                                            <li>Look for verified apprenticeships marked with a checkmark</li>
+                                            <li>Pay attention to the training mode (on-site, remote, or hybrid)</li>
+                                            <li>Check if the apprenticeship provides a certificate upon completion</li>
+                                        </ul>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <div className="w-8 h-8 rounded-full bg-[#14B8A6]/20 flex items-center justify-center">
+                                            <span className="text-[#14B8A6] font-bold">3</span>
+                                        </div>
+                                        <h2 className="text-xl font-semibold text-[#0A1F44]">Certificates</h2>
+                                    </div>
+                                    <div className="ml-10 space-y-3 text-[#515B6F]">
+                                        <p>Upon successful completion of your apprenticeship:</p>
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            <li>Receive a recognized certificate to validate your skills</li>
+                                            <li>Boost your resume with industry-relevant credentials</li>
+                                            <li>Demonstrate your practical experience to potential employers</li>
+                                        </ul>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <div className="w-8 h-8 rounded-full bg-[#14B8A6]/20 flex items-center justify-center">
+                                            <span className="text-[#14B8A6] font-bold">4</span>
+                                        </div>
+                                        <h2 className="text-xl font-semibold text-[#0A1F44]">Apprentice Guide</h2>
+                                    </div>
+                                    <div className="ml-10 space-y-3 text-[#515B6F]">
+                                        <p>As an apprentice, you'll benefit from:</p>
+                                        <ul className="list-disc pl-5 space-y-2">
+                                            <li>Hands-on training in real-world environments</li>
+                                            <li>Mentorship from experienced professionals</li>
+                                            <li>Support to launch your own business after training</li>
+                                            <li>Networking opportunities with industry experts</li>
+                                        </ul>
+                                    </div>
+                                </section>
+
+                                <div className="mt-8 p-6 bg-gradient-to-br from-[#14B8A6]/5 to-white border-2 border-[#14B8A6]/30 rounded-xl">
+                                    <h3 className="text-lg font-semibold text-[#0A1F44] mb-2">Ready to start?</h3>
+                                    <p className="text-[#515B6F] mb-4">Explore the apprenticeships below and take the first step towards your future career!</p>
+                                </div>
+                            </div>
+                        </div>
+                    ) : selectedJobId ? (
                         <JobDetailPanel jobId={selectedJobId} user={props.user} />
                     ) : (
                         <div className="flex items-center justify-center h-full text-gray-400">

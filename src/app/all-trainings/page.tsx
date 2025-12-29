@@ -58,7 +58,7 @@ export default async function AllJobs({ params,
         <div>
             <SeekerNavbar user={user || null} />
             <div className="flex flex-col items-center py-0 lg:pb-20 mx-auto justify-center">
-                <div className="flex flex-col w-full items-center px-4 gap-7 pb-15 py-5 ">
+                <div className="flex flex-col w-full items-center gap-7 pb-15  ">
                     <Search />
 
                 </div>

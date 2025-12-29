@@ -1,4 +1,9 @@
-export default function HowTo() {
+type HowToProps = {
+  onClick?: () => void;
+  isSelected?: boolean;
+}
+
+export default function HowTo({ onClick, isSelected }: HowToProps) {
   return(
     <>
       <a href="/welcome" className=" lg:hidden flex justify-center min-w- mb-4">
@@ -30,10 +35,14 @@ export default function HowTo() {
 
         </div>
       </a>
-      <div className=" lg:flex hidden items-center border-2 border-[#14B8A6]/30 rounded-xl px-6 p-4 my-6 bg-gradient-to-br from-[#14B8A6]/5 via-white to-white shadow-md hover:shadow-lg transition-all relative overflow-hidden">
-        {/* Left accent border */}
-        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-[#14B8A6] to-[#0D9488]"></div>
-
+      <div
+        onClick={onClick}
+        className={`lg:flex hidden items-center border-2 rounded-xl px-6 p-4 my-6 shadow-md hover:shadow-lg transition-all relative overflow-hidden ${
+          isSelected
+            ? 'border-[#14B8A6] bg-[#14B8A6]/[0.08]'
+            : 'border-[#14B8A6]/40 bg-[#14B8A6]/[0.04]'
+        } ${onClick ? 'cursor-pointer' : ''}`}
+      >
         <div className="flex flex-row">
           <div className="flex flex-col">
             <div className="flex items-center gap-6">
@@ -56,7 +65,7 @@ export default function HowTo() {
             </div>
             <div className="flex gap-2 my-4 items-center">
               <div className="rounded-xl text-xs min-w-max px-3 py-2 font-semibold bg-green-100 text-green-800">Getting Started</div>
-              <div className="w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20 dark:opacity-40"></div>
+              <div className="w-px self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-20"></div>
               <div className="rounded-xl border border-[#14B8A6]/30 px-3 py-2 font-semibold text-xs bg-[#14B8A6]/10 text-[#14B8A6] min-w-max">Quick Tips</div>
               <div className="rounded-xl border border-[#14B8A6]/30 px-3 py-2 font-semibold text-xs bg-[#14B8A6]/10 text-[#14B8A6] min-w-max">Certificates</div>
               <div className="rounded-xl border border-[#14B8A6]/30 px-3 py-2 font-semibold text-xs bg-[#14B8A6]/10 text-[#14B8A6] min-w-max">Apprentice Guide</div>
