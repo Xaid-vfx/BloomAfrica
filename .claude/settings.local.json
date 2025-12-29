@@ -12,7 +12,8 @@
       "mcp__ide__getDiagnostics",
       "Bash(find:*)",
       "Bash(timeout /t 1)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(dir \"C:\\\\Users\\\\david\\\\bloomafrica1\" /s /b)"
     ],
     "deny": [],
     "ask": []

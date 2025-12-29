@@ -75,8 +75,8 @@ export default function Navbar(props: { color: string }) {
                   <a href="/signup">
                     <div className="py-2 font-medium text-sm">For Apprentices</div>
                   </a>
-                  <a href="/signup?type=recruiter">
-                    <div className="py-2 font-medium text-sm">For Companies</div>
+                  <a href="/for-trainers">
+                    <div className="py-2 font-medium text-sm">For Trainers</div>
                   </a>
                 </div>
               )}
@@ -132,8 +132,8 @@ export default function Navbar(props: { color: string }) {
                     <a href="/signup" className="block px-4 py-2 text-sm font-medium hover:bg-teal-50 hover:text-[#14B8A6] transition-colors">
                       For Apprentices
                     </a>
-                    <a href="/signup?type=recruiter" className="block px-4 py-2 text-sm font-medium hover:bg-teal-50 hover:text-[#14B8A6] transition-colors">
-                      For Companies
+                    <a href="/for-trainers" className="block px-4 py-2 text-sm font-medium hover:bg-teal-50 hover:text-[#14B8A6] transition-colors">
+                      For Trainers
                     </a>
                   </div>
                 </div>
