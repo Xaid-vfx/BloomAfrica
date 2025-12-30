@@ -29,19 +29,14 @@ export default function HowItWorksTrainers() {
     ]
 
     return (
-        <div className="py-20 px-6 lg:py-28 lg:px-12 bg-white relative overflow-hidden">
-            {/* Decorative Blob */}
-            <svg viewBox="0 0 400 400" className="absolute top-0 left-0 w-[200px] h-[200px] md:w-[300px] md:h-[300px] opacity-[0.03] pointer-events-none" style={{ transform: 'translate(-20%, -20%)' }}>
-                <path fill="#14B8A6" d="M340.5,175.5c-12.3,47.8-49,84.5-96.8,96.8c-47.8,12.3-97.5-4.5-131.3-44.2c-33.8-39.8-45.3-94.2-30.2-143.4c15.1-49.2,51.2-84.5,94.2-86.2c43-1.8,91.8,28.5,115.8,75C316.2,121,352.8,127.7,340.5,175.5z"/>
-            </svg>
-
+        <div className="py-20 px-6 lg:py-28 lg:px-12 relative overflow-hidden">
             <div className="max-w-[1500px] mx-auto relative z-10">
                 {/* Section Header */}
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-semibold text-[#1F2937] mb-4">
+                    <h2 className="text-3xl lg:text-4xl font-semibold text-white mb-4">
                         Get Started in 4 Simple Steps
                     </h2>
-                    <p className="text-lg text-[#6B7280] lg:max-w-2xl mx-auto">
+                    <p className="text-lg text-white/70 lg:max-w-2xl mx-auto">
                         Joining Prentis as a trainer is straightforward. Follow these steps to start building your legacy.
                     </p>
                 </div>
@@ -62,10 +57,10 @@ export default function HowItWorksTrainers() {
                                 <div className="text-[#14B8A6] mb-3">
                                     {step.icon}
                                 </div>
-                                <h3 className="text-xl font-semibold text-[#1F2937] mb-2">
+                                <h3 className="text-xl font-semibold text-white mb-2">
                                     {step.title}
                                 </h3>
-                                <p className="text-[#6B7280] leading-relaxed">
+                                <p className="text-white/70 leading-relaxed">
                                     {step.description}
                                 </p>
                             </div>
