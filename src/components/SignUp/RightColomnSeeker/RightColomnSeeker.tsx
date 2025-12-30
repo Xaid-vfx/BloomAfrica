@@ -21,13 +21,16 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
     const supabase = createClientComponentClient()
     const router = useRouter()
 
-    const [name, setname] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [email, setemail] = useState('')
     const [number, setnumber] = useState('')
     const [numberCode, setnumberCode] = useState('+234')
-    const [date, setdate] = useState("")
+    const [day, setDay] = useState("")
+    const [month, setMonth] = useState("")
+    const [year, setYear] = useState("")
     const [gender, setgender] = useState('')
-    const [country, setcountry] = useState('')
+    const [country, setcountry] = useState('Nigeria')
     const [state, setstate] = useState('')
 
 
@@ -44,7 +47,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
 
     const countryList = CountryList()
     const [stateList, setstateList] = useState<State[]>([])
-    const year = Year()
+    const yearList = Year()
     const [currentUser, setcurrentUser] = useState<User | null>(null)
 
     const [terms, setTerms] = useState(false)
@@ -74,7 +77,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
     }
 
     async function handleFirstNext() {
-        if (name == "" || number == "" || date == "" || gender == "" || country == "" || state == "") {
+        if (firstName == "" || lastName == "" || number == "" || day == "" || month == "" || year == "" || gender == "" || state == "") {
             toast("Please fill all fields");
             return;
         }
@@ -92,7 +95,10 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
 
     async function step1() {
         // Validate inputs
-        if (!name || !number || !date || !gender || !country || !state) {
+        const fullName = `${firstName.trim()} ${lastName.trim()}`
+        const dateOfBirth = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+
+        if (!firstName || !lastName || !number || !day || !month || !year || !gender || !state) {
             toast.error("Please fill in all the required fields.");
             return null;
         }
@@ -101,10 +107,10 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
             const { data, error } = await supabase
                 .from('Seekers')
                 .upsert({
-                    name: name.trim(),
+                    name: fullName,
                     email: currentUser?.email,
                     number: number.trim(),
-                    dob: date,
+                    dob: dateOfBirth,
                     gender: gender.trim(),
                     country: country.trim(),
                     state: state.trim()
@@ -159,11 +165,12 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
     }
 
     async function step3(uuid: string) {
+        const fullName = `${firstName.trim()} ${lastName.trim()}`
         try {
-            const { error } = await supabase
+            const { error} = await supabase
                 .from('users')
                 .insert({
-                    name: name.trim(),
+                    name: fullName,
                     email: currentUser?.email,
                     type: "seeker"
                 });
@@ -273,7 +280,10 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
             if (!tosSuccess) throw new Error("Step 4 (Terms of Service and Privacy Policy agreements) failed.");
 
             toast.success("Registration complete!");
-            router.push(props.redirectUrl !== "null" ? `/all-trainings${props.redirectUrl}` : '/all-trainings');
+            const redirectPath = props.redirectUrl && props.redirectUrl !== "null" && props.redirectUrl !== "undefined"
+                ? `/all-trainings${props.redirectUrl}`
+                : '/all-trainings';
+            router.push(redirectPath);
         } catch (error) {
             console.error("Error during registration process:", error);
             toast.error("An unexpected error occurred. Rolling back changes...");
@@ -290,6 +300,8 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
         getUser().then(user => {
             setcurrentUser(user);
         })
+        // Auto-load Nigeria states since country is locked to Nigeria
+        fetchStates('Nigeria')
     }, [])
     return (
         <div className="w-full lg:w-[55%] flex flex-col min-h-screen">
@@ -302,28 +314,38 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                         <p className="text-xs font-semibold text-[#515B6F]">Step 1 of 3</p>
                     </div>
                     <div className="">
-                        <div className="my-4">
-                            <TextInput 
-                                value={name}
+                        <div className="grid grid-cols-2 gap-4 my-4">
+                            <TextInput
+                                value={firstName}
                                 extra=""
-                                field="Full Name" 
-                                type="text" 
-                                placeholder="Enter your Full Name" 
+                                field="First Name"
+                                type="text"
+                                placeholder="Enter your first name"
                                 handleChange={(e: any) => {
-                                    setname(e.target.value)
-                                }} 
+                                    setFirstName(e.target.value)
+                                }}
+                            />
+                            <TextInput
+                                value={lastName}
+                                extra=""
+                                field="Last Name"
+                                type="text"
+                                placeholder="Enter your last name"
+                                handleChange={(e: any) => {
+                                    setLastName(e.target.value)
+                                }}
                             />
                         </div>
                         <div className="my-4">
-                            <TextInput 
+                            <TextInput
                                 value={currentUser?.email || ''}
                                 extra="read"
-                                field="Email" 
-                                type="text" 
-                                placeholder="Enter your email" 
+                                field="Email"
+                                type="text"
+                                placeholder="Enter your email"
                                 handleChange={(e: any) => {
                                     setemail(e.target.value)
-                                }} 
+                                }}
                             />
                         </div>
                         <div className="my-4">
@@ -335,7 +357,38 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                         </div>
                         <div className="my-4">
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">Date of Birth</p>
-                            <input value={date} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="date" placeholder="Enter Date of Birth" onChange={(e) => { setdate(e.target.value) }} />
+                            <div className="grid grid-cols-3 gap-2">
+                                <select
+                                    value={day}
+                                    onChange={(e) => setDay(e.target.value)}
+                                    className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs"
+                                >
+                                    <option value="">Day</option>
+                                    {Array.from({ length: 31 }, (_, i) => i + 1).map(d => (
+                                        <option key={d} value={d}>{d}</option>
+                                    ))}
+                                </select>
+                                <select
+                                    value={month}
+                                    onChange={(e) => setMonth(e.target.value)}
+                                    className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs"
+                                >
+                                    <option value="">Month</option>
+                                    {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map((m, i) => (
+                                        <option key={i + 1} value={i + 1}>{m}</option>
+                                    ))}
+                                </select>
+                                <select
+                                    value={year}
+                                    onChange={(e) => setYear(e.target.value)}
+                                    className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs"
+                                >
+                                    <option value="">Year</option>
+                                    {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map(y => (
+                                        <option key={y} value={y}>{y}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                         <div>
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">Gender</p>
@@ -349,15 +402,14 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                         </div>
                         <div className="my-4">
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">Country</p>
-                            <select value={country} onChange={(e) => {
-                                setcountry(e.target.value)
-                                fetchStates(e.target.value)
-                            }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                <option>Select your country</option>
-                                {countryList.map((country, index) => (
-                                    <option key={`country-${index}`} value={country}>{country}</option>
-                                ))}
-                            </select>
+                            <div className="relative">
+                                <input
+                                    value={country}
+                                    disabled
+                                    className="px-4 py-3 rounded-lg border bg-gray-50 text-xs w-full cursor-not-allowed"
+                                />
+                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">🇳🇬</span>
+                            </div>
                         </div>
 
                         <div className="my-4">
@@ -423,7 +475,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                             <p className="font-semibold text-xs my-1 text-[#515B6F]">Year of Graduation</p>
                             <select className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full" onChange={(e) => { setgradYear(e.target.value) }}>
                                 <option>Select year</option>
-                                {year.map((yearValue, index) => (
+                                {yearList.map((yearValue, index) => (
                                     <option key={`year-${index}`} value={yearValue}>{yearValue}</option>
                                 ))}
                             </select>

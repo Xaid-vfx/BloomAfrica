@@ -6,8 +6,9 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
   // if "next" is in param, use it as the redirect URL
-  const next = searchParams.get('next')
+  const next = searchParams.get('next') || ''
   const route = searchParams.get('route')
+  const type = searchParams.get('type') // 'seeker' or 'recruiter'
 
   if (code) {
     const cookieStore = cookies()
@@ -28,11 +29,26 @@ export async function GET(request: Request) {
         },
       }
     )
-    console.log('type = ', route);
+    console.log('type = ', type);
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) {
-      return NextResponse.redirect(`${origin}${route}?continue=${next}`)
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+
+    if (!error && data.user) {
+      // Create Seeker or Recruiter record if it doesn't exist
+      if (type === 'seeker') {
+        await supabase.from('Seekers').upsert({
+          unique_id: data.user.id,
+          email: data.user.email
+        }, { onConflict: 'unique_id', ignoreDuplicates: true })
+      } else if (type === 'recruiter') {
+        await supabase.from('Recruiters').upsert({
+          uniqueid: data.user.id,
+          email: data.user.email
+        }, { onConflict: 'uniqueid', ignoreDuplicates: true })
+      }
+
+      const continueParam = next ? `?continue=${next}` : ''
+      return NextResponse.redirect(`${origin}${route}${continueParam}`)
     }
   }
 

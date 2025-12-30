@@ -8,6 +8,8 @@ type JobProps = {
     category: string;
     company_name?: string;
     isVerified?: boolean;
+    provides_certificate?: boolean;
+    training_mode?: string;
 }
 
 interface Props {
@@ -58,12 +60,22 @@ export default function CompactJobListItem({ job, isSelected, onClick }: Props) 
 
             {/* Badges */}
             <div className="flex gap-2 flex-wrap">
-                <div className="rounded-md text-xs px-2 py-1 bg-green-100 text-green-800 font-medium">
+                <div className="rounded-md text-xs px-2 py-1 bg-green-100 text-green-800 font-medium w-fit">
                     {job.type}
                 </div>
-                <div className="rounded-md text-xs px-2 py-1 border border-[#14B8A6]/30 bg-[#14B8A6]/10 text-[#14B8A6] font-medium">
+                <div className="rounded-md text-xs px-2 py-1 border border-[#14B8A6]/30 bg-[#14B8A6]/10 text-[#14B8A6] font-medium w-fit">
                     {job.category}
                 </div>
+                {job.provides_certificate && (
+                    <div className="rounded-md text-xs px-2 py-1 border border-[#14B8A6]/30 bg-[#14B8A6]/10 text-[#14B8A6] font-medium w-fit">
+                        Certificate
+                    </div>
+                )}
+                {job.training_mode && (
+                    <div className="rounded-md text-xs px-2 py-1 border border-[#14B8A6]/30 bg-[#14B8A6]/10 text-[#14B8A6] font-medium w-fit">
+                        {job.training_mode}
+                    </div>
+                )}
             </div>
         </div>
     )

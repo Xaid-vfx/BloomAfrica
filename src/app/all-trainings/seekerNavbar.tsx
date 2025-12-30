@@ -41,7 +41,7 @@ export default function SeekerNavbar(props: any) {
 
   if (navbarIsVisible) {
     return (
-      <div className="h-[200vh] w-screen px-6 overflow-hidden fixed top-0 bg-white z-10">
+      <div className="h-[200vh] w-screen px-6 overflow-hidden fixed top-0 bg-white z-50">
         <div className="py-5 flex justify-between items-center lg:justify-normal">
           <a href="/" className="lg:hidden">
             <PrentisLogo className="!text-[#14B8A6]" />

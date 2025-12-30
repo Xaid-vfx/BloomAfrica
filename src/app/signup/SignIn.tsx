@@ -160,8 +160,8 @@ export default function SignIn() {
                     prompt: 'consent'
                 },
                 redirectTo: signUpUserTypeTab == "seeker" ?
-                    'https://www.prentis.ng/auth/callback?route=/signup/complete_profile&next=' + redirectUrl :
-                    'https://www.prentis.ng/auth/callback?route=/signup/complete_recruiter_profile'
+                    `${location.origin}/auth/callback?route=/signup/complete_profile&type=seeker&next=${redirectUrl || ''}` :
+                    `${location.origin}/auth/callback?route=/signup/complete_recruiter_profile&type=recruiter`
             },
         });
         console.log(data);

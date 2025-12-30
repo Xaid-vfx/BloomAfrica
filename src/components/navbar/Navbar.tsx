@@ -48,13 +48,18 @@ export default function Navbar(props: { color: string }) {
           <a href="/" className="lg:hidden">
             <PrentisLogo className="!text-[#14B8A6]" />
           </a>
-          <div className="menu text-2xl lg:hidden cursor-pointer">
-            <RxCross1 onClick={() => {
-              document.getElementsByClassName('SlideIn')[0].classList.add('SlideOut'); setTimeout(() => {
+          <button
+            onClick={() => {
+              document.getElementsByClassName('SlideIn')[0].classList.add('SlideOut');
+              setTimeout(() => {
                 setnavbarIsVisible(false);
               }, 200);
-            }} />
-          </div>
+            }}
+            className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-all lg:hidden"
+            aria-label="Close menu"
+          >
+            <RxCross1 className="text-xl text-gray-700" />
+          </button>
         </div>
         <div className="SlideIn">
           <div className="px-4">
@@ -99,11 +104,28 @@ export default function Navbar(props: { color: string }) {
       <a href="/" className="lg:hidden">
         <PrentisLogo className="!text-white" />
       </a>
-      <div className={`menu gap-4 items-center flex text-3xl lg:hidden ${props.color == "light" ? 'text-white' : 'text-white'}`}>
-        <a href="/signup" className={`text-sm ${props.color == "light" ? 'text-white' : 'text-white'}`}>Sign in</a>
-        <CgMenuRightAlt onClick={() => {
-          setnavbarIsVisible(true)
-        }} />
+      <div className={`menu gap-3 items-center flex lg:hidden`}>
+        <a
+          href="/signup"
+          className={`text-sm px-4 py-2 font-semibold rounded-xl transition-all ${
+            props.color == "light"
+              ? 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+              : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+          }`}
+        >
+          Sign in
+        </a>
+        <button
+          onClick={() => setnavbarIsVisible(true)}
+          className={`p-2 rounded-xl transition-all ${
+            props.color == "light"
+              ? 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+              : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+          }`}
+          aria-label="Open menu"
+        >
+          <CgMenuRightAlt className="text-2xl" />
+        </button>
       </div>
 
       <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full ms-auto me-auto max-w-[1300px]">

@@ -40,16 +40,21 @@ export default async function CompleteProfile({
 
     const result = await checkIfUserExists(await user?.id)
 
-    if (await result) {
-        if (searchParams?.continue != "null")
-            redirect('/all-trainings' + searchParams?.continue)
-        else redirect('/all-trainings')
+    // Check if profile is actually complete (has name, not just email)
+    // If only email exists (OAuth just created the record), show profile completion form
+    if (result && result.name && result.number) {
+        // Profile is complete, redirect to trainings
+        const continueUrl = searchParams?.continue && searchParams.continue !== "null"
+            ? searchParams.continue
+            : ''
+        redirect('/all-trainings' + continueUrl)
     }
     else {
+        // Profile incomplete or doesn't exist, show form
         return (
             <div className="flex h-screen">
-                <LeftColomn />
-                <RightColumnSeeker redirectUrl={searchParams?.continue} />
+                <LeftColomn userType="seeker" />
+                <RightColumnSeeker redirectUrl={searchParams?.continue || ''} />
             </div>
         )
     }

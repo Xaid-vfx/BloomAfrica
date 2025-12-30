@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { redirect } from "next/navigation";
 import getUser from "@/lib/getUser/getUser";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'Complete Recruiter Profile | Prentis'
@@ -30,14 +31,18 @@ export default async function CompleteRecruiterProfile() {
     const result = await checkIfUserExists(user?.id)
     console.log(result);
 
-    if (result?.uniqueid) {
+    // Check if profile is actually complete (has name, not just email)
+    // If only email exists (OAuth just created the record), show profile completion form
+    if (result?.uniqueid && result?.name && result?.number) {
+        // Profile is complete, redirect to recruiter dashboard
         redirect('/recruiter')
     }
 
+    // Profile incomplete or doesn't exist, show form
     return (
         <div>
             <div className="flex h-screen w-full">
-                <LeftColomn />
+                <LeftColomn userType="recruiter" />
                 <RightColomnRecruiter />
             </div>
         </div>

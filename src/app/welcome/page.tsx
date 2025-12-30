@@ -1,60 +1,119 @@
-import Image from "next/image"
-import Navbar from "@/components/navbar/Navbar"
-import Footer from "@/components/Footer/Footer"
+import { Metadata } from "next";
+import SeekerNavbar from "../all-trainings/seekerNavbar";
+import getUser from "@/lib/getUser/getUser";
+import Footer from "@/components/Footer/Footer";
 
+export const metadata: Metadata = {
+    title: 'How to Use Prentis | Prentis'
+}
 
+export default async function WelcomePage() {
+    const user = await getUser();
 
-export default function WelcomePage() {
-  return(
-    <>
-      <Navbar/>
-      <div className="flex flex-col items-center w-full gap-5 my-5 lg:mb-32 lg:mt-20">
-        <div className=' flex flex-col lg:flex-row gap-5 w-full px-5 max-w-[110rem]'>
-          <div className="w-full relative rounded-xl overflow-hidden bg-cover bg-center text-white p-4 lg:p-7" style={{ backgroundImage: "url('/engineer.jpg')" }}>
-            <div className="absolute inset-0 bg-black/70"></div> {/* gradient overlay */}
-            <div className="relative z-[1]">
-              <p className="text-6xl font-bold mb-2">1</p>
-              <p className="text-2xl font-semibold">Get Started</p>
-              <p className="text-sm md:text-base lg:text-lg">Register, join as a learner, find apprenticeship programs, and build the skills to run a business or grow your career.</p>
+    return (
+        <div>
+            <SeekerNavbar user={user || null} />
+            <div className="min-h-screen bg-white">
+                <div className="max-w-4xl mx-auto px-6 py-12">
+                    <div className="mb-8">
+                        <div className="flex items-center gap-3 mb-4">
+                            <h1 className="text-3xl md:text-4xl font-bold text-[#0A1F44]">How to Use Prentis</h1>
+                            <span className="text-sm text-[#14B8A6] bg-[#14B8A6]/15 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                                <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 0L9.86593 1.86593L12.364 1.13407L13.0959 3.63204L15.5939 4.36391L14.862 6.86187L16.728 8.72781L14.862 10.5937L15.5939 13.0917L13.0959 13.8236L12.364 16.3215L9.86593 15.5897L8 17.4556L6.13407 15.5897L3.63611 16.3215L2.90424 13.8236L0.40628 13.0917L1.13815 10.5937L-0.727783 8.72781L1.13815 6.86187L0.40628 4.36391L2.90424 3.63204L3.63611 1.13407L6.13407 1.86593L8 0Z" fill="#14B8A6"/>
+                                    <path d="M11.0625 6.125L7.0625 10.125L5 8.0625" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                                Welcome Guide
+                            </span>
+                        </div>
+                        <p className="text-lg md:text-xl text-[#515B6F]">Get a guaranteed certificate and hands-on support to launch your own business after training.</p>
+                    </div>
+
+                    <div className="space-y-10">
+                        <section>
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                                    <span className="text-green-800 font-bold text-lg">1</span>
+                                </div>
+                                <h2 className="text-2xl font-semibold text-[#0A1F44]">Getting Started</h2>
+                            </div>
+                            <div className="ml-12 space-y-4 text-[#515B6F]">
+                                <p className="text-lg">Welcome to Prentis! Here's how to begin your journey:</p>
+                                <ul className="list-disc pl-6 space-y-3 text-base">
+                                    <li>Browse through available apprenticeships in various fields</li>
+                                    <li>Click on any training to view detailed information</li>
+                                    <li>Review the requirements, duration, and certification details</li>
+                                    <li>Apply directly to apprenticeships that match your interests</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section>
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="w-10 h-10 rounded-full bg-[#14B8A6]/20 flex items-center justify-center">
+                                    <span className="text-[#14B8A6] font-bold text-lg">2</span>
+                                </div>
+                                <h2 className="text-2xl font-semibold text-[#0A1F44]">Quick Tips</h2>
+                            </div>
+                            <div className="ml-12 space-y-4 text-[#515B6F]">
+                                <ul className="list-disc pl-6 space-y-3 text-base">
+                                    <li>Use the filter options at the top to narrow down apprenticeships by category and type</li>
+                                    <li>Look for verified apprenticeships marked with a checkmark</li>
+                                    <li>Pay attention to the training mode (on-site, remote, or hybrid)</li>
+                                    <li>Check if the apprenticeship provides a certificate upon completion</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section>
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="w-10 h-10 rounded-full bg-[#14B8A6]/20 flex items-center justify-center">
+                                    <span className="text-[#14B8A6] font-bold text-lg">3</span>
+                                </div>
+                                <h2 className="text-2xl font-semibold text-[#0A1F44]">Certificates</h2>
+                            </div>
+                            <div className="ml-12 space-y-4 text-[#515B6F]">
+                                <p className="text-lg">Upon successful completion of your apprenticeship:</p>
+                                <ul className="list-disc pl-6 space-y-3 text-base">
+                                    <li>Receive a recognized certificate to validate your skills</li>
+                                    <li>Boost your resume with industry-relevant credentials</li>
+                                    <li>Demonstrate your practical experience to potential employers</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section>
+                            <div className="flex items-center gap-2 mb-4">
+                                <div className="w-10 h-10 rounded-full bg-[#14B8A6]/20 flex items-center justify-center">
+                                    <span className="text-[#14B8A6] font-bold text-lg">4</span>
+                                </div>
+                                <h2 className="text-2xl font-semibold text-[#0A1F44]">Apprentice Guide</h2>
+                            </div>
+                            <div className="ml-12 space-y-4 text-[#515B6F]">
+                                <p className="text-lg">As an apprentice, you'll benefit from:</p>
+                                <ul className="list-disc pl-6 space-y-3 text-base">
+                                    <li>Hands-on training in real-world environments</li>
+                                    <li>Mentorship from experienced professionals</li>
+                                    <li>Support to launch your own business after training</li>
+                                    <li>Networking opportunities with industry experts</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <div className="mt-10 p-8 bg-gradient-to-br from-[#14B8A6]/5 to-white border-2 border-[#14B8A6]/30 rounded-2xl">
+                            <h3 className="text-2xl font-semibold text-[#0A1F44] mb-3">Ready to start?</h3>
+                            <p className="text-[#515B6F] text-lg mb-6">Explore the apprenticeships below and take the first step towards your future career!</p>
+                            <a
+                                href="/all-trainings"
+                                className="inline-block text-white bg-[#14B8A6] hover:bg-[#0D9488] px-8 py-3 rounded-xl font-semibold transition-colors"
+                            >
+                                Browse Apprenticeships
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <a
-            href="/welcome/trainer"
-            className="bg-[#4A2C84] lg:hidden hover:bg-[#2f185e] text-white font-semibold py-3 px-6 rounded-2xl max-w-[25rem] mx-auto transition"
-          >
-            Not a Learner?  Become a Trainer
-          </a>
-          <div className="w-full relative rounded-xl overflow-hidden bg-cover bg-center text-white p-4 lg:p-7" style={{ backgroundImage: "url('/workers.jpg')" }}>
-            <div className="absolute inset-0 bg-black/70"></div> {/* gradient overlay */}
-            <div className="relative z-[1] text-right lg:text-left">
-              <p className="text-6xl font-bold mb-2 ">2</p>
-              <p className="text-2xl font-semibold ">Certificate</p>
-              <p className="text-sm md:text-base lg:text-lg">The Bloom Certificate isn’t just for show. It proves you’ve done real, hands-on work and finished what you started. It sets you apart. <br /><br />
-              It’s a mark of grit, capability, and readiness. It also gives you access to <span className='font-bold'>exclusive Bloom alumni benefits</span>, support, and growth opportunities. </p>
-            </div>
-          </div>
-          <div className="w-full relative rounded-xl overflow-hidden bg-cover bg-center text-white p-4 lg:p-7" style={{ backgroundImage: "url('/carpenter.jpg')" }}>
-            <div className="absolute inset-0 bg-black/70"></div> {/* gradient overlay */}
-            <div className="relative z-[1]">
-              <p className="text-6xl font-bold mb-2">3</p>
-              <p className="text-2xl font-semibold">Bloom Alumni Benefits</p>
-              <p className="text-sm md:text-base lg:text-lg">As a certified Bloom graduate, you’ll gain exclusive access to our alumni community and resources, including:
-
-                <ul className="list-decimal font-semibold gap-2 flex flex-col underline pl-4 pt-5">
-                  <li>Find co-founders/Business partners</li>
-                  <li>Business idea validation</li>
-                  <li>Legal help and incorporation</li>
-                  <li>Access to financing</li>
-                  <li>Growth and Strategy</li>
-                  <li>Ongoing Support or Check-ins</li>
-                </ul>
-              </p>
-              
-            </div>
-          </div>
+            <Footer />
         </div>
-      </div>
-      <Footer/>
-    </>
-  )
+    );
 }
