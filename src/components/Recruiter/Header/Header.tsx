@@ -83,24 +83,14 @@ export default function Header({ name }: Props) {
                         className="text-2xl lg:hidden cursor-pointer"
                         onClick={() => setShowNav(true)}
                     />
-                    <Image
-                        src={Prentis}
-                        width={120}
-                        height={100}
-                        alt="Prentis Logo"
-                        className="cursor-pointer"
-                        onClick={() => handleNavigation('/recruiter/dashboard')}
-                    />
+                    <div className="cursor-pointer" onClick={() => handleNavigation('/recruiter/dashboard')}>
+                        <PrentisLogo className="!text-[#14B8A6]" />
+                    </div>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                            <Image
-                                src={Prentis}
-                                width={40}
-                                height={40}
-                                alt="Profile"
-                            />
+                        <div className="w-10 h-10 rounded-full bg-[#14B8A6]/10 flex items-center justify-center text-[#14B8A6] font-semibold">
+                            {name?.charAt(0).toUpperCase()}
                         </div>
                         <div className="hidden lg:block">
                             <p className="text-sm font-medium">{name}</p>

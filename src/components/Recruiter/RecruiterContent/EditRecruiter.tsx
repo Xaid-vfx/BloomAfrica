@@ -1,33 +1,29 @@
-import { Input } from "@mui/material"
+'use client'
+
 import { useEffect, useState } from "react"
-import EditInput from "./EditInput"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import CountryList from "@/lib/CountryList/CountryList"
 import { useRouter } from "next/navigation"
-import { IoMdArrowRoundBack } from "react-icons/io"
+import { useRecruiter } from "@/context/RecruiterContext"
+import { User, Building2, Globe, MapPin, Upload, Briefcase, Save, X } from "lucide-react"
+import { toast } from "sonner"
 
-
-type Props = {
-    user: any
-    recruiter: any
-    company: any
-    handleChangeTabIndex: (index: number) => void
-}
-export default function EditRecruiter(props: Props) {
-    const [name, setname] = useState(props.recruiter?.name)
-    const [gender, setgender] = useState(props.recruiter?.gender)
+export default function EditRecruiter() {
+    const { user, recruiter, company } = useRecruiter()
+    const [name, setname] = useState(recruiter?.name)
+    const [gender, setgender] = useState(recruiter?.gender)
     const [stateList, setstateList] = useState([])
     const [showSave1, setshowSave1] = useState(false)
     const [showSave2, setshowSave2] = useState(false)
-    const [country, setcountry] = useState(props.recruiter?.country)
-    const [state, setstate] = useState(props.recruiter?.state)
+    const [country, setcountry] = useState(recruiter?.country)
+    const [state, setstate] = useState(recruiter?.state)
     const [logo, setlogo] = useState<File | null>(null);
     const countryList = CountryList()
 
-    const [cname, setcname] = useState(props.company?.name)
-    const [ctype, setctype] = useState(props.company?.type)
-    const [cwebsite, setcwebsite] = useState(props.company?.website)
-    const [cdesc, setsdesc] = useState(props.company?.description)
+    const [cname, setcname] = useState(company?.name)
+    const [ctype, setctype] = useState(company?.type)
+    const [cwebsite, setcwebsite] = useState(company?.website)
+    const [cdesc, setsdesc] = useState(company?.description)
 
     const router = useRouter()
 
@@ -49,8 +45,6 @@ export default function EditRecruiter(props: Props) {
             .catch(error => console.error('Error:', error));
     }
 
-    console.log(props.company);
-
     function handleChange() {
         setshowSave1(true)
     }
@@ -60,39 +54,56 @@ export default function EditRecruiter(props: Props) {
         const { data, error } = await supabase
             .from('Recruiters')
             .update({ "name": name, "gender": gender, "country": country, "state": state })
-            .eq('uniqueid', props.user.id)
+            .eq('uniqueid', user.id)
 
-        console.log(error);
-        console.log(data);
-        router.refresh()
+        if (error) {
+            toast.error("Failed to update personal information")
+            console.error(error)
+        } else {
+            toast.success("Personal information updated successfully")
+            router.refresh()
+        }
     }
 
     async function handleSave2() {
-        if (logo) uploadFiles()
+        if (logo) await uploadFiles()
         const supabase = createClientComponentClient()
         const { data, error } = await supabase
             .from('CompanyInfo')
             .update({ "name": cname, "description": cdesc, "type": ctype, "website": cwebsite })
-            .eq('unique_id', props.user.id)
+            .eq('unique_id', user.id)
 
-        console.log(error);
-        console.log(data);
-        router.refresh()
+        if (error) {
+            toast.error("Failed to update company information")
+            console.error(error)
+        } else {
+            toast.success("Company information updated successfully")
+            router.refresh()
+        }
     }
     async function uploadFiles() {
         const supabase = createClientComponentClient()
-        const { data: uploadData, error: uploadError } = await supabase.storage.from('Docs').upload(`/CompanyLogo/logo-${props.user.id}`, logo)
+        const { data: uploadData, error: uploadError } = await supabase.storage.from('Docs').upload(`/CompanyLogo/logo-${user.id}`, logo, {
+            upsert: true
+        })
+
+        if (uploadError) {
+            toast.error("Failed to upload logo")
+            console.error(uploadError)
+            return
+        }
 
         const { data } = supabase
             .storage
             .from('Docs')
-            .getPublicUrl(`/CompanyLogo/logo-${props.user.id}`)
+            .getPublicUrl(`/CompanyLogo/logo-${user.id}`)
 
-        const { data: insertData, error: insertError } = await supabase.from('Recruiters').upsert({ 'logo': data.publicUrl }).eq('uniqueid', props.user.id)
-        console.log(insertData);
-        console.log(insertError);
-        console.log(uploadData);
+        const { error: insertError } = await supabase.from('Recruiters').update({ 'logo': data.publicUrl }).eq('uniqueid', user.id)
 
+        if (insertError) {
+            toast.error("Failed to save logo URL")
+            console.error(insertError)
+        }
     }
 
     useEffect(() => {
@@ -100,114 +111,209 @@ export default function EditRecruiter(props: Props) {
     }, [])
 
     return (
-        <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
-            <button
-                onClick={() => props.handleChangeTabIndex(0)}
-                className="lg:hidden flex items-center gap-2 text-[#4A2C84] hover:underline px-4 mb-6"
-            >
-                <IoMdArrowRoundBack className="text-xl" />
-                <span>Back to Dashboard</span>
-            </button>
+        <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
+            {/* Decorative Blobs */}
+            <svg viewBox="0 0 500 500" className="absolute top-0 right-0 w-[300px] h-[300px] opacity-[0.03] pointer-events-none -z-10" style={{ transform: 'translate(20%, -10%)' }}>
+                <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
+            </svg>
 
-            <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-3 lg:p-8 overflow-scroll">
-                <h1 className="text-2xl font-bold text-[#4A2C84] mb-6">Edit Profile</h1>
-                <div>
-                    <div className="bg-white rounded-xl lg:mt-6">
-                        <div>
-                            <h1 className="text-xl font-[500] text-[#4A2C84]">Personal Information</h1>
-                            <div className="my-6">
-                                <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-full">
-                                    <div className="">
-                                        <h2 className="mb-1 text-sm font-medium ">Name</h2>
-                                        <input onChange={(e) => { setname(e.target.value); handleChange() }} value={name} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
-                                    </div>
-                                    <div className="">
-                                        <p className="font-semibold text-sm my-1 text-[#515B6F]">Gender</p>
-                                        <select value={gender} onChange={(e) => {
-                                            setgender(e.target.value)
-                                            handleChange()
-                                        }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                            <option>Select gender</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                        </select>
-                                    </div>
-                                    <div className="">
-                                        <p className="font-semibold text-xs my-1 text-[#515B6F]">Country</p>
-                                        <select value={country} onChange={(e) => {
-                                            setcountry(e.target.value)
-                                            fetchStates(e.target.value)
-                                            handleChange()
-                                        }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                            <option>Select your country</option>
-                                            {
-                                                countryList.map((country) => {
-                                                    return <option value={country}>{country}</option>
-                                                })
-                                            }
-                                        </select>
-                                    </div>
-                                    <div className="">
-                                        <p className="font-semibold text-xs my-1 text-[#515B6F]">State</p>
-                                        <select value={state} onChange={(e) => {
-                                            setstate(e.target.value)
-                                            handleChange()
-                                        }} className="bg-white px-4 py-3 rounded-lg border placeholder:text-xs text-xs w-full">
-                                            <option>Select your state</option>
-                                            {
-                                                stateList.map((state) => {
-                                                    return <option className="my-4" value={state.name}>{state.name}</option>
-                                                })
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            {
-                                showSave1 && <div className="flex w-full justify-end gap-4">
-                                    <button onClick={() => { setshowSave1(false) }} className="border border-black rounded-lg px-4 py-1">Cancel</button>
-                                    <button onClick={() => { handleSave1().then(x => { setshowSave1(false) }) }} className="bg-[#4A2C84] text-white px-4 py-1 rounded-lg">Save</button>
-                                </div>
-                            }
+            {/* Header Section - Fixed */}
+            <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+                <div className="flex items-center gap-3 mb-2">
+                    <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                        <Briefcase className="text-[#14B8A6]" size={28} />
+                    </div>
+                    <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44]">Company Profile</h1>
+                </div>
+                <p className="text-gray-600">Manage your personal and company information</p>
+            </div>
+
+            {/* Scrollable Content Area */}
+            <div className="flex-1 overflow-y-auto p-6 lg:p-8">
+                {/* Personal Information Card */}
+                <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 mb-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                            <User className="text-[#14B8A6]" size={24} />
                         </div>
-                        <div className="mt-10">
-                            <h1 className="text-xl font-[500] text-[#4A2C84]">Company Information</h1>
-                            <div className="my-6">
-                                <div className="grid gap-y-2 lg:grid-cols-2 items-center gap-x-2 w-full">
-                                    <div className="">
-                                        <h2 className="mb-1 text-sm font-medium ">Employer Name</h2>
-                                        <input onChange={(e) => { setcname(e.target.value); setshowSave2(true) }} value={cname} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
-                                    </div>
-                                    <div className="">
-                                        <h2 className="mb-1 text-sm font-medium ">Position in Company</h2>
-                                        <input onChange={(e) => { setctype(e.target.value); setshowSave2(true) }} value={ctype} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
-                                    </div>
+                        <h2 className="text-xl font-semibold text-[#0A1F44]">Personal Information</h2>
+                    </div>
 
-                                    <div className="">
-                                        <h2 className="mb-1 text-sm font-medium ">Website</h2>
-                                        <input onChange={(e) => { setcwebsite(e.target.value); setshowSave2(true) }} value={cwebsite} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
-                                    </div>
-                                    <div className="">
-                                        <h2 className="mb-1 font-medium ">Logo</h2>
-                                        <input onChange={(e) => {
-                                            console.log(e.target.files[0]);
-                                            setlogo(e.target.files[0]); setshowSave2(true)
-                                        }} type="file" className="w-full border rounded-lg px-4 py-2 text-sm" />
-                                    </div>
-                                </div>
-                                <div className="my-2">
-                                    <h2 className="mb-1 text-sm font-medium w-full">Description</h2>
-                                    <textarea rows={4} onChange={(e) => { setsdesc(e.target.value); setshowSave2(true) }} value={cdesc} type="text" className="w-full border rounded-lg px-4 py-2 text-sm" />
-                                </div>
-                                {
-                                    showSave2 && <div className="flex w-full justify-end gap-4">
-                                        <button onClick={() => { setshowSave2(false) }} className="border border-black rounded-lg px-4 py-1">Cancel</button>
-                                        <button onClick={() => { handleSave2().then(x => { setshowSave2(false) }) }} className="bg-[#4A2C84] text-white px-4 py-1 rounded-lg">Save</button>
-                                    </div>
-                                }
-                            </div>
+                    <div className="grid gap-4 lg:grid-cols-2">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                            <input
+                                onChange={(e) => { setname(e.target.value); handleChange() }}
+                                value={name}
+                                type="text"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                            <select
+                                value={gender}
+                                onChange={(e) => { setgender(e.target.value); handleChange() }}
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white"
+                            >
+                                <option>Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                                <MapPin size={16} className="text-[#14B8A6]" />
+                                Country
+                            </label>
+                            <select
+                                value={country}
+                                onChange={(e) => {
+                                    setcountry(e.target.value)
+                                    fetchStates(e.target.value)
+                                    handleChange()
+                                }}
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white"
+                            >
+                                <option>Select your country</option>
+                                {countryList.map((country, index) => (
+                                    <option key={index} value={country}>{country}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                                <MapPin size={16} className="text-[#14B8A6]" />
+                                State
+                            </label>
+                            <select
+                                value={state}
+                                onChange={(e) => { setstate(e.target.value); handleChange() }}
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white"
+                            >
+                                <option>Select your state</option>
+                                {stateList.map((state: any, index) => (
+                                    <option key={index} value={state.name}>{state.name}</option>
+                                ))}
+                            </select>
                         </div>
                     </div>
+
+                    {showSave1 && (
+                        <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-100">
+                            <button
+                                onClick={() => setshowSave1(false)}
+                                className="flex items-center gap-2 border-2 border-gray-300 hover:border-gray-400 text-gray-700 px-5 py-2.5 rounded-lg font-medium transition-colors"
+                            >
+                                <X size={18} />
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => { handleSave1().then(() => { setshowSave1(false) }) }}
+                                className="flex items-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white px-5 py-2.5 rounded-lg font-medium transition-colors shadow-lg shadow-[#14B8A6]/30"
+                            >
+                                <Save size={18} />
+                                Save Changes
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                {/* Company Information Card */}
+                <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="bg-[#0A1F44]/10 rounded-full p-3">
+                            <Building2 className="text-[#0A1F44]" size={24} />
+                        </div>
+                        <h2 className="text-xl font-semibold text-[#0A1F44]">Company Information</h2>
+                    </div>
+
+                    <div className="grid gap-4 lg:grid-cols-2">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Employer Name</label>
+                            <input
+                                onChange={(e) => { setcname(e.target.value); setshowSave2(true) }}
+                                value={cname}
+                                type="text"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Position in Company</label>
+                            <input
+                                onChange={(e) => { setctype(e.target.value); setshowSave2(true) }}
+                                value={ctype}
+                                type="text"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                                <Globe size={16} className="text-[#14B8A6]" />
+                                Website
+                            </label>
+                            <input
+                                onChange={(e) => { setcwebsite(e.target.value); setshowSave2(true) }}
+                                value={cwebsite}
+                                type="text"
+                                placeholder="https://example.com"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                                <Upload size={16} className="text-[#14B8A6]" />
+                                Company Logo
+                            </label>
+                            <input
+                                onChange={(e) => {
+                                    if (e.target.files && e.target.files[0]) {
+                                        setlogo(e.target.files[0]);
+                                        setshowSave2(true)
+                                    }
+                                }}
+                                type="file"
+                                accept="image/*"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#14B8A6]/10 file:text-[#14B8A6] hover:file:bg-[#14B8A6]/20"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Company Description</label>
+                        <textarea
+                            rows={4}
+                            onChange={(e) => { setsdesc(e.target.value); setshowSave2(true) }}
+                            value={cdesc}
+                            placeholder="Tell us about your company..."
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors resize-none"
+                        />
+                    </div>
+
+                    {showSave2 && (
+                        <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-100">
+                            <button
+                                onClick={() => setshowSave2(false)}
+                                className="flex items-center gap-2 border-2 border-gray-300 hover:border-gray-400 text-gray-700 px-5 py-2.5 rounded-lg font-medium transition-colors"
+                            >
+                                <X size={18} />
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => { handleSave2().then(() => { setshowSave2(false) }) }}
+                                className="flex items-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white px-5 py-2.5 rounded-lg font-medium transition-colors shadow-lg shadow-[#14B8A6]/30"
+                            >
+                                <Save size={18} />
+                                Save Changes
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

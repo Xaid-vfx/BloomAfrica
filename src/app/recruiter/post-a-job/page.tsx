@@ -1,18 +1,9 @@
 'use client'
 import TextInput from "@/components/Input/Text";
 import { AgreementModal } from "@/components/Modal/AgreementModal";
-import Header from "@/components/Recruiter/Header/Header";
-import Sidebar from "@/components/Recruiter/Sidebar/Sidebar";
-import { ToastAction } from "@/components/ui/toast";
-import { useToast } from "@/components/ui/use-toast";
-import useDeviceDetection from "@/hooks/useDeviceDetection";
-import getIP from "@/lib/getIP/getIP";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { DocumentReference } from "firebase/firestore";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa6";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { TagsInput } from "react-tag-input-component";
 import { toast } from "sonner";
@@ -20,9 +11,12 @@ import UAParser from "ua-parser-js";
 import CountryList from "@/lib/CountryList/CountryList";
 import { getStatesWithCache } from "@/lib/StateList/StateList";
 import { getCitiesWithCache } from "@/lib/CityList/CityList";
+import getIP from "@/lib/getIP/getIP";
+import { useRecruiter } from "@/context/RecruiterContext";
+import { Briefcase, MapPin, DollarSign, FileText, GraduationCap, Clock } from "lucide-react";
 
-export default function Post(props) {
-    console.log(props);
+export default function Post() {
+    const { user, recruiter, company } = useRecruiter();
 
     const [title, settitle] = useState("")
     const [desc, setdesc] = useState("")
@@ -129,7 +123,7 @@ export default function Post(props) {
                         name
                     )
                 `)
-                .eq('uniqueid', props.user.id)
+                .eq('uniqueid', user.id)
                 .single()
 
             const { data: job, error: jobError } = await supabase
@@ -184,7 +178,7 @@ export default function Post(props) {
                     description: "Click here to view",
                     action: {
                         label: "View",
-                        onClick: () => props.handleChangeTabIndex(3),
+                        onClick: () => router.push('/recruiter/listings'),
                     },
                 })
                 setSuccessMessage("Job posted successfully!");
@@ -367,7 +361,7 @@ export default function Post(props) {
                     description: "Click here to add bank details",
                     action: {
                         label: "Add Details",
-                        onClick: () => props.handleChangeTabIndex(6),
+                        onClick: () => router.push('/recruiter/bank-details'),
                     },
                 });
                 return;
@@ -423,29 +417,36 @@ export default function Post(props) {
     };
 
     return (
-        <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
-            <button
-                onClick={() => props.handleChangeTabIndex(0)}
-                className="lg:hidden flex items-center gap-2 text-[#4A2C84] hover:underline px-4 mb-6"
-            >
-                <IoMdArrowRoundBack className="text-xl" />
-                <span>Back to Dashboard</span>
-            </button>
+        <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
+            {/* Decorative Blobs */}
+            <svg viewBox="0 0 500 500" className="absolute top-0 right-0 w-[300px] h-[300px] opacity-[0.03] pointer-events-none -z-10" style={{ transform: 'translate(20%, -10%)' }}>
+                <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
+            </svg>
 
-            <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-5 lg:p-8 overflow-scroll">
-                <AgreementModal handleAgreement={handleAgreement} type={1} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
-                <p onClick={() => { props.handleChangeTabIndex(3) }} className="mb-4 hover:underline cursor-pointer text-sm lg:flex items-center gap-1 hidden"><IoMdArrowRoundBack className="text-xl" />Back to your Apprenticeships</p>
-                <p onClick={() => { }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4">Post an Apprenticeship</p>
-                <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
+            <AgreementModal handleAgreement={handleAgreement} type={1} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
+
+            {/* Fixed Header */}
+            <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+                <div className="flex items-center gap-3 mb-2">
+                    <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                        <Briefcase className="text-[#14B8A6]" size={28} />
+                    </div>
+                    <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44]">Post an Apprenticeship</h1>
+                </div>
+                <p className="text-gray-600">Create a new apprenticeship opportunity and find talented individuals</p>
+            </div>
+
+            {/* Scrollable Content */}
+            <div className='flex-1 overflow-y-auto p-6 lg:p-8'>
                 <div className='mb-10'>
-
-                    <div className="bg-white rounded-xl p-6 lg:mt-6">
-
-                        <div className="flex gap-4">
-                            <h1 className="text-2xl font-semibold text-[#4A2C84]">General</h1>
-                            {/* <button className="text-sm text-[#4A2C84] py-1 px-4 rounded-xl border" onClick={fillSampleData}>Sample data</button> */}
+                    {/* General Section */}
+                    <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 mb-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                                <FileText className="text-[#14B8A6]" size={24} />
+                            </div>
+                            <h2 className="text-xl font-semibold text-[#0A1F44]">General Information</h2>
                         </div>
-                        <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
 
                         <div className="flex flex-col gap-2 my-4">
                             <div className="mb-1">
@@ -550,7 +551,7 @@ export default function Post(props) {
                                                 input.value = '';
                                             }
                                         }}
-                                        className="flex-shrink-0 px-3 py-2 bg-[#4A2C84] text-white rounded-lg hover:bg-[#3a2266] transition-colors"
+                                        className="flex-shrink-0 px-3 py-2 bg-[#14B8A6] text-white rounded-lg hover:bg-[#0D9488] transition-colors"
                                         aria-label="Add skill"
                                     >
                                         +
@@ -565,10 +566,16 @@ export default function Post(props) {
                         </div>
 
 
-                        <div className="flex gap-4 mt-10 sm:mt-16">
-                            <h1 className="text-2xl font-semibold text-[#4A2C84]">Deadline and Opening</h1>
+                    </div>
+
+                    {/* Deadline and Opening Section */}
+                    <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 mb-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-[#0A1F44]/10 rounded-full p-3">
+                                <Clock className="text-[#0A1F44]" size={24} />
+                            </div>
+                            <h2 className="text-xl font-semibold text-[#0A1F44]">Deadline and Opening</h2>
                         </div>
-                        <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                         <div className="flex flex-col gap-2 my-4">
                             <div className="mb-1">
                                 <p className="font-[550] text-lg my-1">Maximum Number of Applicants? *</p>
@@ -608,12 +615,16 @@ export default function Post(props) {
                                 />
                             </div>
                         </div>
+                    </div>
 
-
-                        <div className="flex gap-4 mt-10 sm:mt-16">
-                            <h1 className="text-2xl font-semibold text-[#4A2C84]">Location</h1>
+                    {/* Location Section */}
+                    <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 mb-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                                <MapPin className="text-[#14B8A6]" size={24} />
+                            </div>
+                            <h2 className="text-xl font-semibold text-[#0A1F44]">Location</h2>
                         </div>
-                        <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                         <div className=' flex flex-col sm:flex-row gap-x-5'>
                             <div className="my-2 w-full">
                                 <p className="font-[550] text-lg my-1">Country *</p>
@@ -673,12 +684,16 @@ export default function Post(props) {
                                 />
                             </div>
                         </div>
+                    </div>
 
-
-                        <div className="flex gap-4 mt-10 sm:mt-16">
-                            <h1 className="text-2xl font-semibold text-[#4A2C84]">Compensation and Fees</h1>
+                    {/* Compensation and Fees Section */}
+                    <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 mb-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-[#0A1F44]/10 rounded-full p-3">
+                                <DollarSign className="text-[#0A1F44]" size={24} />
+                            </div>
+                            <h2 className="text-xl font-semibold text-[#0A1F44]">Compensation and Fees</h2>
                         </div>
-                        <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                         <div className="flex flex-col gap-2 my-4">
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Payment Type *</p>
@@ -795,8 +810,8 @@ export default function Post(props) {
                                             Bank details are required for jobs with signup fees.
                                         </p>
                                         <button
-                                            onClick={() => props.handleChangeTabIndex(6)}
-                                            className="text-xs text-[#4A2C84] underline"
+                                            onClick={() => router.push('/recruiter/bank-details')}
+                                            className="text-xs text-[#14B8A6] underline"
                                         >
                                             Add Bank Details
                                         </button>
@@ -804,13 +819,16 @@ export default function Post(props) {
                                 )}
                             </div>
                         )}
+                    </div>
 
-
-
-                        <div className="flex gap-4 mt-10 sm:mt-16">
-                            <h1 className="text-2xl font-semibold text-[#4A2C84]">Extra</h1>
+                    {/* Extra Section */}
+                    <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 mb-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                                <GraduationCap className="text-[#14B8A6]" size={24} />
+                            </div>
+                            <h2 className="text-xl font-semibold text-[#0A1F44]">Additional Benefits</h2>
                         </div>
-                        <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                         <div className="flex flex-col gap-2 my-4">
                             <div className="my-2">
                                 <p className="font-[550] text-lg my-1">Will you provide a certificate? *</p>
@@ -847,11 +865,16 @@ export default function Post(props) {
                                 </button>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="flex gap-4 mt-10 sm:mt-16">
-                            <h1 className="text-2xl font-semibold text-[#4A2C84]">Description & Company Info</h1>
+                    {/* Description & Company Info Section */}
+                    <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 mb-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-[#0A1F44]/10 rounded-full p-3">
+                                <FileText className="text-[#0A1F44]" size={24} />
+                            </div>
+                            <h2 className="text-xl font-semibold text-[#0A1F44]">Description & Company Info</h2>
                         </div>
-                        <hr className="h-px sm:my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                         <div className="flex flex-col gap-2 my-4">
                             <div className="my-2">
                                 <div className="flex justify-between items-center">
@@ -887,12 +910,16 @@ export default function Post(props) {
                                 )}
                             </div>
                         </div>
+                    </div>
 
-
-                        <div className="flex gap-4 mt-10 sm:mt-16">
-                            <h1 className="text-2xl font-semibold text-[#4A2C84]">Training Details</h1>
+                    {/* Training Details Section */}
+                    <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 mb-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                                <GraduationCap className="text-[#14B8A6]" size={24} />
+                            </div>
+                            <h2 className="text-xl font-semibold text-[#0A1F44]">Training Details</h2>
                         </div>
-                        <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
                         <div className="flex flex-col gap-2 my-4">
                             <div className="my-2">
                                 <div className="flex justify-between items-center">
@@ -985,30 +1012,37 @@ export default function Post(props) {
                                 )}
                             </div>
                         </div>
-
                     </div>
+
+                    {/* Submit Section */}
                     {errorMessage && (
-                        <div className="text-red-500 text-sm mt-4">
-                            {errorMessage}
+                        <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 mb-6">
+                            <p className="text-red-600 text-sm font-medium">{errorMessage}</p>
                             {errorMessage.includes("bank details") && (
                                 <button
-                                    onClick={() => props.handleChangeTabIndex(6)}
-                                    className="text-[#4A2C84] ml-2 underline"
+                                    onClick={() => router.push('/recruiter/bank-details')}
+                                    className="text-[#14B8A6] text-sm underline mt-2"
                                 >
                                     Add Bank Details
                                 </button>
                             )}
                         </div>
                     )}
+
+                    {successMessage && (
+                        <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4 mb-6">
+                            <p className="text-green-600 text-sm font-medium">{successMessage}</p>
+                        </div>
+                    )}
+
                     <button
                         type="submit"
-                        className={`border rounded-2xl py-3  mx-4 lg:mx-0 text-sm font-semibold px-16 lg:my-4 mb-7 text-white bg-[#4A2C84] ${loading ? "cursor-not-allowed" : ""}`}
+                        className={`w-full bg-[#14B8A6] hover:bg-[#0D9488] text-white py-4 px-6 rounded-xl font-semibold text-base transition-colors shadow-lg shadow-[#14B8A6]/30 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                         onClick={handleSubmit}
                         disabled={loading}
-                        style={{ pointerEvents: loading ? "none" : "auto" }}>
+                    >
                         {loading ? "Posting..." : "Post Apprenticeship"}
                     </button>
-                    {successMessage && <p className="text-green-500 text-sm">{successMessage}</p>}
                 </div>
             </div>
         </div>

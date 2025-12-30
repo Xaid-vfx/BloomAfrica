@@ -34,13 +34,21 @@ export default async function RecruiterLayout({
 
     return (
         <RecruiterProvider user={user} company={company} recruiter={recruiter}>
-            <div className="flex flex-col bg-[#F5F5F5] h-screen pb-5">
-                <Header name={company?.name || ""} />
-                <div className='flex flex-row lg:gap-5 mx-5 h-full'>
+            <div className="flex flex-col bg-[#0A1F44] min-h-screen">
+                {/* Mobile Header - Only visible on mobile */}
+                <div className="lg:hidden">
+                    <Header name={company?.name || ""} />
+                </div>
+
+                {/* Main Content */}
+                <div className='flex flex-row lg:gap-5 lg:p-5 h-screen lg:h-auto'>
+                    {/* Sidebar - Only visible on desktop */}
                     <div className='h-full lg:w-[20%]'>
                         <Sidebar />
                     </div>
-                    <div className="w-full flex flex-col h-full max-h-[calc(100vh-116px)]">
+
+                    {/* Content Area */}
+                    <div className="w-full flex flex-col h-full lg:w-[80%]" style={{ height: 'calc(100vh - 2.5rem)' }}>
                         <Suspense fallback={<div className="flex items-center justify-center h-full">Loading...</div>}>
                             {children}
                         </Suspense>

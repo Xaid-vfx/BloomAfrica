@@ -1,10 +1,12 @@
+'use client'
+
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import JobListingCard from "../JobListingCard/JobListingCard";
 import { useEffect, useState } from "react";
 import getJobs from "@/lib/getJobs/getJobs";
 import JobsTable from "@/components/General/JobsTable";
 import { Router } from "next/router";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import StickyHeadTable from "@/components/General/Table";
 import { MoonLoader } from "react-spinners";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -16,17 +18,15 @@ import { DialogDemo } from "@/components/Modal/Modal";
 import Applications from "../Applications/Applications";
 import { toast } from "sonner";
 import { deleteJob, getApplicationsForJob } from "@/lib/jobs/jobUtils";
+import { useRecruiter } from "@/context/RecruiterContext";
+import { Briefcase, Plus, TrendingUp } from "lucide-react";
 
+export default function Listing() {
+    const { user, recruiter, company } = useRecruiter();
+    const searchParams = useSearchParams();
+    const job_id = searchParams?.get('job') || '';
 
-type Props = {
-    user: any
-    jobs: any
-    job_id: string
-    handleChangeTabIndex: (index: number) => void
-}
-
-export default function Listing(props: Props) {
-
+    const [jobs, setjobs] = useState<any[]>([])
     const [showJobApplications, setshowJobApplications] = useState(false)
     const [showApplicantDetails, setshowApplicantDetails] = useState(false)
     const [loading, setloading] = useState(false)
@@ -91,102 +91,151 @@ export default function Listing(props: Props) {
             const { data, error } = await supabase
                 .from('Jobs')
                 .select()
-                .eq('recruiter', props.user.id)
+                .eq('recruiter', user.id)
 
             if (error) {
-                console.log(error);
+                console.error(error);
+                toast.error("Failed to fetch jobs");
+                return [];
             }
-            console.log(data);
 
-            return data;
+            return data || [];
         }
         fetchJobs().then(data => {
-            props.setjobs(data)
+            setjobs(data)
         })
-    }, [])
+    }, [user.id])
 
     useEffect(() => {
-        console.log(props.job_id);
-        if (props.job_id != "")
-            ApplicationsForSelectedJob(props.job_id)
+        if (job_id && job_id !== "")
+            ApplicationsForSelectedJob(job_id)
+    }, [job_id])
 
-    }, [])
     return (
-        <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
-            <button
-                onClick={() => props.handleChangeTabIndex(0)}
-                className="lg:hidden flex items-center gap-2 text-[#4A2C84] hover:underline px-4 mb-6"
-            >
-                <IoMdArrowRoundBack className="text-xl" />
-                <span>Back to Dashboard</span>
-            </button>
+        <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
+            {/* Decorative Blobs */}
+            <svg viewBox="0 0 500 500" className="absolute top-0 right-0 w-[300px] h-[300px] opacity-[0.03] pointer-events-none -z-10" style={{ transform: 'translate(20%, -10%)' }}>
+                <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
+            </svg>
 
-            <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-0 lg:p-8 overflow-scroll">
-                <div className="">
-                    {showJobApplications ?
-                        <div>
-                            {
-                                showApplicantDetails ?
-                                    <div className="">
-                                        <h1 className="font-semibold text-xl  hidden lg:block mb-5">Apprentice Profile
-                                        </h1>
-                                        <p onClick={() => { setshowApplicantDetails(false) }} className="hidden lg:flex mb-4 hover:underline cursor-pointer text-sm  items-center gap-1"><IoMdArrowRoundBack className="text-xl" />Back to Applications</p>
-
-                                        <p onClick={() => { setshowApplicantDetails(false) }} className="my-4 px-4 lg:hidden hover:underline cursor-pointer text-xl font-semibold flex items-center gap-4"><IoMdArrowRoundBack className="text-xl" />Applicant Details</p>
-                                        <hr className="h-px lg:hidden bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-                                        <div>
-                                            <ApplicantDisplay experience={experience} applicant={applicant} />
-                                        </div>
-                                    </div> :
-                                    <Applications
-                                        applications={selectedJobApplications}
-                                        jobDetails={selectedJob}
-                                        setshowJobApplications={setshowJobApplications}
-                                        ApplicationsForSelectedJob={ApplicationsForSelectedJob}
-                                        fetchApplicantDetails={fetchApplicantDetails}
-                                        loading={loading}
-                                        user={props.user}
-                                    />
-                            }
-                        </div> :
-                        <div className="jobs flex flex-col gap-6 ">
-                            <div className="px-4 lg:px-0">
-                                <h1 className=" font-bold text-[#4A2C84] text-2xl pt-7 pb-6 lg:pt-0 lg:pb-2 ">Manage Apprenticeships</h1>
-                                <div className=" rounded-xl lg:pt-5 pb-2  ">
-                                    <h1 className=" text-lg text-gray-600 flex items-center gap-2"><p>Total Apprenticeships Listed:</p> <span className="text-xs  text-white bg-[#4A2C84] rounded-full py-1 px-2 font-normal">{props.jobs.length}</span></h1>
-                                </div>
+            {showJobApplications ? (
+                <div className="flex flex-col h-full overflow-hidden">
+                    {showApplicantDetails ? (
+                        <>
+                            {/* Fixed Header */}
+                            <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+                                <button
+                                    onClick={() => setshowApplicantDetails(false)}
+                                    className="flex items-center gap-2 text-[#14B8A6] hover:text-[#0D9488] font-medium mb-4 transition-colors"
+                                >
+                                    <IoMdArrowRoundBack className="text-xl" />
+                                    Back to Applications
+                                </button>
+                                <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44]">Apprentice Profile</h1>
                             </div>
-                            <div className="px-4 mb-6 bg-white lg:hidden">
-                                {/* <h1 className="font-medium text-lg">Recent Listings</h1> */}
-                                <div className="flex flex-col gap-3">
-                                    {props.jobs && props.jobs.map((job: any) => {
-                                        return (
-                                            <div onClick={() => {
-                                                ApplicationsForSelectedJob(job.uid)
-                                            }} className="border rounded-2xl flex items-center gap-2 justify-between p-5 bg-white">
-                                                <div className="">
-                                                    <p className="font-semibold mb-1">{job?.title}</p>
-                                                    <div className="text-sm text-[#4A2C84] flex item gap-1"><IoLocationOutline className="text-xl" /> {job?.location}</div>
-                                                </div>
-                                                <div className="min-w-fit rounded-xl text-white font-semibold text-sm py-3 px-3 bg-[#4A2C84]">View Applicants</div>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
+                            {/* Scrollable Content */}
+                            <div className="flex-1 overflow-y-auto p-6 lg:p-8">
+                                <ApplicantDisplay experience={experience} applicant={applicant} />
                             </div>
-                            <div className="bg-white rounded-xl  hidden lg:block">
-
-                                <h1 className="font-[500] text-2xl text-[#4A2C84] pb-4 ">All Apprenticeships</h1>
-
-                                {
-                                    props.jobs.length > 0 ? <JobsTable ApplicationsForSelectedJob={ApplicationsForSelectedJob} delete={handleDeleteJob} jobs={props.jobs} /> : <div className="flex justify-center items-center h-[200px]">
-                                        No Apprenticeships found!
-                                    </div>
-                                }
-                            </div>
-                        </div>}
+                        </>
+                    ) : (
+                        <Applications
+                            applications={selectedJobApplications}
+                            jobDetails={selectedJob}
+                            setshowJobApplications={setshowJobApplications}
+                            ApplicationsForSelectedJob={ApplicationsForSelectedJob}
+                            fetchApplicantDetails={fetchApplicantDetails}
+                            loading={loading}
+                            user={user}
+                        />
+                    )}
                 </div>
-            </div>
+            ) : (
+                <>
+                    {/* Fixed Header */}
+                    <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+                        <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                                    <Briefcase className="text-[#14B8A6]" size={28} />
+                                </div>
+                                <div>
+                                    <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44]">My Apprenticeships</h1>
+                                    <p className="text-gray-600 flex items-center gap-2 mt-1">
+                                        Total listings:
+                                        <span className="inline-flex items-center justify-center bg-[#14B8A6] text-white text-sm font-semibold rounded-full px-3 py-1">
+                                            {jobs.length}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => router.push('/recruiter/post-a-job')}
+                                className="hidden lg:flex items-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white py-3 px-5 rounded-xl font-medium transition-colors shadow-lg shadow-[#14B8A6]/30"
+                            >
+                                <Plus size={20} />
+                                Post New
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Scrollable Content */}
+                    <div className="flex-1 overflow-y-auto p-6 lg:p-8">
+                        {jobs.length > 0 ? (
+                            <>
+                                {/* Mobile View - Cards */}
+                                <div className="lg:hidden flex flex-col gap-3">
+                                    {jobs.map((job: any) => (
+                                        <div
+                                            key={job.uid}
+                                            onClick={() => ApplicationsForSelectedJob(job.uid)}
+                                            className="bg-white border-2 border-gray-100 rounded-xl p-4 hover:border-[#14B8A6] hover:shadow-lg transition-all cursor-pointer"
+                                        >
+                                            <h3 className="font-semibold text-[#0A1F44] mb-2">{job.title}</h3>
+                                            <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                                                <IoLocationOutline className="text-[#14B8A6]" />
+                                                {job.location}
+                                            </div>
+                                            <button className="w-full bg-[#14B8A6] hover:bg-[#0D9488] text-white py-2 rounded-lg text-sm font-medium transition-colors">
+                                                View Applications
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Desktop View - Table */}
+                                <div className="hidden lg:block">
+                                    <JobsTable
+                                        ApplicationsForSelectedJob={ApplicationsForSelectedJob}
+                                        delete={handleDeleteJob}
+                                        jobs={jobs}
+                                    />
+                                </div>
+                            </>
+                        ) : (
+                            // Empty State
+                            <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-12 text-center">
+                                <div className="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                    <Briefcase className="text-[#14B8A6]" size={32} />
+                                </div>
+                                <h3 className="text-xl font-semibold text-[#0A1F44] mb-2">
+                                    No Apprenticeships Yet
+                                </h3>
+                                <p className="text-gray-600 mb-6">
+                                    Start by posting your first apprenticeship opportunity
+                                </p>
+                                <button
+                                    onClick={() => router.push('/recruiter/post-a-job')}
+                                    className="inline-flex items-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white py-3 px-6 rounded-xl font-medium transition-colors shadow-lg shadow-[#14B8A6]/30"
+                                >
+                                    <Plus size={18} />
+                                    Post Apprenticeship
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </>
+            )}
         </div>
     )
 }

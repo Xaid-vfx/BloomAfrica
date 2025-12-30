@@ -4,19 +4,16 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { IoMdArrowRoundBack } from "react-icons/io";
-
-type Props = {
-    user: any;
-    recruiter: any;
-    handleChangeTabIndex: (index: number) => void;
-}
+import { useRecruiter } from "@/context/RecruiterContext";
+import { Wallet, Building2, CreditCard, Save, X } from "lucide-react";
 
 type Bank = {
     code: string;
     name: string;
 }
 
-export default function BankDetails({ user, recruiter, handleChangeTabIndex }: Props) {
+export default function BankDetails() {
+    const { user, recruiter, company } = useRecruiter();
     const [accountNumber, setAccountNumber] = useState('');
     const [accountName, setAccountName] = useState('');
     const [bankName, setBankName] = useState('');
@@ -125,11 +122,11 @@ export default function BankDetails({ user, recruiter, handleChangeTabIndex }: P
 
     if (fetchingBanks) {
         return (
-            <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
-                <div className="bg-white rounded-xl p-6 lg:mt-6">
-                    <div className="flex flex-col items-center justify-center h-40">
-                        <div className="animate-spin rounded-xl h-8 w-8 border-b-2 border-[#4A2C84] mb-4"></div>
-                        <p className="text-sm text-gray-600">Loading bank list...</p>
+            <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
+                <div className="flex items-center justify-center h-full">
+                    <div className="flex flex-col items-center gap-3">
+                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#14B8A6]"></div>
+                        <p className="text-[#14B8A6] font-medium">Loading banks...</p>
                     </div>
                 </div>
             </div>
@@ -138,40 +135,56 @@ export default function BankDetails({ user, recruiter, handleChangeTabIndex }: P
 
     if (banks.length === 0) {
         return (
-            <div className="lg:py-8 lg:px-8  lg:bg-[#F5F5F5] h-[95%] w-full">
-                <div className="bg-white rounded-xl border-gray-300 border-[1px] p-6 lg:mt-6">
-                    <div className="flex flex-col  items-center justify-center h-40">
-                        <p className="text-red-500 mb-4">Failed to load banks</p>
-                        <button
-                            onClick={() => fetchBanks()}
-                            className="bg-[#4A2C84] text-white px-7 py-2 rounded-xl hover:bg-[#3a2266]"
-                        >
-                            Retry
-                        </button>
+            <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
+                <div className="flex flex-col items-center justify-center h-full">
+                    <div className="bg-red-50 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+                        <X className="text-red-500" size={32} />
                     </div>
+                    <p className="text-red-500 mb-4 font-medium">Failed to load banks</p>
+                    <button
+                        onClick={() => fetchBanks()}
+                        className="bg-[#14B8A6] hover:bg-[#0D9488] text-white px-7 py-2.5 rounded-xl transition-colors shadow-lg shadow-[#14B8A6]/30"
+                    >
+                        Retry
+                    </button>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="lg:py-8 lg:px-8 lg:bg-[#F5F5F5] h-[95%] w-full">
-            <button
-                onClick={() => handleChangeTabIndex(0)}
-                className="lg:hidden flex items-center gap-2 text-[#4A2C84] hover:underline px-4 mb-6"
-            >
-                <IoMdArrowRoundBack className="text-xl" />
-                <span>Back to Dashboard</span>
-            </button>
+        <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
+            {/* Decorative Blobs */}
+            <svg viewBox="0 0 500 500" className="absolute top-0 right-0 w-[300px] h-[300px] opacity-[0.03] pointer-events-none -z-10" style={{ transform: 'translate(20%, -10%)' }}>
+                <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
+            </svg>
 
-            <div className='flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white p-5 lg:p-8 overflow-scroll'>
-                <h1 className="text-2xl font-bold text-[#4A2C84] lg:px-0 mb-6">Bank Details</h1>
-                <div className="bg-white rounded-xl  ">
+            {/* Fixed Header */}
+            <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+                <div className="flex items-center gap-3 mb-2">
+                    <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                        <Wallet className="text-[#14B8A6]" size={28} />
+                    </div>
+                    <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44]">Bank Details</h1>
+                </div>
+                <p className="text-gray-600">Manage your payment information for receiving apprenticeship funds</p>
+            </div>
+
+            {/* Scrollable Content */}
+            <div className='flex-1 overflow-y-auto p-6 lg:p-8'>
+                <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="bg-[#0A1F44]/10 rounded-full p-3">
+                            <Building2 className="text-[#0A1F44]" size={24} />
+                        </div>
+                        <h2 className="text-xl font-semibold text-[#0A1F44]">Account Information</h2>
+                    </div>
+                    <div className="bg-white rounded-xl">
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium mb-1">Bank Name</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Bank Name</label>
                             <select
-                                className="w-full border rounded-lg px-4 py-2 text-sm"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white"
                                 value={bankCode}
                                 onChange={(e) => {
                                     setBankCode(e.target.value);
@@ -191,10 +204,13 @@ export default function BankDetails({ user, recruiter, handleChangeTabIndex }: P
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Account Number</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                                <CreditCard size={16} className="text-[#14B8A6]" />
+                                Account Number
+                            </label>
                             <input
                                 type="text"
-                                className="w-full border rounded-lg px-4 py-2 text-sm"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
                                 value={accountNumber}
                                 onChange={(e) => {
                                     const value = e.target.value.replace(/\D/g, '');
@@ -209,10 +225,10 @@ export default function BankDetails({ user, recruiter, handleChangeTabIndex }: P
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Account Name</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Account Name</label>
                             <input
                                 type="text"
-                                className="w-full border rounded-lg px-4 py-2 text-sm"
+                                className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
                                 value={accountName}
                                 onChange={(e) => setAccountName(e.target.value)}
                                 required
@@ -221,21 +237,27 @@ export default function BankDetails({ user, recruiter, handleChangeTabIndex }: P
                             />
                         </div>
 
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="bg-[#4A2C84] text-white px-6 py-2 rounded-xl disabled:opacity-50 hover:bg-[#3a2266] transition-colors duration-200"
-                        >
-                            {loading ? (
-                                <div className="flex items-center justify-center gap-2">
-                                    <div className="animate-spin rounded-xl h-4 w-4 border-b-2 border-white"></div>
-                                    <span>Saving...</span>
-                                </div>
-                            ) : (
-                                existingDetails ? 'Update Details' : 'Save Bank Details'
-                            )}
-                        </button>
+                        <div className="pt-4">
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="flex items-center justify-center gap-2 w-full bg-[#14B8A6] hover:bg-[#0D9488] text-white px-6 py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-[#14B8A6]/30 font-medium"
+                            >
+                                {loading ? (
+                                    <>
+                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                        <span>Saving...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Save size={18} />
+                                        {existingDetails ? 'Update Details' : 'Save Bank Details'}
+                                    </>
+                                )}
+                            </button>
+                        </div>
                     </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -199,14 +199,20 @@ export default function RightColomnRecruiter() {
             if (!userSaved) throw new Error("Step 3 failed.");
 
             toast.success("Registration complete! Redirecting...");
-            router.push('/recruiter');
+
+            // Small delay to ensure toast is visible before redirect
+            setTimeout(() => {
+                router.push('/recruiter');
+            }, 1000);
         } catch (error) {
             toast.error("Registration failed. Redirecting to signup...");
             console.error("Error during registration:", error);
             if (uuid) await rollback(uuid);
+
             // Redirect to signup page after a short delay to allow toast to be seen
             setTimeout(() => {
                 router.push('/signup');
+                setIsSubmitting(false);
             }, 2000);
         }
     }
