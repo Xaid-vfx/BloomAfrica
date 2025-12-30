@@ -2,7 +2,6 @@ import Footer from '@/components/Footer/Footer'
 import Navbar from '../components/navbar/Navbar'
 import Hero from '@/components/Landing/Hero/Hero'
 import { Metadata } from 'next'
-import GetStarted from '@/components/GetStartedBanner/GetStarted'
 import FacebookBrowserRedirect from '@/components/FacebookBrowserRedirect'
 import ChooseCareerPath from '@/components/Landing/ChooseCareerPath'
 import CertificationSection from '@/components/Landing/CertificationSection'
@@ -25,7 +24,6 @@ export default function Home() {
       <IndustriesMaster />
       <CertificationSection />
       <WhyChoosePrentis />
-      <div className="px-4 bg-white"><GetStarted /></div>
       <Footer />
     </main>
   )
