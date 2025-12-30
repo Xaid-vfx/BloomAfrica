@@ -42,13 +42,6 @@ export default function TrainerHero() {
                     <p className="text-base text-white/90 leading-relaxed text-center px-2 lg:px-0 lg:text-lg HiddenAnimation lg:max-w-2xl">
                         Whether you're a master artisan or a company, use Prentis to create programs, manage learners, and build talent pipelines.
                     </p>
-
-                    {/* CTA Button */}
-                    <div className="mt-6 lg:mt-7 flex justify-center">
-                        <Link href="/signup?type=recruiter" className="bg-[#14B8A6] text-white px-8 py-3 rounded-lg text-center min-w-[200px] font-semibold hover:bg-[#0D9488] transition-all shadow-lg hover:shadow-xl">
-                            Get Started
-                        </Link>
-                    </div>
                 </div>
             </div>
         </div>

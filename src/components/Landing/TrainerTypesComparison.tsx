@@ -3,18 +3,8 @@ import Link from 'next/link'
 
 export default function TrainerTypesComparison() {
     return (
-        <div className="py-20 px-6 lg:py-28 lg:px-12 relative overflow-hidden">
+        <div className="pb-20 px-6 lg:pb-28 lg:px-12 relative overflow-hidden">
             <div className="max-w-[1500px] mx-auto relative z-10">
-                {/* Section Header */}
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-semibold text-white mb-4">
-                        Who Can Train on Prentis?
-                    </h2>
-                    <p className="text-lg text-white/70 lg:max-w-2xl mx-auto">
-                        Two types of trainers use Prentis to manage apprenticeships and build talent
-                    </p>
-                </div>
-
                 {/* Comparison Cards */}
                 <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
                     {/* Master Artisans Card */}
