@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
-import { LogOut, Plus } from "lucide-react";
+import { LogOut, Plus, Rocket } from "lucide-react";
 
 export default function Sidebar() {
     const router = useRouter()
@@ -53,6 +53,20 @@ export default function Sidebar() {
             {/* Navigation Links */}
             <div className="flex-1 px-4 py-6">
                 <nav className="space-y-1">
+                    <Link
+                        href="/recruiter/onboarding"
+                        className={`group flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
+                            isActive('onboarding')
+                                ? "bg-[#14B8A6] text-white shadow-lg shadow-[#14B8A6]/30"
+                                : "text-gray-700 hover:bg-gray-50"
+                        }`}
+                    >
+                        <Rocket className={`transition-colors ${
+                            isActive('onboarding') ? "text-white" : "text-gray-500 group-hover:text-[#14B8A6]"
+                        }`} size={20} />
+                        <span className="text-sm">Onboarding</span>
+                    </Link>
+
                     <Link
                         href="/recruiter/dashboard"
                         className={`group flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
