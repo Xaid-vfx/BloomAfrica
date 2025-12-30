@@ -4,6 +4,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import { Bookmark, BookmarkCheck } from "lucide-react"
 
 type Props = {
     id: any
@@ -13,37 +14,27 @@ type Props = {
 export default function SaveButton(props: Props) {
     const supabase = createClientComponentClient()
     const [saved, setsaved] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const router = useRouter()
 
     async function checkifSeekerisRegistered() {
-        console.log(props.user);
+        if (!props.user) return false;
 
         const { data, error } = await supabase
             .from('Seekers')
             .select()
             .eq('unique_id', props.user)
 
-
-        console.log(error);
-        console.log(data);
-
         if (error) {
             console.log(error);
             return false;
         }
-        else {
-            console.log(data);
-            if (data.length > 0) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
+
+        return data.length > 0;
     }
 
     async function checkifSeekerisAlreadySaved() {
-        console.log(props.user);
+        if (!props.user || !props.id) return false;
 
         const { data, error } = await supabase
             .from('Saved')
@@ -55,15 +46,8 @@ export default function SaveButton(props: Props) {
             console.log(error);
             return false;
         }
-        else {
-            console.log(data.length);
-            if (data.length > 0) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
+
+        return data.length > 0;
     }
 
     async function handleApplyJob() {
@@ -106,30 +90,53 @@ export default function SaveButton(props: Props) {
             if (error) {
                 console.log(error);
             }
-            else
+            else {
                 toast.success("Saved job!");
-            console.log(data);
+                setsaved(true);
+            }
         }
     }
 
     useEffect(() => {
         async function CheckSaved() {
+            setIsLoading(true);
             const res = await checkifSeekerisAlreadySaved()
-            return res;
+            setsaved(res);
+            setIsLoading(false);
         }
-        CheckSaved().then((res) => {
-            console.log(res);
-            if (res == true) {
-                setsaved(true)
-            }
-        })
-    }, [])
+        CheckSaved();
+    }, [props.user, props.id])
+
+    if (isLoading) {
+        return (
+            <button
+                disabled
+                className="inline-flex items-center gap-2 text-gray-400 border-2 border-gray-200 py-3 px-6 text-center font-medium rounded-lg cursor-wait"
+            >
+                <Bookmark size={18} />
+                Save
+            </button>
+        )
+    }
 
     if (saved) {
-        return <button className="  text-black border border-neutral-400 py-3 text-center font-medium rounded-2xl px-14" >Saved</button>
+        return (
+            <button
+                className="inline-flex items-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white py-3 px-6 text-center font-medium rounded-lg transition-colors shadow-md shadow-[#14B8A6]/20"
+            >
+                <BookmarkCheck size={18} />
+                Saved
+            </button>
+        )
     }
 
     return (
-        <button onClick={() => { handleApplyJob() }} className="  text-black border border-neutral-400  py-3 text-center font-medium rounded-2xl px-14" >Save</button>
+        <button
+            onClick={() => { handleApplyJob() }}
+            className="inline-flex items-center gap-2 text-gray-700 hover:text-[#14B8A6] border-2 border-gray-300 hover:border-[#14B8A6] py-3 px-6 text-center font-medium rounded-lg transition-colors"
+        >
+            <Bookmark size={18} />
+            Save
+        </button>
     )
 }
