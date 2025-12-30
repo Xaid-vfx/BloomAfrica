@@ -16,7 +16,8 @@
       "Bash(dir \"C:\\\\Users\\\\david\\\\bloomafrica1\" /s /b)",
       "Bash(dir \"C:\\\\Users\\\\david\\\\bloomafrica1\\\\src\\\\components\\\\GetStartedBanner\" /b)",
       "Bash(dir /s /b *.sql)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []

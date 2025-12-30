@@ -25,17 +25,18 @@ export default function SeekerNavbar(props: any) {
   }
 
   useEffect(() => {
-    if (reverseString(page[0]) == 'about') {
-      setCurrentPage("about")
-    }
-    else if (reverseString(page[0]) == '') {
+    const path = globalThis.window?.location.pathname;
+
+    if (path === '/all-trainings' || reverseString(page[0]) == '') {
       setCurrentPage("home")
-    }
-    else if (reverseString(page[0]) == 'pricing') {
-      setCurrentPage("pricing")
-    }
-    else if (reverseString(page[0]) == 'faqs') {
-      setCurrentPage("faqs")
+    } else if (path?.startsWith('/seeker/edit')) {
+      setCurrentPage("profile")
+    } else if (path?.startsWith('/seeker/saved')) {
+      setCurrentPage("saved")
+    } else if (path?.startsWith('/seeker/applied')) {
+      setCurrentPage("applied")
+    } else if (path?.startsWith('/seeker/chat')) {
+      setCurrentPage("messages")
     }
   }, [])
 
@@ -64,6 +65,10 @@ export default function SeekerNavbar(props: any) {
             <hr />
             <a href={props.user ? "/seeker/applied" : "/signup"} className="block">
               <div className="my-4 font-medium cursor-pointer">Applied</div>
+            </a>
+            <hr />
+            <a href={props.user ? "/seeker/chat" : "/signup"} className="block">
+              <div className="my-4 font-medium cursor-pointer">Messages</div>
             </a>
             <hr />
             <a href={props.user ? "/seeker/edit" : "/signup"} className="block">
@@ -96,11 +101,12 @@ export default function SeekerNavbar(props: any) {
               <PrentisLogo className="!text-[#14B8A6]" />
             </a>
 
-            <div className="hidden lg:flex lg:px-10 mx-auto justify-center max-w-[600px]">
+            <div className="hidden lg:flex lg:px-10 mx-auto justify-center max-w-[700px]">
               <a href="/all-trainings" className={`${currentPage == "home" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all`}>Home</a>
-              <a href={props.user ? "/seeker/edit" : "/signup"} className={`${currentPage == "faqs" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Profile</a>
-              <a href={props.user ? "/seeker/saved" : "/signup"} className={`${currentPage == "about" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Saved</a>
-              <a href={props.user ? "/seeker/applied" : "/signup"} className={`${currentPage == "pricing" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Applied</a>
+              <a href={props.user ? "/seeker/edit" : "/signup"} className={`${currentPage == "profile" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Profile</a>
+              <a href={props.user ? "/seeker/saved" : "/signup"} className={`${currentPage == "saved" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Saved</a>
+              <a href={props.user ? "/seeker/applied" : "/signup"} className={`${currentPage == "applied" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Applied</a>
+              <a href={props.user ? "/seeker/chat" : "/signup"} className={`${currentPage == "messages" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Messages</a>
             </div>
           </div>
 

@@ -1,11 +1,10 @@
 import getUser from "@/lib/getUser/getUser";
-import Sidebar from "../Sidebar";
 import getCompany from "@/lib/getCompany/getCompany";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import Header from "../Header";
-import AppliedTable from "@/components/General/AppliedTable";
 import Applied from "./Applied";
+import SeekerNavbar from "../../all-trainings/seekerNavbar";
+import { Metadata } from "next";
 
 async function fetchSeeker(id: string) {
     cookies().getAll()
@@ -56,20 +55,11 @@ export default async function page() {
     console.log(appliedjobs);
 
     return (
-        <div className="flex flex-col bg-[#F5F5F5] h-screen pb-5   ">
-            <div>
-                <Header name={seeker.name} />
-            </div>
-            <div className='flex flex-row lg:gap-5 mx-5 h-full '>
-                <div className="h-full lg:w-[20%]">
-                    <Sidebar />
-                </div>
-                <div className="w-full lg:w-[80%] flex flex-col lg:max-h-[calc(100vh-116px)] max-h-[calc(100vh-88px)]">
-                    <Applied appliedjobs={appliedjobs} seekerId={user?.id} />
-                </div>
-            </div>
-                
+        <div className="min-h-screen bg-white">
+            <SeekerNavbar user={user || null} />
+            <main className="px-6 py-10 max-w-7xl mx-auto">
+                <Applied appliedjobs={appliedjobs} seekerId={user?.id} />
+            </main>
         </div>
-        
     )
 }
