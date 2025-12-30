@@ -13,7 +13,8 @@
       "Bash(find:*)",
       "Bash(timeout /t 1)",
       "Bash(cat:*)",
-      "Bash(dir \"C:\\\\Users\\\\david\\\\bloomafrica1\" /s /b)"
+      "Bash(dir \"C:\\\\Users\\\\david\\\\bloomafrica1\" /s /b)",
+      "Bash(dir \"C:\\\\Users\\\\david\\\\bloomafrica1\\\\src\\\\components\\\\GetStartedBanner\" /b)"
     ],
     "deny": [],
     "ask": []

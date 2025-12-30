@@ -148,13 +148,18 @@ export default function Verify() {
     return (
         <div className="h-screen w-full">
             <div className="flex h-full">
-                <div className="py-8 px-10 bg-[#F5F5F5] w-[45%] flex flex-col">
-                    <div className="flex items-center">
+                <div className="py-8 px-10 bg-gradient-to-br from-[#0A1F44] to-[#0F2B54] w-[45%] flex flex-col relative overflow-hidden">
+                    {/* Decorative SVG Blob */}
+                    <svg viewBox="0 0 500 500" className="absolute top-0 left-0 w-[400px] h-[400px] opacity-8 pointer-events-none" style={{ transform: 'translate(-20%, -20%)' }}>
+                        <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
+                    </svg>
+
+                    <div className="flex items-center relative z-10">
                         <Image src={Logo} alt="" width={60} />
-                        <p className="text-3xl">Bloom</p>
+                        <p className="text-3xl text-white font-semibold">Prentis</p>
                     </div>
-                    <div className="py-10 flex justify-center">
-                        <Image src={sideImage} alt="" width={500} />
+                    <div className="py-10 flex justify-center relative z-10">
+                        <Image src={sideImage} alt="" width={500} className="drop-shadow-2xl" />
                     </div>
                 </div>
                 <div className="flex items-center justify-center w-[55%]">
@@ -166,7 +171,7 @@ export default function Verify() {
                         )}
                         <p className="text-center text-sm font-light">
                             We have sent a verification code to the email
-                            <span className="text-[#4A2C84] font-medium"> {searchParams.get('email')}</span>
+                            <span className="text-[#14B8A6] font-medium"> {searchParams.get('email')}</span>
                         </p>
                         <p className="text-center text-sm font-light my-2">
                             Enter the code below
@@ -180,7 +185,7 @@ export default function Verify() {
                                     value={value}
                                     onChange={(e) => handleOtpChange(index, e.target.value)}
                                     onKeyDown={(e) => handleKeyDown(index, e)}
-                                    className="w-12 h-12 border rounded-lg text-center text-lg font-medium"
+                                    className="w-12 h-12 border rounded-lg text-center text-lg font-medium focus:ring-2 focus:ring-[#14B8A6]/20 focus:border-[#14B8A6] transition-all duration-200"
                                     maxLength={1}
                                     pattern="[0-9]*"
                                     inputMode="numeric"
@@ -189,8 +194,8 @@ export default function Verify() {
                             ))}
                         </div>
                         <button
-                            className={`relative bg-[#4A2C84] text-white rounded-lg px-8 py-2 text-sm 
-                                ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#3a2266]'}`}
+                            className={`relative bg-[#14B8A6] text-white rounded-lg px-8 py-2 text-sm
+                                ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#0D9488]'} transition-all duration-300`}
                             onClick={verifyOTP}
                             disabled={isLoading}
                         >

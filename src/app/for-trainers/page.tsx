@@ -2,7 +2,7 @@ import Footer from '@/components/Footer/Footer'
 import Navbar from '@/components/navbar/Navbar'
 import { Metadata } from 'next'
 import TrainerHero from '@/components/Landing/TrainerHero'
-import GetStarted from '@/components/GetStartedBanner/GetStarted'
+import GetStartedLight from '@/components/GetStartedBanner/GetStartedLight'
 import TrainerTypesComparison from '@/components/Landing/TrainerTypesComparison'
 import HowItWorksTrainers from '@/components/Landing/HowItWorksTrainers'
 import AccreditationSection from '@/components/Landing/AccreditationSection'
@@ -30,7 +30,7 @@ export default function ForTrainersPage() {
         <HowItWorksTrainers />
 
         {/* Final CTA */}
-        <GetStarted
+        <GetStartedLight
           heading="Ready to Get Started?"
           subtitle="Join Prentis and start training apprentices today."
           ctaText="Create Your Account"

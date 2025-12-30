@@ -371,7 +371,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                                 ))}
                             </select>
                         </div>
-                        <button className="my-2 text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs" onClick={() => { handleFirstNext() }}>Next</button>
+                        <button className="my-2 text-white py-3 text-center bg-[#14B8A6] hover:bg-[#0D9488] transition-all duration-300 w-full rounded-lg font-semibold text-xs" onClick={() => { handleFirstNext() }}>Next</button>
 
                     </div>
 
@@ -428,7 +428,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
                                 ))}
                             </select>
                         </div>
-                        <button className="my-4 text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs" onClick={() => { handleSecondNext() }}>Next</button>
+                        <button className="my-4 text-white py-3 text-center bg-[#14B8A6] hover:bg-[#0D9488] transition-all duration-300 w-full rounded-lg font-semibold text-xs" onClick={() => { handleSecondNext() }}>Next</button>
                     </div>
                 </div>
             }
@@ -495,17 +495,17 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
 
                         <div className="flex gap-2 my-4">
                             <input onChange={(e) => { setTerms(e.target.checked) }} type="checkbox" />
-                            <p className="text-xs text-[#515B6F]">I agree to the company&apos;s <a href="/terms-of-service" target="_blank" className="text-[#4A2C84] underline">Terms and Conditions</a></p>
+                            <p className="text-xs text-[#515B6F]">I agree to the company&apos;s <a href="/terms-of-service" target="_blank" className="text-[#14B8A6] underline">Terms and Conditions</a></p>
                         </div>
                         <div className="flex gap-2 mb-5">
                             <input onChange={(e) => { setPrivacy(e.target.checked) }} type="checkbox" />
-                            <p className="text-xs text-[#515B6F]">I agree to the company&apos;s <a target="_blank" href="/privacy-policy" className="text-[#4A2C84] underline">Privacy Policy</a></p>
+                            <p className="text-xs text-[#515B6F]">I agree to the company&apos;s <a target="_blank" href="/privacy-policy" className="text-[#14B8A6] underline">Privacy Policy</a></p>
                         </div>
 
                         <button 
                             disabled={!(privacy && terms) || isSubmitting} 
                             onClick={() => { handleFinish() }} 
-                            className={`my-2 text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs ${
+                            className={`my-2 text-white py-3 text-center bg-[#14B8A6] hover:bg-[#0D9488] transition-all duration-300 w-full rounded-lg font-semibold text-xs ${
                                 (!(privacy && terms) || isSubmitting) ? 'opacity-70 cursor-not-allowed' : ''
                             }`}
                         >

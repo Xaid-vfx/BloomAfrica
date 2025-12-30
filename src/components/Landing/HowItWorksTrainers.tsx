@@ -29,14 +29,18 @@ export default function HowItWorksTrainers() {
     ]
 
     return (
-        <div className="py-20 px-6 lg:py-28 lg:px-12 relative overflow-hidden">
+        <div className="bg-white py-20 px-6 lg:py-28 lg:px-12 relative overflow-hidden">
+            {/* Decorative Background Elements */}
+            <div className="absolute top-20 right-10 w-72 h-72 bg-gradient-to-br from-[#14B8A6]/5 to-transparent rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 left-10 w-96 h-96 bg-gradient-to-tr from-[#0A1F44]/5 to-transparent rounded-full blur-3xl"></div>
+
             <div className="max-w-[1500px] mx-auto relative z-10">
                 {/* Section Header */}
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-semibold text-white mb-4">
+                    <h2 className="text-3xl lg:text-5xl font-bold text-[#0A1F44] mb-4">
                         Get Started in 4 Simple Steps
                     </h2>
-                    <p className="text-lg text-white/70 lg:max-w-2xl mx-auto">
+                    <p className="text-lg text-gray-600 lg:max-w-2xl mx-auto">
                         Joining Prentis as a trainer is straightforward. Follow these steps to start building your legacy.
                     </p>
                 </div>
@@ -44,11 +48,14 @@ export default function HowItWorksTrainers() {
                 {/* Steps Grid */}
                 <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
                     {steps.map((step) => (
-                        <div key={step.number} className="flex gap-6">
+                        <div
+                            key={step.number}
+                            className="flex gap-6 p-6 rounded-2xl bg-gradient-to-br from-white to-gray-50/50 border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                        >
                             {/* Number Badge */}
                             <div className="flex-shrink-0">
-                                <div className="w-12 h-12 rounded-full bg-[#14B8A6]/10 border-2 border-[#14B8A6] flex items-center justify-center">
-                                    <span className="text-xl font-bold text-[#14B8A6]">{step.number}</span>
+                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#14B8A6] to-[#0D9488] flex items-center justify-center shadow-md">
+                                    <span className="text-2xl font-bold text-white">{step.number}</span>
                                 </div>
                             </div>
 
@@ -57,10 +64,10 @@ export default function HowItWorksTrainers() {
                                 <div className="text-[#14B8A6] mb-3">
                                     {step.icon}
                                 </div>
-                                <h3 className="text-xl font-semibold text-white mb-2">
+                                <h3 className="text-xl font-bold text-[#0A1F44] mb-2">
                                     {step.title}
                                 </h3>
-                                <p className="text-white/70 leading-relaxed">
+                                <p className="text-gray-600 leading-relaxed">
                                     {step.description}
                                 </p>
                             </div>

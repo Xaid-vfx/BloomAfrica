@@ -4,9 +4,6 @@
 import { Suspense, useEffect, useState } from "react"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import Image from "next/image"
-import SideImage from '../../assets/images/SignIn/LeftIllustration.png'
-import Logo from '../../assets/images/Logo.png'
 import { FcGoogle } from "react-icons/fc";
 import LeftColomn from "@/components/SignUp/LeftColomn/LeftColomn"
 import * as pixel from '../../lib/fpixel'
@@ -33,6 +30,23 @@ export default function SignIn() {
 
     const [isRedirecting, setIsRedirecting] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    // Animation Observer
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('ShowAnimation')
+                    observer.unobserve(entry.target)
+                }
+            })
+        }, { threshold: 0.5 })
+
+        const hiddenElements = document.querySelectorAll('.HiddenAnimation')
+        hiddenElements.forEach((element) => observer.observe(element))
+
+        return () => observer.disconnect()
+    }, [])
 
     const handleSignUp = async () => {
         try {
@@ -208,21 +222,22 @@ export default function SignIn() {
     return (
         <div className="h-screen w-full">
             <div className="flex h-full">
-                
-                <div className="w-full flex items-center justify-center lg:w-full bg-[#f5f7fa]">
-                    <div className="lg:w-1/2 w-full px-10">
-                        {currentPage == "signin" ? <h1 className="text-2xl text-center mb-4">Welcome Back</h1> :
+                <LeftColomn userType={signUpUserTypeTab as 'seeker' | 'recruiter'} />
+                <div className="w-full flex items-center justify-center lg:w-[55%] bg-gradient-to-br from-[#0A1F44] to-[#0F2B54] relative overflow-hidden z-20">
+                    <div className="lg:w-1/2 w-full px-4 md:px-6 lg:px-10 relative z-30">
+                        {currentPage == "signin" ? <h1 className="text-2xl text-center mb-4 text-white font-semibold HiddenAnimation">Welcome Back</h1> :
                             <div>
-                                <div className="mb-6 flex rounded-3xl justify-center ">
-                                    <button className={`text-xs px-3 py-2 rounded-l-2xl lg:font-semibold border-y border-l border-neutral-300 ${signUpUserTypeTab == 'seeker' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B] bg-white"}`} onClick={() => { setsignUpUserTypeTab('seeker') }}>I'm an Apprentice</button>
-                                    <button className={`text-xs px-2 py-1 rounded-r-2xl   lg:font-semibold border-y border-r border-neutral-300 ${signUpUserTypeTab == 'recruiter' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B] bg-white"}`} onClick={() => { setsignUpUserTypeTab('recruiter') }}>I'm a Trainer</button>
+                                <div className="mb-6 flex gap-2 rounded-2xl p-1 bg-white/5 border border-white/10 backdrop-blur-sm justify-center max-w-md mx-auto HiddenAnimation">
+                                    <button className={`flex-1 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${signUpUserTypeTab == 'seeker' ? "bg-[#14B8A6] text-white shadow-lg shadow-[#14B8A6]/20" : "text-white/70 hover:text-white hover:bg-white/10"}`} onClick={() => { setsignUpUserTypeTab('seeker') }}>I'm an Apprentice</button>
+                                    <button className={`flex-1 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${signUpUserTypeTab == 'recruiter' ? "bg-[#14B8A6] text-white shadow-lg shadow-[#14B8A6]/20" : "text-white/70 hover:text-white hover:bg-white/10"}`} onClick={() => { setsignUpUserTypeTab('recruiter') }}>I'm a Trainer</button>
                                 </div>
-                                <h1 className="text-2xl text-center mb-4">Create a {signUpUserTypeTab == "seeker" ? "Apprentices" : "Trainers"} Account</h1>
+                                <h1 className="text-2xl text-center mb-4 text-white font-semibold HiddenAnimation">Create a {signUpUserTypeTab == "seeker" ? "Apprentices" : "Trainers"} Account</h1>
                             </div>
                         }
-                        <div onClick={() => { signInWithGoogle() }} className="border bg-white rounded-lg py-2 text-xs text-center flex items-center max-w-[30rem] mx-auto justify-center gap-2 cursor-pointer"><FcGoogle />
-                            {/* currentPage == "signin" ? "Login" : "Sign Up"} */}
-                            Continue with Google</div>
+                        <div onClick={() => { signInWithGoogle() }} className="bg-white hover:bg-gray-50 rounded-xl py-4 px-6 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-3 font-semibold text-sm max-w-md mx-auto cursor-pointer HiddenAnimation">
+                            <FcGoogle size={20} />
+                            Continue with Google
+                        </div>
                         {/* <p className="text-xs text-[#97999B] my-5 text-center">Or {currentPage == "signin" ? "Login" : "sign up"} with email</p>
 
                         {error && (
@@ -290,7 +305,7 @@ export default function SignIn() {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white p-4 rounded-lg text-center">
                         <p className="text-sm mb-2">Opening in default browser...</p>
-                        <div className="w-6 h-6 border-2 border-[#4A2C84] border-t-transparent rounded-full animate-spin mx-auto"></div>
+                        <div className="w-6 h-6 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin mx-auto"></div>
                     </div>
                 </div>
             )}

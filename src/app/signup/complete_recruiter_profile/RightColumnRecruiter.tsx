@@ -314,7 +314,7 @@ export default function RightColomnRecruiter() {
                                 ))}
                             </select>
                         </div>
-                        <button className="my-2 text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold text-xs" onClick={() => { handleFirstNext() }}>Next</button>
+                        <button className="my-2 text-white py-3 text-center bg-[#14B8A6] hover:bg-[#0D9488] transition-all duration-300 w-full rounded-lg font-semibold text-xs" onClick={() => { handleFirstNext() }}>Next</button>
 
                     </div>
 
@@ -370,21 +370,21 @@ export default function RightColomnRecruiter() {
                                 <input type="checkbox" id="terms" checked={terms} onChange={() => setTerms(!terms)} />
                                 <label htmlFor="terms" className="text-xs">
                                     I agree to the{" "}
-                                    <a target="_blank" href="/terms-of-service" className="text-[#4A2C84]">Terms of Service</a>
+                                    <a target="_blank" href="/terms-of-service" className="text-[#14B8A6]">Terms of Service</a>
                                 </label>
                             </div>
                             <div className="flex items-start gap-2 mt-2">
                                 <input type="checkbox" id="privacy" checked={privacy} onChange={() => setPrivacy(!privacy)} />
                                 <label htmlFor="privacy" className="text-xs">
                                     I agree to the{" "}
-                                    <Link target="_blank" href="/privacy-policy" className="text-[#4A2C84]">Privacy Policy</Link>
+                                    <Link target="_blank" href="/privacy-policy" className="text-[#14B8A6]">Privacy Policy</Link>
                                 </label>
                             </div>
                         </div>
 
                         <button
                             type="submit"
-                            className={`border rounded-2xl py-3 mx-4 lg:mx-0 text-sm font-semibold px-16 lg:my-4 mb-7 text-white bg-[#4A2C84] ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                            className={`border rounded-2xl py-3 mx-4 lg:mx-0 text-sm font-semibold px-16 lg:my-4 mb-7 text-white bg-[#14B8A6] hover:bg-[#0D9488] transition-all duration-300 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                             onClick={handleFinish}
                             disabled={isSubmitting}
                         >
