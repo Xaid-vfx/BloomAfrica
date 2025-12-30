@@ -1,11 +1,10 @@
 import getUser from "@/lib/getUser/getUser";
-import Sidebar from "../Sidebar";
 import getCompany from "@/lib/getCompany/getCompany";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import Header from "../Header";
-import ChatClient from "@/components/Chat/Chat";
 import SeekerMessages from "./SeekerMessages";
+import SeekerNavbar from "../../all-trainings/seekerNavbar";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'Chat | Prentis'
@@ -59,23 +58,11 @@ export default async function page() {
 
 
     return (
-
-
-        <div className="flex flex-col bg-[#F5F5F5] h-screen pb-5  ">
-            <div>
-                <Header name={seeker.name} />
-            </div>
-            <div className='flex flex-row lg:gap-5 mx-5 h-full '>
-                <div className="h-full lg:w-[20%]">
-                    <Sidebar />
-                </div>
-                <div className="w-full lg:w-[80%] flex flex-col lg:max-h-[calc(100vh-116px)] max-h-[calc(100vh-88px)]">
-                    <SeekerMessages relations={relations} user={user} />
-                </div>
-            </div>
-                
+        <div className="min-h-screen bg-white">
+            <SeekerNavbar user={user || null} />
+            <main className="px-6 py-10 max-w-7xl mx-auto">
+                <SeekerMessages relations={relations} user={user} />
+            </main>
         </div>
-        
-  
     )
 }

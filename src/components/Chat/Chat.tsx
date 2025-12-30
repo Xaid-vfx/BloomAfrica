@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { IoMdSend } from "react-icons/io";
-import { IoChevronBackCircle } from "react-icons/io5";
+import { Send, ArrowLeft } from "lucide-react";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -185,52 +184,79 @@ export default function ChatClient({ back, sender, receiver, conversation_id }) 
     const firstUnreadIndex = messages.findIndex((msg) => !msg.read);
 
     return (
-        <div className="h-full mb-7  w-full flex flex-col rounded-xl bg-[#ededed] border border-gray-300">
-            <div className="flex lg:justify-center gap-4 items-center  py-4 lg:py-6 px-4 font-medium">
-                <IoChevronBackCircle onClick={() => { back() }} className="lg:hidden cursor-pointer text-[#4A2C84] text-2xl" />
-                <p className="text-xl  font-semibold">{receiver.Seekers?.name}{receiver.Recruiters?.name}</p>
+        <div className="h-full w-full flex flex-col bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center gap-3 px-4 py-4 border-b border-gray-100 bg-white">
+                <button
+                    onClick={() => back()}
+                    className="lg:hidden p-2 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                    <ArrowLeft className="text-[#14B8A6]" size={24} />
+                </button>
+
+                {/* Avatar */}
+                <div className="w-10 h-10 rounded-full bg-[#14B8A6] text-white flex items-center justify-center font-semibold">
+                    {receiver.Seekers?.name?.charAt(0).toUpperCase() || receiver.Recruiters?.name?.charAt(0).toUpperCase()}
+                </div>
+
+                <div className="flex-1">
+                    <p className="font-semibold text-[#0A1F44]">
+                        {receiver.Seekers?.name || receiver.Recruiters?.name}
+                    </p>
+                </div>
             </div>
-            <div ref={messagesEndRef} className="overflow-scroll h-full">
+
+            {/* Messages */}
+            <div ref={messagesEndRef} className="flex-1 overflow-y-auto bg-gray-50 p-4">
                 {messages.map((e, index) => {
                     // Determine if this message is unread and should show the separator
                     const isUnreadMessage = e.sender_id === receiver.seeker || receiver.recruiter && !e.read;
-                    console.log(e.sender_id)
-                    console.log(receiver?.seeker);
-                    console.log(e.receiver_id !== sender.id)
-                    console.log(isUnreadMessage)
-                    console.log(e);
 
                     return (
-                        <div key={index} className={`px-4 my-3 flex flex-col ${e.sender_id !== sender.id ? '' : 'items-end'}`}>
+                        <div key={index}>
                             {index === firstUnreadIndex && isUnreadMessage && (
-                                <div className="flex items-center justify-center w-full my-2">
+                                <div className="flex items-center justify-center my-4">
                                     <hr className="flex-grow border-t border-gray-300" />
-                                    <span className="mx-2 text-gray-500 text-sm">Unread Messages</span>
+                                    <span className="mx-3 text-xs text-gray-500 font-medium bg-white px-3 py-1 rounded-full">
+                                        Unread Messages
+                                    </span>
                                     <hr className="flex-grow border-t border-gray-300" />
                                 </div>
                             )}
-                            <p className={`w-fit flex gap-3 text-sm px-4 bg-white border ${e.sender_id !== sender.id ? 'rounded-e-2xl rounded-b-2xl' : 'rounded-s-2xl rounded-b-2xl'}`}>
-                                <p className="py-2">{e.text}</p>
-                                <p className="text-[.6rem] text-right pt-4 pb-0 text-[#7C8493]">{convertToLocalTime(formatTodayTime(e.created_at))}</p>
-                            </p>
+                            <div className={`mb-3 flex ${e.sender_id === sender.id ? 'justify-end' : 'justify-start'}`}>
+                                <div className={`max-w-[75%] ${e.sender_id === sender.id ? 'bg-[#14B8A6] text-white' : 'bg-white border border-gray-200'} rounded-2xl px-4 py-2.5 shadow-sm`}>
+                                    <p className="text-sm break-words">{e.text}</p>
+                                    <p className={`text-[10px] mt-1 text-right ${e.sender_id === sender.id ? 'text-white/70' : 'text-gray-500'}`}>
+                                        {convertToLocalTime(formatTodayTime(e.created_at))}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     )
                 })}
                 <div ref={newMessageRef} />
             </div>
-            <div className="lg:w-full flex bg-white rounded-2xl border m-1 lg:m-0">
-                <input
-                    value={message}
-                    placeholder="Write a message"
-                    onChange={(e) => setMessage(e.target.value)}
-                    type="text"
-                    className="w-full  bg-transparent outline-none px-4 py-2 text-sm placeholder:text-sm"
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') onSend();
-                    }}
-                />
-                <div className="flex bg-[#4A2C84] rounded-xl justify-center items-center px-6 py-2 m-2">
-                    <IoMdSend className="text-2xl cursor-pointer text-white" onClick={onSend} />
+
+            {/* Input */}
+            <div className="p-4 bg-white border-t border-gray-100">
+                <div className="flex items-center gap-2 bg-gray-50 rounded-xl border-2 border-gray-200 focus-within:border-[#14B8A6] transition-colors">
+                    <input
+                        value={message}
+                        placeholder="Write a message..."
+                        onChange={(e) => setMessage(e.target.value)}
+                        type="text"
+                        className="flex-1 bg-transparent outline-none px-4 py-3 text-sm placeholder:text-gray-400"
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') onSend();
+                        }}
+                    />
+                    <button
+                        onClick={onSend}
+                        disabled={!message.trim()}
+                        className="m-1 bg-[#14B8A6] hover:bg-[#0D9488] disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-lg p-3 transition-colors shadow-md shadow-[#14B8A6]/20"
+                    >
+                        <Send size={20} />
+                    </button>
                 </div>
             </div>
         </div>

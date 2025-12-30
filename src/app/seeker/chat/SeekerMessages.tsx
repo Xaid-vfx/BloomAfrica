@@ -2,7 +2,7 @@
 import ChatClient from "@/components/Chat/Chat";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
-import { FaRegUser } from "react-icons/fa6";
+import { MessageCircle, Search, Mail } from "lucide-react";
 
 export default function SeekerMessages(props) {
 
@@ -145,56 +145,149 @@ export default function SeekerMessages(props) {
     };
 
     return (
-        <div className="flex flex-col border-gray-300 border-[1px] h-full w-full rounded-xl bg-white lg:p-5 ">
-            <h1 className="font-bold text-2xl text-[#4A2C84] mb-6  px-3 mt-7">Messages
-            </h1>
+        <div className="relative min-h-screen">
+            {/* Decorative Blobs */}
+            <svg viewBox="0 0 500 500" className="absolute top-0 right-0 w-[400px] h-[400px] opacity-[0.04] pointer-events-none -z-10" style={{ transform: 'translate(30%, -20%)' }}>
+                <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
+            </svg>
+            <svg viewBox="0 0 400 400" className="absolute bottom-0 left-0 w-[350px] h-[350px] opacity-[0.05] pointer-events-none -z-10" style={{ transform: 'translate(-25%, 25%)' }}>
+                <path fill="#0A1F44" d="M340.5,175.5c-12.3,47.8-49,84.5-96.8,96.8c-47.8,12.3-97.5-4.5-131.3-44.2c-33.8-39.8-45.3-94.2-30.2-143.4c15.1-49.2,51.2-84.5,94.2-86.2c43-1.8,91.8,28.5,115.8,75C316.2,121,352.8,127.7,340.5,175.5z"/>
+            </svg>
 
-            <div className='flex flex-row w-full h-full lg:gap-5 max-h-[calc(100%-5.2rem)] relative'>
-                <div className={`${showChat ? 'lg:w-[40%] w-full hidden lg:block' : 'w-full'} overflow-scroll lg:relative absolute left-0 right-0 top-0 bottom-0 z-10 rounded-xl border border-gray-300 bg-white `}>
-                    {relations.map((relation) => {
-                        const name = relation?.conversations?.conversation_participants[0].Recruiters.name;
-                        const check = selectedUser?.Recruiters.name === name;
-                        const ts = convertToLocalTime(formatTimestamp(relation?.conversations?.last_message_timestamp));
-                        const lm = relation?.conversations?.last_message;
+            {/* Header Section */}
+            <div className="mb-8">
+                <div className="flex items-center gap-3 mb-3">
+                    <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                        <MessageCircle className="text-[#14B8A6]" size={28} />
+                    </div>
+                    <h1 className="text-3xl md:text-4xl font-bold text-[#0A1F44]">Messages</h1>
+                </div>
+                <p className="text-gray-600 ml-16">
+                    {relations.length > 0
+                        ? `${relations.length} ${relations.length === 1 ? 'conversation' : 'conversations'}`
+                        : "Start a conversation with trainers"}
+                </p>
+            </div>
 
-                        return (
-                            <div onClick={() => handleChatClick(relation)} className={`flex items-center gap-4 text-black px-4 py-3 border-b-[1px] border-gray-200  cursor-pointer ${check ? 'bg-[#E9EBFD]' : ''}  hover:bg-[#E9EBFD]`}>
-                                
-                                <div className="w-full ">
-                                    <div className="flex justify-between w-full">
-                                        <p className="font-semibold min-w-max text-sm">{name}</p>
-                                        <p className={`text-xs mt-1 ${relation.unreadMessagesCount > 0 ? 'font-semibold text-[#4A2C84]' : 'text-[#7C8493]'}`}>{ts}</p>
+            {/* Content */}
+            {relations.length > 0 ? (
+                <div className='flex flex-row w-full gap-6 h-[calc(100vh-250px)] lg:h-[600px]'>
+                    {/* Conversation List */}
+                    <div className={`${showChat ? 'lg:w-[40%] w-full hidden lg:block' : 'w-full'} bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden`}>
+                        <div className="overflow-y-auto h-full">
+                            {relations.map((relation, index) => {
+                                const name = relation?.conversations?.conversation_participants[0].Recruiters.name;
+                                const check = selectedUser?.Recruiters.name === name;
+                                const ts = convertToLocalTime(formatTimestamp(relation?.conversations?.last_message_timestamp));
+                                const lm = relation?.conversations?.last_message;
+
+                                return (
+                                    <div
+                                        key={index}
+                                        onClick={() => handleChatClick(relation)}
+                                        className={`flex items-center gap-4 px-4 py-4 border-b border-gray-100 cursor-pointer transition-colors ${
+                                            check ? 'bg-[#F0FDFA] border-l-4 border-l-[#14B8A6]' : 'hover:bg-gray-50'
+                                        }`}
+                                    >
+                                        {/* Avatar */}
+                                        <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center font-semibold text-lg ${
+                                            check ? 'bg-[#14B8A6] text-white' : 'bg-gray-200 text-gray-700'
+                                        }`}>
+                                            {name?.charAt(0).toUpperCase()}
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex justify-between items-start mb-1">
+                                                <p className="font-semibold text-[#0A1F44] truncate">{name}</p>
+                                                <p className={`text-xs ml-2 flex-shrink-0 ${
+                                                    relation.unreadMessagesCount > 0 ? 'font-semibold text-[#14B8A6]' : 'text-gray-500'
+                                                }`}>
+                                                    {ts}
+                                                </p>
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <p className="text-sm text-gray-600 truncate pr-2">{lm}</p>
+                                                {relation.unreadMessagesCount > 0 && (
+                                                    <span className="flex-shrink-0 bg-[#14B8A6] text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                                        {relation.unreadMessagesCount}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="flex justify-between w-full items-center">
-                                        <p className="text-sm mt-1 text-[#515B6F]">{relation?.conversations?.last_message}</p>
-                                        {relation.unreadMessagesCount > 0 && (
-                                            <p className="text-[.55rem] mt-1 text-white bg-[#4A2C84] px-2 py-1 rounded-2xl">{relation.unreadMessagesCount}</p>
-                                        )}
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Chat Area */}
+                    <div className='lg:w-[60%] lg:flex w-full hidden'>
+                        {showChat ? (
+                            <ChatClient
+                                back={() => setshowChat(false)}
+                                sender={props.user}
+                                receiver={selectedUser}
+                                conversation_id={selectedConvo}
+                            />
+                        ) : (
+                            <div className="w-full bg-white rounded-2xl shadow-lg border border-gray-100 flex items-center justify-center">
+                                <div className="text-center p-8">
+                                    <div className="bg-[#14B8A6]/10 rounded-full p-6 inline-block mb-4">
+                                        <MessageCircle className="text-[#14B8A6]" size={48} strokeWidth={1.5} />
                                     </div>
+                                    <p className="text-gray-600">Select a conversation to start messaging</p>
                                 </div>
                             </div>
-                        );
-                    })}
+                        )}
+                    </div>
+
+                    {/* Mobile Chat */}
+                    <div className='flex w-full absolute bottom-0 top-0 left-0 right-0 z-20 lg:hidden'>
+                        {showChat && (
+                            <ChatClient
+                                back={() => setshowChat(false)}
+                                sender={props.user}
+                                receiver={selectedUser}
+                                conversation_id={selectedConvo}
+                            />
+                        )}
+                    </div>
                 </div>
-                <div className='  lg:w-[60%] lg:flex w-full lg:min-w-0 h-full hidden '>
-                    {showChat && <ChatClient
-                    back={() => setshowChat(false)}
-                    sender={props.user}
-                    receiver={selectedUser}
-                    conversation_id={selectedConvo}
-                    />} 
+            ) : (
+                // Empty State
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 md:p-16">
+                    <div className="max-w-md mx-auto text-center">
+                        <div className="flex justify-center mb-6">
+                            <div className="relative">
+                                <div className="bg-[#14B8A6]/10 rounded-full p-8">
+                                    <MessageCircle className="text-[#14B8A6]" size={64} strokeWidth={1.5} />
+                                </div>
+                                <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-2 shadow-lg">
+                                    <Mail className="text-gray-400" size={24} />
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2 className="text-2xl font-bold text-[#0A1F44] mb-3">
+                            No Messages Yet
+                        </h2>
+
+                        <p className="text-gray-600 mb-8 leading-relaxed">
+                            When you apply to apprenticeships or connect with trainers,
+                            your conversations will appear here.
+                        </p>
+
+                        <a
+                            href="/all-trainings"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-[#14B8A6] text-white rounded-xl font-medium hover:bg-[#0D9488] transition-colors shadow-lg shadow-[#14B8A6]/30"
+                        >
+                            <Search size={20} />
+                            Explore Apprenticeships
+                        </a>
+                    </div>
                 </div>
-                <div className='  flex w-full absolute bottom-0 top-0 left-0 right-0 z-0 lg:hidden  '>
-                    {showChat && <ChatClient
-                    back={() => setshowChat(false)}
-                    sender={props.user}
-                    receiver={selectedUser}
-                    conversation_id={selectedConvo}
-                    />} 
-                </div>
-                
-            </div>
-            
+            )}
         </div>
     );
 }
