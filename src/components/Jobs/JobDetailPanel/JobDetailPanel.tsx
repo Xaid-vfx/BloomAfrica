@@ -506,6 +506,12 @@ export default function JobDetailPanel({ jobId, user }: Props) {
                             </div>
                         </div>
                         <SidebarField
+                            icon={Clock}
+                            label="Duration"
+                            value={job?.duration}
+                            loading={!job}
+                        />
+                        <SidebarField
                             icon={Wallet}
                             label="Compensation"
                             value={job?.payment_type === "Unpaid" ? "Unpaid" : job?.settlement || "Not specified"}
@@ -515,12 +521,6 @@ export default function JobDetailPanel({ jobId, user }: Props) {
                             icon={Briefcase}
                             label="Job Type"
                             value={job?.type}
-                            loading={!job}
-                        />
-                        <SidebarField
-                            icon={Clock}
-                            label="Duration"
-                            value={job?.duration}
                             loading={!job}
                         />
                         <SidebarField
