@@ -1,4 +1,4 @@
-export default function Loading() {
+export default function LoadingSpinner() {
     return (
         <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
             <div className="flex flex-col items-center justify-center h-full gap-4">
@@ -7,4 +7,4 @@ export default function Loading() {
             </div>
         </div>
     );
-} 
+}
