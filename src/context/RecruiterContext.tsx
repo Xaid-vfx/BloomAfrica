@@ -6,13 +6,14 @@ type RecruiterContextType = {
     user: any;
     company: any;
     recruiter: any;
+    trainerProfile: any;
 };
 
 const RecruiterContext = createContext<RecruiterContextType | undefined>(undefined);
 
-export function RecruiterProvider({ children, user, company, recruiter }: RecruiterContextType & { children: ReactNode }) {
+export function RecruiterProvider({ children, user, company, recruiter, trainerProfile }: RecruiterContextType & { children: ReactNode }) {
     return (
-        <RecruiterContext.Provider value={{ user, company, recruiter }}>
+        <RecruiterContext.Provider value={{ user, company, recruiter, trainerProfile }}>
             {children}
         </RecruiterContext.Provider>
     );

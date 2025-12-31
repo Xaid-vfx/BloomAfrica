@@ -4,7 +4,7 @@ import Sidebar from '@/components/Recruiter/Sidebar/Sidebar';
 import getUser from '@/lib/getUser/getUser';
 import getCompany from '@/lib/getCompany/getCompany';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { RecruiterProvider } from '@/context/RecruiterContext';
 
@@ -12,6 +12,22 @@ async function fetchRecruiter(id: string) {
     const supabase = createServerComponentClient({ cookies })
     const { data, error } = await supabase.from('Recruiters').select().eq('uniqueid', id).single()
     return data;
+}
+
+async function fetchTrainerProfile(userId: string) {
+    try {
+        const supabase = createServerComponentClient({ cookies })
+        const { data, error } = await supabase
+            .from('TrainerProfiles')
+            .select('*')
+            .eq('user_id', userId)
+            .single()
+        return data;
+    } catch (error) {
+        // Table doesn't exist yet - return null for local development
+        console.log('TrainerProfiles table not found - using local storage')
+        return null;
+    }
 }
 
 export default async function RecruiterLayout({
@@ -27,14 +43,29 @@ export default async function RecruiterLayout({
 
     const company = await getCompany(user.id);
     const recruiter = await fetchRecruiter(user.id);
+    const trainerProfile = await fetchTrainerProfile(user.id);
 
     if (!recruiter) {
         redirect('/signup');
     }
 
+    // Check if onboarding is complete
+    // For local development without database, check localStorage
+    const isOnboardingComplete = trainerProfile?.is_completed || false;
+
+    // Get current path to check if user is on onboarding page
+    const headersList = headers();
+    const pathname = headersList.get('x-invoke-path') || '';
+
+    // Redirect to onboarding if not complete and trying to access other pages
+    // Skip redirect if trainerProfile is null (table doesn't exist yet)
+    if (trainerProfile !== null && !isOnboardingComplete && !pathname.includes('/onboarding')) {
+        redirect('/recruiter/onboarding');
+    }
+
     return (
-        <RecruiterProvider user={user} company={company} recruiter={recruiter}>
-            <div className="flex flex-col bg-[#0A1F44] min-h-screen">
+        <RecruiterProvider user={user} company={company} recruiter={recruiter} trainerProfile={trainerProfile}>
+            <div className="flex flex-col bg-[#0A1F44] h-screen overflow-hidden">
                 {/* Mobile Header - Only visible on mobile */}
                 <div className="lg:hidden">
                     <Header name={company?.name || ""} />
