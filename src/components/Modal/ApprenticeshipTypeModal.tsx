@@ -53,7 +53,7 @@ export function ApprenticeshipTypeModal({ isOpen, onClose }: ApprenticeshipTypeM
               <Wrench className="w-5 h-5 sm:w-8 sm:h-8 text-[#14B8A6]" strokeWidth={2.5} />
             </div>
 
-            <h3 className="text-base sm:text-xl font-bold mb-1.5 sm:mb-2 text-gray-900 text-center sm:text-left">Artisan</h3>
+            <h3 className="text-base sm:text-xl font-bold mb-1.5 sm:mb-2 text-gray-900 text-center sm:text-left">Learn with an Artisan</h3>
 
             <div className="mb-2 sm:mb-4 flex-grow w-full">
               <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 sm:mb-3 text-center sm:text-left">
@@ -84,7 +84,7 @@ export function ApprenticeshipTypeModal({ isOpen, onClose }: ApprenticeshipTypeM
               <Building2 className="w-5 h-5 sm:w-8 sm:h-8 text-[#14B8A6]" strokeWidth={2.5} />
             </div>
 
-            <h3 className="text-base sm:text-xl font-bold mb-1.5 sm:mb-2 text-gray-900 text-center sm:text-left">Company</h3>
+            <h3 className="text-base sm:text-xl font-bold mb-1.5 sm:mb-2 text-gray-900 text-center sm:text-left">Learn in a Company</h3>
 
             <div className="mb-2 sm:mb-4 flex-grow w-full">
               <h4 className="text-xs sm:text-sm font-semibold text-gray-900 mb-1.5 sm:mb-3 text-center sm:text-left">

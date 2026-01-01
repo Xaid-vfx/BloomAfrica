@@ -8,7 +8,7 @@ export default function ChooseCareerPath() {
     const tracks = [
         {
             id: "artisan",
-            title: "Learn From an Artisan",
+            title: "Learn From with Artisan",
             icon: <Hammer size={48} strokeWidth={1.5} />,
             description: "Learn specialized crafts and trades by working alongside master craftspeople in their workshops—from tailoring and welding to furniture-making and engine repair.",
             result: ["On Completion: You will become an expert and master in the craft or trade you choose."],
