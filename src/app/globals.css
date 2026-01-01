@@ -19,6 +19,7 @@
 body {
   background: white;
   color: black;
+  overflow-x: hidden;
 }
 
 .HiddenAnimation{

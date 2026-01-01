@@ -1,9 +1,11 @@
 'use client'
 
 import Link from "next/link"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { ApprenticeshipTypeModal } from "@/components/Modal/ApprenticeshipTypeModal"
 
 export default function Hero() {
+    const [showModal, setShowModal] = useState(false)
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -60,12 +62,21 @@ export default function Hero() {
                     </p>
 
                     <div className="mt-8 lg:mt-10 flex justify-center">
-                        <Link href="/all-trainings" className="bg-[#14B8A6] text-white px-8 py-3 rounded-lg text-center min-w-[200px] font-semibold hover:bg-[#0D9488] transition-all shadow-sm">
+                        <button
+                            onClick={() => setShowModal(true)}
+                            className="bg-[#14B8A6] text-white px-8 py-3 rounded-lg text-center min-w-[200px] font-semibold hover:bg-[#0D9488] transition-all shadow-sm"
+                        >
                             Find an Apprenticeship
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </div>
+
+            {/* Apprenticeship Type Selection Modal */}
+            <ApprenticeshipTypeModal
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+            />
         </div>
     )
 }
