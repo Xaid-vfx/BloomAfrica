@@ -17,6 +17,9 @@ import {
   uploadWorkspacePhotos,
   uploadMentorPhoto
 } from '@/lib/uploadTrainerFile/uploadTrainerFile'
+import ProgressIndicator from '@/components/Recruiter/ProgressIndicator/ProgressIndicator'
+import MobileFileUpload from '@/components/Recruiter/MobileFileUpload/MobileFileUpload'
+import useScrollToError from '@/hooks/useScrollToError'
 
 const SECTION_TITLES = [
   'Registrant Information',
@@ -133,6 +136,9 @@ export default function OnboardingQuestionnaire() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [lastSaved, setLastSaved] = useState<Date | null>(null)
   const [isSaving, setIsSaving] = useState(false)
+
+  // Auto-scroll to errors
+  useScrollToError({ errors: fieldErrors })
   const [profileId, setProfileId] = useState<string | null>(null)
 
   // Load saved progress on mount
@@ -852,24 +858,24 @@ export default function OnboardingQuestionnaire() {
   }
 
   return (
-    <div className="relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden">
+    <div className="relative flex flex-col h-full w-full bg-white rounded-none lg:rounded-2xl border-0 lg:border border-gray-100 shadow-none lg:shadow-lg overflow-hidden">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-6 md:px-8 py-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 md:px-8 py-3 md:py-4">
+        <div className="flex items-center justify-between mb-2 md:mb-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44]">
+            <h1 className="text-xl md:text-3xl font-bold text-[#0A1F44]">
               Trainer Profile Setup
             </h1>
-            <p className="text-gray-600 mt-1">
+            <p className="text-sm md:text-base text-gray-600 mt-0.5 md:mt-1 hidden sm:block">
               Complete your profile to start training the next generation
             </p>
           </div>
 
-          {/* Save Progress Button */}
+          {/* Save Progress Button - Hidden on mobile */}
           <button
             onClick={saveProgress}
             disabled={isSaving}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors"
+            className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors"
           >
             <Save size={18} />
             {isSaving ? 'Saving...' : 'Save Progress'}
@@ -877,14 +883,23 @@ export default function OnboardingQuestionnaire() {
         </div>
 
         {lastSaved && (
-          <p className="text-xs text-gray-500">
+          <p className="hidden lg:block text-xs text-gray-500">
             Last saved: {lastSaved.toLocaleTimeString()}
           </p>
         )}
       </div>
 
+      {/* Mobile Progress Indicator */}
+      <div className="lg:hidden">
+        <ProgressIndicator
+          currentStep={currentSection}
+          totalSteps={7}
+          stepTitle={SECTION_TITLES[currentSection - 1]}
+        />
+      </div>
+
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-6 md:px-8 py-6">
+      <div className="flex-1 overflow-y-auto px-4 md:px-8 py-4 md:py-6">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Section Content */}
           {currentSection === 1 && (
@@ -912,21 +927,19 @@ export default function OnboardingQuestionnaire() {
       </div>
 
       {/* Footer Navigation */}
-      <div className="sticky bottom-0 z-10 bg-white border-t border-gray-200 px-6 md:px-8 py-6">
-        <div className="max-w-4xl mx-auto">
-          <SectionNavigation
-            currentSection={currentSection}
-            totalSections={7}
-            completedSections={completedSections}
-            onPrevious={goToPreviousSection}
-            onNext={goToNextSection}
-            onSubmit={handleSubmit}
-            canGoNext={true}
-            isSubmitting={isSubmitting}
-            sectionTitles={SECTION_TITLES}
-            showBreadcrumbs={false}
-          />
-        </div>
+      <div className="px-4 md:px-8 py-4 md:py-6">
+        <SectionNavigation
+          currentSection={currentSection}
+          totalSections={7}
+          completedSections={completedSections}
+          onPrevious={goToPreviousSection}
+          onNext={goToNextSection}
+          onSubmit={handleSubmit}
+          canGoNext={true}
+          isSubmitting={isSubmitting}
+          sectionTitles={SECTION_TITLES}
+          showBreadcrumbs={false}
+        />
       </div>
     </div>
   )

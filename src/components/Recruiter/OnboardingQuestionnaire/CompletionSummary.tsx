@@ -45,7 +45,7 @@ export default function CompletionSummary({ onEdit, profileData }: CompletionSum
   const displayData = profileData || trainerProfile
 
   return (
-    <div className="relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden">
+    <div className="relative flex flex-col h-full w-full bg-white rounded-none lg:rounded-2xl border-0 lg:border border-gray-100 shadow-none lg:shadow-lg overflow-hidden">
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-6 md:px-8 py-8">
         <div className="max-w-3xl mx-auto space-y-8">

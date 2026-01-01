@@ -122,7 +122,7 @@ export default function BankDetails() {
 
     if (fetchingBanks) {
         return (
-            <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
+            <div className='relative flex flex-col h-full w-full bg-white rounded-none lg:rounded-2xl border-0 lg:border border-gray-100 shadow-none lg:shadow-lg overflow-hidden'>
                 <div className="flex items-center justify-center h-full">
                     <div className="flex flex-col items-center gap-3">
                         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#14B8A6]"></div>
@@ -135,7 +135,7 @@ export default function BankDetails() {
 
     if (banks.length === 0) {
         return (
-            <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
+            <div className='relative flex flex-col h-full w-full bg-white rounded-none lg:rounded-2xl border-0 lg:border border-gray-100 shadow-none lg:shadow-lg overflow-hidden'>
                 <div className="flex flex-col items-center justify-center h-full">
                     <div className="bg-red-50 rounded-full w-16 h-16 flex items-center justify-center mb-4">
                         <X className="text-red-500" size={32} />

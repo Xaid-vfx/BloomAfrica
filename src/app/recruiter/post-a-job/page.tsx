@@ -14,6 +14,10 @@ import { getCitiesWithCache } from "@/lib/CityList/CityList";
 import getIP from "@/lib/getIP/getIP";
 import { useRecruiter } from "@/context/RecruiterContext";
 import { Briefcase, MapPin, DollarSign, FileText, GraduationCap, Clock } from "lucide-react";
+import { useLocalStorageAutoSave } from "@/hooks/useAutoSave";
+import AutoSaveIndicator from "@/components/Recruiter/AutoSaveIndicator/AutoSaveIndicator";
+import SkillsInput from "@/components/Recruiter/SkillsInput/SkillsInput";
+import TextAreaInput from "@/components/Recruiter/Forms/TextAreaInput";
 
 export default function Post() {
     const { user, recruiter, company } = useRecruiter();
@@ -81,6 +85,19 @@ export default function Post() {
 
     // Add this state for tracking which fields have errors
     const [fieldErrors, setFieldErrors] = useState<Record<string, boolean>>({});
+
+    // Auto-save form data to localStorage
+    const formData = {
+        title, desc, type, category, wya, settlement, skills, duration,
+        paymenttype, accomodation, signupfee, limit, deadline, startDate,
+        trainingMode, providesCertificate, teachingMethod, learningOutcomes,
+        scheduling, outcomes, trainerCredentials, country, state, city
+    };
+    const { status: autoSaveStatus, lastSaved } = useLocalStorageAutoSave(
+        `post-job-draft-${user?.id}`,
+        formData,
+        2000
+    );
 
     async function fetchStates(countryName: string) {
         setIsLoadingStates(true);
@@ -425,6 +442,9 @@ export default function Post() {
 
             <AgreementModal handleAgreement={handleAgreement} type={1} showAgreements={showAgreements} setShowAgreements={setShowAgreements} />
 
+            {/* Auto-Save Indicator */}
+            <AutoSaveIndicator status={autoSaveStatus} lastSaved={lastSaved} position="fixed" />
+
             {/* Fixed Header */}
             <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
                 <div className="flex items-center gap-3 mb-2">
@@ -527,42 +547,17 @@ export default function Post() {
                                 <p className="font-[550] text-lg my-1">Duration *</p>
                                 <input value={duration} className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" placeholder="Enter Job Duration" type="text" onChange={(e) => { setduration(e.target.value) }} />
                             </div>
-                            <div className="mt-2">
-                                <p className="font-[550] text-lg my-1">Required Skills*</p>
-                                <div className="flex items-center gap-2">
-                                    <div className="flex-1">
-                                        <TagsInput
-                                            value={skills}
-                                            onChange={setskills}
-                                            name="Skills"
-                                            placeHolder="Enter Required Skills"
-                                            classNames={{
-                                                input: `!text-xs bg-white py-1 rounded-lg !border placeholder:text-xs text-xs w-full ${fieldErrors.skills ? '!border-red-500 !bg-red-50' : ''}`,
-                                                tag: 'text-xs'
-                                            }}
-                                        />
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            const input = document.querySelector('input[name="Skills"]') as HTMLInputElement;
-                                            if (input && input.value.trim()) {
-                                                setskills([...skills, input.value.trim()]);
-                                                input.value = '';
-                                            }
-                                        }}
-                                        className="flex-shrink-0 px-3 py-2 bg-[#14B8A6] text-white rounded-lg hover:bg-[#0D9488] transition-colors"
-                                        aria-label="Add skill"
-                                    >
-                                        +
-                                    </button>
-                                </div>
-                                {skills.length < 3 && (
-                                    <p className="text-xs mt-1 text-red-500">
-                                        Minimum 3 skills required. Type a skill and press Enter or tap the <span className="font-semibold">+</span> button to add it.
-                                    </p>
-                                )}
-                            </div>
+                            <SkillsInput
+                                label="Required Skills"
+                                value={skills}
+                                onChange={setskills}
+                                required
+                                minSkills={3}
+                                maxSkills={10}
+                                placeholder="Enter a skill"
+                                error={fieldErrors.skills ? "Please add at least 3 required skills" : undefined}
+                                helperText="Add skills that apprentices should have or will learn"
+                            />
                         </div>
 
 
@@ -876,39 +871,31 @@ export default function Post() {
                             <h2 className="text-xl font-semibold text-[#0A1F44]">Description & Company Info</h2>
                         </div>
                         <div className="flex flex-col gap-2 my-4">
-                            <div className="my-2">
-                                <div className="flex justify-between items-center">
-                                    <p className="font-[550] text-lg my-1">Description *</p>
-                                    <span className="text-xs text-gray-500">{desc.length}</span>
-                                </div>
-                                <textarea
-                                    value={desc}
-                                    rows={8}
-                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.description ? 'border-red-500 bg-red-50' : ''}`}
-                                    placeholder="Provide a general but captivating description of what this training is about."
-                                    onChange={(e) => { setdesc(e.target.value) }}
-                                ></textarea>
-                                {desc.length < 300 && (
-                                    <p className="text-xs mt-1 text-red-500">Minimum 300 characters</p>
-                                )}
-                            </div>
+                            <TextAreaInput
+                                label="Description"
+                                value={desc}
+                                onChange={(e) => setdesc(e.target.value)}
+                                required
+                                showCharCount
+                                minChars={300}
+                                rows={8}
+                                placeholder="What will apprentices learn and do? Be specific and inspiring."
+                                error={fieldErrors.description ? "Description must be at least 300 characters" : undefined}
+                                helperText="Provide a captivating description of this training opportunity"
+                            />
 
-                            <div className="my-2">
-                                <div className="flex justify-between items-center">
-                                    <p className="font-[550] text-lg my-1">About us / Company profile *</p>
-                                    <span className="text-xs text-gray-500">{wya.length}</span>
-                                </div>
-                                <textarea
-                                    value={wya}
-                                    rows={8}
-                                    className={`px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs ${fieldErrors.whoWeAre ? 'border-red-500 bg-red-50' : ''}`}
-                                    placeholder="Briefly introduce your company to potential applicants. Describe your mission, values, and what sets your company apart. Highlight why potential employees would want to join your team."
-                                    onChange={(e) => { setwya(e.target.value) }}
-                                ></textarea>
-                                {wya.length < 300 && (
-                                    <p className="text-xs mt-1 text-red-500">Minimum 300 characters</p>
-                                )}
-                            </div>
+                            <TextAreaInput
+                                label="About us / Company profile"
+                                value={wya}
+                                onChange={(e) => setwya(e.target.value)}
+                                required
+                                showCharCount
+                                minChars={300}
+                                rows={8}
+                                placeholder="Introduce your company. Describe your mission, values, and what makes you special."
+                                error={fieldErrors.whoWeAre ? "Company profile must be at least 300 characters" : undefined}
+                                helperText="Help potential apprentices understand your company culture"
+                            />
                         </div>
                     </div>
 

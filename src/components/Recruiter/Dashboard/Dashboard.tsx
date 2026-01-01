@@ -16,6 +16,10 @@ import {
     ArrowRight
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import FAB from "@/components/Recruiter/FAB/FAB"
+import { SwipeableJobCard } from "@/components/Recruiter/SwipeableCard/SwipeableCard"
+import { usePullToRefresh } from "@/hooks/useSwipeGesture"
+import { toast } from "sonner"
 
 interface Job {
     uid: string;
@@ -47,36 +51,56 @@ interface Props {
 export default function Dashboard({ user, company, recruiter }: Props) {
     const [applications, setApplications] = useState<Application[] | null>(null);
     const [jobs, setJobs] = useState<Job[]>([]);
+    const [isRefreshing, setIsRefreshing] = useState(false);
     const router = useRouter();
     const supabase = createClientComponentClient();
 
+    const fetchJobs = async () => {
+        const { data, error } = await supabase
+            .from('Jobs')
+            .select()
+            .eq('recruiter', user.id);
+
+        if (data) {
+            setJobs(data as Job[]);
+            return data as Job[];
+        }
+        return [];
+    };
+
+    const fetchApplications = async (jobs: Job[]) => {
+        const jobIds = jobs.map(job => job.uid);
+        const { data: application, error } = await supabase
+            .from('Applications')
+            .select()
+            .in('job', jobIds);
+
+        if (application) {
+            setApplications(application as Application[]);
+        }
+    };
+
+    const refreshData = async () => {
+        setIsRefreshing(true);
+        try {
+            const fetchedJobs = await fetchJobs();
+            if (fetchedJobs.length > 0) {
+                await fetchApplications(fetchedJobs);
+            }
+            toast.success('Dashboard refreshed!');
+        } catch (error) {
+            toast.error('Failed to refresh dashboard');
+        } finally {
+            setIsRefreshing(false);
+        }
+    };
+
+    const pullToRefreshRef = usePullToRefresh(refreshData);
+
     useEffect(() => {
-        async function fetchJobs() {
-            const { data, error } = await supabase
-                .from('Jobs')
-                .select()
-                .eq('recruiter', user.id);
-
-            if (data) {
-                setJobs(data as Job[]);
-            }
-        }
-
-        async function fetchApplications(jobs: Job[]) {
-            const jobIds = jobs.map(job => job.uid);
-            const { data: application, error } = await supabase
-                .from('Applications')
-                .select()
-                .in('job', jobIds);
-
-            if (application) {
-                setApplications(application as Application[]);
-            }
-        }
-
-        fetchJobs().then(() => {
-            if (jobs.length > 0) {
-                fetchApplications(jobs);
+        fetchJobs().then((fetchedJobs) => {
+            if (fetchedJobs.length > 0) {
+                fetchApplications(fetchedJobs);
             }
         });
     }, [user.id]);
@@ -93,7 +117,16 @@ export default function Dashboard({ user, company, recruiter }: Props) {
 
         if (!error) {
             setJobs(jobs.filter(job => job.uid !== id));
+            toast.success('Apprenticeship deleted');
+        } else {
+            toast.error('Failed to delete apprenticeship');
         }
+    }
+
+    async function handleArchiveJob(id: string) {
+        // For now, we'll just show a toast. You can implement actual archive logic later
+        toast.success('Apprenticeship archived');
+        // TODO: Implement archive functionality in database
     }
 
     async function ApplicationsForSelectedJob(job_id: string) {
@@ -108,7 +141,7 @@ export default function Dashboard({ user, company, recruiter }: Props) {
     };
 
     return (
-        <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
+        <div className='relative flex flex-col h-full w-full bg-white rounded-none lg:rounded-2xl border-0 lg:border border-gray-100 shadow-none lg:shadow-lg overflow-hidden'>
             {/* Decorative Blobs */}
             <svg viewBox="0 0 500 500" className="absolute top-0 right-0 w-[300px] h-[300px] opacity-[0.03] pointer-events-none -z-10" style={{ transform: 'translate(20%, -10%)' }}>
                 <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
@@ -123,7 +156,7 @@ export default function Dashboard({ user, company, recruiter }: Props) {
             </div>
 
             {/* Scrollable Content Area */}
-            <div className="flex-1 overflow-y-auto">
+            <div ref={pullToRefreshRef} className="flex-1 overflow-y-auto">
                 {/* Stats Cards */}
                 <div className="p-6 lg:p-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
@@ -181,23 +214,28 @@ export default function Dashboard({ user, company, recruiter }: Props) {
 
                 {jobs.length > 0 ? (
                     <>
-                        {/* Mobile View - Cards */}
+                        {/* Mobile View - Swipeable Cards */}
                         <div className="lg:hidden flex flex-col gap-3">
                             {jobs.slice(0, 4).map((job: any) => (
-                                <div
+                                <SwipeableJobCard
                                     key={job.uid}
-                                    onClick={() => handleJobClick(job.uid)}
-                                    className="bg-white border-2 border-gray-100 rounded-xl p-4 hover:border-[#14B8A6] hover:shadow-lg transition-all cursor-pointer"
+                                    onDelete={() => handleDeleteJob(job.uid)}
+                                    onArchive={() => handleArchiveJob(job.uid)}
                                 >
-                                    <h3 className="font-semibold text-[#0A1F44] mb-2">{job.title}</h3>
-                                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
-                                        <MapPin size={14} className="text-[#14B8A6]" />
-                                        {job.location}
+                                    <div
+                                        onClick={() => handleJobClick(job.uid)}
+                                        className="bg-white border-2 border-gray-100 rounded-xl p-4 hover:border-[#14B8A6] hover:shadow-lg transition-all cursor-pointer"
+                                    >
+                                        <h3 className="font-semibold text-[#0A1F44] mb-2">{job.title}</h3>
+                                        <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
+                                            <MapPin size={14} className="text-[#14B8A6]" />
+                                            {job.location}
+                                        </div>
+                                        <button className="w-full bg-[#14B8A6] hover:bg-[#0D9488] text-white py-2 rounded-lg text-sm font-medium transition-colors">
+                                            View Details
+                                        </button>
                                     </div>
-                                    <button className="w-full bg-[#14B8A6] hover:bg-[#0D9488] text-white py-2 rounded-lg text-sm font-medium transition-colors">
-                                        View Details
-                                    </button>
-                                </div>
+                                </SwipeableJobCard>
                             ))}
                         </div>
 
@@ -233,6 +271,14 @@ export default function Dashboard({ user, company, recruiter }: Props) {
                 )}
             </div>
             </div>
+
+            {/* Floating Action Button - Mobile Only */}
+            <FAB
+                icon={<Plus size={24} />}
+                label="Post Apprenticeship"
+                onClick={() => router.push('/recruiter/post-a-job')}
+                variant="accent"
+            />
         </div>
     )
 }

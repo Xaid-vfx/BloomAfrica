@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
-import Header from '@/components/Recruiter/Header/Header';
 import Sidebar from '@/components/Recruiter/Sidebar/Sidebar';
+import MobileSidebar from '@/components/Recruiter/MobileSidebar/MobileSidebar';
 import getUser from '@/lib/getUser/getUser';
 import getCompany from '@/lib/getCompany/getCompany';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -66,22 +66,17 @@ export default async function RecruiterLayout({
     return (
         <RecruiterProvider user={user} company={company} recruiter={recruiter} trainerProfile={trainerProfile}>
             <div className="flex flex-col bg-[#0A1F44] h-screen overflow-hidden">
-                {/* Mobile Header - Only visible on mobile */}
-                <div className="lg:hidden">
-                    <Header name={company?.name || ""} />
-                </div>
-
                 {/* Main Content */}
-                <div className='flex flex-row lg:gap-5 lg:p-5 h-screen lg:h-auto'>
+                <div className='flex flex-row lg:gap-5 lg:p-5 h-full'>
                     {/* Sidebar - Only visible on desktop */}
-                    <div className='h-full lg:w-[20%]'>
+                    <div className='hidden lg:block h-full lg:w-[20%]'>
                         <Sidebar />
                     </div>
 
                     {/* Content Area */}
-                    <div className="w-full flex flex-col h-full lg:w-[80%]" style={{ height: 'calc(100vh - 2.5rem)' }}>
+                    <div className="w-full flex flex-col h-screen lg:h-full lg:w-[80%] pl-16 lg:pl-0 bg-white lg:bg-transparent">
                         <Suspense fallback={
-                            <div className='relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden'>
+                            <div className='relative flex flex-col h-full w-full bg-white rounded-none lg:rounded-2xl border-0 lg:border border-gray-100 shadow-none lg:shadow-lg overflow-hidden'>
                                 <div className="flex flex-col items-center justify-center h-full gap-4">
                                     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#14B8A6]"></div>
                                     <p className="text-[#14B8A6] font-medium text-sm">Loading...</p>
@@ -92,6 +87,9 @@ export default async function RecruiterLayout({
                         </Suspense>
                     </div>
                 </div>
+
+                {/* Mobile Sidebar Navigation */}
+                <MobileSidebar />
             </div>
         </RecruiterProvider>
     );
