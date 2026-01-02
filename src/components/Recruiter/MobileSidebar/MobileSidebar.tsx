@@ -272,7 +272,7 @@ export default function MobileSidebar() {
             aria-label={isOnboardingComplete ? "Go to dashboard" : "Go to onboarding"}
           >
             <div className="text-center ">
-              <div className="text-lg leading-[1] font-bold text-[#17d7c1]">Pren <br/> <span className='text-white'> tis</span></div>
+              <div className="text-lg leading-[1] font-bold text-white">Pren <br/> <span className='text-[#17d7c1]'> tis.</span></div>
             </div>
           </Link>
         </div>

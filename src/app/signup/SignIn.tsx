@@ -161,7 +161,7 @@ export default function SignIn() {
                 },
                 redirectTo: signUpUserTypeTab == "seeker" ?
                     `${location.origin}/auth/callback?route=/signup/complete_profile&type=seeker&next=${redirectUrl || ''}` :
-                    `${location.origin}/auth/callback?route=/signup/complete_recruiter_profile&type=recruiter`
+                    `${location.origin}/auth/callback?route=/recruiter&type=recruiter`
             },
         });
         console.log(data);

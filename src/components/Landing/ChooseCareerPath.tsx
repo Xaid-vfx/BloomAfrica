@@ -11,7 +11,11 @@ export default function ChooseCareerPath() {
             title: "Learn From with Artisan",
             icon: <Hammer size={48} strokeWidth={1.5} />,
             description: "Learn specialized crafts and trades by working alongside master craftspeople in their workshops—from tailoring and welding to furniture-making and engine repair.",
-            result: ["On Completion: You will become an expert and master in the craft or trade you choose."],
+            result: [
+                "You want to start your own business",
+                "You're looking to be your own boss",
+                "You want to master a skilled trade"
+            ],
             ctaText: "Explore Artisan Programs"
         },
         {
@@ -19,7 +23,11 @@ export default function ChooseCareerPath() {
             title: "Learn Inside a Company",
             icon: <Building2 size={48} strokeWidth={1.5} />,
             description: "Train inside established companies with clear career paths and professional standards. Learn from experienced teams using real systems.",
-            result: ["On Completion: You will receive employment offers from the companies that train you."],
+            result: [
+                "You want employment after training",
+                "You want to work in an  company",
+                "You're seeking a stable career path"
+            ],
             ctaText: "Explore Company Programs"
         }
     ]

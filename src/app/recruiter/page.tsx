@@ -26,12 +26,13 @@ export default async function RecruiterPage({ searchParams }: Props) {
 
             const isOnboardingComplete = trainerProfile?.is_completed || false;
 
-            // Redirect based on onboarding status
-            if (!isOnboardingComplete && trainerProfile !== null) {
+            // Redirect to onboarding if profile doesn't exist or is not complete
+            if (!trainerProfile || !isOnboardingComplete) {
                 redirect('/recruiter/onboarding');
             }
         } catch (error) {
-            // Table doesn't exist yet - allow redirect to dashboard for local development
+            // If there's any error (table doesn't exist, query failed, etc.), redirect to onboarding to be safe
+            redirect('/recruiter/onboarding');
         }
     }
 
