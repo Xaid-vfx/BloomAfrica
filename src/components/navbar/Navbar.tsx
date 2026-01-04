@@ -43,9 +43,9 @@ export default function Navbar(props: { color: string }) {
   if (navbarIsVisible) {
 
     return (
-      <div className="h-[200vh] w-screen px-6 lg:px-12 overflow-hidden fixed top-0 gradient z-50 ">
-        <div className="py-6 flex justify-between items-center lg:justify-normal">
-          <a href="/" className="lg:hidden">
+      <div className="h-[200vh] w-screen px-6 sm:px-12 overflow-hidden fixed top-0 gradient z-50 ">
+        <div className="py-6 flex justify-between items-center sm:justify-normal">
+          <a href="/" className="sm:hidden">
             <PrentisLogo className="!text-[#14B8A6]" />
           </a>
           <button
@@ -55,7 +55,7 @@ export default function Navbar(props: { color: string }) {
                 setnavbarIsVisible(false);
               }, 200);
             }}
-            className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-all lg:hidden"
+            className="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 transition-all sm:hidden"
             aria-label="Close menu"
           >
             <RxCross1 className="text-xl text-gray-700" />
@@ -99,12 +99,12 @@ export default function Navbar(props: { color: string }) {
   }
 
   return (
-    <div className={`px-6 lg:px-12 py-4 flex justify-between items-center lg:justify-normal  ${props.color == "light" ? 'bg-[#0A1F44]' : props.color == "white" ? 'bg-[#0F172A]' : ''}`}>
+    <div className={`px-6 sm:px-12 py-4 flex justify-between items-center sm:justify-normal  ${props.color == "light" ? 'bg-[#0A1F44]' : props.color == "white" ? 'bg-[#0F172A]' : ''}`}>
 
-      <a href="/" className="lg:hidden">
+      <a href="/" className="sm:hidden">
         <PrentisLogo className="!text-white" />
       </a>
-      <div className={`menu gap-3 items-center flex lg:hidden`}>
+      <div className={`menu gap-3 items-center flex sm:hidden`}>
         <a
           href="/signup"
           className={`text-sm px-4 py-2 font-semibold rounded-xl transition-all ${
@@ -128,13 +128,13 @@ export default function Navbar(props: { color: string }) {
         </button>
       </div>
 
-      <div className="hidden lg:flex lg:items-center lg:justify-between lg:w-full ms-auto me-auto max-w-[1300px]">
+      <div className="hidden sm:flex sm:items-center sm:justify-between sm:w-full ms-auto me-auto max-w-[1300px]">
         <div className="flex justify-between items-center relative ">
-          <a href="/" className="hidden lg:flex lg:items-center lg:gap-2">
+          <a href="/" className="hidden sm:flex sm:items-center sm:gap-2">
             <PrentisLogo className="!text-white" />
           </a>
         </div>
-        <div className="hidden text-[16px] lg:flex lg:pl-0  mx-auto min-w-max ">
+        <div className="hidden text-[16px] sm:flex sm:pl-0  mx-auto min-w-max ">
           <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)] items-center">
             <a href="/" className={`${currentPage == "home" ? `border-b-2 ${props.color == "light" ? 'border-white text-white' : 'border-white text-white'}` : `${props.color == "light" ? 'text-white' : 'text-white'}`} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>Home</a>
             <a href="/all-trainings" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>Explore Programs</a>
