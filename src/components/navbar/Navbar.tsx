@@ -4,14 +4,11 @@ import PrentisLogo from "../Logo/PrentisLogo";
 import { useEffect, useState } from "react";
 import { CgMenuRightAlt } from "react-icons/cg";
 import { CiMenuFries } from "react-icons/ci";
-import { ChevronDown } from "lucide-react";
 
 export default function Navbar(props: { color: string }) {
 
   const [navbarIsVisible, setnavbarIsVisible] = useState(false)
   const [currentPage, setCurrentPage] = useState("")
-  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false)
 
   const url = reverseString(globalThis.window?.location.href)
   const page = url?.split("/")
@@ -67,25 +64,7 @@ export default function Navbar(props: { color: string }) {
             <hr className="" />
             {/* <a href="/about"><div className="my-4 font-medium">About</div></a>
             <hr /> */}
-            <div>
-              <div
-                className="my-4 font-medium cursor-pointer flex items-center justify-between"
-                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-              >
-                <span>Our Services</span>
-                <ChevronDown className={`transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} size={20} />
-              </div>
-              {mobileServicesOpen && (
-                <div className="pl-4 pb-2">
-                  <a href="/signup">
-                    <div className="py-2 font-medium text-sm">For Apprentices</div>
-                  </a>
-                  <a href="/for-trainers">
-                    <div className="py-2 font-medium text-sm">For Trainers</div>
-                  </a>
-                </div>
-              )}
-            </div>
+            <a href="/for-trainers"><div className="my-4 font-medium cursor-pointer">For Trainers</div></a>
             <hr />
             {/* <div className="relative">
               <a href="/certified"><div className="mt-4 font-medium">Get Certified</div></a>
@@ -139,28 +118,7 @@ export default function Navbar(props: { color: string }) {
             <a href="/" className={`${currentPage == "home" ? `border-b-2 ${props.color == "light" ? 'border-white text-white' : 'border-white text-white'}` : `${props.color == "light" ? 'text-white' : 'text-white'}`} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>Home</a>
             <a href="/all-trainings" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>Explore Programs</a>
             {/* <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>About Us</a> */}
-            <div
-              className="relative"
-              onMouseEnter={() => setServicesDropdownOpen(true)}
-              onMouseLeave={() => setServicesDropdownOpen(false)}
-            >
-              <div className={`flex items-center gap-1 text-sm font-medium cursor-pointer hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white text-white' : 'hover:border-white text-white'} transition-all`}>
-                <span>Our Services</span>
-                <ChevronDown className={`transition-transform ${servicesDropdownOpen ? 'rotate-180' : ''}`} size={16} />
-              </div>
-              {servicesDropdownOpen && (
-                <div className="absolute top-full pt-2 left-0 z-20">
-                  <div className="bg-white shadow-lg rounded-lg py-2 min-w-[200px] border border-gray-100">
-                    <a href="/signup" className="block px-4 py-2 text-sm font-medium hover:bg-teal-50 hover:text-[#14B8A6] transition-colors">
-                      For Apprentices
-                    </a>
-                    <a href="/for-trainers" className="block px-4 py-2 text-sm font-medium hover:bg-teal-50 hover:text-[#14B8A6] transition-colors">
-                      For Trainers
-                    </a>
-                  </div>
-                </div>
-              )}
-            </div>
+            <a href="/for-trainers" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>For Trainers</a>
           </div>
           {/* <div className="flex relative ms-[clamp(1.1rem,2.1vw,5rem)] xl:ms-[clamp(1.1rem,2.5vw,5rem)]">
               <a href="/certified" className={`${currentPage == "certified" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>Get Certified</a>
