@@ -50,7 +50,7 @@ export async function POST(request: Request) {
             );
         } else {
             // Create new subaccount
-            const businessEmail = `${body.business_name.toLowerCase().replace(/[^a-z0-9]/g, '')}@bloom.com`;
+            const businessEmail = `${body.business_name.toLowerCase().replace(/[^a-z0-9]/g, '')}@prentis.com`;
 
             paystackResponse = await fetch('https://api.paystack.co/subaccount', {
                 method: 'POST',

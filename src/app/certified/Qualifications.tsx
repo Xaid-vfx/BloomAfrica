@@ -28,7 +28,7 @@ export default function Qualifications() {
                             <div className="bg-white rounded-lg p-5 flex flex-col justify-between">
                                 <Image src={Logo} alt="" width={50} className="bg-[#E9EBFD] rounded" />
                                 <p className="text-[#4A2C84] font-medium my-2 w-[70%]">{item}</p>
-                                <p className="text-[#7C8493] text-xs">Offered by Bloom</p>
+                                <p className="text-[#7C8493] text-xs">Offered by Prentis</p>
                                 <hr className="opacity-80 my-4" />
                                 <p className="text-[#4A2C84] text-xs font-bold"> <span className=' line-through font-normal'>Go to course</span> Coming Soon</p>
                             </div>
@@ -43,7 +43,7 @@ export default function Qualifications() {
                             <div className="bg-white rounded-lg p-5 flex flex-col justify-between">
                                 <Image src={Logo} alt="" width={50} className="bg-[#E9EBFD] rounded" />
                                 <p className="text-[#4A2C84] font-medium my-2 w-[70%]">{item}</p>
-                                <p className="text-[#7C8493] text-xs">Offered by Bloom</p>
+                                <p className="text-[#7C8493] text-xs">Offered by Prentis</p>
                                 <hr className="opacity-80 my-4" />
                                 <p className="text-[#4A2C84] text-xs font-bold "><span className=' line-through font-normal'>Go to course</span> Coming Soon</p>
                             </div>

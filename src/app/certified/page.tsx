@@ -25,7 +25,7 @@ export default function About() {
                         Unlock Your Career with Industry-Recognized Certifications
                     </h1>
                     <p className="text-lg leading-6 my-6">
-                        We make it easier than ever for learners to earn qualifications and certifications. Simply enroll in a Bloom apprenticeship that aligns with your desired qualification level, complete the program, and achieve your goals!
+                        We make it easier than ever for learners to earn qualifications and certifications. Simply enroll in a Prentis apprenticeship that aligns with your desired qualification level, complete the program, and achieve your goals!
                     </p>
                     <div className="bg-[#4A2C84] font-semibold text-sm text-white rounded-full px-6 py-4">Explore courses</div>
                 </div>

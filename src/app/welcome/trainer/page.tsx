@@ -22,7 +22,7 @@ export default function TrainerLanding() {
                   href="/signup?type=recruiter"
                   className="bg-[#4A2C84] hover:bg-[#2f185e] text-white font-semibold py-3 px-10 rounded-2xl max-w-[25rem] mx-auto transition"
                 >
-                  Become a trainer on Bloom
+                  Become a trainer on Prentis
                 </a>
               </div>
             </div>
@@ -30,7 +30,7 @@ export default function TrainerLanding() {
 
           <section className="py-20 bg-orange-50/10">
             <div className="max-w-6xl mx-auto px-6">
-              <h2 className="text-3xl font-bold text-center mb-12">Why Trainers Choose Bloom</h2>
+              <h2 className="text-3xl font-bold text-center mb-12">Why Trainers Choose Prentis</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
                 <div>
                   <h3 className="text-xl font-semibold mb-2">💸 Make Real Income</h3>
@@ -86,7 +86,7 @@ export default function TrainerLanding() {
                   <div>
                     <h3 className="text-xl font-semibold mb-1">Start Enrolling Learners</h3>
                     <p>
-                      Your listing appears on the Bloom marketplace. Manage learners through your dashboard and message them directly.
+                      Your listing appears on the Prentis marketplace. Manage learners through your dashboard and message them directly.
                     </p>
                   </div>
                 </div>
@@ -98,7 +98,7 @@ export default function TrainerLanding() {
             <div className="max-w-4xl mx-auto px-6 text-center">
               <h2 className="text-3xl font-bold mb-6">Earn on Your Terms</h2>
               <p className="mb-6 text-lg">
-                Bloom makes monetization simple. Set your enrollment fee, get paid directly, and explore other income channels.
+                Prentis makes monetization simple. Set your enrollment fee, get paid directly, and explore other income channels.
               </p>
               <ul className="flex flex-col font-semibold text-center text-lg list-disc list-inside mb-12">
                 <li>💰 Direct course fees from learners</li>
