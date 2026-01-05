@@ -20,7 +20,10 @@
       "Bash(npx tsc:*)",
       "Bash(tasklist:*)",
       "Bash(git -C \"C:/Users/david/bloomafrica1\" log --oneline -10)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
