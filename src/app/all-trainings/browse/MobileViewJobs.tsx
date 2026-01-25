@@ -8,7 +8,7 @@ import { IoCloseSharp, IoFilter } from "react-icons/io5";
 import FilterSidebar from "@/components/Jobs/FilterSidebar/FilterSidebar";
 import { MoonLoader } from "react-spinners";
 import { log } from "console";
-import HowTo from "../welcome/howto";
+import HowTo from "../../welcome/howto";
 
 type JobProps = {
     uid: string;

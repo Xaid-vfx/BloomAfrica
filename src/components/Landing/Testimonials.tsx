@@ -9,10 +9,10 @@ export default function Testimonials() {
     return (
         <div className="bg-white">
             <div className="w-full py-20 flex flex-col justify-center items-center overflow-hidden ms-auto me-auto max-w-[1600px]">
-                <h1 className="text-center text-2xl lg:text-3xl font-semibold text-grey-900 flex justify-center pb-4 w-[90%] lg:w-[60%]">
+                <h1 className="text-center text-2xl lg:text-3xl font-semibold text-gray-900 flex justify-center pb-4 w-[90%] lg:w-[60%]">
                     What Our Fellows Say
                 </h1>
-                <p className="text-center text-grey-600 pb-12 max-w-xl">
+                <p className="text-center text-gray-600 pb-12 max-w-xl">
                     Hear from alumni who transformed their careers through our fellowship program
                 </p>
                 <CarouselSpacing />

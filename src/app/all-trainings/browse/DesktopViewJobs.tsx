@@ -4,7 +4,7 @@ import JobCard from "@/components/Jobs/JobCard/JobCard"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useEffect, useState, useRef } from "react"
 import { MoonLoader, SyncLoader } from "react-spinners"
-import HowTo from "../welcome/howto"
+import HowTo from "../../welcome/howto"
 import { useRouter, useSearchParams } from 'next/navigation'
 import CompactJobListItem from '@/components/Jobs/CompactJobListItem/CompactJobListItem'
 import JobDetailPanel from '@/components/Jobs/JobDetailPanel/JobDetailPanel'

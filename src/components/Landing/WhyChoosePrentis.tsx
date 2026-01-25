@@ -42,7 +42,7 @@ export default function WhyChoosePrentis() {
                 <div className="max-w-6xl mx-auto relative z-10">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-semibold lg:text-4xl text-white">
-                            Why Choose Prentis
+                            Why Train With Prentis
                         </h2>
                         <p className="text-white/70 mt-4 text-lg max-w-2xl mx-auto">
                             Build your career with the right support and credentials

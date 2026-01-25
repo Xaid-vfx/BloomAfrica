@@ -52,16 +52,16 @@ export function CarouselSpacing() {
                         key={index}
                         className="pl-1 mx-4 cursor-pointer md:basis-1/2 lg:basis-[40%]"
                     >
-                        <Card className="h-full border-grey-200">
+                        <Card className="h-full border-gray-200 bg-white">
                             <CardContent
                                 className="flex h-full flex-col justify-between px-6 py-8
                                          text-base leading-relaxed lg:px-10 lg:py-12"
                             >
-                                <p className="text-grey-700 mb-6">&quot;{testimonial.quote}&quot;</p>
-                                <div className="border-t border-grey-200 pt-4">
-                                    <p className="font-semibold text-grey-900">{testimonial.author}</p>
-                                    <p className="text-sm text-grey-600 mt-1">{testimonial.role}</p>
-                                    <p className="text-xs text-grey-500 mt-1">{testimonial.program}</p>
+                                <p className="text-gray-700 mb-6">&quot;{testimonial.quote}&quot;</p>
+                                <div className="border-t border-gray-200 pt-4">
+                                    <p className="font-semibold text-gray-900">{testimonial.author}</p>
+                                    <p className="text-sm text-gray-600 mt-1">{testimonial.role}</p>
+                                    <p className="text-xs text-gray-500 mt-1">{testimonial.program}</p>
                                 </div>
                             </CardContent>
                         </Card>

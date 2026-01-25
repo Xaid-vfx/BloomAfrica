@@ -62,8 +62,10 @@ export default function Navbar(props: { color: string }) {
           <div className="px-4">
             <a href="/"><div className="my-4 font-medium cursor-pointer">Home</div></a>
             <hr className="" />
-            {/* <a href="/about"><div className="my-4 font-medium">About</div></a>
-            <hr /> */}
+            <a href="/explore-programs"><div className="my-4 font-medium cursor-pointer">About Us</div></a>
+            <hr />
+            <a href="/how-it-works"><div className="my-4 font-medium cursor-pointer">How It Works</div></a>
+            <hr />
             <a href="/for-trainers"><div className="my-4 font-medium cursor-pointer">For Trainers</div></a>
             <hr />
             {/* <div className="relative">
@@ -116,8 +118,8 @@ export default function Navbar(props: { color: string }) {
         <div className="hidden text-[16px] sm:flex sm:pl-0  mx-auto min-w-max ">
           <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)] items-center">
             <a href="/" className={`${currentPage == "home" ? `border-b-2 ${props.color == "light" ? 'border-white text-white' : 'border-white text-white'}` : `${props.color == "light" ? 'text-white' : 'text-white'}`} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>Home</a>
-            <a href="/all-trainings" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>Explore Programs</a>
-            {/* <a href="/about" className={`${currentPage == "about" ? "border-b-2 border-purple-800 text-purple-800" : ""} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 hover:border-purple-800  transition-all`}>About Us</a> */}
+            <a href="/explore-programs" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>About Us</a>
+            <a href="/how-it-works" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>How It Works</a>
             <a href="/for-trainers" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>For Trainers</a>
           </div>
           {/* <div className="flex relative ms-[clamp(1.1rem,2.1vw,5rem)] xl:ms-[clamp(1.1rem,2.5vw,5rem)]">
