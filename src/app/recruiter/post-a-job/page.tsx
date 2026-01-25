@@ -13,14 +13,64 @@ import { getStatesWithCache } from "@/lib/StateList/StateList";
 import { getCitiesWithCache } from "@/lib/CityList/CityList";
 import getIP from "@/lib/getIP/getIP";
 import { useRecruiter } from "@/context/RecruiterContext";
-import { Briefcase, MapPin, DollarSign, FileText, GraduationCap, Clock } from "lucide-react";
+import { Briefcase, MapPin, DollarSign, FileText, GraduationCap, Clock, Lock, AlertTriangle } from "lucide-react";
 import { useLocalStorageAutoSave } from "@/hooks/useAutoSave";
 import AutoSaveIndicator from "@/components/Recruiter/AutoSaveIndicator/AutoSaveIndicator";
 import SkillsInput from "@/components/Recruiter/SkillsInput/SkillsInput";
 import TextAreaInput from "@/components/Recruiter/Forms/TextAreaInput";
 
 export default function Post() {
-    const { user, recruiter, company } = useRecruiter();
+    const { user, recruiter, company, subscriptionStatus, hasActiveSubscription, canPostApprenticeships, isAccountApproved, accountStatus } = useRecruiter();
+    const router = useRouter();
+
+    // Check if user can post - need both payment AND approval
+    const isLocked = !canPostApprenticeships;
+
+    // If locked, show appropriate locked state
+    if (isLocked) {
+        const isPendingPayment = !hasActiveSubscription;
+        const isPendingReview = hasActiveSubscription && !isAccountApproved;
+
+        return (
+            <div className="relative flex flex-col h-full w-full bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden">
+                <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+                    <div className={`p-6 rounded-full mb-6 ${isPendingPayment ? 'bg-amber-100' : 'bg-blue-100'}`}>
+                        {isPendingPayment ? (
+                            <Lock className="h-12 w-12 text-amber-600" />
+                        ) : (
+                            <Clock className="h-12 w-12 text-blue-600" />
+                        )}
+                    </div>
+                    <h2 className="text-2xl font-bold text-[#0A1F44] mb-3">
+                        {isPendingPayment ? 'Payment Required' : 'Account Under Review'}
+                    </h2>
+                    <p className="text-gray-600 max-w-md mb-6">
+                        {isPendingPayment
+                            ? 'Complete your subscription payment to unlock the ability to post new apprenticeships and access all platform features.'
+                            : 'Your account is currently being reviewed by our team. Once approved, you\'ll be able to post apprenticeships.'}
+                    </p>
+                    <div className={`flex items-center gap-2 px-4 py-2 rounded-lg mb-6 ${
+                        isPendingPayment ? 'text-amber-600 bg-amber-50' : 'text-blue-600 bg-blue-50'
+                    }`}>
+                        {isPendingPayment ? (
+                            <AlertTriangle className="h-4 w-4" />
+                        ) : (
+                            <Clock className="h-4 w-4" />
+                        )}
+                        <span className="text-sm font-medium">
+                            {isPendingPayment ? 'Payment pending' : 'Review in progress'}
+                        </span>
+                    </div>
+                    <button
+                        onClick={() => router.push('/recruiter/dashboard')}
+                        className="bg-[#14B8A6] hover:bg-[#0D9488] text-white py-3 px-6 rounded-xl font-semibold transition-colors shadow-lg shadow-[#14B8A6]/30"
+                    >
+                        {isPendingPayment ? 'Go to Dashboard to Pay' : 'Back to Dashboard'}
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     const [title, settitle] = useState("")
     const [desc, setdesc] = useState("")
@@ -67,7 +117,6 @@ export default function Post() {
     const countryList = CountryList();
 
     const supabase = createClientComponentClient()
-    const router = useRouter()
 
     const categories = [
         "Agriculture & Farming",

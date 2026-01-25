@@ -98,14 +98,14 @@ export default function SectionNavigation({
       )}
 
       {/* Navigation Buttons */}
-      <div className="flex items-center justify-between ">
+      <div className="flex items-center justify-between gap-3">
         {/* Previous Button */}
         <button
           type="button"
           onClick={onPrevious}
           disabled={isFirstSection}
           className={`
-            flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium
+            flex items-center gap-1.5 md:gap-2 px-3 md:px-6 py-2 md:py-2.5 rounded-lg font-medium text-sm md:text-base
             transition-all
             ${isFirstSection
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
@@ -113,8 +113,9 @@ export default function SectionNavigation({
             }
           `}
         >
-          <ChevronLeft size={18} />
-          Previous
+          <ChevronLeft size={16} className="md:w-[18px] md:h-[18px]" />
+          <span className="hidden sm:inline">Previous</span>
+          <span className="sm:hidden">Back</span>
         </button>
 
         {/* Next or Submit Button */}
@@ -124,7 +125,7 @@ export default function SectionNavigation({
             onClick={onSubmit}
             disabled={isSubmitting}
             className={`
-              flex items-center gap-2 px-8 py-2.5 rounded-lg font-medium
+              flex items-center gap-1.5 md:gap-2 px-4 md:px-8 py-2 md:py-2.5 rounded-lg font-medium text-sm md:text-base
               transition-all
               ${isSubmitting
                 ? 'bg-gray-400 cursor-not-allowed'
@@ -136,12 +137,14 @@ export default function SectionNavigation({
             {isSubmitting ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
-                Submitting...
+                <span className="hidden sm:inline">Submitting...</span>
+                <span className="sm:hidden">...</span>
               </>
             ) : (
               <>
-                Submit Profile
-                <Send size={18} />
+                <span className="hidden sm:inline">Submit Profile</span>
+                <span className="sm:hidden">Submit</span>
+                <Send size={16} className="md:w-[18px] md:h-[18px]" />
               </>
             )}
           </button>
@@ -151,7 +154,7 @@ export default function SectionNavigation({
             onClick={onNext}
             disabled={!canGoNext}
             className={`
-              flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium
+              flex items-center gap-1.5 md:gap-2 px-4 md:px-6 py-2 md:py-2.5 rounded-lg font-medium text-sm md:text-base
               transition-all
               ${!canGoNext
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -160,7 +163,7 @@ export default function SectionNavigation({
             `}
           >
             Next
-            <ChevronRight size={18} />
+            <ChevronRight size={16} className="md:w-[18px] md:h-[18px]" />
           </button>
         )}
       </div>

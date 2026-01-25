@@ -10,10 +10,10 @@ import { BiHomeAlt2 } from "react-icons/bi"
 import { LuClipboardList } from "react-icons/lu"
 import { PiBuildings } from "react-icons/pi"
 import { IoChatboxEllipsesOutline } from "react-icons/io5"
-import { BsBuildingUp } from "react-icons/bs"
 import { SignOut } from "@/lib/Signout/Signout"
-import { Rocket, Lock, CheckCircle2, Circle, Plus, LogOut, X } from "lucide-react"
+import { Rocket, Lock, CheckCircle2, Circle, Plus, LogOut, X, BookOpen, Clock } from "lucide-react"
 import { cn, zIndex, touchTargets } from '@/styles/mobile-design-tokens'
+import { useRecruiter } from "@/context/RecruiterContext"
 
 const ONBOARDING_SECTIONS = [
   { title: 'Registrant Information' },
@@ -38,6 +38,9 @@ export default function MobileSidebar() {
   const searchParams = useSearchParams()
   const segment = useSelectedLayoutSegment()
   const supabase = createClientComponentClient()
+
+  // Get subscription and account status from context
+  const { canPostApprenticeships, hasActiveSubscription, isAccountApproved } = useRecruiter()
   const drawerRef = useRef<HTMLDivElement>(null)
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
   const edgeSwipeStartRef = useRef<{ x: number; y: number; time: number } | null>(null)
@@ -220,6 +223,13 @@ export default function MobileSidebar() {
       locked: !isOnboardingComplete
     },
     {
+      icon: <BookOpen size={20} />,
+      path: '/recruiter/curriculum',
+      label: 'Curriculum',
+      segment: 'curriculum',
+      locked: !isOnboardingComplete
+    },
+    {
       icon: <PiBuildings className="text-xl" />,
       path: '/recruiter/company',
       label: 'Company',
@@ -231,21 +241,14 @@ export default function MobileSidebar() {
       path: '/recruiter/listings',
       label: 'Jobs',
       segment: 'listings',
-      locked: !isOnboardingComplete
+      locked: !isOnboardingComplete || !canPostApprenticeships
     },
     {
       icon: <IoChatboxEllipsesOutline className="text-xl" />,
       path: '/recruiter/messages',
       label: 'Messages',
       segment: 'messages',
-      locked: !isOnboardingComplete
-    },
-    {
-      icon: <BsBuildingUp className="text-xl" />,
-      path: '/recruiter/bank-details',
-      label: 'Bank',
-      segment: 'bank-details',
-      locked: !isOnboardingComplete
+      locked: !isOnboardingComplete || !canPostApprenticeships
     },
   ]
 
@@ -459,6 +462,30 @@ export default function MobileSidebar() {
                   </Link>
                 )}
 
+                {/* Design Curriculum */}
+                {!isOnboardingComplete ? (
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-white/5 text-gray-300 cursor-not-allowed opacity-70">
+                    <BookOpen size={20} />
+                    <span className="text-sm">Design Curriculum</span>
+                    <Lock size={14} className="ml-auto" />
+                  </div>
+                ) : (
+                  <Link
+                    href="/recruiter/curriculum"
+                    onClick={closeDrawer}
+                    className={`group flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
+                      isActive('curriculum')
+                        ? "bg-[#14B8A6] text-white shadow-lg shadow-[#14B8A6]/30"
+                        : "text-gray-200 hover:bg-white/10"
+                    }`}
+                  >
+                    <BookOpen className={`transition-colors ${
+                      isActive('curriculum') ? "text-white" : "text-gray-300 group-hover:text-[#14B8A6]"
+                    }`} size={20} />
+                    <span className="text-sm">Design Curriculum</span>
+                  </Link>
+                )}
+
                 {/* Company Profile */}
                 {!isOnboardingComplete ? (
                   <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-white/5 text-gray-300 cursor-not-allowed opacity-70">
@@ -490,6 +517,17 @@ export default function MobileSidebar() {
                     <span className="text-sm">My Apprenticeships</span>
                     <Lock size={14} className="ml-auto" />
                   </div>
+                ) : !canPostApprenticeships ? (
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-white/5 text-gray-300 cursor-not-allowed opacity-70">
+                      <LuClipboardList className="text-xl" />
+                      <span className="text-sm">My Apprenticeships</span>
+                      <Lock size={14} className="ml-auto" />
+                    </div>
+                    <p className="text-xs text-gray-400 px-4 mt-1">
+                      {!hasActiveSubscription ? 'Complete payment to unlock' : 'Account under review'}
+                    </p>
+                  </div>
                 ) : (
                   <Link
                     href="/recruiter/listings"
@@ -514,6 +552,17 @@ export default function MobileSidebar() {
                     <span className="text-sm">Messages</span>
                     <Lock size={14} className="ml-auto" />
                   </div>
+                ) : !canPostApprenticeships ? (
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-white/5 text-gray-300 cursor-not-allowed opacity-70">
+                      <IoChatboxEllipsesOutline className="text-xl" />
+                      <span className="text-sm">Messages</span>
+                      <Lock size={14} className="ml-auto" />
+                    </div>
+                    <p className="text-xs text-gray-400 px-4 mt-1">
+                      {!hasActiveSubscription ? 'Complete payment to unlock' : 'Account under review'}
+                    </p>
+                  </div>
                 ) : (
                   <Link
                     href="/recruiter/messages"
@@ -534,30 +583,7 @@ export default function MobileSidebar() {
                   </Link>
                 )}
 
-                {/* Bank Details */}
-                {!isOnboardingComplete ? (
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-white/5 text-gray-300 cursor-not-allowed opacity-70">
-                    <BsBuildingUp className="text-xl" />
-                    <span className="text-sm">Bank Details</span>
-                    <Lock size={14} className="ml-auto" />
-                  </div>
-                ) : (
-                  <Link
-                    href="/recruiter/bank-details"
-                    onClick={closeDrawer}
-                    className={`group flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
-                      isActive('bank-details')
-                        ? "bg-[#14B8A6] text-white shadow-lg shadow-[#14B8A6]/30"
-                        : "text-gray-200 hover:bg-white/10"
-                    }`}
-                  >
-                    <BsBuildingUp className={`text-xl transition-colors ${
-                      isActive('bank-details') ? "text-white" : "text-gray-300 group-hover:text-[#14B8A6]"
-                    }`} />
-                    <span className="text-sm">Bank Details</span>
-                  </Link>
-                )}
-              </nav>
+                </nav>
 
               {/* Post Apprenticeship Button */}
               <div className="mt-6 pt-6 border-t border-white/10">
@@ -566,6 +592,17 @@ export default function MobileSidebar() {
                     <Plus size={18} />
                     Post Apprenticeship
                     <Lock size={14} className="ml-1" />
+                  </div>
+                ) : !canPostApprenticeships ? (
+                  <div className="relative group/tooltip">
+                    <div className="flex items-center justify-center gap-2 w-full bg-white/5 text-gray-300 py-3 px-4 rounded-xl font-semibold text-sm cursor-not-allowed opacity-70">
+                      {!hasActiveSubscription ? <Clock size={18} /> : <Lock size={18} />}
+                      Post Apprenticeship
+                      <Lock size={14} className="ml-1" />
+                    </div>
+                    <p className="text-xs text-gray-400 text-center mt-2">
+                      {!hasActiveSubscription ? 'Complete payment to unlock' : 'Account under review'}
+                    </p>
                   </div>
                 ) : (
                   <Link

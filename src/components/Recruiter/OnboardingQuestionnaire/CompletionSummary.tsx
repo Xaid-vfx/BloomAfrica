@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { CheckCircle2, Edit, ArrowRight, Building2, Shield, MapPin, GraduationCap, Users } from 'lucide-react'
+import { CheckCircle2, Edit, ArrowRight, Building2, Shield, MapPin, GraduationCap, Users, User } from 'lucide-react'
 import { useRecruiter } from '@/context/RecruiterContext'
 
 interface CompletionSummaryProps {

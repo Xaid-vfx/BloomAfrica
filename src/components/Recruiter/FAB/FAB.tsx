@@ -8,7 +8,7 @@ interface FABProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'classN
   label?: string
   position?: 'bottom-right' | 'bottom-left' | 'bottom-center'
   size?: 'default' | 'large'
-  variant?: 'primary' | 'accent'
+  variant?: 'primary' | 'accent' | 'secondary'
 }
 
 export default function FAB({
@@ -47,6 +47,8 @@ export default function FAB({
     switch (variant) {
       case 'primary':
         return 'bg-[#14B8A6] hover:bg-[#0D9488] text-white shadow-lg shadow-[#14B8A6]/40 hover:shadow-xl hover:shadow-[#14B8A6]/50'
+      case 'secondary':
+        return 'bg-gray-300 text-gray-500 shadow-md cursor-pointer'
       case 'accent':
       default:
         return 'bg-[#14B8A6] hover:bg-[#0D9488] text-white shadow-lg shadow-[#14B8A6]/40 hover:shadow-xl hover:shadow-[#14B8A6]/50'

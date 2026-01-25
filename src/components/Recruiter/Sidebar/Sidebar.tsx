@@ -8,12 +8,12 @@ import { SignOut } from "@/lib/Signout/Signout";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import UnreadMessagesDot from "@/components/UnreadMessagesDot/UnreadMessagesDot";
-import { BsBuildingUp } from "react-icons/bs";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
-import { LogOut, Plus, Rocket, Lock, CheckCircle2, Circle } from "lucide-react";
+import { LogOut, Plus, Rocket, Lock, CheckCircle2, Circle, BookOpen, Clock } from "lucide-react";
+import { useRecruiter } from "@/context/RecruiterContext";
 
 const ONBOARDING_SECTIONS = [
   { title: 'Registrant Information' },
@@ -34,6 +34,9 @@ export default function Sidebar() {
     const [isOnboardingComplete, setIsOnboardingComplete] = useState(false)
     const [completedOnboardingSections, setCompletedOnboardingSections] = useState<number[]>([])
     const supabase = createClientComponentClient()
+
+    // Get subscription and account status from context
+    const { canPostApprenticeships, hasActiveSubscription, isAccountApproved, subscriptionStatus, accountStatus } = useRecruiter()
 
     const currentOnboardingSection = parseInt(searchParams?.get('section') || '1')
 
@@ -230,6 +233,33 @@ export default function Sidebar() {
                     {!isOnboardingComplete ? (
                         <div className="relative group/tooltip">
                             <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
+                                <BookOpen size={20} />
+                                <span className="text-sm">Design Curriculum</span>
+                                <Lock size={14} className="ml-auto" />
+                            </div>
+                            <div className="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                                Complete onboarding to unlock
+                            </div>
+                        </div>
+                    ) : (
+                        <Link
+                            href="/recruiter/curriculum"
+                            className={`group flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
+                                isActive('curriculum')
+                                    ? "bg-[#14B8A6] text-white shadow-lg shadow-[#14B8A6]/30"
+                                    : "text-gray-700 hover:bg-gray-50"
+                            }`}
+                        >
+                            <BookOpen className={`transition-colors ${
+                                isActive('curriculum') ? "text-white" : "text-gray-500 group-hover:text-[#14B8A6]"
+                            }`} size={20} />
+                            <span className="text-sm">Design Curriculum</span>
+                        </Link>
+                    )}
+
+                    {!isOnboardingComplete ? (
+                        <div className="relative group/tooltip">
+                            <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
                                 <PiBuildings className="text-xl" />
                                 <span className="text-sm">Company Profile</span>
                                 <Lock size={14} className="ml-auto" />
@@ -265,6 +295,17 @@ export default function Sidebar() {
                                 Complete onboarding to unlock
                             </div>
                         </div>
+                    ) : !canPostApprenticeships ? (
+                        <div className="relative group/tooltip">
+                            <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
+                                <LuClipboardList className="text-xl" />
+                                <span className="text-sm">My Apprenticeships</span>
+                                <Lock size={14} className="ml-auto" />
+                            </div>
+                            <div className="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                                {!hasActiveSubscription ? 'Complete payment to unlock' : 'Account under review'}
+                            </div>
+                        </div>
                     ) : (
                         <Link
                             href="/recruiter/listings"
@@ -292,6 +333,17 @@ export default function Sidebar() {
                                 Complete onboarding to unlock
                             </div>
                         </div>
+                    ) : !canPostApprenticeships ? (
+                        <div className="relative group/tooltip">
+                            <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
+                                <IoChatboxEllipsesOutline className="text-xl" />
+                                <span className="text-sm">Messages</span>
+                                <Lock size={14} className="ml-auto" />
+                            </div>
+                            <div className="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                                {!hasActiveSubscription ? 'Complete payment to unlock' : 'Account under review'}
+                            </div>
+                        </div>
                     ) : (
                         <Link
                             href="/recruiter/messages"
@@ -311,33 +363,7 @@ export default function Sidebar() {
                         </Link>
                     )}
 
-                    {!isOnboardingComplete ? (
-                        <div className="relative group/tooltip">
-                            <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
-                                <BsBuildingUp className="text-xl" />
-                                <span className="text-sm">Bank Details</span>
-                                <Lock size={14} className="ml-auto" />
-                            </div>
-                            <div className="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
-                                Complete onboarding to unlock
-                            </div>
-                        </div>
-                    ) : (
-                        <Link
-                            href="/recruiter/bank-details"
-                            className={`group flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
-                                isActive('bank-details')
-                                    ? "bg-[#14B8A6] text-white shadow-lg shadow-[#14B8A6]/30"
-                                    : "text-gray-700 hover:bg-gray-50"
-                            }`}
-                        >
-                            <BsBuildingUp className={`text-xl transition-colors ${
-                                isActive('bank-details') ? "text-white" : "text-gray-500 group-hover:text-[#14B8A6]"
-                            }`} />
-                            <span className="text-sm">Bank Details</span>
-                        </Link>
-                    )}
-                </nav>
+                    </nav>
 
                 {/* Post Apprenticeship Button */}
                 <div className="mt-6 pt-6 border-t border-gray-100">
@@ -350,6 +376,17 @@ export default function Sidebar() {
                             </div>
                             <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
                                 Complete onboarding to unlock
+                            </div>
+                        </div>
+                    ) : !canPostApprenticeships ? (
+                        <div className="relative group/tooltip">
+                            <div className="flex items-center justify-center gap-2 w-full bg-gray-300 text-gray-500 py-3 px-4 rounded-xl font-semibold text-sm cursor-not-allowed opacity-60">
+                                {!hasActiveSubscription ? <Clock size={18} /> : <Lock size={18} />}
+                                Post Apprenticeship
+                                <Lock size={14} className="ml-1" />
+                            </div>
+                            <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
+                                {!hasActiveSubscription ? 'Complete payment to unlock' : 'Account under review'}
                             </div>
                         </div>
                     ) : (

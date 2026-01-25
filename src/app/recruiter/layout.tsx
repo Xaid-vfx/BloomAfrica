@@ -6,7 +6,7 @@ import getCompany from '@/lib/getCompany/getCompany';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { RecruiterProvider } from '@/context/RecruiterContext';
+import { RecruiterProvider, type TrainerSubscription } from '@/context/RecruiterContext';
 
 async function fetchRecruiter(id: string) {
     const supabase = createServerComponentClient({ cookies })
@@ -30,6 +30,22 @@ async function fetchTrainerProfile(userId: string) {
     }
 }
 
+async function fetchSubscription(userId: string): Promise<TrainerSubscription> {
+    try {
+        const supabase = createServerComponentClient({ cookies })
+        const { data, error } = await supabase
+            .from('TrainerSubscriptions')
+            .select('*')
+            .eq('user_id', userId)
+            .single()
+        return data;
+    } catch (error) {
+        // Table doesn't exist yet - return null for local development
+        console.log('TrainerSubscriptions table not found - using local storage')
+        return null;
+    }
+}
+
 export default async function RecruiterLayout({
     children,
 }: {
@@ -44,6 +60,7 @@ export default async function RecruiterLayout({
     const company = await getCompany(user.id);
     const recruiter = await fetchRecruiter(user.id);
     const trainerProfile = await fetchTrainerProfile(user.id);
+    const subscription = await fetchSubscription(user.id);
 
     if (!recruiter) {
         redirect('/signup');
@@ -64,7 +81,7 @@ export default async function RecruiterLayout({
     }
 
     return (
-        <RecruiterProvider user={user} company={company} recruiter={recruiter} trainerProfile={trainerProfile}>
+        <RecruiterProvider user={user} company={company} recruiter={recruiter} trainerProfile={trainerProfile} subscription={subscription}>
             <div className="flex flex-col bg-[#0A1F44] h-screen overflow-hidden">
                 {/* Main Content */}
                 <div className='flex flex-row lg:gap-5 lg:p-5 h-full'>

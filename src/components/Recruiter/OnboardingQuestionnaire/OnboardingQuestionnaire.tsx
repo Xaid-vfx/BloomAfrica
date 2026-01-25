@@ -10,6 +10,13 @@ import FileUploadField from './FileUploadField'
 import MentorCard, { type Mentor } from './MentorCard'
 import SectionNavigation from './SectionNavigation'
 import CompletionSummary from './CompletionSummary'
+import PricingPopup from '@/components/Recruiter/PricingPopup/PricingPopup'
+import {
+  calculateSubscription,
+  type PricingBreakdown,
+  type TrainerCategory,
+  type CommitmentType
+} from '@/lib/pricing/calculateSubscription'
 import {
   uploadBusinessRegistration,
   uploadOwnerManagerId,
@@ -122,6 +129,7 @@ export default function OnboardingQuestionnaire() {
   const [supportProvided, setSupportProvided] = useState<string[]>([])
 
   // Section 5: Teaching Team
+  const [requestPrentisTeaching, setRequestPrentisTeaching] = useState<boolean | null>(null)
   const [mentors, setMentors] = useState<Mentor[]>([{
     id: crypto.randomUUID(),
     name: '',
@@ -136,6 +144,11 @@ export default function OnboardingQuestionnaire() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [lastSaved, setLastSaved] = useState<Date | null>(null)
   const [isSaving, setIsSaving] = useState(false)
+
+  // Pricing popup state
+  const [showPricingPopup, setShowPricingPopup] = useState(false)
+  const [pricingBreakdown, setPricingBreakdown] = useState<PricingBreakdown | null>(null)
+  const [savedProfileId, setSavedProfileId] = useState<string | null>(null)
 
   // Auto-scroll to errors
   useScrollToError({ errors: fieldErrors })
@@ -205,6 +218,7 @@ export default function OnboardingQuestionnaire() {
         setTypicalCommitment(data.typical_commitment || '')
         setOutcomeIntent(data.outcome_intent || [])
         setSupportProvided(data.support_provided || [])
+        setRequestPrentisTeaching(data.request_prentis_teaching ?? null)
 
         // Restore navigation state
         setCurrentSection(data.current_section || 1)
@@ -261,6 +275,7 @@ export default function OnboardingQuestionnaire() {
         setTypicalCommitment(data.typical_commitment || '')
         setOutcomeIntent(data.outcome_intent || [])
         setSupportProvided(data.support_provided || [])
+        setRequestPrentisTeaching(data.request_prentis_teaching ?? null)
         setCurrentSection(data.current_section || 1)
 
         if (data.is_completed) {
@@ -314,7 +329,8 @@ export default function OnboardingQuestionnaire() {
           avg_program_duration: avgProgramDuration,
           typical_commitment: typicalCommitment,
           outcome_intent: outcomeIntent,
-          support_provided: supportProvided
+          support_provided: supportProvided,
+          request_prentis_teaching: requestPrentisTeaching
         })
         .select()
         .single()
@@ -354,6 +370,7 @@ export default function OnboardingQuestionnaire() {
         typical_commitment: typicalCommitment,
         outcome_intent: outcomeIntent,
         support_provided: supportProvided,
+        request_prentis_teaching: requestPrentisTeaching,
         mentors: mentors,
         completed_sections: sectionsToSave
       }
@@ -525,31 +542,38 @@ export default function OnboardingQuestionnaire() {
   function validateSection7(): Record<string, string> {
     const errors: Record<string, string> = {}
 
-    if (mentors.length === 0) {
-      errors.mentors = 'Please add at least one mentor'
+    if (requestPrentisTeaching === null) {
+      errors.requestPrentisTeaching = 'Please select an option'
     }
 
-    mentors.forEach((mentor, index) => {
-      if (!mentor.name?.trim()) {
-        errors[`mentor_${index}_name`] = `Mentor ${index + 1} name is required`
+    // Only validate mentors if they're providing their own team
+    if (requestPrentisTeaching === false) {
+      if (mentors.length === 0) {
+        errors.mentors = 'Please add at least one mentor'
       }
 
-      if (!mentor.yearsExperience) {
-        errors[`mentor_${index}_experience`] = `Years of experience required`
-      } else if (parseInt(mentor.yearsExperience) < 0) {
-        errors[`mentor_${index}_experience`] = 'Must be a positive number'
-      }
+      mentors.forEach((mentor, index) => {
+        if (!mentor.name?.trim()) {
+          errors[`mentor_${index}_name`] = `Mentor ${index + 1} name is required`
+        }
 
-      if (!mentor.specialization?.trim()) {
-        errors[`mentor_${index}_specialization`] = `Specialization required`
-      }
+        if (!mentor.yearsExperience) {
+          errors[`mentor_${index}_experience`] = `Years of experience required`
+        } else if (parseInt(mentor.yearsExperience) < 0) {
+          errors[`mentor_${index}_experience`] = 'Must be a positive number'
+        }
 
-      if (!mentor.bio?.trim()) {
-        errors[`mentor_${index}_bio`] = `Bio required`
-      } else if (mentor.bio.length < 50) {
-        errors[`mentor_${index}_bio`] = 'Bio must be at least 50 characters'
-      }
-    })
+        if (!mentor.specialization?.trim()) {
+          errors[`mentor_${index}_specialization`] = `Specialization required`
+        }
+
+        if (!mentor.bio?.trim()) {
+          errors[`mentor_${index}_bio`] = `Bio required`
+        } else if (mentor.bio.length < 50) {
+          errors[`mentor_${index}_bio`] = 'Bio must be at least 50 characters'
+        }
+      })
+    }
 
     return errors
   }
@@ -743,37 +767,55 @@ export default function OnboardingQuestionnaire() {
           avg_program_duration: avgProgramDuration,
           typical_commitment: typicalCommitment,
           outcome_intent: outcomeIntent,
-          support_provided: supportProvided
+          support_provided: supportProvided,
+          request_prentis_teaching: requestPrentisTeaching
         })
         .select()
         .single()
 
       if (profileError) throw profileError
 
-      // Save mentors
-      for (let i = 0; i < mentors.length; i++) {
-        const mentor = mentors[i]
+      // Save mentors (only if they have their own team)
+      if (requestPrentisTeaching === false) {
+        for (let i = 0; i < mentors.length; i++) {
+          const mentor = mentors[i]
 
-        let photoUrl = null
-        if (mentor.photo) {
-          photoUrl = await uploadMentorPhoto(mentor.photo, user.id, mentor.id)
+          let photoUrl = null
+          if (mentor.photo) {
+            photoUrl = await uploadMentorPhoto(mentor.photo, user.id, mentor.id)
+          }
+
+          await supabase.from('TrainerMentors').upsert({
+            id: mentor.id,
+            profile_id: profileData.id,
+            mentor_name: mentor.name,
+            years_experience: parseInt(mentor.yearsExperience),
+            specialization: mentor.specialization,
+            professional_bio: mentor.bio,
+            photo_url: photoUrl,
+            display_order: i
+          })
         }
-
-        await supabase.from('TrainerMentors').upsert({
-          id: mentor.id,
-          profile_id: profileData.id,
-          mentor_name: mentor.name,
-          years_experience: parseInt(mentor.yearsExperience),
-          specialization: mentor.specialization,
-          professional_bio: mentor.bio,
-          photo_url: photoUrl,
-          display_order: i
-        })
       }
 
-      toast.success('Profile completed successfully!')
-      setViewMode('summary')
-      router.refresh()
+      // Calculate subscription pricing
+      const pricing = calculateSubscription({
+        trainerCategory: trainerCategory as TrainerCategory,
+        requestPrentisTeaching: requestPrentisTeaching ?? false,
+        typicalCommitment: (typicalCommitment as CommitmentType) || 'Part-time',
+        primaryIndustry: primaryIndustry,
+        prentisAccreditation: prentisAccreditation ?? false,
+        outcomeIntent: outcomeIntent
+      })
+
+      setPricingBreakdown(pricing)
+      setSavedProfileId(profileData.id)
+
+      // Create pending subscription
+      await savePendingSubscription(profileData.id, pricing)
+
+      // Show pricing popup instead of going to summary
+      setShowPricingPopup(true)
     } catch (error) {
       console.log('Database not available - using localStorage for local development')
       // Use localStorage as fallback
@@ -806,17 +848,115 @@ export default function OnboardingQuestionnaire() {
         typical_commitment: typicalCommitment,
         outcome_intent: outcomeIntent,
         support_provided: supportProvided,
-        mentors: mentors
+        request_prentis_teaching: requestPrentisTeaching,
+        mentors: requestPrentisTeaching === false ? mentors : []
       }
       localStorage.setItem(`trainer_profile_${user.id}`, JSON.stringify(localData))
       localStorage.setItem(`trainer_onboarding_complete_${user.id}`, 'true')
 
-      toast.success('Profile completed successfully! (Saved locally)')
-      setViewMode('summary')
-      router.refresh()
+      // Calculate subscription pricing for local mode
+      const pricing = calculateSubscription({
+        trainerCategory: trainerCategory as TrainerCategory,
+        requestPrentisTeaching: requestPrentisTeaching ?? false,
+        typicalCommitment: (typicalCommitment as CommitmentType) || 'Part-time',
+        primaryIndustry: primaryIndustry,
+        prentisAccreditation: prentisAccreditation ?? false,
+        outcomeIntent: outcomeIntent
+      })
+
+      setPricingBreakdown(pricing)
+
+      // Save pending subscription to localStorage
+      const subscriptionData = {
+        user_id: user.id,
+        status: 'pending',
+        base_tier: pricing.baseTier.name,
+        base_amount: pricing.baseTier.amount,
+        teaching_team_amount: pricing.addOns.find(a => a.name.includes('Teaching'))?.amount || 0,
+        accreditation_amount: pricing.addOns.find(a => a.name.includes('Accreditation'))?.amount || 0,
+        direct_hire_amount: pricing.addOns.find(a => a.name.includes('Direct Hire'))?.amount || 0,
+        industry_multiplier: pricing.industryMultiplier.multiplier,
+        subtotal: pricing.subtotal,
+        total_amount: pricing.total,
+        created_at: new Date().toISOString()
+      }
+      localStorage.setItem(`trainer_subscription_${user.id}`, JSON.stringify(subscriptionData))
+
+      // Show pricing popup
+      setShowPricingPopup(true)
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  // Save pending subscription to database
+  async function savePendingSubscription(profileId: string, pricing: PricingBreakdown) {
+    try {
+      const teachingAmount = pricing.addOns.find(a => a.name.includes('Teaching'))?.amount || 0
+      const accreditationAmount = pricing.addOns.find(a => a.name.includes('Accreditation'))?.amount || 0
+      const directHireAmount = pricing.addOns.find(a => a.name.includes('Direct Hire'))?.amount || 0
+
+      await supabase.from('TrainerSubscriptions').upsert({
+        user_id: user.id,
+        profile_id: profileId,
+        status: 'pending',
+        base_tier: pricing.baseTier.name,
+        base_amount: pricing.baseTier.amount,
+        teaching_team_amount: teachingAmount,
+        accreditation_amount: accreditationAmount,
+        direct_hire_amount: directHireAmount,
+        industry_multiplier: pricing.industryMultiplier.multiplier,
+        subtotal: pricing.subtotal,
+        total_amount: pricing.total,
+        pricing_input: {
+          trainerCategory,
+          requestPrentisTeaching,
+          typicalCommitment,
+          primaryIndustry,
+          prentisAccreditation,
+          outcomeIntent
+        }
+      })
+    } catch (error) {
+      console.log('Could not save subscription to database')
+    }
+  }
+
+  // Handle successful payment
+  async function handlePaymentSuccess() {
+    try {
+      // Update subscription status to active
+      await supabase
+        .from('TrainerSubscriptions')
+        .update({
+          status: 'active',
+          paid_at: new Date().toISOString(),
+          payment_reference: `mock_${Date.now()}`,
+          expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days from now
+        })
+        .eq('user_id', user.id)
+    } catch (error) {
+      // Update localStorage for local mode
+      const subscriptionData = localStorage.getItem(`trainer_subscription_${user.id}`)
+      if (subscriptionData) {
+        const data = JSON.parse(subscriptionData)
+        data.status = 'active'
+        data.paid_at = new Date().toISOString()
+        data.payment_reference = `mock_${Date.now()}`
+        localStorage.setItem(`trainer_subscription_${user.id}`, JSON.stringify(data))
+      }
+    }
+
+    setShowPricingPopup(false)
+    router.push('/recruiter/dashboard')
+    router.refresh()
+  }
+
+  // Handle pay later (close popup and go to dashboard)
+  function handlePayLater() {
+    setShowPricingPopup(false)
+    router.push('/recruiter/dashboard')
+    router.refresh()
   }
 
   if (viewMode === 'summary') {
@@ -922,7 +1062,7 @@ export default function OnboardingQuestionnaire() {
           {currentSection === 4 && <VerificationTrustSection businessRegistration={businessRegistration} setBusinessRegistration={setBusinessRegistration} professionalLicenses={professionalLicenses} setProfessionalLicenses={setProfessionalLicenses} cacNumber={cacNumber} setCacNumber={setCacNumber} tinNumber={tinNumber} setTinNumber={setTinNumber} businessRegDate={businessRegDate} setBusinessRegDate={setBusinessRegDate} bvnNumber={bvnNumber} setBvnNumber={setBvnNumber} trainerCategory={trainerCategory} fieldErrors={fieldErrors} />}
           {currentSection === 5 && <WorkspaceFacilitySection physicalAddress={physicalAddress} setPhysicalAddress={setPhysicalAddress} workspacePhotos={workspacePhotos} setWorkspacePhotos={setWorkspacePhotos} facilityFeatures={facilityFeatures} setFacilityFeatures={setFacilityFeatures} teamSize={teamSize} setTeamSize={setTeamSize} fieldErrors={fieldErrors} toggleCheckbox={toggleCheckbox} />}
           {currentSection === 6 && <ProgramIntentSection prentisAccreditation={prentisAccreditation} setPrentisAccreditation={setPrentisAccreditation} alternativeCertification={alternativeCertification} setAlternativeCertification={setAlternativeCertification} generalProgramTypes={generalProgramTypes} setGeneralProgramTypes={setGeneralProgramTypes} avgProgramDuration={avgProgramDuration} setAvgProgramDuration={setAvgProgramDuration} typicalCommitment={typicalCommitment} setTypicalCommitment={setTypicalCommitment} outcomeIntent={outcomeIntent} setOutcomeIntent={setOutcomeIntent} supportProvided={supportProvided} setSupportProvided={setSupportProvided} fieldErrors={fieldErrors} toggleCheckbox={toggleCheckbox} />}
-          {currentSection === 7 && <TeachingTeamSection mentors={mentors} updateMentor={updateMentor} removeMentor={removeMentor} addMentor={addMentor} fieldErrors={fieldErrors} />}
+          {currentSection === 7 && <TeachingTeamSection requestPrentisTeaching={requestPrentisTeaching} setRequestPrentisTeaching={setRequestPrentisTeaching} mentors={mentors} updateMentor={updateMentor} removeMentor={removeMentor} addMentor={addMentor} fieldErrors={fieldErrors} />}
         </div>
       </div>
 
@@ -941,6 +1081,17 @@ export default function OnboardingQuestionnaire() {
           showBreadcrumbs={false}
         />
       </div>
+
+      {/* Pricing Popup - shown after successful profile submission */}
+      {pricingBreakdown && (
+        <PricingPopup
+          isOpen={showPricingPopup}
+          onClose={handlePayLater}
+          onPaymentSuccess={handlePaymentSuccess}
+          pricing={pricingBreakdown}
+          isProcessing={isSubmitting}
+        />
+      )}
     </div>
   )
 }
@@ -1914,12 +2065,16 @@ function ProgramIntentSection({
 
 // Section 6: Teaching Team
 function TeachingTeamSection({
+  requestPrentisTeaching,
+  setRequestPrentisTeaching,
   mentors,
   updateMentor,
   removeMentor,
   addMentor,
   fieldErrors
 }: {
+  requestPrentisTeaching: boolean | null;
+  setRequestPrentisTeaching: (value: boolean | null) => void;
   mentors: Mentor[];
   updateMentor: (index: number, updatedMentor: Mentor) => void;
   removeMentor: (index: number) => void;
@@ -1934,43 +2089,117 @@ function TeachingTeamSection({
           </div>
           <div>
             <h2 className="text-xl font-bold text-gray-900">Teaching Team</h2>
-            <p className="text-sm text-gray-600">Introduce your mentors</p>
+            <p className="text-sm text-gray-600">Who will be teaching your apprentices?</p>
           </div>
         </div>
 
-        {/* Mentors */}
-        <div className="space-y-4">
-          {mentors.map((mentor, index) => (
-            <MentorCard
-              key={mentor.id}
-              mentor={mentor}
-              index={index}
-              onChange={(updatedMentor) => updateMentor(index, updatedMentor)}
-              onRemove={() => removeMentor(index)}
-              errors={{
-                name: fieldErrors[`mentor_${index}_name`],
-                yearsExperience: fieldErrors[`mentor_${index}_experience`],
-                specialization: fieldErrors[`mentor_${index}_specialization`],
-                bio: fieldErrors[`mentor_${index}_bio`]
-              }}
-              showRemove={mentors.length > 1}
-            />
-          ))}
+        {/* Teaching Team Option */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            How would you like to handle teaching?
+            <span className="text-red-500 ml-1">*</span>
+          </label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Own Team Option */}
+            <button
+              type="button"
+              onClick={() => setRequestPrentisTeaching(false)}
+              className={`p-5 rounded-xl border-2 transition-all text-left ${
+                requestPrentisTeaching === false
+                  ? 'border-[#14B8A6] bg-[#14B8A6]/5 shadow-md'
+                  : 'border-gray-300 hover:border-gray-400'
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                <div className={`p-2 rounded-lg ${requestPrentisTeaching === false ? 'bg-[#14B8A6]/20' : 'bg-gray-100'}`}>
+                  <Users className={requestPrentisTeaching === false ? 'text-[#14B8A6]' : 'text-gray-500'} size={20} />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">I have my own teaching team</h3>
+                  <p className="text-sm text-gray-600">I will provide mentors who will train the apprentices</p>
+                </div>
+              </div>
+            </button>
 
-          {/* Add Another Mentor Button */}
-          <button
-            type="button"
-            onClick={addMentor}
-            className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#14B8A6] hover:bg-[#14B8A6]/5 transition-all group"
-          >
-            <p className="text-sm font-medium text-gray-600 group-hover:text-[#14B8A6]">
-              + Add Another Mentor
-            </p>
-          </button>
+            {/* Prentis Team Option */}
+            <button
+              type="button"
+              onClick={() => setRequestPrentisTeaching(true)}
+              className={`p-5 rounded-xl border-2 transition-all text-left ${
+                requestPrentisTeaching === true
+                  ? 'border-[#14B8A6] bg-[#14B8A6]/5 shadow-md'
+                  : 'border-gray-300 hover:border-gray-400'
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                <div className={`p-2 rounded-lg ${requestPrentisTeaching === true ? 'bg-[#14B8A6]/20' : 'bg-gray-100'}`}>
+                  <GraduationCap className={requestPrentisTeaching === true ? 'text-[#14B8A6]' : 'text-gray-500'} size={20} />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1">Request Prentis teaching team</h3>
+                  <p className="text-sm text-gray-600">Prentis will provide qualified instructors for your program</p>
+                </div>
+              </div>
+            </button>
+          </div>
+          {fieldErrors.requestPrentisTeaching && (
+            <p className="text-sm text-red-600 mt-2">{fieldErrors.requestPrentisTeaching}</p>
+          )}
         </div>
 
-        {fieldErrors.mentors && (
-          <p className="text-sm text-red-600">{fieldErrors.mentors}</p>
+        {/* Prentis Team Info */}
+        {requestPrentisTeaching === true && (
+          <div className="p-4 bg-[#14B8A6]/10 rounded-xl border border-[#14B8A6]/20">
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="text-[#14B8A6] mt-0.5 flex-shrink-0" size={20} />
+              <div>
+                <h4 className="font-medium text-gray-900 mb-1">We&apos;ll handle the teaching</h4>
+                <p className="text-sm text-gray-600">
+                  Our team will reach out to discuss your program requirements and match you with qualified instructors.
+                  Additional fees may apply based on program duration and complexity.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Mentors - Only show if they have their own team */}
+        {requestPrentisTeaching === false && (
+          <div className="space-y-4">
+            <p className="text-sm text-gray-600">Add the mentors who will be teaching in your program:</p>
+
+            {mentors.map((mentor, index) => (
+              <MentorCard
+                key={mentor.id}
+                mentor={mentor}
+                index={index}
+                onChange={(updatedMentor) => updateMentor(index, updatedMentor)}
+                onRemove={() => removeMentor(index)}
+                errors={{
+                  name: fieldErrors[`mentor_${index}_name`],
+                  yearsExperience: fieldErrors[`mentor_${index}_experience`],
+                  specialization: fieldErrors[`mentor_${index}_specialization`],
+                  bio: fieldErrors[`mentor_${index}_bio`]
+                }}
+                showRemove={mentors.length > 1}
+              />
+            ))}
+
+            {/* Add Another Mentor Button */}
+            <button
+              type="button"
+              onClick={addMentor}
+              className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#14B8A6] hover:bg-[#14B8A6]/5 transition-all group"
+            >
+              <p className="text-sm font-medium text-gray-600 group-hover:text-[#14B8A6]">
+                + Add Another Mentor
+              </p>
+            </button>
+
+            {fieldErrors.mentors && (
+              <p className="text-sm text-red-600">{fieldErrors.mentors}</p>
+            )}
+          </div>
         )}
       </div>
     )

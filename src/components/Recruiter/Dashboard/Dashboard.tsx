@@ -13,13 +13,21 @@ import {
     Calendar,
     Users,
     Plus,
-    ArrowRight
+    ArrowRight,
+    Lock,
+    Clock,
+    CheckCircle2,
+    CreditCard,
+    AlertCircle,
+    XCircle
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import FAB from "@/components/Recruiter/FAB/FAB"
 import { SwipeableJobCard } from "@/components/Recruiter/SwipeableCard/SwipeableCard"
 import { usePullToRefresh } from "@/hooks/useSwipeGesture"
 import { toast } from "sonner"
+import PendingPaymentBanner from "@/components/Recruiter/PendingPaymentBanner/PendingPaymentBanner"
+import { useRecruiter } from "@/context/RecruiterContext"
 
 interface Job {
     uid: string;
@@ -52,8 +60,52 @@ export default function Dashboard({ user, company, recruiter }: Props) {
     const [applications, setApplications] = useState<Application[] | null>(null);
     const [jobs, setJobs] = useState<Job[]>([]);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
     const router = useRouter();
     const supabase = createClientComponentClient();
+    const { hasActiveSubscription, subscriptionStatus, accountStatus, isAccountApproved, canPostApprenticeships, subscription } = useRecruiter();
+
+    // Check if features are locked - need both payment AND approval to post
+    const isLocked = !canPostApprenticeships;
+
+    // Handle payment from subscription card
+    const handlePayNow = async () => {
+        setIsPaymentProcessing(true);
+        try {
+            // Mock payment flow (Paystack has bugs - frontend only for now)
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Update subscription status
+            try {
+                await supabase
+                    .from('TrainerSubscriptions')
+                    .update({
+                        status: 'active',
+                        paid_at: new Date().toISOString(),
+                        payment_reference: `mock_${Date.now()}`,
+                        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+                    })
+                    .eq('user_id', user.id);
+            } catch (error) {
+                // Update localStorage for local mode
+                const subscriptionData = localStorage.getItem(`trainer_subscription_${user.id}`);
+                if (subscriptionData) {
+                    const data = JSON.parse(subscriptionData);
+                    data.status = 'active';
+                    data.paid_at = new Date().toISOString();
+                    data.payment_reference = `mock_${Date.now()}`;
+                    localStorage.setItem(`trainer_subscription_${user.id}`, JSON.stringify(data));
+                }
+            }
+
+            toast.success('Payment successful! Your subscription is now active.');
+            router.refresh();
+        } catch (error) {
+            toast.error('Payment failed. Please try again.');
+        } finally {
+            setIsPaymentProcessing(false);
+        }
+    };
 
     const fetchJobs = async () => {
         const { data, error } = await supabase
@@ -157,8 +209,114 @@ export default function Dashboard({ user, company, recruiter }: Props) {
 
             {/* Scrollable Content Area */}
             <div ref={pullToRefreshRef} className="flex-1 overflow-y-auto">
+                {/* Pending Payment Banner */}
+                <div className="px-6 lg:px-8 pt-6">
+                    <PendingPaymentBanner />
+                </div>
+
+                {/* Account Status Cards */}
+                <div className="px-6 lg:px-8 pt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Account Status Card */}
+                        <div className={`rounded-2xl p-4 border-2 ${
+                            accountStatus === 'approved'
+                                ? 'bg-green-50 border-green-200'
+                                : accountStatus === 'rejected'
+                                ? 'bg-red-50 border-red-200'
+                                : 'bg-amber-50 border-amber-200'
+                        }`}>
+                            <div className="flex items-center gap-3">
+                                <div className={`p-2 rounded-lg ${
+                                    accountStatus === 'approved'
+                                        ? 'bg-green-100'
+                                        : accountStatus === 'rejected'
+                                        ? 'bg-red-100'
+                                        : 'bg-amber-100'
+                                }`}>
+                                    {accountStatus === 'approved' ? (
+                                        <CheckCircle2 className="h-5 w-5 text-green-600" />
+                                    ) : accountStatus === 'rejected' ? (
+                                        <XCircle className="h-5 w-5 text-red-600" />
+                                    ) : (
+                                        <Clock className="h-5 w-5 text-amber-600" />
+                                    )}
+                                </div>
+                                <div>
+                                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Account Status</p>
+                                    <p className={`font-semibold ${
+                                        accountStatus === 'approved'
+                                            ? 'text-green-700'
+                                            : accountStatus === 'rejected'
+                                            ? 'text-red-700'
+                                            : 'text-amber-700'
+                                    }`}>
+                                        {accountStatus === 'approved'
+                                            ? 'Approved'
+                                            : accountStatus === 'rejected'
+                                            ? 'Rejected'
+                                            : 'In Review'}
+                                    </p>
+                                </div>
+                            </div>
+                            {accountStatus === 'pending_review' && (
+                                <p className="text-xs text-amber-600 mt-2">
+                                    Your profile is being reviewed by our team
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Subscription Status Card */}
+                        <div className={`rounded-2xl p-4 border-2 ${
+                            hasActiveSubscription
+                                ? 'bg-green-50 border-green-200'
+                                : 'bg-amber-50 border-amber-200'
+                        }`}>
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className={`p-2 rounded-lg ${
+                                        hasActiveSubscription ? 'bg-green-100' : 'bg-amber-100'
+                                    }`}>
+                                        <CreditCard className={`h-5 w-5 ${
+                                            hasActiveSubscription ? 'text-green-600' : 'text-amber-600'
+                                        }`} />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Subscription</p>
+                                        <p className={`font-semibold ${
+                                            hasActiveSubscription ? 'text-green-700' : 'text-amber-700'
+                                        }`}>
+                                            {hasActiveSubscription ? 'Active' : 'Pending Payment'}
+                                        </p>
+                                    </div>
+                                </div>
+                                {!hasActiveSubscription && (
+                                    <button
+                                        onClick={handlePayNow}
+                                        disabled={isPaymentProcessing}
+                                        className="bg-[#14B8A6] hover:bg-[#0D9488] disabled:bg-gray-300 text-white text-xs font-semibold py-2 px-4 rounded-lg transition-colors flex items-center gap-2"
+                                    >
+                                        {isPaymentProcessing ? (
+                                            <>
+                                                <div className="animate-spin rounded-full h-3 w-3 border-2 border-white border-t-transparent" />
+                                                Processing...
+                                            </>
+                                        ) : (
+                                            'Pay Now'
+                                        )}
+                                    </button>
+                                )}
+                            </div>
+                            {!hasActiveSubscription && subscription && (
+                                <p className="text-xs text-amber-600 mt-2">
+                                    Amount due: ₦{subscription.total_amount?.toLocaleString()}/mo
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
                 {/* Stats Cards */}
-                <div className="p-6 lg:p-8">
+                <div className="p-6 lg:p-8 pt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                     {/* Posted Jobs Card */}
                     <div className="bg-gradient-to-br from-[#14B8A6]/5 to-[#14B8A6]/10 border-2 border-[#14B8A6]/20 rounded-2xl p-6 hover:shadow-lg hover:shadow-[#14B8A6]/10 transition-all">
@@ -186,14 +344,35 @@ export default function Dashboard({ user, company, recruiter }: Props) {
                 </div>
 
                 {/* Quick Action - Post Apprenticeship */}
-                <div className="mt-6">
+                <div className="mt-6 relative group">
                     <button
-                        onClick={() => router.push('/recruiter/post-a-job')}
-                        className="w-full flex items-center justify-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white py-4 px-6 rounded-xl font-semibold transition-colors shadow-lg shadow-[#14B8A6]/30"
+                        onClick={() => {
+                            if (isLocked) {
+                                if (!hasActiveSubscription) {
+                                    toast.error('Complete your subscription payment to unlock this feature')
+                                } else if (!isAccountApproved) {
+                                    toast.error('Your account is still under review')
+                                }
+                                return
+                            }
+                            router.push('/recruiter/post-a-job')
+                        }}
+                        disabled={isLocked}
+                        className={`w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl font-semibold transition-colors ${
+                            isLocked
+                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                : 'bg-[#14B8A6] hover:bg-[#0D9488] text-white shadow-lg shadow-[#14B8A6]/30'
+                        }`}
                     >
-                        <Plus size={20} />
+                        {isLocked ? <Lock size={20} /> : <Plus size={20} />}
                         Post New Apprenticeship
                     </button>
+                    {isLocked && (
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                            {!hasActiveSubscription ? 'Complete payment to unlock' : 'Account under review'}
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -261,10 +440,25 @@ export default function Dashboard({ user, company, recruiter }: Props) {
                             Start by posting your first apprenticeship opportunity
                         </p>
                         <button
-                            onClick={() => router.push('/recruiter/post-a-job')}
-                            className="inline-flex items-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white py-3 px-6 rounded-xl font-medium transition-colors shadow-lg shadow-[#14B8A6]/30"
+                            onClick={() => {
+                                if (isLocked) {
+                                    if (!hasActiveSubscription) {
+                                        toast.error('Complete your subscription payment to unlock this feature')
+                                    } else if (!isAccountApproved) {
+                                        toast.error('Your account is still under review')
+                                    }
+                                    return
+                                }
+                                router.push('/recruiter/post-a-job')
+                            }}
+                            disabled={isLocked}
+                            className={`inline-flex items-center gap-2 py-3 px-6 rounded-xl font-medium transition-colors ${
+                                isLocked
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'bg-[#14B8A6] hover:bg-[#0D9488] text-white shadow-lg shadow-[#14B8A6]/30'
+                            }`}
                         >
-                            <Plus size={18} />
+                            {isLocked ? <Lock size={18} /> : <Plus size={18} />}
                             Post Apprenticeship
                         </button>
                     </div>
@@ -274,10 +468,19 @@ export default function Dashboard({ user, company, recruiter }: Props) {
 
             {/* Floating Action Button - Mobile Only */}
             <FAB
-                icon={<Plus size={24} />}
-                label="Post Apprenticeship"
-                onClick={() => router.push('/recruiter/post-a-job')}
-                variant="accent"
+                icon={isLocked ? <Lock size={24} /> : <Plus size={24} />}
+                onClick={() => {
+                    if (isLocked) {
+                        if (!hasActiveSubscription) {
+                            toast.error('Complete your subscription payment to unlock this feature')
+                        } else if (!isAccountApproved) {
+                            toast.error('Your account is still under review')
+                        }
+                        return
+                    }
+                    router.push('/recruiter/post-a-job')
+                }}
+                variant={isLocked ? "secondary" : "accent"}
             />
         </div>
     )
