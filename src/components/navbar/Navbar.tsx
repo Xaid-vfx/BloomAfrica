@@ -1,6 +1,7 @@
 'use client'
 import { RxHamburgerMenu, RxCross1 } from "react-icons/rx";
-import PrentisLogo from "../Logo/PrentisLogo";
+import PrentisLogoWhite from "../Logo/PrentisLogoWhite";
+
 import { useEffect, useState } from "react";
 import { CgMenuRightAlt } from "react-icons/cg";
 import { CiMenuFries } from "react-icons/ci";
@@ -43,7 +44,7 @@ export default function Navbar(props: { color: string }) {
       <div className="h-[200vh] w-screen px-6 sm:px-12 overflow-hidden fixed top-0 gradient z-50 ">
         <div className="py-6 flex justify-between items-center sm:justify-normal">
           <a href="/" className="sm:hidden">
-            <PrentisLogo className="!text-[#14B8A6]" />
+            <PrentisLogoWhite className="!text-[#14B8A6]" />
           </a>
           <button
             onClick={() => {
@@ -62,7 +63,7 @@ export default function Navbar(props: { color: string }) {
           <div className="px-4">
             <a href="/"><div className="my-4 font-medium cursor-pointer">Home</div></a>
             <hr className="" />
-            <a href="/explore-programs"><div className="my-4 font-medium cursor-pointer">About Us</div></a>
+            <a href="/about-us"><div className="my-4 font-medium cursor-pointer">About Us</div></a>
             <hr />
             <a href="/how-it-works"><div className="my-4 font-medium cursor-pointer">How It Works</div></a>
             <hr />
@@ -83,7 +84,7 @@ export default function Navbar(props: { color: string }) {
     <div className={`px-6 sm:px-12 py-4 flex justify-between items-center sm:justify-normal  ${props.color == "light" ? 'bg-[#0A1F44]' : props.color == "white" ? 'bg-[#0F172A]' : ''}`}>
 
       <a href="/" className="sm:hidden">
-        <PrentisLogo className="!text-white" />
+        <PrentisLogoWhite className="!text-white" />
       </a>
       <div className={`menu gap-3 items-center flex sm:hidden`}>
         <a
@@ -112,13 +113,13 @@ export default function Navbar(props: { color: string }) {
       <div className="hidden sm:flex sm:items-center sm:justify-between sm:w-full ms-auto me-auto max-w-[1300px]">
         <div className="flex justify-between items-center relative ">
           <a href="/" className="hidden sm:flex sm:items-center sm:gap-2">
-            <PrentisLogo className="!text-white" />
+            <PrentisLogoWhite className="!text-white" />
           </a>
         </div>
         <div className="hidden text-[16px] sm:flex sm:pl-0  mx-auto min-w-max ">
           <div className="flex gap-[clamp(1.1rem,2.1vw,5rem)] xl:gap-[clamp(1.1rem,2.5vw,5rem)] items-center">
             <a href="/" className={`${currentPage == "home" ? `border-b-2 ${props.color == "light" ? 'border-white text-white' : 'border-white text-white'}` : `${props.color == "light" ? 'text-white' : 'text-white'}`} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>Home</a>
-            <a href="/explore-programs" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>About Us</a>
+            <a href="/about-us" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>About Us</a>
             <a href="/how-it-works" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>How It Works</a>
             <a href="/for-trainers" className={`${props.color == "light" ? 'text-white' : 'text-white'} text-sm font-medium hover:-translate-y-[2px] hover:border-b-2 pb-1 ${props.color == "light" ? 'hover:border-white' : 'hover:border-white'} transition-all`}>For Trainers</a>
           </div>

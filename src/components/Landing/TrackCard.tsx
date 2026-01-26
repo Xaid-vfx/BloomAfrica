@@ -24,12 +24,12 @@ export default function TrackCard({ icon, title, description, result, ctaLink, c
             </h3>
 
             <div className="flex-grow">
-                <p className="text-sm text-grey-700 leading-6">
+                <p className="text-sm text-grey-700 leading-6 text-center">
                     {description}
                 </p>
             </div>
 
-            <ul className="space-y-3 mt-6 mb-6">
+            <ul className="space-y-3 mt-6 mb-6 flex flex-col items-center">
                 {result.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
                         <span className="text-xl font-bold leading-none" style={{ color }}>•</span>

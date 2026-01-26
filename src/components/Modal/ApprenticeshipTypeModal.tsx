@@ -20,7 +20,7 @@ export function ApprenticeshipTypeModal({ isOpen, onClose }: ApprenticeshipTypeM
   }
 
   const artisanBullets = [
-    "You want to start your own business",
+    "You want to start your business",
     "You're looking to be your own boss",
     "You want to master a skilled trade"
   ]

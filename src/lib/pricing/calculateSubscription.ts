@@ -3,6 +3,7 @@
 
 export type TrainerCategory = 'Individual/Artisan/Small Business' | 'Company'
 export type CommitmentType = 'Full-time' | 'Part-time'
+export type CurriculumType = 'own' | 'prentis' | 'custom' | 'later' | null
 
 export type PricingInput = {
   trainerCategory: TrainerCategory
@@ -11,6 +12,7 @@ export type PricingInput = {
   primaryIndustry: string
   prentisAccreditation: boolean
   outcomeIntent: string[]
+  curriculumType?: CurriculumType
 }
 
 export type AddOn = {
@@ -47,6 +49,14 @@ const TEACHING_ADD_ONS = {
 // Fixed add-on prices
 const ACCREDITATION_PRICE = 25000 // ₦25k
 const DIRECT_HIRE_PRICE = 20000   // ₦20k
+
+// Curriculum pricing (in Naira)
+const CURRICULUM_PRICES = {
+  'prentis': 15000,  // ₦15k for ready-made Prentis curriculum
+  'custom': 35000,   // ₦35k for custom Prentis curriculum
+  'own': 0,          // No charge for own curriculum
+  'later': 0         // No charge (decide later)
+}
 
 // Industry multipliers
 const INDUSTRY_MULTIPLIERS: Record<string, { category: string; multiplier: number }> = {
@@ -105,10 +115,22 @@ export function calculateSubscription(input: PricingInput): PricingBreakdown {
     })
   }
 
-  // 5. Get industry multiplier
+  // 5. Add curriculum pricing if using Prentis curriculum
+  if (input.curriculumType && CURRICULUM_PRICES[input.curriculumType] > 0) {
+    const curriculumAmount = CURRICULUM_PRICES[input.curriculumType]
+    const curriculumLabel = input.curriculumType === 'prentis'
+      ? 'Prentis Ready-Made Curriculum'
+      : 'Custom Prentis Curriculum'
+    addOns.push({
+      name: curriculumLabel,
+      amount: curriculumAmount
+    })
+  }
+
+  // 6. Get industry multiplier
   const industryData = INDUSTRY_MULTIPLIERS[input.primaryIndustry] || INDUSTRY_MULTIPLIERS['Other']
 
-  // 6. Calculate totals
+  // 7. Calculate totals
   const addOnsTotal = addOns.reduce((sum, addon) => sum + addon.amount, 0)
   const subtotal = baseAmount + addOnsTotal
   const total = Math.round(subtotal * industryData.multiplier)

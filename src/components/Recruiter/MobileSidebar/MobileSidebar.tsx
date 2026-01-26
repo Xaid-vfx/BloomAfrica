@@ -22,6 +22,7 @@ const ONBOARDING_SECTIONS = [
   { title: 'Verification & Trust' },
   { title: 'Workspace & Facility' },
   { title: 'Program Intent' },
+  { title: 'Curriculum' },
   { title: 'Teaching Team' }
 ]
 
@@ -92,7 +93,7 @@ export default function MobileSidebar() {
 
       // If onboarding is complete, show all sections as complete
       if (data?.is_completed) {
-        setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7])
+        setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8])
       }
       // Otherwise, use completed_sections if available, or calculate from current_section
       else if (data?.completed_sections) {
@@ -114,7 +115,7 @@ export default function MobileSidebar() {
 
         // If onboarding is complete, show all sections as complete
         if (data.is_completed || isComplete) {
-          setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7])
+          setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8])
         }
         // Otherwise use completed_sections or calculate from current_section
         else if (data.completed_sections) {
@@ -124,7 +125,7 @@ export default function MobileSidebar() {
           setCompletedOnboardingSections(completed)
         }
       } else if (isComplete) {
-        setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7])
+        setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8])
       }
     }
   }

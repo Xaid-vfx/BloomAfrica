@@ -154,7 +154,9 @@ export default function FileUploadField({
             multiple={multiple}
             accept={category === 'BusinessRegistration' || category === 'OwnerID' || category === 'ProfessionalLicenses'
               ? '.pdf,.jpg,.jpeg,.png'
-              : '.jpg,.jpeg,.png,.webp'
+              : category === 'CurriculumDocument'
+                ? '.pdf,.doc,.docx'
+                : '.jpg,.jpeg,.png,.webp'
             }
             onChange={(e) => handleFileSelect(e.target.files)}
             className="hidden"
@@ -178,7 +180,9 @@ export default function FileUploadField({
               <p className="text-xs text-gray-500 mt-1">
                 {category === 'WorkspacePhotos' || category === 'MentorPhotos'
                   ? 'JPG, PNG or WEBP (max 5MB)'
-                  : 'PDF, JPG or PNG (max 10MB)'
+                  : category === 'CurriculumDocument'
+                    ? 'PDF, DOC or DOCX (max 10MB)'
+                    : 'PDF, JPG or PNG (max 10MB)'
                 }
               </p>
               {minFiles && (

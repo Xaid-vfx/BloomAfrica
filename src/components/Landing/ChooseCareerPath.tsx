@@ -16,7 +16,8 @@ export default function ChooseCareerPath() {
                 "You're looking to be your own boss",
                 "You want to master a skilled trade"
             ],
-            ctaText: "Explore Artisan Programs"
+            ctaText: "Enroll in Artisan Programs",
+            ctaLink: "/all-trainings?track=artisan"
         },
         {
             id: "corporate",
@@ -28,7 +29,8 @@ export default function ChooseCareerPath() {
                 "You want to work in an  company",
                 "You're seeking a stable career path"
             ],
-            ctaText: "Explore Company Programs"
+            ctaText: "Apply to Company Programs",
+            ctaLink: "/all-trainings?track=company"
         }
     ]
 
@@ -60,7 +62,7 @@ export default function ChooseCareerPath() {
                                 title={track.title}
                                 description={track.description}
                                 result={track.result}
-                                ctaLink="/explore-programs"
+                                ctaLink={track.ctaLink}
                                 ctaText={track.ctaText}
                                 color='#14B8A6'
                             />

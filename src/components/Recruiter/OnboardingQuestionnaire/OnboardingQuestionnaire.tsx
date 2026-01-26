@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { toast } from 'sonner'
-import { Save, Building2, Shield, MapPin, GraduationCap, Users, User, CheckCircle2, Rocket } from 'lucide-react'
+import { Save, Building2, Shield, MapPin, GraduationCap, Users, User, CheckCircle2, Rocket, BookOpen, Upload, Sparkles, Clock } from 'lucide-react'
 import { useRecruiter } from '@/context/RecruiterContext'
 import FileUploadField from './FileUploadField'
 import MentorCard, { type Mentor } from './MentorCard'
@@ -22,7 +22,8 @@ import {
   uploadOwnerManagerId,
   uploadProfessionalLicenses,
   uploadWorkspacePhotos,
-  uploadMentorPhoto
+  uploadMentorPhoto,
+  uploadCurriculumDocument
 } from '@/lib/uploadTrainerFile/uploadTrainerFile'
 import ProgressIndicator from '@/components/Recruiter/ProgressIndicator/ProgressIndicator'
 import MobileFileUpload from '@/components/Recruiter/MobileFileUpload/MobileFileUpload'
@@ -35,6 +36,7 @@ const SECTION_TITLES = [
   'Verification & Trust',
   'Workspace & Facility',
   'Program Intent & Certification',
+  'Curriculum',
   'Teaching Team'
 ]
 
@@ -128,7 +130,12 @@ export default function OnboardingQuestionnaire() {
   const [outcomeIntent, setOutcomeIntent] = useState<string[]>([])
   const [supportProvided, setSupportProvided] = useState<string[]>([])
 
-  // Section 5: Teaching Team
+  // Section 7: Curriculum
+  const [curriculumType, setCurriculumType] = useState<'own' | 'prentis' | 'custom' | 'later' | null>(null)
+  const [curriculumFiles, setCurriculumFiles] = useState<File[]>([])
+  const [curriculumNotes, setCurriculumNotes] = useState('')
+
+  // Section 8: Teaching Team
   const [requestPrentisTeaching, setRequestPrentisTeaching] = useState<boolean | null>(null)
   const [mentors, setMentors] = useState<Mentor[]>([{
     id: crypto.randomUUID(),
@@ -175,7 +182,7 @@ export default function OnboardingQuestionnaire() {
     const sectionParam = searchParams.get('section')
     if (sectionParam) {
       const targetSection = parseInt(sectionParam)
-      if (targetSection >= 1 && targetSection <= 6 && targetSection !== currentSection) {
+      if (targetSection >= 1 && targetSection <= 8 && targetSection !== currentSection) {
         handleSectionNavigation(targetSection)
       }
     }
@@ -218,6 +225,8 @@ export default function OnboardingQuestionnaire() {
         setTypicalCommitment(data.typical_commitment || '')
         setOutcomeIntent(data.outcome_intent || [])
         setSupportProvided(data.support_provided || [])
+        setCurriculumType(data.curriculum_type || null)
+        setCurriculumNotes(data.curriculum_notes || '')
         setRequestPrentisTeaching(data.request_prentis_teaching ?? null)
 
         // Restore navigation state
@@ -275,6 +284,8 @@ export default function OnboardingQuestionnaire() {
         setTypicalCommitment(data.typical_commitment || '')
         setOutcomeIntent(data.outcome_intent || [])
         setSupportProvided(data.support_provided || [])
+        setCurriculumType(data.curriculum_type || null)
+        setCurriculumNotes(data.curriculum_notes || '')
         setRequestPrentisTeaching(data.request_prentis_teaching ?? null)
         setCurrentSection(data.current_section || 1)
 
@@ -330,6 +341,8 @@ export default function OnboardingQuestionnaire() {
           typical_commitment: typicalCommitment,
           outcome_intent: outcomeIntent,
           support_provided: supportProvided,
+          curriculum_type: curriculumType,
+          curriculum_notes: curriculumNotes,
           request_prentis_teaching: requestPrentisTeaching
         })
         .select()
@@ -370,6 +383,8 @@ export default function OnboardingQuestionnaire() {
         typical_commitment: typicalCommitment,
         outcome_intent: outcomeIntent,
         support_provided: supportProvided,
+        curriculum_type: curriculumType,
+        curriculum_notes: curriculumNotes,
         request_prentis_teaching: requestPrentisTeaching,
         mentors: mentors,
         completed_sections: sectionsToSave
@@ -542,6 +557,26 @@ export default function OnboardingQuestionnaire() {
   function validateSection7(): Record<string, string> {
     const errors: Record<string, string> = {}
 
+    if (curriculumType === null) {
+      errors.curriculumType = 'Please select a curriculum option'
+    }
+
+    // If using own curriculum, require file upload
+    if (curriculumType === 'own' && curriculumFiles.length === 0) {
+      errors.curriculumFiles = 'Please upload your curriculum document'
+    }
+
+    // If requesting custom curriculum, require notes/description
+    if (curriculumType === 'custom' && !curriculumNotes?.trim()) {
+      errors.curriculumNotes = 'Please describe your curriculum requirements'
+    }
+
+    return errors
+  }
+
+  function validateSection8(): Record<string, string> {
+    const errors: Record<string, string> = {}
+
     if (requestPrentisTeaching === null) {
       errors.requestPrentisTeaching = 'Please select an option'
     }
@@ -602,6 +637,9 @@ export default function OnboardingQuestionnaire() {
         break
       case 7:
         errors = validateSection7()
+        break
+      case 8:
+        errors = validateSection8()
         break
     }
 
@@ -732,6 +770,10 @@ export default function OnboardingQuestionnaire() {
         ? await uploadWorkspacePhotos(workspacePhotos, user.id)
         : []
 
+      const curriculumFileUrl = curriculumFiles[0]
+        ? await uploadCurriculumDocument(curriculumFiles[0], user.id)
+        : null
+
       // Save trainer profile
       const { data: profileData, error: profileError } = await supabase
         .from('TrainerProfiles')
@@ -739,7 +781,7 @@ export default function OnboardingQuestionnaire() {
           user_id: user.id,
           is_completed: true,
           completed_at: new Date().toISOString(),
-          current_section: 7,
+          current_section: 8,
           completed_sections: newCompletedSections,
           registrant_full_name: registrantFullName,
           registrant_position: registrantPosition,
@@ -768,6 +810,9 @@ export default function OnboardingQuestionnaire() {
           typical_commitment: typicalCommitment,
           outcome_intent: outcomeIntent,
           support_provided: supportProvided,
+          curriculum_type: curriculumType,
+          curriculum_notes: curriculumNotes,
+          curriculum_file_url: curriculumFileUrl,
           request_prentis_teaching: requestPrentisTeaching
         })
         .select()
@@ -805,7 +850,8 @@ export default function OnboardingQuestionnaire() {
         typicalCommitment: (typicalCommitment as CommitmentType) || 'Part-time',
         primaryIndustry: primaryIndustry,
         prentisAccreditation: prentisAccreditation ?? false,
-        outcomeIntent: outcomeIntent
+        outcomeIntent: outcomeIntent,
+        curriculumType: curriculumType
       })
 
       setPricingBreakdown(pricing)
@@ -823,7 +869,7 @@ export default function OnboardingQuestionnaire() {
         user_id: user.id,
         is_completed: true,
         completed_at: new Date().toISOString(),
-        current_section: 7,
+        current_section: 8,
         completed_sections: newCompletedSections,
         registrant_full_name: registrantFullName,
         registrant_position: registrantPosition,
@@ -848,6 +894,8 @@ export default function OnboardingQuestionnaire() {
         typical_commitment: typicalCommitment,
         outcome_intent: outcomeIntent,
         support_provided: supportProvided,
+        curriculum_type: curriculumType,
+        curriculum_notes: curriculumNotes,
         request_prentis_teaching: requestPrentisTeaching,
         mentors: requestPrentisTeaching === false ? mentors : []
       }
@@ -861,7 +909,8 @@ export default function OnboardingQuestionnaire() {
         typicalCommitment: (typicalCommitment as CommitmentType) || 'Part-time',
         primaryIndustry: primaryIndustry,
         prentisAccreditation: prentisAccreditation ?? false,
-        outcomeIntent: outcomeIntent
+        outcomeIntent: outcomeIntent,
+        curriculumType: curriculumType
       })
 
       setPricingBreakdown(pricing)
@@ -875,6 +924,7 @@ export default function OnboardingQuestionnaire() {
         teaching_team_amount: pricing.addOns.find(a => a.name.includes('Teaching'))?.amount || 0,
         accreditation_amount: pricing.addOns.find(a => a.name.includes('Accreditation'))?.amount || 0,
         direct_hire_amount: pricing.addOns.find(a => a.name.includes('Direct Hire'))?.amount || 0,
+        curriculum_amount: pricing.addOns.find(a => a.name.includes('Curriculum'))?.amount || 0,
         industry_multiplier: pricing.industryMultiplier.multiplier,
         subtotal: pricing.subtotal,
         total_amount: pricing.total,
@@ -895,6 +945,7 @@ export default function OnboardingQuestionnaire() {
       const teachingAmount = pricing.addOns.find(a => a.name.includes('Teaching'))?.amount || 0
       const accreditationAmount = pricing.addOns.find(a => a.name.includes('Accreditation'))?.amount || 0
       const directHireAmount = pricing.addOns.find(a => a.name.includes('Direct Hire'))?.amount || 0
+      const curriculumAmount = pricing.addOns.find(a => a.name.includes('Curriculum'))?.amount || 0
 
       await supabase.from('TrainerSubscriptions').upsert({
         user_id: user.id,
@@ -905,6 +956,7 @@ export default function OnboardingQuestionnaire() {
         teaching_team_amount: teachingAmount,
         accreditation_amount: accreditationAmount,
         direct_hire_amount: directHireAmount,
+        curriculum_amount: curriculumAmount,
         industry_multiplier: pricing.industryMultiplier.multiplier,
         subtotal: pricing.subtotal,
         total_amount: pricing.total,
@@ -914,7 +966,8 @@ export default function OnboardingQuestionnaire() {
           typicalCommitment,
           primaryIndustry,
           prentisAccreditation,
-          outcomeIntent
+          outcomeIntent,
+          curriculumType
         }
       })
     } catch (error) {
@@ -1033,7 +1086,7 @@ export default function OnboardingQuestionnaire() {
       <div className="lg:hidden">
         <ProgressIndicator
           currentStep={currentSection}
-          totalSteps={7}
+          totalSteps={8}
           stepTitle={SECTION_TITLES[currentSection - 1]}
         />
       </div>
@@ -1062,7 +1115,8 @@ export default function OnboardingQuestionnaire() {
           {currentSection === 4 && <VerificationTrustSection businessRegistration={businessRegistration} setBusinessRegistration={setBusinessRegistration} professionalLicenses={professionalLicenses} setProfessionalLicenses={setProfessionalLicenses} cacNumber={cacNumber} setCacNumber={setCacNumber} tinNumber={tinNumber} setTinNumber={setTinNumber} businessRegDate={businessRegDate} setBusinessRegDate={setBusinessRegDate} bvnNumber={bvnNumber} setBvnNumber={setBvnNumber} trainerCategory={trainerCategory} fieldErrors={fieldErrors} />}
           {currentSection === 5 && <WorkspaceFacilitySection physicalAddress={physicalAddress} setPhysicalAddress={setPhysicalAddress} workspacePhotos={workspacePhotos} setWorkspacePhotos={setWorkspacePhotos} facilityFeatures={facilityFeatures} setFacilityFeatures={setFacilityFeatures} teamSize={teamSize} setTeamSize={setTeamSize} fieldErrors={fieldErrors} toggleCheckbox={toggleCheckbox} />}
           {currentSection === 6 && <ProgramIntentSection prentisAccreditation={prentisAccreditation} setPrentisAccreditation={setPrentisAccreditation} alternativeCertification={alternativeCertification} setAlternativeCertification={setAlternativeCertification} generalProgramTypes={generalProgramTypes} setGeneralProgramTypes={setGeneralProgramTypes} avgProgramDuration={avgProgramDuration} setAvgProgramDuration={setAvgProgramDuration} typicalCommitment={typicalCommitment} setTypicalCommitment={setTypicalCommitment} outcomeIntent={outcomeIntent} setOutcomeIntent={setOutcomeIntent} supportProvided={supportProvided} setSupportProvided={setSupportProvided} fieldErrors={fieldErrors} toggleCheckbox={toggleCheckbox} />}
-          {currentSection === 7 && <TeachingTeamSection requestPrentisTeaching={requestPrentisTeaching} setRequestPrentisTeaching={setRequestPrentisTeaching} mentors={mentors} updateMentor={updateMentor} removeMentor={removeMentor} addMentor={addMentor} fieldErrors={fieldErrors} />}
+          {currentSection === 7 && <CurriculumSection curriculumType={curriculumType} setCurriculumType={setCurriculumType} curriculumFiles={curriculumFiles} setCurriculumFiles={setCurriculumFiles} curriculumNotes={curriculumNotes} setCurriculumNotes={setCurriculumNotes} fieldErrors={fieldErrors} />}
+          {currentSection === 8 && <TeachingTeamSection requestPrentisTeaching={requestPrentisTeaching} setRequestPrentisTeaching={setRequestPrentisTeaching} mentors={mentors} updateMentor={updateMentor} removeMentor={removeMentor} addMentor={addMentor} fieldErrors={fieldErrors} />}
         </div>
       </div>
 
@@ -1070,7 +1124,7 @@ export default function OnboardingQuestionnaire() {
       <div className="px-4 md:px-8 py-4 md:py-6">
         <SectionNavigation
           currentSection={currentSection}
-          totalSections={7}
+          totalSections={8}
           completedSections={completedSections}
           onPrevious={goToPreviousSection}
           onNext={goToNextSection}
@@ -2063,7 +2117,225 @@ function ProgramIntentSection({
     )
 }
 
-// Section 6: Teaching Team
+// Section 7: Curriculum
+function CurriculumSection({
+  curriculumType,
+  setCurriculumType,
+  curriculumFiles,
+  setCurriculumFiles,
+  curriculumNotes,
+  setCurriculumNotes,
+  fieldErrors
+}: {
+  curriculumType: 'own' | 'prentis' | 'custom' | 'later' | null;
+  setCurriculumType: (value: 'own' | 'prentis' | 'custom' | 'later' | null) => void;
+  curriculumFiles: File[];
+  setCurriculumFiles: (files: File[]) => void;
+  curriculumNotes: string;
+  setCurriculumNotes: (value: string) => void;
+  fieldErrors: Record<string, string>;
+}) {
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-3 pb-4 border-b border-gray-200">
+        <div className="p-3 bg-[#14B8A6]/10 rounded-lg">
+          <BookOpen className="text-[#14B8A6]" size={24} />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold text-gray-900">Curriculum</h2>
+          <p className="text-sm text-gray-600">How would you like to structure your training program?</p>
+        </div>
+      </div>
+
+      {/* Curriculum Options */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Choose your curriculum approach
+          <span className="text-red-500 ml-1">*</span>
+        </label>
+        <div className="grid grid-cols-1 gap-4">
+
+          {/* Prentis Curriculum Option */}
+          <button
+            type="button"
+            onClick={() => setCurriculumType('prentis')}
+            className={`p-5 rounded-xl border-2 transition-all text-left ${
+              curriculumType === 'prentis'
+                ? 'border-[#14B8A6] bg-[#14B8A6]/5 shadow-md'
+                : 'border-gray-300 hover:border-gray-400'
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <div className={`p-2 rounded-lg ${curriculumType === 'prentis' ? 'bg-[#14B8A6]/20' : 'bg-gray-100'}`}>
+                <BookOpen className={curriculumType === 'prentis' ? 'text-[#14B8A6]' : 'text-gray-500'} size={20} />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="font-semibold text-gray-900">Use Prentis ready-made curriculum</h3>
+                  <span className="px-2 py-0.5 text-xs font-medium bg-[#14B8A6] text-white rounded-full">Recommended</span>
+                </div>
+                <p className="text-sm text-gray-600">Choose from our library of professionally designed training programs</p>
+              </div>
+            </div>
+          </button>
+
+          {/* Own Curriculum Option */}
+          <button
+            type="button"
+            onClick={() => setCurriculumType('own')}
+            className={`p-5 rounded-xl border-2 transition-all text-left ${
+              curriculumType === 'own'
+                ? 'border-[#14B8A6] bg-[#14B8A6]/5 shadow-md'
+                : 'border-gray-300 hover:border-gray-400'
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <div className={`p-2 rounded-lg ${curriculumType === 'own' ? 'bg-[#14B8A6]/20' : 'bg-gray-100'}`}>
+                <Upload className={curriculumType === 'own' ? 'text-[#14B8A6]' : 'text-gray-500'} size={20} />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">I have my own curriculum</h3>
+                <p className="text-sm text-gray-600">Upload your existing training syllabus or curriculum document</p>
+              </div>
+            </div>
+          </button>
+
+          {/* Custom Curriculum Option */}
+          <button
+            type="button"
+            onClick={() => setCurriculumType('custom')}
+            className={`p-5 rounded-xl border-2 transition-all text-left ${
+              curriculumType === 'custom'
+                ? 'border-[#14B8A6] bg-[#14B8A6]/5 shadow-md'
+                : 'border-gray-300 hover:border-gray-400'
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <div className={`p-2 rounded-lg ${curriculumType === 'custom' ? 'bg-[#14B8A6]/20' : 'bg-gray-100'}`}>
+                <Sparkles className={curriculumType === 'custom' ? 'text-[#14B8A6]' : 'text-gray-500'} size={20} />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">Request custom curriculum</h3>
+                <p className="text-sm text-gray-600">Our team will work with you to create a tailored training program</p>
+              </div>
+            </div>
+          </button>
+
+          {/* Decide Later Option */}
+          <button
+            type="button"
+            onClick={() => setCurriculumType('later')}
+            className={`p-5 rounded-xl border-2 transition-all text-left ${
+              curriculumType === 'later'
+                ? 'border-[#14B8A6] bg-[#14B8A6]/5 shadow-md'
+                : 'border-gray-300 hover:border-gray-400'
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <div className={`p-2 rounded-lg ${curriculumType === 'later' ? 'bg-[#14B8A6]/20' : 'bg-gray-100'}`}>
+                <Clock className={curriculumType === 'later' ? 'text-[#14B8A6]' : 'text-gray-500'} size={20} />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">Decide later</h3>
+                <p className="text-sm text-gray-600">Skip for now and choose your curriculum after completing onboarding</p>
+              </div>
+            </div>
+          </button>
+        </div>
+        {fieldErrors.curriculumType && (
+          <p className="text-sm text-red-600 mt-2">{fieldErrors.curriculumType}</p>
+        )}
+      </div>
+
+      {/* Own Curriculum - File Upload */}
+      {curriculumType === 'own' && (
+        <div className="space-y-4">
+          <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
+            <p className="text-sm text-blue-800">
+              Upload your curriculum document (PDF, DOC, or DOCX). This should outline your training modules, timeline, and learning objectives.
+            </p>
+          </div>
+          <FileUploadField
+            label="Curriculum Document"
+            description="Upload your training syllabus or curriculum"
+            category="CurriculumDocument"
+            multiple={false}
+            required={true}
+            value={curriculumFiles}
+            onChange={setCurriculumFiles}
+            error={fieldErrors.curriculumFiles}
+          />
+        </div>
+      )}
+
+      {/* Prentis Curriculum - Info */}
+      {curriculumType === 'prentis' && (
+        <div className="p-4 bg-[#14B8A6]/10 rounded-xl border border-[#14B8A6]/20">
+          <div className="flex items-start gap-3">
+            <CheckCircle2 className="text-[#14B8A6] mt-0.5 flex-shrink-0" size={20} />
+            <div>
+              <h4 className="font-medium text-gray-900 mb-1">Great choice!</h4>
+              <p className="text-sm text-gray-600">
+                After completing onboarding, you&apos;ll be able to browse and select from our library of industry-standard curricula
+                designed for various trades and skill levels. Our curricula are regularly updated to meet current industry standards.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Curriculum - Notes */}
+      {curriculumType === 'custom' && (
+        <div className="space-y-4">
+          <div className="p-4 bg-purple-50 rounded-xl border border-purple-200">
+            <p className="text-sm text-purple-800">
+              Tell us about your training goals and requirements. Our curriculum specialists will reach out to design a program tailored to your needs.
+            </p>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Describe your curriculum requirements
+              <span className="text-red-500 ml-1">*</span>
+            </label>
+            <textarea
+              value={curriculumNotes}
+              onChange={(e) => setCurriculumNotes(e.target.value)}
+              placeholder="Tell us about the skills you want to teach, your target audience, program goals, and any specific requirements..."
+              rows={5}
+              className={`w-full px-4 py-2.5 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/20 resize-none ${
+                fieldErrors.curriculumNotes ? 'border-red-300 bg-red-50 focus:border-red-500' : 'border-gray-300 focus:border-[#14B8A6]'
+              }`}
+            />
+            {fieldErrors.curriculumNotes && (
+              <p className="text-sm text-red-600 mt-1">{fieldErrors.curriculumNotes}</p>
+            )}
+            <p className="text-xs text-gray-500 mt-1">
+              Be as detailed as possible to help us understand your needs
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Decide Later - Info */}
+      {curriculumType === 'later' && (
+        <div className="p-4 bg-gray-50 rounded-xl border border-gray-200">
+          <div className="flex items-start gap-3">
+            <Clock className="text-gray-500 mt-0.5 flex-shrink-0" size={20} />
+            <div>
+              <h4 className="font-medium text-gray-900 mb-1">No problem!</h4>
+              <p className="text-sm text-gray-600">
+                You can choose or upload your curriculum anytime from your dashboard after completing the onboarding process.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// Section 8: Teaching Team
 function TeachingTeamSection({
   requestPrentisTeaching,
   setRequestPrentisTeaching,

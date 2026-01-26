@@ -7,6 +7,7 @@ export type FileCategory =
   | 'ProfessionalLicenses'
   | 'WorkspacePhotos'
   | 'MentorPhotos'
+  | 'CurriculumDocument'
 
 export interface FileValidationRules {
   maxSize: number
@@ -41,6 +42,11 @@ export const FILE_VALIDATION_RULES: Record<FileCategory, FileValidationRules> = 
   MentorPhotos: {
     maxSize: 5 * 1024 * 1024,
     allowedTypes: ['image/jpeg', 'image/png', 'image/webp'],
+    required: false
+  },
+  CurriculumDocument: {
+    maxSize: 10 * 1024 * 1024, // 10MB
+    allowedTypes: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
     required: false
   }
 }
@@ -277,6 +283,22 @@ export async function uploadMentorPhoto(
     toast.error('Failed to upload mentor photo')
     return null
   }
+}
+
+/**
+ * Uploads a curriculum document
+ */
+export async function uploadCurriculumDocument(
+  file: File,
+  userId: string
+): Promise<string | null> {
+  const validation = validateFile(file, 'CurriculumDocument')
+  if (!validation.valid) {
+    toast.error(validation.error)
+    return null
+  }
+
+  return uploadFile(file, userId, 'CurriculumDocument')
 }
 
 /**

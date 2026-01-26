@@ -45,7 +45,7 @@ export default function SeekerNavbar(props: any) {
       <div className="h-[200vh] w-screen px-6 overflow-hidden fixed top-0 bg-white z-50">
         <div className="py-5 flex justify-between items-center lg:justify-normal">
           <a href="/" className="lg:hidden">
-            <PrentisLogo className="!text-[#14B8A6]" />
+            <PrentisLogo className="!text-[#0A1F44]" />
           </a>
           <div className="menu text-2xl lg:hidden cursor-pointer">
             <RxCross1 onClick={() => {
