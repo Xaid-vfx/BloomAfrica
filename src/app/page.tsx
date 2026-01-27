@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer/Footer'
-import Navbar from '../components/navbar/Navbar'
+import Navbar from '../components/Navbar/Navbar'
 import Hero from '@/components/Landing/Hero/Hero'
 import { Metadata } from 'next'
 import FacebookBrowserRedirect from '@/components/FacebookBrowserRedirect'

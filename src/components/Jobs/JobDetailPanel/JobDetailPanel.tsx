@@ -10,7 +10,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { toast } from "sonner"
 import { AgreementModal } from "@/components/Modal/AgreementModal";
-import getIP from "@/lib/getIP/getIP";
+import getIP from "@/lib/api/getIP";
 import UAParser from "ua-parser-js";
 import {
     FileText, Building2, BookOpen, GraduationCap, Calendar,
