@@ -1,9 +1,9 @@
 import Image from "next/image";
-import AfricanUnion from '../../assets/images/AfricanUnion.png'
-import Pearson from '../../assets/images/Pearson.png'
-import EduQual from '../../assets/images/EduQual.png'
-import ofqual from '../../assets/images/ofqual.png'
-import cityguilds from '../../assets/images/cityguilds.png'
+import AfricanUnion from '../../../assets/images/AfricanUnion.png'
+import Pearson from '../../../assets/images/Pearson.png'
+import EduQual from '../../../assets/images/EduQual.png'
+import ofqual from '../../../assets/images/ofqual.png'
+import cityguilds from '../../../assets/images/cityguilds.png'
 import Marquee from "react-fast-marquee";
 
 export default function Accreditors() {

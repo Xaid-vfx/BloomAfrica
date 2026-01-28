@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image"
-import Logo from '../../assets/images/LogoNew.png'
+import Logo from '../../../assets/images/LogoNew.png'
 import { useState } from "react";
 
 export default function Qualifications() {

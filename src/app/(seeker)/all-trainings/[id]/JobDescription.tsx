@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import Footer from "@/components/Footer/Footer";
 import Navbar from "@/components/Navbar/Navbar";
-import Logo from '../../../assets/images/Jobs/Company Logo.png'
+import Logo from '../../../../assets/images/Jobs/Company Logo.png'
 import getAJob from "@/lib/api/getAJob";
 import Button from "@/components/Button/Button";
 import getUser from "@/lib/api/getUser";

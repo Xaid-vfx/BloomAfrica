@@ -8,8 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Image from 'next/image';
-import User from '../../assets/images/user.jpg'
-import { DialogDemo } from '../Modal/Modal';
+import User from '../../../assets/images/user.jpg'
+import { DialogDemo } from '../../Modal/Modal';
 import {
     DropdownMenu,
     DropdownMenuContent,

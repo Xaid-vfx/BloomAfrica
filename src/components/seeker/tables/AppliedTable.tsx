@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import PaymentComponent from '../Payment/Payment';
+import PaymentComponent from '../../Payment/Payment';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useState, useEffect } from 'react';
 import { MapPin, Eye, CheckCircle, AlertCircle, Clock } from "lucide-react";

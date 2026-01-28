@@ -127,23 +127,3 @@ export function useLocalStorageAutoSave<T>(
     key,
   })
 }
-
-// Retrieve saved data from localStorage
-export function getSavedData<T>(key: string): T | null {
-  try {
-    const saved = localStorage.getItem(key)
-    return saved ? JSON.parse(saved) : null
-  } catch (error) {
-    console.error('LocalStorage retrieve error:', error)
-    return null
-  }
-}
-
-// Clear saved data from localStorage
-export function clearSavedData(key: string) {
-  try {
-    localStorage.removeItem(key)
-  } catch (error) {
-    console.error('LocalStorage clear error:', error)
-  }
-}

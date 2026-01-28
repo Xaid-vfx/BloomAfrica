@@ -1,8 +1,8 @@
 'use client'
 import Image from "next/image";
-import sideImage from "../../../assets/images/SignIn/Mail sent-pana 1.png"
-import Logo from '../../../assets/images/Logo.png'
-import EmailSent from '../../../assets/images/SignIn/Emails-amico 1.png'
+import sideImage from "../../../../assets/images/SignIn/Mail sent-pana 1.png"
+import Logo from '../../../../assets/images/Logo.png'
+import EmailSent from '../../../../assets/images/SignIn/Emails-amico 1.png'
 import { Suspense, useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter, useSearchParams } from "next/navigation";

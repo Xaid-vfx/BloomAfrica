@@ -1,5 +1,4 @@
 export { default as Table } from './Table';
-export { default as LoadingSpinner } from './LoadingSpinner';
 export { default as AppliedTable } from './AppliedTable';
 export { default as AcceptedTable } from './AcceptedTable';
 export { default as SavedTable } from './SavedTable';
