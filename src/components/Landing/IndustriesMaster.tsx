@@ -1,5 +1,5 @@
 import IndustryCard from './IndustryCard'
-import { Car, Zap, Cpu, ShieldCheck, Shirt, Palette, Home, Video, TrendingUp, Truck, Briefcase, UtensilsCrossed } from 'lucide-react'
+import { Car, Zap, Cpu, ShieldCheck, Shirt, Palette, Home, Radio, Sprout, Mountain, Truck, UtensilsCrossed } from 'lucide-react'
 
 export default function IndustriesMaster() {
     const industries = [
@@ -40,22 +40,10 @@ export default function IndustriesMaster() {
             icon: <Palette size={40} strokeWidth={1.5} />
         },
         {
-            id: "interior-finishing",
-            title: "Interior Finishing",
+            id: "construction",
+            title: "Construction",
             description: "Professional carpentry, masonry, and modern finishing.",
             icon: <Home size={40} strokeWidth={1.5} />
-        },
-        {
-            id: "content-media",
-            title: "Content & Media",
-            description: "Digital storytelling, production, and brand operations.",
-            icon: <Video size={40} strokeWidth={1.5} />
-        },
-        {
-            id: "marketing-growth",
-            title: "Marketing & Growth",
-            description: "Strategy, sales, and market entry for new businesses.",
-            icon: <TrendingUp size={40} strokeWidth={1.5} />
         },
         {
             id: "logistics-supply",
@@ -64,16 +52,28 @@ export default function IndustriesMaster() {
             icon: <Truck size={40} strokeWidth={1.5} />
         },
         {
-            id: "business-ops",
-            title: "Business Operations",
-            description: "Learning how to manage and scale a professional team.",
-            icon: <Briefcase size={40} strokeWidth={1.5} />
-        },
-        {
             id: "hospitality",
             title: "Hospitality & Service",
             description: "Professional management for the tourism and service sectors.",
             icon: <UtensilsCrossed size={40} strokeWidth={1.5} />
+        },
+        {
+            id: "telecommunications",
+            title: "Telecommunications",
+            description: "Network infrastructure, fiber optics, and wireless systems.",
+            icon: <Radio size={40} strokeWidth={1.5} />
+        },
+        {
+            id: "agritech",
+            title: "Agritech",
+            description: "Modern farming technology, irrigation, and sustainable agriculture.",
+            icon: <Sprout size={40} strokeWidth={1.5} />
+        },
+        {
+            id: "mining-geological",
+            title: "Mining & Geological",
+            description: "Mineral extraction, surveying, and geological analysis.",
+            icon: <Mountain size={40} strokeWidth={1.5} />
         }
     ]
 
