@@ -244,8 +244,8 @@ export default function SignIn() {
         <div className="h-screen w-full">
             <div className="flex h-full">
                 <LeftColumn userType={signUpUserTypeTab as 'seeker' | 'recruiter'} />
-                <div className="w-full flex items-center justify-center lg:w-[55%] bg-gradient-to-br from-[#0A1F44] to-[#0F2B54] relative overflow-hidden z-20">
-                    <div className="lg:w-1/2 w-full px-4 md:px-6 lg:px-10 relative z-30">
+                <div className="w-full flex items-center justify-center  lg:w-[55%] bg-gradient-to-br from-[#0A1F44] to-[#0F2B54] relative overflow-hidden z-20">
+                    <div className="lg:w-[70%] w-full px-4 md:px-6 lg:px-10 relative z-30">
                         {currentPage == "signin" ? <h1 className="text-2xl text-center mb-4 text-white font-semibold HiddenAnimation">Welcome Back</h1> :
                             <div>
                                 <div className="mb-6 flex gap-2 rounded-2xl p-1 bg-white/5 border border-white/10 backdrop-blur-sm justify-center max-w-md mx-auto HiddenAnimation">
