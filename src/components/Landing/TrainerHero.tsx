@@ -9,7 +9,7 @@ export default function TrainerHero() {
                     {/* Badge */}
                     <div className="flex items-center w-full justify-center">
                         <div className="px-4 py-2 text-xs lg:text-sm rounded-full text-white bg-white/10 font-medium border border-white/20 backdrop-blur-sm">
-                            For Master Artisans & Companies
+                            For Master Artisans & Companies in Nigeria  
                         </div>
                     </div>
 
@@ -20,7 +20,7 @@ export default function TrainerHero() {
 
                     {/* Subheadline */}
                     <p className="text-base text-white/90 leading-relaxed text-center px-2 lg:px-0 lg:text-lg lg:max-w-2xl hero-fade-in-delay">
-                        Whether you're a master artisan or a company, use Prentis to create programs, manage learners, and build talent pipelines.
+                        Become an accredited vocational training institution. Offer HND, ND, and NABTEB-certified programs to apprentices across Nigeria.
                     </p>
                 </div>
             </div>

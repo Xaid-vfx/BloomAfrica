@@ -7,7 +7,8 @@ import { Metadata } from "next";
 import { useState } from "react";
 
 export const metadata: Metadata = {
-    title: 'Pricing | Prentis'
+    title: 'Pricing | Prentis',
+    description: 'Affordable apprenticeship program pricing for HND, ND, and NABTEB-certified vocational training in Nigeria. Transparent costs for learners and trainers across Lagos, Abuja, and all states.',
 }
 
 export default function Pricing() {

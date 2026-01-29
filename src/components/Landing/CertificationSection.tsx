@@ -40,14 +40,14 @@ export default function CertificationSection() {
 
                         {/* Title */}
                         <h2 className="text-3xl md:text-4xl font-bold text-center text-grey-900 mb-8">
-                            Recognized Qualification & Certification
+                            HND, ND & NABTEB Certification
                         </h2>
 
                         {/* Certificate Content */}
                         <div className="space-y-6">
                             <p className="text-center text-lg text-grey-700 leading-relaxed">
-                                Every apprenticeship with Prentis leads to a nationally recognized qualification.
-                                We partner with accredited institutions to ensure your training meets industry standards
+                                Every apprenticeship with Prentis leads to a nationally recognized qualification—including Higher National Diploma (HND), National Diploma (ND), and NABTEB certifications.
+                                We partner with accredited polytechnics and institutions to ensure your training meets Nigerian industry standards
                                 and is valued by employers across the country.
                             </p>
 
@@ -56,36 +56,36 @@ export default function CertificationSection() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="text-[#10B981] flex-shrink-0 mt-1" size={24} />
                                     <div>
-                                        <h3 className="font-semibold text-grey-900 mb-1">Official Certification</h3>
+                                        <h3 className="font-semibold text-grey-900 mb-1">HND & ND Certification</h3>
                                         <p className="text-sm text-grey-600">
-                                            Receive certificates recognized by industry bodies and employers
+                                            Earn Higher National Diploma and National Diploma qualifications recognized nationwide
                                         </p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="text-[#10B981] flex-shrink-0 mt-1" size={24} />
                                     <div>
-                                        <h3 className="font-semibold text-grey-900 mb-1">Skills Assessment</h3>
+                                        <h3 className="font-semibold text-grey-900 mb-1">NABTEB Accredited</h3>
                                         <p className="text-sm text-grey-600">
-                                            Regular evaluations to track your progress and skill development
+                                            Programs accredited by the National Business and Technical Examinations Board
                                         </p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="text-[#10B981] flex-shrink-0 mt-1" size={24} />
                                     <div>
-                                        <h3 className="font-semibold text-grey-900 mb-1">Accredited Partners</h3>
+                                        <h3 className="font-semibold text-grey-900 mb-1">Accredited Polytechnic Partners</h3>
                                         <p className="text-sm text-grey-600">
-                                            Training delivered in collaboration with certified institutions
+                                            Training delivered in collaboration with Nigerian polytechnics and TVET institutions
                                         </p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="text-[#10B981] flex-shrink-0 mt-1" size={24} />
                                     <div>
-                                        <h3 className="font-semibold text-grey-900 mb-1">Career Credentials</h3>
+                                        <h3 className="font-semibold text-grey-900 mb-1">Industry-Ready Credentials</h3>
                                         <p className="text-sm text-grey-600">
-                                            Build a portfolio of qualifications that advance your career
+                                            Build qualifications valued by employers across Nigeria and West Africa
                                         </p>
                                     </div>
                                 </div>

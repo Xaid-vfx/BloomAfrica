@@ -36,14 +36,14 @@ export default function Hero() {
             <div className='lg:px-12 lg:pt-16 lg:pb-24 pb-10 ms-auto me-auto max-w-[1500px] relative z-10'>
                 <div className="px-4 mt-[3.2rem] flex flex-col justify-center items-center lg:mt-0">
                     <div className="flex items-center w-full justify-center">
-                        <div className="px-5 py-3 text-sm rounded-full text-white bg-white/10 font-medium border border-white/20 backdrop-blur-sm">Africa's Premier Apprenticeship Platform</div>
+                        <div className="px-5 py-3 text-sm rounded-full text-white bg-white/10 font-medium border border-white/20 backdrop-blur-sm">Nigeria's #1 Apprenticeship Platform </div>
                     </div>
                     <h1 className="text-[2.5rem] leading-[2.8rem] sm:text-4xl lg:text-6xl sm:leading-tight my-6 text-center font-semibold lg:leading-tight lg:my-6 lg:max-w-5xl text-white hero-fade-in">
                         The Home of <span className="text-[#14B8A6]">Real Apprenticeships.</span>
                     </h1>
 
                     <p className="text-lg text-white/90 leading-relaxed text-center px-2 lg:px-0 lg:text-xl lg:max-w-2xl hero-fade-in-delay">
-                        Get the expert training and qualifications you need to find your career path—whether you're landing a job or launching a company.
+                        Earn nationally recognized HND, ND, and NABTEB qualifications through hands-on training with Nigeria's top master artisans and companies.
                     </p>
 
                     <div className="mt-8 lg:mt-10 flex justify-center">

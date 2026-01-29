@@ -175,27 +175,48 @@ export default function SignIn() {
                 setError('Please enter your email address')
                 return
             }
-
-            setIsLoading(true) // Add loading state before API call
-
-            const { data, error } = await supabase.auth.signInWithOtp({
-                email,
-                options: {
-                    emailRedirectTo: `${location.origin}/all-trainings`,
-                }
-            })
-
-            if (error) {
-                setError(`Failed to send OTP: ${error.message}`)
+            if (!password) {
+                setError('Please enter your password')
                 return
             }
 
-            // Redirect to verify page after sending OTP
-            router.push(`signup/verify?email=${email}&type=${signUpUserTypeTab}`)
+            setIsLoading(true)
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            })
+
+            if (error) {
+                if (error.message.includes('Invalid login credentials')) {
+                    setError('Invalid email or password. Please try again.')
+                } else if (error.message.includes('Email not confirmed')) {
+                    setError('Please verify your email before signing in.')
+                } else {
+                    setError(`Sign in failed: ${error.message}`)
+                }
+                return
+            }
+
+            if (data?.user) {
+                // Check if user is a seeker or recruiter and redirect accordingly
+                const { data: seekerData } = await supabase
+                    .from('Seekers')
+                    .select('unique_id')
+                    .eq('unique_id', data.user.id)
+                    .single()
+
+                if (seekerData) {
+                    router.push(redirectUrl || '/all-trainings')
+                } else {
+                    router.push('/recruiter')
+                }
+                router.refresh()
+            }
         } catch (error: any) {
             setError(`An unexpected error occurred: ${error.message}`)
         } finally {
-            setIsLoading(false) // Reset loading state
+            setIsLoading(false)
         }
     }
 
@@ -238,64 +259,88 @@ export default function SignIn() {
                             <FcGoogle size={20} />
                             Continue with Google
                         </div>
-                        {/* <p className="text-xs text-[#97999B] my-5 text-center">Or {currentPage == "signin" ? "Login" : "sign up"} with email</p>
 
+                        {/* Divider */}
+                        <div className="flex items-center gap-4 my-6 max-w-md mx-auto HiddenAnimation">
+                            <div className="flex-1 h-px bg-white/20"></div>
+                            <span className="text-white/50 text-sm">Or continue with email</span>
+                            <div className="flex-1 h-px bg-white/20"></div>
+                        </div>
+
+                        {/* Error Display */}
                         {error && (
-                            <div className="mb-4 p-3 text-sm text-red-500 bg-red-50 rounded-lg border border-red-200">
+                            <div className="mb-4 p-3 text-sm text-red-400 bg-red-500/10 rounded-xl border border-red-500/20 max-w-md mx-auto HiddenAnimation">
                                 {error}
                             </div>
-                        )} */}
-                        {/* <div>
-                            <p className="font-semibold text-xs my-1 text-[#97999B]">Email Address</p>
-                            <input
-                                className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs"
-                                type="text"
-                                placeholder="Enter email address"
-                                value={email}
-                                onChange={(e) => { setemail(e.target.value) }}
-                            />
-                        </div>
+                        )}
 
-                        <button
-                            className={`relative text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold mt-4 
-                                ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#3a2266]'}`}
-                            onClick={() => { handleSignIn() }}
-                            disabled={isLoading}
-                        >
-                            {isLoading ? (
-                                <>
-                                    <span className="opacity-0">Sign in with OTP</span>
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                    </div>
-                                </>
-                            ) : (
-                                'Sign in with OTP'
-                            )}
-                        </button> */}
-                        {/* 
-                        <div>
-                            <p className="font-semibold text-xs my-1 text-[#97999B]">Email Address</p>
-                            <input className="px-4 py-3 rounded-lg border placeholder:text-xs w-full text-xs" type="text" placeholder="Enter email address" value={email} onChange={(e) => { setemail(e.target.value) }} />
-                        </div>
+                        {/* Email/Password Form */}
+                        <div className="max-w-md mx-auto space-y-4 HiddenAnimation">
+                            <div>
+                                <input
+                                    className="px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 w-full text-sm focus:outline-none focus:border-[#14B8A6] transition-colors"
+                                    type="email"
+                                    placeholder="Enter email address"
+                                    value={email}
+                                    onChange={(e) => { setemail(e.target.value) }}
+                                />
+                            </div>
 
-                        <div>
-                            <p className="font-semibold text-xs my-1 mt-4 text-[#97999B]">Password</p>
-                            <input className="px-4 py-3 rounded-lg border placeholder:text-xs mb-4 w-full text-xs" type="password" placeholder="Enter password" value={password} onChange={(e) => { setpassword(e.target.value) }} />
-                        </div>
-                        {currentPage == "signin" ?
                             <div>
-                                <button className="text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold" onClick={() => { handleSignIn() }}>Sign In</button>
-                                <div className="my-4 text-center text-[#97999B] text-xs">Don't have an account? <span className="text-[#4A2C84] cursor-pointer" onClick={() => { setCurrentPage('signup') }}>Sign Up</span></div>
-                            </div> :
-                            <div>
+                                <input
+                                    className="px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 w-full text-sm focus:outline-none focus:border-[#14B8A6] transition-colors"
+                                    type="password"
+                                    placeholder="Enter password"
+                                    value={password}
+                                    onChange={(e) => { setpassword(e.target.value) }}
+                                />
+                            </div>
+
+                            {currentPage == "signup" && (
                                 <div>
-                                    <p className="font-semibold text-xs my-1 text-[#97999B]">Re-enter Password</p>
-                                    <input className="px-4 py-3 rounded-lg border placeholder:text-xs mb-4 w-full text-xs" type="password" placeholder="Enter password again" value={confirmPassword} onChange={(e) => { setconfirmPassword(e.target.value) }} />
+                                    <input
+                                        className="px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 w-full text-sm focus:outline-none focus:border-[#14B8A6] transition-colors"
+                                        type="password"
+                                        placeholder="Confirm password"
+                                        value={confirmPassword}
+                                        onChange={(e) => { setconfirmPassword(e.target.value) }}
+                                    />
                                 </div>
-                                <button className="text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold" onClick={() => { handleSignUp() }}>Sign Up</button>
-                                <div className="my-4 text-center text-[#97999B] text-xs">Already have an account? <span className="text-[#4A2C84] cursor-pointer" onClick={() => { setCurrentPage('signin') }}>Sign In</span></div>
-                            </div>} */}
+                            )}
+
+                            <button
+                                className={`relative text-white py-3 text-center bg-[#14B8A6] hover:bg-[#0D9488] w-full rounded-xl font-semibold transition-all ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                onClick={() => { currentPage == "signup" ? handleSignUp() : handleSignIn() }}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <span className="opacity-0">{currentPage == "signup" ? "Create Account" : "Sign In"}</span>
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    currentPage == "signup" ? "Create Account" : "Sign In"
+                                )}
+                            </button>
+
+                            {currentPage == "signup" ? (
+                                <div className="text-center text-white/60 text-sm">
+                                    Already have an account?{' '}
+                                    <span className="text-[#14B8A6] cursor-pointer hover:underline" onClick={() => { setCurrentPage('signin'); setError(''); }}>
+                                        Sign In
+                                    </span>
+                                </div>
+                            ) : (
+                                <div className="text-center text-white/60 text-sm">
+                                    Don't have an account?{' '}
+                                    <span className="text-[#14B8A6] cursor-pointer hover:underline" onClick={() => { setCurrentPage('signup'); setError(''); }}>
+                                        Sign Up
+                                    </span>
+                                </div>
+                            )}
+                        </div>
 
                     </div>
                 </div>

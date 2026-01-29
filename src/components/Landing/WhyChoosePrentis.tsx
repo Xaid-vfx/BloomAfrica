@@ -5,23 +5,23 @@ export default function WhyChoosePrentis() {
     const benefits = [
         {
             icon: <Award size={48} strokeWidth={1.5} />,
-            title: "Accredited Qualifications You Can Use",
-            description: "Every program ends with an official qualification. You won't just walk away with \"skills\"; you'll walk away with an accredited certificate that is recognized by employers and institutions across the country."
+            title: "HND, ND & NABTEB Qualifications",
+            description: "Every program ends with official Nigerian qualifications. Earn Higher National Diploma (HND), National Diploma (ND), or NABTEB certifications—credentials recognized by employers across Nigeria and West Africa."
         },
         {
             icon: <Target size={48} strokeWidth={1.5} />,
-            title: "Land Your Dream Job or Launch Your Business",
-            description: "Our programs are designed with the finish line in mind. Whether you are looking for a guaranteed job track with return offers or the mastery needed to open your own business, Prentis provides the official roadmap to get you there."
+            title: "Employment or Entrepreneurship in Nigeria",
+            description: "Our programs are designed with the finish line in mind. Whether you're seeking placement with top companies in Lagos, Abuja, or Port Harcourt, or building the mastery to start your own business, Prentis provides the roadmap."
         },
         {
             icon: <Users size={48} strokeWidth={1.5} />,
-            title: "Vetted Mentors You Can Trust",
-            description: "We are selective about who we let onto our platform. Every Oga, Startup Founder, and Company is vetted to ensure they provide a high standard of training and a safe, professional environment for every learner."
+            title: "Vetted Nigerian Trainers",
+            description: "We are selective about who we let onto our platform. Every master artisan and company is vetted against TVET standards to ensure high-quality training and a safe, professional environment across all Nigerian states."
         },
         {
             icon: <Lightbulb size={48} strokeWidth={1.5} />,
-            title: "Real Experience, Not a Classroom",
-            description: "We don't do simulations. You learn inside an active business—whether it's a high-growth startup, a master workshop, or an established company. You gain the \"proof of work\" that only comes from solving real-world problems."
+            title: "Real Experience, Not Just Theory",
+            description: "We don't do simulations. You learn inside active Nigerian businesses—from Lagos startups to established workshops. You gain the \"proof of work\" that only comes from solving real-world problems in real companies."
         }
     ]
 

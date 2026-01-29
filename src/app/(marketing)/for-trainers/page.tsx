@@ -6,10 +6,11 @@ import GetStartedLight from '@/components/GetStartedBanner/GetStartedLight'
 import TrainerTypesComparison from '@/components/Landing/TrainerTypesComparison'
 import HowItWorksTrainers from '@/components/Landing/HowItWorksTrainers'
 import AccreditationSection from '@/components/Landing/AccreditationSection'
+import TrainerPricingSection from '@/components/Landing/TrainerPricingSection'
 
 export const metadata: Metadata = {
-  title: 'Become a Trainer | Prentis - Share Your Expertise, Earn Income',
-  description: 'Join Prentis as a Master Artisan or Company trainer. Build your professional brand, earn from accredited training programs, and shape the next generation of skilled professionals across Africa.',
+  title: 'Become a Trainer | Offer HND & ND Certified Programs',
+  description: 'Become an accredited training provider on Prentis. Offer HND, ND, and NABTEB-certified vocational programs as a master artisan or TVET institution. Train apprentices across Nigeria and build your professional brand.',
 }
 
 export default function ForTrainersPage() {
@@ -28,7 +29,12 @@ export default function ForTrainersPage() {
 
         {/* How It Works Section */}
         <HowItWorksTrainers />
+      </div>
 
+      {/* Pricing Section */}
+      <TrainerPricingSection />
+
+      <div className="bg-gradient-to-br from-[#0A1F44] to-[#0F2B54]">
         {/* Final CTA */}
         <GetStartedLight
           heading="Ready to Get Started?"

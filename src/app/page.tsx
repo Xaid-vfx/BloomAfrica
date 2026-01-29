@@ -9,7 +9,8 @@ import IndustriesMaster from '@/components/Landing/IndustriesMaster'
 import WhyChoosePrentis from '@/components/Landing/WhyChoosePrentis'
 
 export const metadata: Metadata = {
-  title: 'Prentis - The Home of Real Apprenticeships'
+  title: 'Prentis - HND & ND Apprenticeship Programs Nigeria | Learn a Trade',
+  description: 'Find HND, ND, and NABTEB-certified apprenticeship programs in Lagos, Abuja, and across Nigeria. Learn a trade with master artisans and top companies through hands-on vocational training and skills acquisition programs.',
 }
 
 export default function Home() {
