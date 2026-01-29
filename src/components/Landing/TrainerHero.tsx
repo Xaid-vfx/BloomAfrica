@@ -1,26 +1,6 @@
-'use client'
-
 import Link from "next/link"
-import { useEffect } from "react"
 
 export default function TrainerHero() {
-
-    useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('ShowAnimation')
-                    observer.unobserve(entry.target)
-                }
-            }
-            )
-        }, { threshold: 0.5 })
-
-        const hiddenanimation = document.querySelectorAll('.HiddenAnimation')
-        if (hiddenanimation)
-            hiddenanimation.forEach((element) => { observer.observe(element) })
-    }, [])
-
     return (
         <div className='relative overflow-hidden w-full'>
             {/* Content */}
@@ -34,12 +14,12 @@ export default function TrainerHero() {
                     </div>
 
                     {/* Headline */}
-                    <h1 className="text-[2.2rem] leading-[2.5rem] sm:text-4xl lg:text-5xl sm:leading-tight my-4 lg:my-5 text-center font-semibold lg:leading-tight HiddenAnimation lg:max-w-4xl text-white">
+                    <h1 className="text-[2.2rem] leading-[2.5rem] sm:text-4xl lg:text-5xl sm:leading-tight my-4 lg:my-5 text-center font-semibold lg:leading-tight lg:max-w-4xl text-white hero-fade-in">
                         Train and Manage Your Apprenticeships <span className="text-[#14B8A6]">All in One Place</span>
                     </h1>
 
                     {/* Subheadline */}
-                    <p className="text-base text-white/90 leading-relaxed text-center px-2 lg:px-0 lg:text-lg HiddenAnimation lg:max-w-2xl">
+                    <p className="text-base text-white/90 leading-relaxed text-center px-2 lg:px-0 lg:text-lg lg:max-w-2xl hero-fade-in-delay">
                         Whether you're a master artisan or a company, use Prentis to create programs, manage learners, and build talent pipelines.
                     </p>
                 </div>

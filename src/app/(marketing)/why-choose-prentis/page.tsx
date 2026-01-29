@@ -5,18 +5,18 @@ import Navbar from '@/components/Navbar/Navbar'
 import Footer from '@/components/Footer/Footer'
 import Link from 'next/link'
 
-export default function AboutPage() {
+export default function WhyChoosePrentis() {
     return (
         <main className="flex flex-col w-full">
             <Navbar color="light" />
 
             {/* Mission Section */}
-            <section className="py-10 lg:py-16 px-4 lg:px-6 bg-white">
+            <section className="py-10 lg:py-16 px-4 lg:px-6 bg-gradient-to-br from-[#0A1F44] to-[#0F2B54]">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h1 className="text-2xl lg:text-4xl font-bold text-[#0A1F44] mb-4 lg:mb-6">
+                    <h1 className="text-2xl lg:text-4xl font-bold text-white mb-4 lg:mb-6">
                         About Prentis
                     </h1>
-                    <p className="text-base lg:text-2xl text-gray-600 lg:text-[#0A1F44] font-light leading-relaxed">
+                    <p className="text-base lg:text-2xl text-white/70 font-light leading-relaxed">
                         We believe everyone deserves access to quality training and mentorship.
                         Prentis bridges the gap between aspiring professionals and experienced mentors.
                     </p>
@@ -24,24 +24,24 @@ export default function AboutPage() {
             </section>
 
             {/* Impact Stats Section */}
-            <section className="py-10 lg:py-16 px-4 lg:px-6 bg-gradient-to-br from-[#0A1F44] to-[#0F2B54]">
+            <section className="py-10 lg:py-16 px-4 lg:px-6 bg-white">
                 <div className="max-w-5xl mx-auto">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 text-center">
                         <div className="bg-white/5 rounded-xl p-4 lg:p-0 lg:bg-transparent">
                             <div className="text-2xl lg:text-5xl font-bold text-[#14B8A6]">500+</div>
-                            <div className="text-xs lg:text-sm text-white/70 mt-1">Active Trainers</div>
+                            <div className="text-xs lg:text-sm text-[#0A1F44] mt-1">Active Trainers</div>
                         </div>
                         <div className="bg-white/5 rounded-xl p-4 lg:p-0 lg:bg-transparent">
                             <div className="text-2xl lg:text-5xl font-bold text-[#14B8A6]">10K+</div>
-                            <div className="text-xs lg:text-sm text-white/70 mt-1">Apprentices Trained</div>
+                            <div className="text-xs lg:text-sm text-[#0A1F44] mt-1">Apprentices Trained</div>
                         </div>
                         <div className="bg-white/5 rounded-xl p-4 lg:p-0 lg:bg-transparent">
                             <div className="text-2xl lg:text-5xl font-bold text-[#14B8A6]">95%</div>
-                            <div className="text-xs lg:text-sm text-white/70 mt-1">Hiring Success</div>
+                            <div className="text-xs lg:text-sm text-[ #0A1F44] mt-1">Hiring Success</div>
                         </div>
                         <div className="bg-white/5 rounded-xl p-4 lg:p-0 lg:bg-transparent">
                             <div className="text-2xl lg:text-5xl font-bold text-[#14B8A6]">12</div>
-                            <div className="text-xs lg:text-sm text-white/70 mt-1">Industries</div>
+                            <div className="text-xs lg:text-sm text-[#0A1F44] mt-1">Industries</div>
                         </div>
                     </div>
                 </div>

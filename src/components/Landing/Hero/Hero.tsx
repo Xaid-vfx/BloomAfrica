@@ -1,27 +1,12 @@
 'use client'
 
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { ApprenticeshipTypeModal } from "@/components/Modal/ApprenticeshipTypeModal"
 
 export default function Hero() {
     const [showModal, setShowModal] = useState(false)
 
-    useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('ShowAnimation')
-                    observer.unobserve(entry.target)
-                }
-            }
-            )
-        }, { threshold: 0.5 })
-
-        const hiddenanimation = document.querySelectorAll('.HiddenAnimation')
-        if (hiddenanimation)
-            hiddenanimation.forEach((element) => { observer.observe(element) })
-    }, [])
 
     return (
         <div className='relative overflow-hidden w-full'>
@@ -53,11 +38,11 @@ export default function Hero() {
                     <div className="flex items-center w-full justify-center">
                         <div className="px-5 py-3 text-sm rounded-full text-white bg-white/10 font-medium border border-white/20 backdrop-blur-sm">Africa's Premier Apprenticeship Platform</div>
                     </div>
-                    <h1 className="text-[2.5rem] leading-[2.8rem] sm:text-4xl lg:text-6xl sm:leading-tight my-6 text-center font-semibold lg:leading-tight lg:my-6 HiddenAnimation lg:max-w-5xl text-white">
+                    <h1 className="text-[2.5rem] leading-[2.8rem] sm:text-4xl lg:text-6xl sm:leading-tight my-6 text-center font-semibold lg:leading-tight lg:my-6 lg:max-w-5xl text-white hero-fade-in">
                         The Home of <span className="text-[#14B8A6]">Real Apprenticeships.</span>
                     </h1>
 
-                    <p className="text-lg text-white/90 leading-relaxed text-center px-2 lg:px-0 lg:text-xl HiddenAnimation lg:max-w-2xl">
+                    <p className="text-lg text-white/90 leading-relaxed text-center px-2 lg:px-0 lg:text-xl lg:max-w-2xl hero-fade-in-delay">
                         Get the expert training and qualifications you need to find your career path—whether you're landing a job or launching a company.
                     </p>
 

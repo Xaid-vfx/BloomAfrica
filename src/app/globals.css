@@ -22,6 +22,27 @@ body {
   overflow-x: clip;
 }
 
+/* Quick fade-in animation for hero content - CSS only, no JS needed */
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-fade-in {
+  animation: heroFadeIn 0.5s ease-out forwards;
+}
+
+.hero-fade-in-delay {
+  animation: heroFadeIn 0.5s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
 .HiddenAnimation{
   opacity: 0;
   filter: blur(5px);

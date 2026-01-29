@@ -36,7 +36,9 @@
       "Bash(comm:*)",
       "Bash(git stash:*)",
       "Bash(for img in \"sdg/Climate.png\" \"sdg/Economic.png\" \"sdg/Education.png\" \"sdg/Energy.png\" \"sdg/Gender.png\" \"sdg/Industry.png\" \"sdg/Peace.png\" \"sdg/Poverty.png\" \"sdg/Reduced.png\" \"sdg/sgdballs.png\" \"sdg/sdg1.svg\" \"sdg/sdg4.svg\" \"sdg/sdg5.svg\" \"sdg/sdg7.svg\" \"sdg/sdg8.svg\" \"sdg/sdg9.svg\" \"sdg/sdg10.svg\" \"sdg/sdg13.svg\" \"sdg/sdg16.svg\" \"Recruiter/Job Open.png\" \"Recruiter/Job Open\\(1\\).png\" \"Recruiter/Job Open\\(2\\).png\")",
-      "Bash(do)"
+      "Bash(do)",
+      "Bash(xargs:*)",
+      "Bash(npx next lint:*)"
     ],
     "deny": [],
     "ask": []

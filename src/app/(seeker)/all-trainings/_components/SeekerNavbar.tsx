@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { SignOut } from "@/lib/utils/signOut";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner"
+import ProfileCompletionDot from "@/components/ProfileCompletionDot"
 
 export default function SeekerNavbar(props: any) {
 
@@ -72,7 +73,10 @@ export default function SeekerNavbar(props: any) {
             </a>
             <hr />
             <a href={props.user ? "/seeker/edit" : "/signup"} className="block">
-              <div className="my-4 font-medium cursor-pointer">Profile</div>
+              <div className="my-4 font-medium cursor-pointer flex items-center gap-2">
+                Profile
+                <ProfileCompletionDot userId={props.user?.id || null} />
+              </div>
             </a>
             <hr />
           </div>
@@ -91,8 +95,11 @@ export default function SeekerNavbar(props: any) {
         <a href="/" className="lg:hidden">
           <PrentisLogo className="!text-[#14B8A6]" />
         </a>
-        <div className="menu text-2xl lg:hidden">
+        <div className="menu text-2xl lg:hidden relative">
           <RxHamburgerMenu onClick={() => { setnavbarIsVisible(true) }} />
+          <div className="absolute -top-1 -right-1">
+            <ProfileCompletionDot userId={props.user?.id || null} />
+          </div>
         </div>
 
         <div className="hidden lg:flex lg:items-center lg:w-full">
@@ -103,7 +110,10 @@ export default function SeekerNavbar(props: any) {
 
             <div className="hidden lg:flex lg:px-10 mx-auto justify-center max-w-[700px]">
               <a href="/all-trainings" className={`${currentPage == "home" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all`}>Home</a>
-              <a href={props.user ? "/seeker/edit" : "/signup"} className={`${currentPage == "profile" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Profile</a>
+              <a href={props.user ? "/seeker/edit" : "/signup"} className={`${currentPage == "profile" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer flex items-center gap-1`}>
+                Profile
+                <ProfileCompletionDot userId={props.user?.id || null} />
+              </a>
               <a href={props.user ? "/seeker/saved" : "/signup"} className={`${currentPage == "saved" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Saved</a>
               <a href={props.user ? "/seeker/applied" : "/signup"} className={`${currentPage == "applied" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Applied</a>
               <a href={props.user ? "/seeker/chat" : "/signup"} className={`${currentPage == "messages" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Messages</a>
