@@ -43,7 +43,7 @@ export default function Hero() {
                     </h1>
 
                     <p className="text-lg text-white/90 leading-relaxed text-center px-2 lg:px-0 lg:text-xl lg:max-w-2xl hero-fade-in-delay">
-                        Earn nationally recognized HND, ND, and NABTEB qualifications through hands-on training with Nigeria's top master artisans and companies.
+                        Earn nationally recognized HND, ND, B.Tech, and NABTEB qualifications through hands-on training with Nigeria's top master artisans and companies.
                     </p>
 
                     <div className="mt-8 lg:mt-10 flex justify-center">

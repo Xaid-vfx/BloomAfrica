@@ -18,7 +18,7 @@ export default function AboutUsContent() {
                     </h1>
                     <p className="text-base lg:text-2xl text-white/70 font-light leading-relaxed">
                         Nigeria has millions of talented young people and experienced master artisans—but a broken bridge between them.
-                        Prentis connects aspiring professionals with vetted trainers to earn recognized HND, ND, and NABTEB qualifications
+                        Prentis connects aspiring professionals with vetted trainers to earn recognized HND, ND, B.Tech, and NABTEB qualifications
                         through hands-on apprenticeships across Lagos, Abuja, and all 36 states.
                     </p>
                 </div>
@@ -75,7 +75,7 @@ export default function AboutUsContent() {
                         <p>
                             Yet these skilled graduates often lack the formal qualifications that open doors to larger opportunities.
                             A master tailor with 20 years of experience can train exceptional apprentices, but those apprentices graduate
-                            without HND, ND, or NABTEB credentials—limiting their access to formal employment, loans, and business opportunities.
+                            without HND, ND, B.Tech, or NABTEB credentials—limiting their access to formal employment, loans, and business opportunities.
                         </p>
                         <p>
                             We're building the bridge between time-tested hands-on training and nationally recognized credentials.
@@ -114,7 +114,7 @@ export default function AboutUsContent() {
                                 <Sparkles className="w-5 h-5 lg:w-6 lg:h-6 text-[#14B8A6]" />
                             </div>
                             <h3 className="font-semibold text-[#0A1F44] text-base lg:text-lg mb-1 lg:mb-2">Career Outcomes</h3>
-                            <p className="text-gray-600 text-sm">Training that leads to HND, ND, and NABTEB qualifications—and real jobs or business opportunities.</p>
+                            <p className="text-gray-600 text-sm">Training that leads to HND, ND, B.Tech, and NABTEB qualifications—and real jobs or business opportunities.</p>
                         </div>
                     </div>
                 </div>

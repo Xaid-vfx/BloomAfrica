@@ -20,7 +20,7 @@ export default function TrainerHero() {
 
                     {/* Subheadline */}
                     <p className="text-base text-white/90 leading-relaxed text-center px-2 lg:px-0 lg:text-lg lg:max-w-2xl hero-fade-in-delay">
-                        Become an accredited vocational training institution. Offer HND, ND, and NABTEB-certified programs to apprentices across Nigeria.
+                        Become an accredited vocational training institution. Offer HND, ND, B.Tech, and NABTEB-certified programs to apprentices across Nigeria.
                     </p>
                 </div>
             </div>

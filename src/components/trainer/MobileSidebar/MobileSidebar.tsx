@@ -463,11 +463,11 @@ export default function MobileSidebar() {
                   </Link>
                 )}
 
-                {/* Design Curriculum */}
+                {/* Manage Curriculum */}
                 {!isOnboardingComplete ? (
                   <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-white/5 text-gray-300 cursor-not-allowed opacity-70">
                     <BookOpen size={20} />
-                    <span className="text-sm">Design Curriculum</span>
+                    <span className="text-sm">Manage Curriculum</span>
                     <Lock size={14} className="ml-auto" />
                   </div>
                 ) : (
@@ -483,7 +483,7 @@ export default function MobileSidebar() {
                     <BookOpen className={`transition-colors ${
                       isActive('curriculum') ? "text-white" : "text-gray-300 group-hover:text-[#14B8A6]"
                     }`} size={20} />
-                    <span className="text-sm">Design Curriculum</span>
+                    <span className="text-sm">Manage Curriculum</span>
                   </Link>
                 )}
 

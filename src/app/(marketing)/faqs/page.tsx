@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'FAQs | Prentis',
-    description: 'Frequently asked questions about Prentis apprenticeship programs in Nigeria. Learn about HND, ND, NABTEB qualifications, program locations, trainer requirements, and how to get started.',
+    description: 'Frequently asked questions about Prentis apprenticeship programs in Nigeria. Learn about HND, ND, B.Tech, NABTEB qualifications, program locations, trainer requirements, and how to get started.',
 }
 
 export default function Faqs() {

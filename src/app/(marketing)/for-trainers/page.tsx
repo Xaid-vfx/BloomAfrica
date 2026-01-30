@@ -9,8 +9,8 @@ import AccreditationSection from '@/components/Landing/AccreditationSection'
 import TrainerPricingSection from '@/components/Landing/TrainerPricingSection'
 
 export const metadata: Metadata = {
-  title: 'Become a Trainer | Offer HND & ND Certified Programs',
-  description: 'Become an accredited training provider on Prentis. Offer HND, ND, and NABTEB-certified vocational programs as a master artisan or TVET institution. Train apprentices across Nigeria and build your professional brand.',
+  title: 'Become a Trainer | Offer HND, ND & B.Tech Certified Programs',
+  description: 'Become an accredited training provider on Prentis. Offer HND, ND, B.Tech, and NABTEB-certified vocational programs as a master artisan or TVET institution. Train apprentices across Nigeria and build your professional brand.',
 }
 
 export default function ForTrainersPage() {

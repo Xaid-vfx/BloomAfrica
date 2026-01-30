@@ -235,7 +235,7 @@ export default function Sidebar() {
                         <div className="relative group/tooltip">
                             <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
                                 <BookOpen size={20} />
-                                <span className="text-sm">Design Curriculum</span>
+                                <span className="text-sm">Manage Curriculum</span>
                                 <Lock size={14} className="ml-auto" />
                             </div>
                             <div className="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
@@ -254,7 +254,7 @@ export default function Sidebar() {
                             <BookOpen className={`transition-colors ${
                                 isActive('curriculum') ? "text-white" : "text-gray-500 group-hover:text-[#14B8A6]"
                             }`} size={20} />
-                            <span className="text-sm">Design Curriculum</span>
+                            <span className="text-sm">Manage Curriculum</span>
                         </Link>
                     )}
 

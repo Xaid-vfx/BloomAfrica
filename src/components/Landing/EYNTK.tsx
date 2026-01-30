@@ -6,7 +6,7 @@ export default function EYNTK() {
         {
             id: 1,
             question: "What qualifications can I earn through Prentis apprenticeships in Nigeria?",
-            answer: "Through Prentis, you can earn nationally recognized qualifications including Higher National Diploma (HND), National Diploma (ND), and NABTEB (National Business and Technical Examinations Board) certifications. These credentials are valued by employers across Nigeria and West Africa, giving you the official recognition you need for employment or starting your own business."
+            answer: "Through Prentis, you can earn nationally recognized qualifications including Higher National Diploma (HND), National Diploma (ND), B.Tech, and NABTEB (National Business and Technical Examinations Board) certifications. These credentials are valued by employers across Nigeria and West Africa, giving you the official recognition you need for employment or starting your own business."
         },
         {
             id: 2,
@@ -16,12 +16,12 @@ export default function EYNTK() {
         {
             id: 3,
             question: "How is Prentis different from traditional polytechnic education?",
-            answer: "Unlike traditional polytechnic education that focuses primarily on classroom theory, Prentis emphasizes hands-on, practical training within real businesses. You learn directly from master artisans and industry professionals while still earning HND, ND, or NABTEB qualifications. This means you graduate with both the official credentials and the real-world experience employers are looking for."
+            answer: "Unlike traditional polytechnic education that focuses primarily on classroom theory, Prentis emphasizes hands-on, practical training within real businesses. You learn directly from master artisans and industry professionals while still earning HND, ND, B.Tech, or NABTEB qualifications. This means you graduate with both the official credentials and the real-world experience employers are looking for."
         },
         {
             id: 4,
             question: "How do I become an accredited trainer on Prentis?",
-            answer: "To become an accredited trainer on Prentis, you need demonstrated expertise in your trade and the ability to offer structured training programs. Master artisans, companies, and TVET institutions can apply to join our platform. We partner with you to align your programs with HND, ND, and NABTEB certification requirements, helping you become an officially recognized vocational training provider in Nigeria."
+            answer: "To become an accredited trainer on Prentis, you need demonstrated expertise in your trade and the ability to offer structured training programs. Master artisans, companies, and TVET institutions can apply to join our platform. We partner with you to align your programs with HND, ND, B.Tech, and NABTEB certification requirements, helping you become an officially recognized vocational training provider in Nigeria."
         }
     ];
 

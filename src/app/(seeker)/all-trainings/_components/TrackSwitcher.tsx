@@ -130,7 +130,7 @@ export default function TrackSwitcher({ initialTrack = 'artisan' }: TrackSwitche
                     }`}
                 >
                     <Hammer className="w-4 h-4 md:w-5 md:h-5" />
-                    <span>Artisan</span>
+                    <span>Artisan Programs</span>
                     <span className={`ml-1 px-2 py-0.5 rounded-full text-xs ${
                         activeTrack === 'artisan'
                             ? 'bg-[#14B8A6]/10 text-[#14B8A6]'
@@ -151,7 +151,7 @@ export default function TrackSwitcher({ initialTrack = 'artisan' }: TrackSwitche
                     }`}
                 >
                     <Building2 className="w-4 h-4 md:w-5 md:h-5" />
-                    <span>Company</span>
+                    <span>Company Programs</span>
                     <span className={`ml-1 px-2 py-0.5 rounded-full text-xs ${
                         activeTrack === 'company'
                             ? 'bg-[#0A1F44]/10 text-[#0A1F44]'

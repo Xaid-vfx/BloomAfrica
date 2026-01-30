@@ -31,10 +31,10 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.prentis.ng'),
   title: {
-    default: 'Prentis - HND & ND Apprenticeship Programs in Nigeria',
+    default: 'Prentis - HND, ND & B.Tech Apprenticeship Programs in Nigeria',
     template: '%s | Prentis Nigeria',
   },
-  description: 'Earn HND, ND, and NABTEB qualifications through hands-on apprenticeship programs in Nigeria. Connect with master artisans and companies in Lagos, Abuja, and across all 36 states for vocational training and skills acquisition.',
+  description: 'Earn HND, ND, B.Tech, and NABTEB qualifications through hands-on apprenticeship programs in Nigeria. Connect with master artisans and companies in Lagos, Abuja, and across all 36 states for vocational training and skills acquisition.',
   keywords: [
     'apprenticeship programs Nigeria',
     'HND programs Nigeria',
@@ -54,8 +54,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_NG',
     siteName: 'Prentis Nigeria',
-    title: 'Prentis - HND & ND Apprenticeship Programs in Nigeria',
-    description: 'Earn HND, ND, and NABTEB qualifications through hands-on apprenticeship programs. Connect with master artisans and companies across Nigeria.',
+    title: 'Prentis - HND, ND & B.Tech Apprenticeship Programs in Nigeria',
+    description: 'Earn HND, ND, B.Tech, and NABTEB qualifications through hands-on apprenticeship programs. Connect with master artisans and companies across Nigeria.',
     images: [
       {
         url: '/og-image.png',
@@ -67,8 +67,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Prentis - HND & ND Apprenticeship Programs in Nigeria',
-    description: 'Earn HND, ND, and NABTEB qualifications through hands-on apprenticeship programs in Nigeria.',
+    title: 'Prentis - HND, ND & B.Tech Apprenticeship Programs in Nigeria',
+    description: 'Earn HND, ND, B.Tech, and NABTEB qualifications through hands-on apprenticeship programs in Nigeria.',
     images: ['/og-image.png'],
   },
 }
@@ -89,7 +89,7 @@ export default function RootLayout({
             "name": "Prentis",
             "url": "https://www.prentis.ng",
             "logo": "https://www.prentis.ng/logo.jpeg",
-            "description": "Nigeria's premier apprenticeship platform offering HND, ND, and NABTEB-certified vocational training programs.",
+            "description": "Nigeria's premier apprenticeship platform offering HND, ND, B.Tech, and NABTEB-certified vocational training programs.",
             "areaServed": {
               "@type": "Country",
               "name": "Nigeria"

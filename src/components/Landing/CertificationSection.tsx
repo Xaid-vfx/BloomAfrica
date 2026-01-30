@@ -40,13 +40,13 @@ export default function CertificationSection() {
 
                         {/* Title */}
                         <h2 className="text-3xl md:text-4xl font-bold text-center text-grey-900 mb-8">
-                            HND, ND & NABTEB Certification
+                            HND, ND, B.Tech & NABTEB Certification
                         </h2>
 
                         {/* Certificate Content */}
                         <div className="space-y-6">
                             <p className="text-center text-lg text-grey-700 leading-relaxed">
-                                Every apprenticeship with Prentis leads to a nationally recognized qualification—including Higher National Diploma (HND), National Diploma (ND), and NABTEB certifications.
+                                Every apprenticeship with Prentis leads to a nationally recognized qualification—including Higher National Diploma (HND), National Diploma (ND), B.Tech, and NABTEB certifications.
                                 We partner with accredited polytechnics and institutions to ensure your training meets Nigerian industry standards
                                 and is valued by employers across the country.
                             </p>
@@ -56,7 +56,7 @@ export default function CertificationSection() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="text-[#10B981] flex-shrink-0 mt-1" size={24} />
                                     <div>
-                                        <h3 className="font-semibold text-grey-900 mb-1">HND & ND Certification</h3>
+                                        <h3 className="font-semibold text-grey-900 mb-1">HND, ND & B.Tech Certification</h3>
                                         <p className="text-sm text-grey-600">
                                             Earn Higher National Diploma and National Diploma qualifications recognized nationwide
                                         </p>

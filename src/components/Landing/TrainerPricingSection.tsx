@@ -44,7 +44,7 @@ const pricingTiers: PricingTier[] = [
             'Bulk apprentice management',
             'Dedicated account support',
             'Custom branding options',
-            'HND/ND certification pathway support',
+            'HND/ND/B.Tech certification pathway support',
         ],
         highlighted: true,
         ctaText: 'Get Started',

@@ -5,8 +5,8 @@ export default function WhyChoosePrentis() {
     const benefits = [
         {
             icon: <Award size={48} strokeWidth={1.5} />,
-            title: "HND, ND & NABTEB Qualifications",
-            description: "Every program ends with official Nigerian qualifications. Earn Higher National Diploma (HND), National Diploma (ND), or NABTEB certifications—credentials recognized by employers across Nigeria and West Africa."
+            title: "HND, ND, B.Tech & NABTEB Qualifications",
+            description: "Every program ends with official Nigerian qualifications. Earn Higher National Diploma (HND), National Diploma (ND), B.Tech, or NABTEB certifications—credentials recognized by employers across Nigeria and West Africa."
         },
         {
             icon: <Target size={48} strokeWidth={1.5} />,
