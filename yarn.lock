@@ -794,6 +794,7 @@
     glob "7.1.7"
 
 "@next/swc-linux-x64-gnu@14.2.5":
+"@next/swc-linux-x64-gnu@14.2.5":
   version "14.2.5"
   resolved "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-14.2.5.tgz"
   integrity sha512-8XFikMSxWleYNryWIjiCX+gU201YS+erTUidKdyOVYi5qUQo/gRxv/3N1oZFCgqpesN6FPeqGM72Zve+nReVXQ==
@@ -4109,6 +4110,11 @@ thenify-all@^1.0.0:
   integrity sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==
   dependencies:
     any-promise "^1.0.0"
+
+third-party-capital@1.0.20:
+  version "1.0.20"
+  resolved "https://registry.npmjs.org/third-party-capital/-/third-party-capital-1.0.20.tgz"
+  integrity sha512-oB7yIimd8SuGptespDAZnNkzIz+NWaJCu2RMsbs4Wmp9zSDUM8Nhi3s2OOcqYuv3mN4hitXc8DVx+LyUmbUDiA==
 
 third-party-capital@1.0.20:
   version "1.0.20"
