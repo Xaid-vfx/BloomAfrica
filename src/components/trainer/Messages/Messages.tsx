@@ -162,13 +162,13 @@ export default function Messages() {
             </svg>
 
             {/* Fixed Header */}
-            <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+            <div className="flex-shrink-0 px-4 py-6 lg:p-8 border-b border-gray-100">
                 <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44]">Messages</h1>
                 <p className="text-gray-600 mt-1">Communicate with apprentice applicants</p>
             </div>
 
             <div className="flex flex-col flex-1 overflow-hidden relative">
-                <div className='flex flex-row h-full lg:gap-5 p-6 lg:p-8'>
+                <div className='flex flex-row h-full lg:gap-5 px-4 py-6 lg:p-8'>
                     <div className={`${showChat ? 'lg:w-[40%] hidden lg:block' : 'w-full'} overflow-y-auto lg:relative absolute bottom-0 top-0 left-0 right-0 z-10 border-2 border-gray-100 rounded-xl bg-white`}>
                         {relations?.map((relation) => {
                             return (

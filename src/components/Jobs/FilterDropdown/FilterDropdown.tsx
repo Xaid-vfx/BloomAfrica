@@ -277,12 +277,12 @@ export default function FilterDropdown(props: Props) {
             {props.selectedModes?.map(mode => (
                 <span
                     key={mode}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-100 text-purple-800 text-sm"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#14B8A6]/10 text-[#0D9488] text-sm"
                 >
                     {mode}
                     <button
                         onClick={() => props.onModeChange?.(mode)}
-                        className="hover:bg-purple-200 rounded p-0.5"
+                        className="hover:bg-[#14B8A6]/20 rounded p-0.5"
                     >
                         <IoClose className="w-3.5 h-3.5" />
                     </button>

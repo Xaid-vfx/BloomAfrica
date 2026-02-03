@@ -160,7 +160,7 @@ export default function BankDetails() {
             </svg>
 
             {/* Fixed Header */}
-            <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+            <div className="flex-shrink-0 px-4 py-6 lg:p-8 border-b border-gray-100">
                 <div className="flex items-center gap-3 mb-2">
                     <div className="bg-[#14B8A6]/10 rounded-full p-3">
                         <Wallet className="text-[#14B8A6]" size={28} />
@@ -171,8 +171,8 @@ export default function BankDetails() {
             </div>
 
             {/* Scrollable Content */}
-            <div className='flex-1 overflow-y-auto p-6 lg:p-8'>
-                <div className="bg-white border-2 border-gray-100 rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div className='flex-1 overflow-y-auto px-4 py-6 lg:p-8'>
+                <div className="bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="bg-[#0A1F44]/10 rounded-full p-3">
                             <Building2 className="text-[#0A1F44]" size={24} />

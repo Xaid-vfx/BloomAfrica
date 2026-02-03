@@ -203,7 +203,7 @@ export default function RejectedTable(props: any) {
                                                                 onClick={() => {
                                                                     props.fetchApplicantDetails(row.uid)
                                                                 }}
-                                                                className='bg-[#E9EBFD] text-[#4A2C84] px-6 py-2 font-medium text-sm rounded-xl cursor-pointer text-center w-full hover:bg-[#4A2C84] hover:text-white transition-colors'
+                                                                className='bg-[#14B8A6]/10 text-[#14B8A6] px-6 py-2 font-medium text-sm rounded-xl cursor-pointer text-center w-full hover:bg-[#14B8A6] hover:text-white transition-colors'
                                                             >
                                                                 View Application
                                                             </button>

@@ -137,7 +137,7 @@ export default function JobsTable(props: any) {
 
 
                                                             <h2 className='font-[500] font-sans text-lg'>{value}</h2>
-                                                            <p className='flex gap-1 items-baseline text-sm text-[#4A2C84]'><HiOutlineLocationMarker /> Yaba, Lagos</p>
+                                                            <p className='flex gap-1 items-baseline text-sm text-[#14B8A6]'><HiOutlineLocationMarker /> Yaba, Lagos</p>
 
                                                         </div>
                                                     ) : ""}
@@ -149,7 +149,7 @@ export default function JobsTable(props: any) {
                                                     {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
                                                         <button onClick={() => {
                                                             props.ApplicationsForSelectedJob(row.uid)
-                                                        }} className='text-center bg-[#E9EBFD] text-[#4A2C84] px-4 py-2 font-semibold rounded-xl'>
+                                                        }} className='text-center bg-[#14B8A6]/10] text-[#14B8A6] px-4 py-2 font-semibold rounded-xl'>
                                                             View Applicants</button>
                                                         <button onClick={() => { props.delete(row.uid) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-xl'>
                                                             Delete</button>

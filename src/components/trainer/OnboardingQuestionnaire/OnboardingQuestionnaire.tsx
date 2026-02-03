@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { toast } from 'sonner'
-import { Save, Building2, Shield, MapPin, GraduationCap, Users, User, CheckCircle2, Rocket, BookOpen, Upload, Sparkles, Clock } from 'lucide-react'
+import { Save, Building2, Shield, MapPin, GraduationCap, Users, User, CheckCircle2, Rocket, BookOpen, Upload, Sparkles, Clock, PartyPopper } from 'lucide-react'
 import { useRecruiter } from '@/context/RecruiterContext'
 import FileUploadField from './FileUploadField'
 import MentorCard, { type Mentor } from './MentorCard'
@@ -71,8 +71,14 @@ const PROGRAM_TYPES = [
 ]
 
 const OUTCOME_INTENTS = [
-  'Direct Hire',
-  'Market Ready'
+  {
+    name: 'Direct Hire',
+    description: 'You plan to hire apprentices into your own company after they complete training'
+  },
+  {
+    name: 'Market Ready',
+    description: 'Apprentices will be skilled enough to find employment elsewhere after training'
+  }
 ]
 
 const SUPPORT_PROVIDED = [
@@ -85,8 +91,9 @@ const SUPPORT_PROVIDED = [
 export default function OnboardingQuestionnaire() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { user, trainerProfile } = useRecruiter()
+  const { user, trainerProfile, refreshOnboardingStatus } = useRecruiter()
   const supabase = createClientComponentClient()
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   // Navigation state
   const [currentSection, setCurrentSection] = useState(1)
@@ -157,6 +164,9 @@ export default function OnboardingQuestionnaire() {
   const [pricingBreakdown, setPricingBreakdown] = useState<PricingBreakdown | null>(null)
   const [savedProfileId, setSavedProfileId] = useState<string | null>(null)
 
+  // Completion state - shows success view behind modal after submit
+  const [isCompleted, setIsCompleted] = useState(false)
+
   // Auto-scroll to errors
   useScrollToError({ errors: fieldErrors })
   const [profileId, setProfileId] = useState<string | null>(null)
@@ -187,6 +197,13 @@ export default function OnboardingQuestionnaire() {
       }
     }
   }, [searchParams])
+
+  // Scroll to top when section changes
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }, [currentSection])
 
   async function loadSavedProgress() {
     try {
@@ -318,33 +335,33 @@ export default function OnboardingQuestionnaire() {
           current_section: currentSection,
           is_completed: false,
           completed_sections: sectionsToSave,
-          registrant_full_name: registrantFullName,
-          registrant_position: registrantPosition,
-          registrant_nin: registrantNIN,
-          registrant_phone: registrantPhone,
-          business_name: businessName,
-          trainer_category: trainerCategory,
-          primary_industry: primaryIndustry,
-          business_bio: businessBio,
+          registrant_full_name: registrantFullName || null,
+          registrant_position: registrantPosition || null,
+          registrant_nin: registrantNIN || null,
+          registrant_phone: registrantPhone || null,
+          business_name: businessName || null,
+          trainer_category: trainerCategory || null,
+          primary_industry: primaryIndustry || null,
+          business_bio: businessBio || null,
           years_in_operation: yearsInOperation ? parseInt(yearsInOperation) : null,
-          cac_number: cacNumber,
-          tin_number: tinNumber,
-          business_registration_date: businessRegDate,
-          bvn_number: bvnNumber,
-          physical_address: physicalAddress,
-          facility_features: facilityFeatures,
+          cac_number: cacNumber || null,
+          tin_number: tinNumber || null,
+          business_registration_date: businessRegDate || null,
+          bvn_number: bvnNumber || null,
+          physical_address: physicalAddress || null,
+          facility_features: facilityFeatures.length > 0 ? facilityFeatures : null,
           team_size: teamSize ? parseInt(teamSize) : null,
           prentis_accreditation: prentisAccreditation,
-          alternative_certification: alternativeCertification,
-          general_program_types: generalProgramTypes,
-          avg_program_duration: avgProgramDuration,
-          typical_commitment: typicalCommitment,
-          outcome_intent: outcomeIntent,
-          support_provided: supportProvided,
-          curriculum_type: curriculumType,
-          curriculum_notes: curriculumNotes,
+          alternative_certification: alternativeCertification || null,
+          general_program_types: generalProgramTypes.length > 0 ? generalProgramTypes : null,
+          avg_program_duration: avgProgramDuration || null,
+          typical_commitment: typicalCommitment || null,
+          outcome_intent: outcomeIntent.length > 0 ? outcomeIntent : null,
+          support_provided: supportProvided.length > 0 ? supportProvided : null,
+          curriculum_type: curriculumType || null,
+          curriculum_notes: curriculumNotes || null,
           request_prentis_teaching: requestPrentisTeaching
-        })
+        }, { onConflict: 'user_id' })
         .select()
         .single()
 
@@ -783,38 +800,39 @@ export default function OnboardingQuestionnaire() {
           completed_at: new Date().toISOString(),
           current_section: 8,
           completed_sections: newCompletedSections,
-          registrant_full_name: registrantFullName,
-          registrant_position: registrantPosition,
-          registrant_nin: registrantNIN,
-          registrant_phone: registrantPhone,
-          business_name: businessName,
-          trainer_category: trainerCategory,
-          primary_industry: primaryIndustry,
-          business_bio: businessBio,
-          years_in_operation: parseInt(yearsInOperation),
-          cac_number: cacNumber,
-          tin_number: tinNumber,
-          business_registration_date: businessRegDate,
-          bvn_number: bvnNumber,
-          business_registration_url: businessRegUrl,
-          owner_manager_id_url: ownerIdUrl,
-          professional_licenses_urls: licensesUrls,
-          physical_address: physicalAddress,
-          workspace_photo_urls: workspaceUrls,
-          facility_features: facilityFeatures,
-          team_size: parseInt(teamSize),
+          account_status: 'pending_review',
+          registrant_full_name: registrantFullName || null,
+          registrant_position: registrantPosition || null,
+          registrant_nin: registrantNIN || null,
+          registrant_phone: registrantPhone || null,
+          business_name: businessName || null,
+          trainer_category: trainerCategory || null,
+          primary_industry: primaryIndustry || null,
+          business_bio: businessBio || null,
+          years_in_operation: yearsInOperation ? parseInt(yearsInOperation) : null,
+          cac_number: cacNumber || null,
+          tin_number: tinNumber || null,
+          business_registration_date: businessRegDate || null,
+          bvn_number: bvnNumber || null,
+          business_registration_url: businessRegUrl || null,
+          owner_manager_id_url: ownerIdUrl || null,
+          professional_licenses_urls: licensesUrls.length > 0 ? licensesUrls : null,
+          physical_address: physicalAddress || null,
+          workspace_photo_urls: workspaceUrls.length > 0 ? workspaceUrls : null,
+          facility_features: facilityFeatures.length > 0 ? facilityFeatures : null,
+          team_size: teamSize ? parseInt(teamSize) : null,
           prentis_accreditation: prentisAccreditation,
-          alternative_certification: alternativeCertification,
-          general_program_types: generalProgramTypes,
-          avg_program_duration: avgProgramDuration,
-          typical_commitment: typicalCommitment,
-          outcome_intent: outcomeIntent,
-          support_provided: supportProvided,
-          curriculum_type: curriculumType,
-          curriculum_notes: curriculumNotes,
-          curriculum_file_url: curriculumFileUrl,
+          alternative_certification: alternativeCertification || null,
+          general_program_types: generalProgramTypes.length > 0 ? generalProgramTypes : null,
+          avg_program_duration: avgProgramDuration || null,
+          typical_commitment: typicalCommitment || null,
+          outcome_intent: outcomeIntent.length > 0 ? outcomeIntent : null,
+          support_provided: supportProvided.length > 0 ? supportProvided : null,
+          curriculum_type: curriculumType || null,
+          curriculum_notes: curriculumNotes || null,
+          curriculum_file_url: curriculumFileUrl || null,
           request_prentis_teaching: requestPrentisTeaching
-        })
+        }, { onConflict: 'user_id' })
         .select()
         .single()
 
@@ -860,10 +878,21 @@ export default function OnboardingQuestionnaire() {
       // Create pending subscription
       await savePendingSubscription(profileData.id, pricing)
 
-      // Show pricing popup instead of going to summary
-      setShowPricingPopup(true)
+      // Refresh onboarding status so sidebar knows we're complete
+      await refreshOnboardingStatus()
+
+      // Store pricing info for dashboard to show
+      localStorage.setItem(`trainer_pending_pricing_${user.id}`, JSON.stringify({
+        pricing,
+        profileId: profileData.id
+      }))
+
+      // Navigate directly to dashboard
+      router.push('/recruiter/dashboard')
+      router.refresh()
     } catch (error) {
-      console.log('Database not available - using localStorage for local development')
+      console.error('Error saving trainer profile to database:', error)
+      console.log('Falling back to localStorage for local development')
       // Use localStorage as fallback
       const localData = {
         user_id: user.id,
@@ -932,8 +961,18 @@ export default function OnboardingQuestionnaire() {
       }
       localStorage.setItem(`trainer_subscription_${user.id}`, JSON.stringify(subscriptionData))
 
-      // Show pricing popup
-      setShowPricingPopup(true)
+      // Refresh onboarding status (will check localStorage)
+      await refreshOnboardingStatus()
+
+      // Store pricing info for dashboard to show
+      localStorage.setItem(`trainer_pending_pricing_${user.id}`, JSON.stringify({
+        pricing,
+        profileId: null
+      }))
+
+      // Navigate directly to dashboard
+      router.push('/recruiter/dashboard')
+      router.refresh()
     } finally {
       setIsSubmitting(false)
     }
@@ -969,7 +1008,7 @@ export default function OnboardingQuestionnaire() {
           outcomeIntent,
           curriculumType
         }
-      })
+      }, { onConflict: 'user_id' })
     } catch (error) {
       console.log('Could not save subscription to database')
     }
@@ -1001,6 +1040,7 @@ export default function OnboardingQuestionnaire() {
     }
 
     setShowPricingPopup(false)
+    // Use Next.js router for smooth navigation - context is already refreshed
     router.push('/recruiter/dashboard')
     router.refresh()
   }
@@ -1008,6 +1048,7 @@ export default function OnboardingQuestionnaire() {
   // Handle pay later (close popup and go to dashboard)
   function handlePayLater() {
     setShowPricingPopup(false)
+    // Use Next.js router for smooth navigation - context is already refreshed
     router.push('/recruiter/dashboard')
     router.refresh()
   }
@@ -1064,77 +1105,120 @@ export default function OnboardingQuestionnaire() {
             </p>
           </div>
 
-          {/* Save Progress Button - Hidden on mobile */}
-          <button
-            onClick={saveProgress}
-            disabled={isSaving}
-            className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors"
-          >
-            <Save size={18} />
-            {isSaving ? 'Saving...' : 'Save Progress'}
-          </button>
+          {/* Save Progress Button - Hidden on mobile and during submission */}
+          {!isSubmitting && (
+            <button
+              onClick={saveProgress}
+              disabled={isSaving}
+              className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-colors"
+            >
+              <Save size={18} />
+              {isSaving ? 'Saving...' : 'Save Progress'}
+            </button>
+          )}
         </div>
 
-        {lastSaved && (
+        {lastSaved && !isSubmitting && (
           <p className="hidden lg:block text-xs text-gray-500">
             Last saved: {lastSaved.toLocaleTimeString()}
           </p>
         )}
       </div>
 
-      {/* Mobile Progress Indicator */}
-      <div className="lg:hidden">
-        <ProgressIndicator
-          currentStep={currentSection}
-          totalSteps={8}
-          stepTitle={SECTION_TITLES[currentSection - 1]}
-        />
-      </div>
+      {/* Mobile Progress Indicator - Hidden during submission */}
+      {!isSubmitting && (
+        <div className="lg:hidden">
+          <ProgressIndicator
+            currentStep={currentSection}
+            totalSteps={8}
+            stepTitle={SECTION_TITLES[currentSection - 1]}
+          />
+        </div>
+      )}
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 md:px-8 py-4 md:py-6">
+      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 md:px-8 py-4 md:py-6">
         <div className="max-w-4xl mx-auto space-y-8">
-          {/* Section Content */}
-          {currentSection === 1 && (
-            <RegistrantInformationSection
-              registrantFullName={registrantFullName}
-              setRegistrantFullName={setRegistrantFullName}
-              registrantPosition={registrantPosition}
-              setRegistrantPosition={setRegistrantPosition}
-              registrantNIN={registrantNIN}
-              setRegistrantNIN={setRegistrantNIN}
-              registrantPhone={registrantPhone}
-              setRegistrantPhone={setRegistrantPhone}
-              ownerManagerId={ownerManagerId}
-              setOwnerManagerId={setOwnerManagerId}
-              fieldErrors={fieldErrors}
-            />
+          {/* Submitting View - shown while profile is being submitted */}
+          {isSubmitting ? (
+            <div className="flex flex-col items-center justify-center py-24 md:py-32 text-center">
+              <div className="w-16 h-16 md:w-20 md:h-20 mb-6">
+                <svg className="animate-spin w-full h-full text-[#14B8A6]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </div>
+              <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2">
+                Submitting Your Profile
+              </h2>
+              <p className="text-gray-500 max-w-sm">
+                Please wait while we save your information and prepare your subscription options...
+              </p>
+            </div>
+          ) : isCompleted ? (
+            /* Completion View - shown when submit is successful */
+            <div className="flex flex-col items-center justify-center py-12 md:py-20 text-center">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-[#14B8A6]/10 rounded-full flex items-center justify-center mb-6">
+                <CheckCircle2 className="w-10 h-10 md:w-12 md:h-12 text-[#14B8A6]" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                Profile Submitted!
+              </h2>
+              <p className="text-gray-600 max-w-md mb-6">
+                Your trainer profile has been successfully submitted. Choose a subscription plan to get started.
+              </p>
+              <div className="flex items-center gap-2 text-sm text-gray-500">
+                <PartyPopper className="w-4 h-4" />
+                <span>Welcome to Prentis</span>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Section Content */}
+              {currentSection === 1 && (
+                <RegistrantInformationSection
+                  registrantFullName={registrantFullName}
+                  setRegistrantFullName={setRegistrantFullName}
+                  registrantPosition={registrantPosition}
+                  setRegistrantPosition={setRegistrantPosition}
+                  registrantNIN={registrantNIN}
+                  setRegistrantNIN={setRegistrantNIN}
+                  registrantPhone={registrantPhone}
+                  setRegistrantPhone={setRegistrantPhone}
+                  ownerManagerId={ownerManagerId}
+                  setOwnerManagerId={setOwnerManagerId}
+                  fieldErrors={fieldErrors}
+                />
+              )}
+              {currentSection === 2 && <CategorySelectionSection trainerCategory={trainerCategory} setTrainerCategory={setTrainerCategory} fieldErrors={fieldErrors} />}
+              {currentSection === 3 && <BusinessIdentitySection businessName={businessName} setBusinessName={setBusinessName} primaryIndustry={primaryIndustry} setPrimaryIndustry={setPrimaryIndustry} businessBio={businessBio} setBusinessBio={setBusinessBio} yearsInOperation={yearsInOperation} setYearsInOperation={setYearsInOperation} fieldErrors={fieldErrors} />}
+              {currentSection === 4 && <VerificationTrustSection businessRegistration={businessRegistration} setBusinessRegistration={setBusinessRegistration} professionalLicenses={professionalLicenses} setProfessionalLicenses={setProfessionalLicenses} cacNumber={cacNumber} setCacNumber={setCacNumber} tinNumber={tinNumber} setTinNumber={setTinNumber} businessRegDate={businessRegDate} setBusinessRegDate={setBusinessRegDate} bvnNumber={bvnNumber} setBvnNumber={setBvnNumber} trainerCategory={trainerCategory} fieldErrors={fieldErrors} />}
+              {currentSection === 5 && <WorkspaceFacilitySection physicalAddress={physicalAddress} setPhysicalAddress={setPhysicalAddress} workspacePhotos={workspacePhotos} setWorkspacePhotos={setWorkspacePhotos} facilityFeatures={facilityFeatures} setFacilityFeatures={setFacilityFeatures} teamSize={teamSize} setTeamSize={setTeamSize} fieldErrors={fieldErrors} toggleCheckbox={toggleCheckbox} />}
+              {currentSection === 6 && <ProgramIntentSection prentisAccreditation={prentisAccreditation} setPrentisAccreditation={setPrentisAccreditation} alternativeCertification={alternativeCertification} setAlternativeCertification={setAlternativeCertification} generalProgramTypes={generalProgramTypes} setGeneralProgramTypes={setGeneralProgramTypes} avgProgramDuration={avgProgramDuration} setAvgProgramDuration={setAvgProgramDuration} typicalCommitment={typicalCommitment} setTypicalCommitment={setTypicalCommitment} outcomeIntent={outcomeIntent} setOutcomeIntent={setOutcomeIntent} supportProvided={supportProvided} setSupportProvided={setSupportProvided} fieldErrors={fieldErrors} toggleCheckbox={toggleCheckbox} />}
+              {currentSection === 7 && <CurriculumSection curriculumType={curriculumType} setCurriculumType={setCurriculumType} curriculumFiles={curriculumFiles} setCurriculumFiles={setCurriculumFiles} curriculumNotes={curriculumNotes} setCurriculumNotes={setCurriculumNotes} fieldErrors={fieldErrors} />}
+              {currentSection === 8 && <TeachingTeamSection requestPrentisTeaching={requestPrentisTeaching} setRequestPrentisTeaching={setRequestPrentisTeaching} mentors={mentors} updateMentor={updateMentor} removeMentor={removeMentor} addMentor={addMentor} fieldErrors={fieldErrors} />}
+            </>
           )}
-          {currentSection === 2 && <CategorySelectionSection trainerCategory={trainerCategory} setTrainerCategory={setTrainerCategory} fieldErrors={fieldErrors} />}
-          {currentSection === 3 && <BusinessIdentitySection businessName={businessName} setBusinessName={setBusinessName} primaryIndustry={primaryIndustry} setPrimaryIndustry={setPrimaryIndustry} businessBio={businessBio} setBusinessBio={setBusinessBio} yearsInOperation={yearsInOperation} setYearsInOperation={setYearsInOperation} fieldErrors={fieldErrors} />}
-          {currentSection === 4 && <VerificationTrustSection businessRegistration={businessRegistration} setBusinessRegistration={setBusinessRegistration} professionalLicenses={professionalLicenses} setProfessionalLicenses={setProfessionalLicenses} cacNumber={cacNumber} setCacNumber={setCacNumber} tinNumber={tinNumber} setTinNumber={setTinNumber} businessRegDate={businessRegDate} setBusinessRegDate={setBusinessRegDate} bvnNumber={bvnNumber} setBvnNumber={setBvnNumber} trainerCategory={trainerCategory} fieldErrors={fieldErrors} />}
-          {currentSection === 5 && <WorkspaceFacilitySection physicalAddress={physicalAddress} setPhysicalAddress={setPhysicalAddress} workspacePhotos={workspacePhotos} setWorkspacePhotos={setWorkspacePhotos} facilityFeatures={facilityFeatures} setFacilityFeatures={setFacilityFeatures} teamSize={teamSize} setTeamSize={setTeamSize} fieldErrors={fieldErrors} toggleCheckbox={toggleCheckbox} />}
-          {currentSection === 6 && <ProgramIntentSection prentisAccreditation={prentisAccreditation} setPrentisAccreditation={setPrentisAccreditation} alternativeCertification={alternativeCertification} setAlternativeCertification={setAlternativeCertification} generalProgramTypes={generalProgramTypes} setGeneralProgramTypes={setGeneralProgramTypes} avgProgramDuration={avgProgramDuration} setAvgProgramDuration={setAvgProgramDuration} typicalCommitment={typicalCommitment} setTypicalCommitment={setTypicalCommitment} outcomeIntent={outcomeIntent} setOutcomeIntent={setOutcomeIntent} supportProvided={supportProvided} setSupportProvided={setSupportProvided} fieldErrors={fieldErrors} toggleCheckbox={toggleCheckbox} />}
-          {currentSection === 7 && <CurriculumSection curriculumType={curriculumType} setCurriculumType={setCurriculumType} curriculumFiles={curriculumFiles} setCurriculumFiles={setCurriculumFiles} curriculumNotes={curriculumNotes} setCurriculumNotes={setCurriculumNotes} fieldErrors={fieldErrors} />}
-          {currentSection === 8 && <TeachingTeamSection requestPrentisTeaching={requestPrentisTeaching} setRequestPrentisTeaching={setRequestPrentisTeaching} mentors={mentors} updateMentor={updateMentor} removeMentor={removeMentor} addMentor={addMentor} fieldErrors={fieldErrors} />}
         </div>
       </div>
 
-      {/* Footer Navigation */}
-      <div className="px-4 md:px-8 py-4 md:py-6">
-        <SectionNavigation
-          currentSection={currentSection}
-          totalSections={8}
-          completedSections={completedSections}
-          onPrevious={goToPreviousSection}
-          onNext={goToNextSection}
-          onSubmit={handleSubmit}
-          canGoNext={true}
-          isSubmitting={isSubmitting}
-          sectionTitles={SECTION_TITLES}
-          showBreadcrumbs={false}
-        />
-      </div>
+      {/* Footer Navigation - hidden after completion and during submission */}
+      {!isCompleted && !isSubmitting && (
+        <div className="px-4 md:px-8 py-4 md:py-6">
+          <SectionNavigation
+            currentSection={currentSection}
+            totalSections={8}
+            completedSections={completedSections}
+            onPrevious={goToPreviousSection}
+            onNext={goToNextSection}
+            onSubmit={handleSubmit}
+            canGoNext={true}
+            isSubmitting={isSubmitting}
+            sectionTitles={SECTION_TITLES}
+            showBreadcrumbs={false}
+          />
+        </div>
+      )}
 
       {/* Pricing Popup - shown after successful profile submission */}
       {pricingBreakdown && (
@@ -1730,7 +1814,7 @@ function VerificationTrustSection({
         {/* Business Registration */}
         <FileUploadField
           label="Business Registration Document"
-          description="Upload CAC certificate (for companies) or trade association membership (for individuals)"
+          description="Upload CAC certificate (if you have it) or trade association membership."
           category="BusinessRegistration"
           multiple={false}
           required={true}
@@ -2064,20 +2148,21 @@ function ProgramIntentSection({
             Outcome Intent
             <span className="text-red-500 ml-1">*</span>
           </label>
-          <p className="text-xs text-gray-500 mb-3">Select all that apply</p>
+          <p className="text-xs text-gray-500 mb-3">What happens after apprentices complete training?</p>
           <div className="space-y-2">
             {OUTCOME_INTENTS.map((intent) => (
               <button
-                key={intent}
+                key={intent.name}
                 type="button"
-                onClick={() => toggleCheckbox(intent, outcomeIntent, setOutcomeIntent)}
+                onClick={() => toggleCheckbox(intent.name, outcomeIntent, setOutcomeIntent)}
                 className={`w-full p-3 rounded-lg border-2 transition-all text-left ${
-                  outcomeIntent.includes(intent)
+                  outcomeIntent.includes(intent.name)
                     ? 'border-[#14B8A6] bg-[#14B8A6]/5'
                     : 'border-gray-300 hover:border-gray-400'
                 }`}
               >
-                <p className="font-medium text-gray-900">{intent}</p>
+                <p className="font-medium text-gray-900">{intent.name}</p>
+                <p className="text-xs text-gray-500 mt-1">{intent.description}</p>
               </button>
             ))}
           </div>
@@ -2288,8 +2373,8 @@ function CurriculumSection({
       {/* Custom Curriculum - Notes */}
       {curriculumType === 'custom' && (
         <div className="space-y-4">
-          <div className="p-4 bg-purple-50 rounded-xl border border-purple-200">
-            <p className="text-sm text-purple-800">
+          <div className="p-4 bg-[#14B8A6]/10 rounded-xl border border-[#14B8A6]/20">
+            <p className="text-sm text-[#0D9488]">
               Tell us about your training goals and requirements. Our curriculum specialists will reach out to design a program tailored to your needs.
             </p>
           </div>

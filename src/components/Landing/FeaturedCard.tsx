@@ -22,7 +22,7 @@ type Props = {
 
 export default function FeaturedCard(props: Props) {
     return (
-        <div className="py-6 px-6 my-4 mx-2 bg-white rounded-xl border border-grey-200 hover:border-[#4A2C84] transition-colors">
+        <div className="py-6 px-6 my-4 mx-2 bg-white rounded-xl border border-grey-200 hover:border-[#14B8A6] transition-colors">
             <div className="flex items-center gap-3">
                 <Image src={Logo} alt=" " width={50} className="bg-grey-100 rounded-lg p-2" />
                 <div className="font-semibold text-sm text-grey-900">{props.title}</div>
@@ -34,16 +34,16 @@ export default function FeaturedCard(props: Props) {
                 <div className="mt-2">
                     <div className="flex flex-wrap text-xs text-grey-600 gap-3 items-center mb-2">
                         <p className="flex items-center gap-1">
-                            <HiOutlineLocationMarker className="text-[#4A2C84] text-base" />
+                            <HiOutlineLocationMarker className="text-[#14B8A6] text-base" />
                             {props.location}
                         </p>
                         <p className="flex items-center gap-1">
-                            <FaRegCalendarAlt className="text-[#4A2C84] text-sm" />
+                            <FaRegCalendarAlt className="text-[#14B8A6] text-sm" />
                             {props.type}
                         </p>
                     </div>
                     <p className="flex items-center gap-1 text-xs text-grey-600">
-                        <Clock className="text-[#4A2C84]" size={16} />
+                        <Clock className="text-[#14B8A6]" size={16} />
                         {props.diploma}
                     </p>
                 </div>

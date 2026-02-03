@@ -20,7 +20,7 @@ export default function TrainerLanding() {
                 </p>
                 <a
                   href="/signup?type=recruiter"
-                  className="bg-[#4A2C84] hover:bg-[#2f185e] text-white font-semibold py-3 px-10 rounded-2xl max-w-[25rem] mx-auto transition"
+                  className="bg-[#14B8A6] hover:bg-[#0D9488] text-white font-semibold py-3 px-10 rounded-2xl max-w-[25rem] mx-auto transition"
                 >
                   Become a trainer on Prentis
                 </a>
@@ -54,26 +54,26 @@ export default function TrainerLanding() {
             </div>
           </section>
 
-          <section className="bg-gradient-to-bl from-purple-200 via-blue to-orange-100 py-20">
+          <section className="bg-gradient-to-bl from-[#14B8A6]/20 via-white to-[#0A1F44]/10 py-20">
             <div className="max-w-6xl mx-auto px-6">
               <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
               <div className="space-y-10">
                 <div className="flex flex-col md:flex-row gap-8 items-start">
-                  <div className="text-4xl font-bold text-[#4A2C84]">1</div>
+                  <div className="text-4xl font-bold text-[#14B8A6]">1</div>
                   <div>
                     <h3 className="text-xl font-semibold mb-1">Create Your Trainer Account</h3>
                     <p>Sign up with Google or email OTP. Select “Trainer” as your account type.</p>
                   </div>
                 </div>
                 <div className="flex flex-col md:flex-row gap-8 items-start">
-                  <div className="text-4xl font-bold text-[#4A2C84]">2</div>
+                  <div className="text-4xl font-bold text-[#14B8A6]">2</div>
                   <div>
                     <h3 className="text-xl font-semibold mb-1">Set Up Your Profile</h3>
                     <p>Complete your company profile—logo, business info, and preferences.</p>
                   </div>
                 </div>
                 <div className="flex flex-col md:flex-row gap-8 items-start">
-                  <div className="text-4xl font-bold text-[#4A2C84]">3</div>
+                  <div className="text-4xl font-bold text-[#14B8A6]">3</div>
                   <div>
                     <h3 className="text-xl font-semibold mb-1">Create and Price Your Program</h3>
                     <p>
@@ -82,7 +82,7 @@ export default function TrainerLanding() {
                   </div>
                 </div>
                 <div className="flex flex-col md:flex-row gap-8 items-start">
-                  <div className="text-4xl font-bold text-[#4A2C84]">4</div>
+                  <div className="text-4xl font-bold text-[#14B8A6]">4</div>
                   <div>
                     <h3 className="text-xl font-semibold mb-1">Start Enrolling Learners</h3>
                     <p>
@@ -108,7 +108,7 @@ export default function TrainerLanding() {
               </ul>
               <a
                 href="/signup?type=recruiter"
-                className="bg-[#4A2C84] hover:bg-[#2f185e] text-white font-semibold py-3 px-10 rounded-2xl transition"
+                className="bg-[#14B8A6] hover:bg-[#0D9488] text-white font-semibold py-3 px-10 rounded-2xl transition"
               >
                 Start Earning Now
               </a>

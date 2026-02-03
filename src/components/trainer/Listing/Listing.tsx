@@ -123,7 +123,7 @@ export default function Listing() {
                     {showApplicantDetails ? (
                         <>
                             {/* Fixed Header */}
-                            <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+                            <div className="flex-shrink-0 px-4 py-6 lg:p-8 border-b border-gray-100">
                                 <button
                                     onClick={() => setshowApplicantDetails(false)}
                                     className="flex items-center gap-2 text-[#14B8A6] hover:text-[#0D9488] font-medium mb-4 transition-colors"
@@ -134,7 +134,7 @@ export default function Listing() {
                                 <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44]">Apprentice Profile</h1>
                             </div>
                             {/* Scrollable Content */}
-                            <div className="flex-1 overflow-y-auto p-6 lg:p-8">
+                            <div className="flex-1 overflow-y-auto px-4 py-6 lg:p-8">
                                 <ApplicantDisplay experience={experience} applicant={applicant} />
                             </div>
                         </>
@@ -153,7 +153,7 @@ export default function Listing() {
             ) : (
                 <>
                     {/* Fixed Header */}
-                    <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+                    <div className="flex-shrink-0 px-4 py-6 lg:p-8 border-b border-gray-100">
                         <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-3">
                                 <div className="bg-[#14B8A6]/10 rounded-full p-3">
@@ -180,7 +180,7 @@ export default function Listing() {
                     </div>
 
                     {/* Scrollable Content */}
-                    <div className="flex-1 overflow-y-auto p-6 lg:p-8">
+                    <div className="flex-1 overflow-y-auto px-4 py-6 lg:p-8">
                         {jobs.length > 0 ? (
                             <>
                                 {/* Mobile View - Cards */}

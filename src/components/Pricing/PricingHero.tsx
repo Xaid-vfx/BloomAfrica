@@ -10,14 +10,14 @@ export default function PricingHero() {
         <div>
             <div className="py-10 px-4 text-center">
                 <div className="flex items-center flex-col">
-                    <p className="text-sm lg:text-base lg:font-medium lg:text-[#4A2C84]">Pricing</p>
+                    <p className="text-sm lg:text-base lg:font-medium lg:text-[#14B8A6]">Pricing</p>
                     <h1 className="mt-6 mb-10 text-xl font-semibold lg:text-3xl">
                         Pricing offers and their associated features for <br className="hidden lg:block" /> Prentis
                     </h1>
 
                     <div className="flex rounded-3xl justify-center lg:mt-14 box_shadow p-1">
-                        <button className={`text-sm px-6 py-2 rounded-3xl lg:font-medium lg:px-10 ${activeTab == 1 ? "text-white bg-[#4A2C84]" : ""}`} onClick={() => { setActiveTab(1) }}>Apprentice</button>
-                        <button className={`text-sm px-6 py-2 rounded-3xl lg:font-medium lg:px-10 ${activeTab == 2 ? "text-white bg-[#4A2C84]" : ""}`} onClick={() => { setActiveTab(2) }}>Employers</button>
+                        <button className={`text-sm px-6 py-2 rounded-3xl lg:font-medium lg:px-10 ${activeTab == 1 ? "text-white bg-[#14B8A6]" : ""}`} onClick={() => { setActiveTab(1) }}>Apprentice</button>
+                        <button className={`text-sm px-6 py-2 rounded-3xl lg:font-medium lg:px-10 ${activeTab == 2 ? "text-white bg-[#14B8A6]" : ""}`} onClick={() => { setActiveTab(2) }}>Employers</button>
                     </div>
                 </div>
 

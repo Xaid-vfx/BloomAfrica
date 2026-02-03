@@ -27,7 +27,7 @@ export default function About() {
                     <p className="text-lg leading-6 my-6">
                         We make it easier than ever for learners to earn qualifications and certifications. Simply enroll in a Prentis apprenticeship that aligns with your desired qualification level, complete the program, and achieve your goals!
                     </p>
-                    <div className="bg-[#4A2C84] font-semibold text-sm text-white rounded-full px-6 py-4">Explore courses</div>
+                    <div className="bg-[#14B8A6] font-semibold text-sm text-white rounded-full px-6 py-4">Explore courses</div>
                 </div>
                 <div className="hidden lg:flex lg:w-[40%] justify-center py-6 bg-[#C8AFEC]">
                     <Image src={Woman} alt="woman" width={400} />

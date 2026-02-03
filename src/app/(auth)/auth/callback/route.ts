@@ -43,7 +43,8 @@ export async function GET(request: Request) {
       } else if (type === 'recruiter') {
         await supabase.from('Recruiters').upsert({
           uniqueid: data.user.id,
-          email: data.user.email
+          email: data.user.email,
+          name: data.user.user_metadata?.full_name || data.user.user_metadata?.name || null
         }, { onConflict: 'uniqueid', ignoreDuplicates: true })
       }
 

@@ -56,8 +56,8 @@ export default function Applications(props: any) {
             </h1>
 
             <p onClick={() => { props.setshowJobApplications(false); }}
-                className=" mt-7 lg:mb-4 hover:underline cursor-pointer text-[#4A2C84] font-semibold text-sm mb-6 flex items-center gap-1 ">
-                <IoMdArrowRoundBack className="text-xl text-[#4A2C84]" />Back to Your Apprenticeships
+                className=" mt-7 lg:mb-4 hover:underline cursor-pointer text-[#14B8A6] font-semibold text-sm mb-6 flex items-center gap-1 ">
+                <IoMdArrowRoundBack className="text-xl text-[#14B8A6]" />Back to Your Apprenticeships
             </p>
 
             {/* Job Details Header - responsive adjustments */}
@@ -85,7 +85,7 @@ export default function Applications(props: any) {
                         </div>
                     </div>
                     <div className="flex gap-2 items-start sm:items-center">
-                        <div className="bg-[#E9EBFD] text-[#4A2C84] px-3 py-2 rounded-xl text-xs sm:text-sm font-medium w-fit">
+                        <div className="bg-[#14B8A6]/10] text-[#14B8A6] px-3 py-2 rounded-xl text-xs sm:text-sm font-medium w-fit">
                             {props.applications?.length} Applications
                         </div>
                         <button 
@@ -100,23 +100,23 @@ export default function Applications(props: any) {
             {/* Existing Tabs Structure */}
             <Tabs defaultValue="all" className="lg:hidden">
                 <TabsList className="bg-white flex justify-start max-h-none py-8 ">
-                    <TabsTrigger value="all" className="mr-2 px-1 text-xs text-left data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
+                    <TabsTrigger value="all" className="mr-2 px-1 text-xs text-left data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#14B8A6]">
                         All
-                        <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.55rem]">{props.applications?.length}</span>
+                        <span className="px-2 m-1 bg-[#14B8A6] text-white rounded-2xl text-[.55rem]">{props.applications?.length}</span>
                     </TabsTrigger>
-                    {/* <TabsTrigger value="accepted" className="mx-2 px-1 text-xs data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
+                    {/* <TabsTrigger value="accepted" className="mx-2 px-1 text-xs data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#14B8A6]">
                         Accepted
-                        <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.55rem]">{acceptedApplications.length}</span>
+                        <span className="px-2 m-1 bg-[#14B8A6] text-white rounded-2xl text-[.55rem]">{acceptedApplications.length}</span>
                     </TabsTrigger>
-                    <TabsTrigger value="rejected" className="mx-2 px-1 text-xs data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
+                    <TabsTrigger value="rejected" className="mx-2 px-1 text-xs data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#14B8A6]">
                         Rejected
-                        <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.55rem]">{rejectedApplications.length}</span>
+                        <span className="px-2 m-1 bg-[#14B8A6] text-white rounded-2xl text-[.55rem]">{rejectedApplications.length}</span>
                     </TabsTrigger> */}
                 </TabsList>
                 <TabsContent value="all" className="">
                     {props.loading ? (
                         <div className="flex justify-center items-center h-[300px]">
-                            <MoonLoader color="#4A2C84" />
+                            <MoonLoader color="#14B8A6" />
                         </div>
                     ) : props.applications?.length > 0 ? (
                         <MobileApplicationCard type="All" status="" updateStatus={updateStatus} applications={props.applications} fetchApplicantDetails={props.fetchApplicantDetails} id={props.user.id} />
@@ -129,7 +129,7 @@ export default function Applications(props: any) {
                 {/* <TabsContent value="accepted">
                     {props.loading ? (
                         <div className="flex justify-center items-center h-[300px]">
-                            <MoonLoader color="#4A2C84" />
+                            <MoonLoader color="#14B8A6" />
                         </div>
                     ) : acceptedApplications.length > 0 ? (
                         <MobileApplicationCard type="Accepted" status="paid" updateStatus={updateStatus} applications={acceptedApplications} fetchApplicantDetails={props.fetchApplicantDetails} id={props.user.id} />
@@ -142,7 +142,7 @@ export default function Applications(props: any) {
                 <TabsContent value="rejected">
                     {props.loading ? (
                         <div className="flex justify-center items-center h-[300px]">
-                            <MoonLoader color="#4A2C84" />
+                            <MoonLoader color="#14B8A6" />
                         </div>
                     ) : rejectedApplications.length > 0 ? (
                         <MobileApplicationCard type="Rejected" status="unpaid" updateStatus={updateStatus} applications={rejectedApplications} fetchApplicantDetails={props.fetchApplicantDetails} id={props.user.id} />
@@ -158,23 +158,23 @@ export default function Applications(props: any) {
             <div className="rounded-xl pt-0 hidden lg:block">
                 <Tabs defaultValue="all" className="mx-4">
                     <TabsList className="bg-white flex justify-start w-full max-h-none py-8 px-4">
-                        <TabsTrigger value="all" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
+                        <TabsTrigger value="all" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#14B8A6]">
                             All applicants
-                            <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.60rem]">{props.applications?.length}</span>
+                            <span className="px-2 m-1 bg-[#14B8A6] text-white rounded-2xl text-[.60rem]">{props.applications?.length}</span>
                         </TabsTrigger>
-                        {/* <TabsTrigger value="accepted" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
+                        {/* <TabsTrigger value="accepted" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#14B8A6]">
                             Accepted
-                            <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.60rem]">{acceptedApplications.length}</span>
+                            <span className="px-2 m-1 bg-[#14B8A6] text-white rounded-2xl text-[.60rem]">{acceptedApplications.length}</span>
                         </TabsTrigger>
-                        <TabsTrigger value="rejected" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#4A2C84]">
+                        <TabsTrigger value="rejected" className="mx-2 data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 border-[#14B8A6]">
                             Rejected
-                            <span className="px-2 m-1 bg-[#4A2C84] text-white rounded-2xl text-[.60rem]">{rejectedApplications.length}</span>
+                            <span className="px-2 m-1 bg-[#14B8A6] text-white rounded-2xl text-[.60rem]">{rejectedApplications.length}</span>
                         </TabsTrigger> */}
                     </TabsList>
                     <TabsContent value="all" className="">
                         {props.loading ? (
                             <div className="flex justify-center items-center h-[300px]">
-                                <MoonLoader color="#4A2C84" />
+                                <MoonLoader color="#14B8A6" />
                             </div>
                         ) : props.applications?.length > 0 ? (
                             <StickyHeadTable updateStatus={updateStatus} user={props.user} seekerChatId={setseekerChatId} fetchApplicantDetails={props.fetchApplicantDetails} applications={props.applications} />
@@ -187,7 +187,7 @@ export default function Applications(props: any) {
                     {/* <TabsContent value="accepted">
                         {props.loading ? (
                             <div className="flex justify-center items-center h-[300px]">
-                                <MoonLoader color="#4A2C84" />
+                                <MoonLoader color="#14B8A6" />
                             </div>
                         ) : acceptedApplications.length > 0 ? (
                             <AcceptedTable updateStatus={updateStatus} user={props.user} seekerChatId={setseekerChatId} fetchApplicantDetails={props.fetchApplicantDetails} applications={acceptedApplications} />
@@ -200,7 +200,7 @@ export default function Applications(props: any) {
                     <TabsContent value="rejected">
                         {props.loading ? (
                             <div className="flex justify-center items-center h-[300px]">
-                                <MoonLoader color="#4A2C84" />
+                                <MoonLoader color="#14B8A6" />
                             </div>
                         ) : rejectedApplications.length > 0 ? (
                             <RejectedTable updateStatus={updateStatus} user={props.user} seekerChatId={setseekerChatId} fetchApplicantDetails={props.fetchApplicantDetails} applications={rejectedApplications} />

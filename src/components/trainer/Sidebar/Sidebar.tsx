@@ -5,12 +5,11 @@ import { BiHomeAlt2 } from "react-icons/bi";
 import { LuClipboardList } from "react-icons/lu";
 import { PiBuildings } from "react-icons/pi";
 import { SignOut } from "@/lib/utils/signOut";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import UnreadMessagesDot from "@/components/UnreadMessagesDot/UnreadMessagesDot";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 import { LogOut, Plus, Rocket, Lock, CheckCircle2, Circle, BookOpen, Clock } from "lucide-react";
 import { useRecruiter } from "@/context/RecruiterContext";
@@ -28,88 +27,41 @@ const ONBOARDING_SECTIONS = [
 
 export default function Sidebar() {
     const router = useRouter()
-    const pathname = usePathname()
     const searchParams = useSearchParams()
     const segment = useSelectedLayoutSegment()
     const [userId, setUserId] = useState<string>("")
-    const [isOnboardingComplete, setIsOnboardingComplete] = useState(false)
-    const [completedOnboardingSections, setCompletedOnboardingSections] = useState<number[]>([])
-    const supabase = createClientComponentClient()
 
-    // Get subscription and account status from context
-    const { canPostApprenticeships, hasActiveSubscription, isAccountApproved, subscriptionStatus, accountStatus } = useRecruiter()
+    // Get all state from context (single source of truth)
+    const {
+        user,
+        canPostApprenticeships,
+        hasActiveSubscription,
+        isAccountApproved,
+        isOnboardingComplete,
+        completedOnboardingSections,
+        isLoading
+    } = useRecruiter()
+
+    // Determine the lock message based on status
+    const getLockMessage = () => {
+        if (!hasActiveSubscription && !isAccountApproved) {
+            return 'Complete payment and wait for account approval'
+        } else if (!hasActiveSubscription) {
+            return 'Complete payment to unlock'
+        } else if (!isAccountApproved) {
+            return 'Your account is under review'
+        }
+        return ''
+    }
 
     const currentOnboardingSection = parseInt(searchParams?.get('section') || '1')
 
+    // Get userId from context user
     useEffect(() => {
-        async function getUser() {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (user) {
-                setUserId(user.id)
-                checkOnboardingStatus(user.id)
-            }
+        if (user?.id) {
+            setUserId(user.id)
         }
-        getUser()
-    }, [])
-
-    // Refresh completion status when section changes
-    useEffect(() => {
-        if (userId && pathname?.includes('/onboarding')) {
-            checkOnboardingStatus(userId)
-        }
-    }, [currentOnboardingSection, userId])
-
-    async function checkOnboardingStatus(userId: string) {
-        try {
-            const { data, error } = await supabase
-                .from('TrainerProfiles')
-                .select('is_completed, current_section, completed_sections')
-                .eq('user_id', userId)
-                .single()
-
-            if (error) throw error
-            setIsOnboardingComplete(data?.is_completed || false)
-
-            // If onboarding is complete, show all sections as complete
-            if (data?.is_completed) {
-                setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8])
-            }
-            // Otherwise, use completed_sections if available, or calculate from current_section
-            else if (data?.completed_sections) {
-                setCompletedOnboardingSections(data.completed_sections)
-            } else if (data?.current_section) {
-                const completed = Array.from({length: data.current_section - 1}, (_, i) => i + 1)
-                setCompletedOnboardingSections(completed)
-            }
-        } catch (error) {
-            // Table doesn't exist - use localStorage for local development
-            const localCompletion = localStorage.getItem(`trainer_onboarding_complete_${userId}`)
-            const isComplete = localCompletion === 'true'
-            setIsOnboardingComplete(isComplete)
-
-            // Load completed sections from localStorage
-            const localData = localStorage.getItem(`trainer_profile_${userId}`)
-            if (localData) {
-                const data = JSON.parse(localData)
-
-                // If onboarding is complete, show all sections as complete
-                if (data.is_completed || isComplete) {
-                    setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8])
-                }
-                // Otherwise use completed_sections or calculate from current_section
-                else if (data.completed_sections) {
-                    setCompletedOnboardingSections(data.completed_sections)
-                } else if (data.current_section) {
-                    // Fallback: If current_section is 3, sections 1-2 are complete
-                    const completed = Array.from({length: data.current_section - 1}, (_, i) => i + 1)
-                    setCompletedOnboardingSections(completed)
-                }
-            } else if (isComplete) {
-                // If marked complete but no data, show all sections as complete
-                setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8])
-            }
-        }
-    }
+    }, [user])
 
     function handleClickLogout() {
         SignOut()
@@ -118,6 +70,15 @@ export default function Sidebar() {
 
     const isActive = (path: string) => {
         return segment === path
+    }
+
+    if (isLoading) {
+        return (
+            <div className='hidden lg:flex flex-col border border-gray-100 w-full rounded-2xl bg-white shadow-lg items-center justify-center'
+                 style={{ height: 'calc(100vh - 2.5rem)' }}>
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#14B8A6]"></div>
+            </div>
+        );
     }
 
     return (
@@ -129,81 +90,100 @@ export default function Sidebar() {
                 </Link>
             </div>
 
+            {/* Status Banner - shows when features are locked */}
+            {isOnboardingComplete && !canPostApprenticeships && (
+                <div className="mx-4 mt-4 p-3 bg-amber-100 border-2 border-amber-300 rounded-xl shadow-sm">
+                    <div className="flex items-center gap-2">
+                        {!hasActiveSubscription ? (
+                            <Clock size={18} className="text-amber-700 flex-shrink-0" />
+                        ) : (
+                            <Lock size={18} className="text-amber-700 flex-shrink-0" />
+                        )}
+                        <p className="text-sm text-amber-900 font-semibold leading-tight">
+                            {getLockMessage()}
+                        </p>
+                    </div>
+                </div>
+            )}
+
             {/* Navigation Links */}
             <div className="flex-1 px-4 py-6 overflow-y-auto overflow-x-hidden">
                 <nav className="space-y-1">
-                    {/* Onboarding with expandable subsections */}
-                    <div>
-                        <Link
-                            href="/recruiter/onboarding"
-                            className={`group flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
-                                isActive('onboarding')
-                                    ? "bg-[#14B8A6] text-white shadow-lg shadow-[#14B8A6]/30"
-                                    : "text-gray-700 hover:bg-gray-50"
-                            }`}
-                        >
-                            <Rocket className={`transition-colors ${
-                                isActive('onboarding') ? "text-white" : "text-gray-500 group-hover:text-[#14B8A6]"
-                            }`} size={20} />
-                            <span className="text-sm">Onboarding</span>
-                        </Link>
+                    {/* Onboarding with expandable subsections - only show when not complete */}
+                    {!isOnboardingComplete && (
+                        <div>
+                            <Link
+                                href="/recruiter/onboarding"
+                                className={`group flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
+                                    isActive('onboarding')
+                                        ? "bg-[#14B8A6] text-white shadow-lg shadow-[#14B8A6]/30"
+                                        : "text-gray-700 hover:bg-gray-50"
+                                }`}
+                            >
+                                <Rocket className={`transition-colors ${
+                                    isActive('onboarding') ? "text-white" : "text-gray-500 group-hover:text-[#14B8A6]"
+                                }`} size={20} />
+                                <span className="text-sm">Onboarding</span>
+                            </Link>
 
-                        {/* Expandable Subsections - only show when on onboarding page */}
-                        {isActive('onboarding') && (
-                            <div className="ml-4 mt-2 space-y-1 pl-4 relative">
-                                {/* Gray background line */}
-                                <div
-                                    className="absolute left-0 top-0 w-1 bg-gray-200 rounded-full pointer-events-none"
-                                    style={{
-                                        height: '100%'
-                                    }}
-                                />
-                                {/* Progress bar overlay */}
-                                <div
-                                    className="absolute left-0 w-1 bg-[#14B8A6] rounded-full transition-all duration-300 pointer-events-none"
-                                    style={{
-                                        top: '-4px',
-                                        height: completedOnboardingSections.length > 0
-                                            ? `calc(${(Math.max(...completedOnboardingSections, 0) / ONBOARDING_SECTIONS.length) * 100}% + 6px)`
-                                            : '0'
-                                    }}
-                                />
-                                {ONBOARDING_SECTIONS.map((section, index) => {
-                                    const sectionNum = index + 1
-                                    const isComplete = completedOnboardingSections.includes(sectionNum)
-                                    const isCurrent = currentOnboardingSection === sectionNum
-                                    const isAccessible = isComplete || sectionNum === Math.max(...completedOnboardingSections, 0) + 1 || sectionNum === 1
+                            {/* Expandable Subsections - only show when on onboarding page */}
+                            {isActive('onboarding') && (
+                                <div className="ml-4 mt-2 space-y-1 pl-4 relative">
+                                    {/* Gray background line */}
+                                    <div
+                                        className="absolute left-0 top-0 w-1 bg-gray-200 rounded-full pointer-events-none"
+                                        style={{
+                                            height: '100%'
+                                        }}
+                                    />
+                                    {/* Progress bar overlay */}
+                                    <div
+                                        className="absolute left-0 w-1 bg-[#14B8A6] rounded-full transition-all duration-300 pointer-events-none"
+                                        style={{
+                                            top: '-4px',
+                                            height: completedOnboardingSections.length > 0
+                                                ? `calc(${(Math.max(...completedOnboardingSections, 0) / ONBOARDING_SECTIONS.length) * 100}% + 6px)`
+                                                : '0'
+                                        }}
+                                    />
+                                    {ONBOARDING_SECTIONS.map((section, index) => {
+                                        const sectionNum = index + 1
+                                        const isComplete = completedOnboardingSections.includes(sectionNum)
+                                        const isCurrent = currentOnboardingSection === sectionNum
+                                        const isAccessible = isComplete || sectionNum === Math.max(...completedOnboardingSections, 0) + 1 || sectionNum === 1
 
-                                    return (
-                                        <Link
-                                            key={sectionNum}
-                                            href={isAccessible ? `/recruiter/onboarding?section=${sectionNum}` : '#'}
-                                            className={`group flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
-                                                isCurrent
-                                                    ? "bg-[#14B8A6]/10 text-[#14B8A6] font-semibold"
-                                                    : isComplete
-                                                    ? "bg-green-50 text-green-700 hover:bg-green-100"
-                                                    : isAccessible
-                                                    ? "text-gray-600 hover:bg-gray-50 hover:text-[#14B8A6]"
-                                                    : "text-gray-400 cursor-not-allowed opacity-60"
-                                            }`}
-                                            onClick={(e) => {
-                                                if (!isAccessible) e.preventDefault()
-                                            }}
-                                        >
-                                            {isComplete ? (
-                                                <CheckCircle2 size={14} className="text-[#14B8A6] flex-shrink-0" />
-                                            ) : (
-                                                <Circle size={14} className="flex-shrink-0" />
-                                            )}
-                                            <span className="truncate">{section.title}</span>
-                                        </Link>
-                                    )
-                                })}
-                            </div>
-                        )}
-                    </div>
+                                        return (
+                                            <Link
+                                                key={sectionNum}
+                                                href={isAccessible ? `/recruiter/onboarding?section=${sectionNum}` : '#'}
+                                                className={`group flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                                                    isCurrent
+                                                        ? "bg-[#14B8A6]/10 text-[#14B8A6] font-semibold"
+                                                        : isComplete
+                                                        ? "bg-green-50 text-green-700 hover:bg-green-100"
+                                                        : isAccessible
+                                                        ? "text-gray-600 hover:bg-gray-50 hover:text-[#14B8A6]"
+                                                        : "text-gray-400 cursor-not-allowed opacity-60"
+                                                }`}
+                                                onClick={(e) => {
+                                                    if (!isAccessible) e.preventDefault()
+                                                }}
+                                            >
+                                                {isComplete ? (
+                                                    <CheckCircle2 size={14} className="text-[#14B8A6] flex-shrink-0" />
+                                                ) : (
+                                                    <Circle size={14} className="flex-shrink-0" />
+                                                )}
+                                                <span className="truncate">{section.title}</span>
+                                            </Link>
+                                        )
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    )}
 
+                    {/* Dashboard - always show when onboarding is complete */}
                     {!isOnboardingComplete ? (
                         <div className="relative group/tooltip">
                             <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
@@ -297,15 +277,10 @@ export default function Sidebar() {
                             </div>
                         </div>
                     ) : !canPostApprenticeships ? (
-                        <div className="relative group/tooltip">
-                            <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
-                                <LuClipboardList className="text-xl" />
-                                <span className="text-sm">My Apprenticeships</span>
-                                <Lock size={14} className="ml-auto" />
-                            </div>
-                            <div className="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
-                                {!hasActiveSubscription ? 'Complete payment to unlock' : 'Account under review'}
-                            </div>
+                        <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
+                            <LuClipboardList className="text-xl" />
+                            <span className="text-sm">My Apprenticeships</span>
+                            <Lock size={14} className="ml-auto" />
                         </div>
                     ) : (
                         <Link
@@ -335,15 +310,10 @@ export default function Sidebar() {
                             </div>
                         </div>
                     ) : !canPostApprenticeships ? (
-                        <div className="relative group/tooltip">
-                            <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
-                                <IoChatboxEllipsesOutline className="text-xl" />
-                                <span className="text-sm">Messages</span>
-                                <Lock size={14} className="ml-auto" />
-                            </div>
-                            <div className="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
-                                {!hasActiveSubscription ? 'Complete payment to unlock' : 'Account under review'}
-                            </div>
+                        <div className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60">
+                            <IoChatboxEllipsesOutline className="text-xl" />
+                            <span className="text-sm">Messages</span>
+                            <Lock size={14} className="ml-auto" />
                         </div>
                     ) : (
                         <Link
@@ -380,15 +350,10 @@ export default function Sidebar() {
                             </div>
                         </div>
                     ) : !canPostApprenticeships ? (
-                        <div className="relative group/tooltip">
-                            <div className="flex items-center justify-center gap-2 w-full bg-gray-300 text-gray-500 py-3 px-4 rounded-xl font-semibold text-sm cursor-not-allowed opacity-60">
-                                {!hasActiveSubscription ? <Clock size={18} /> : <Lock size={18} />}
-                                Post Apprenticeship
-                                <Lock size={14} className="ml-1" />
-                            </div>
-                            <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
-                                {!hasActiveSubscription ? 'Complete payment to unlock' : 'Account under review'}
-                            </div>
+                        <div className="flex items-center justify-center gap-2 w-full bg-gray-300 text-gray-500 py-3 px-4 rounded-xl font-semibold text-sm cursor-not-allowed opacity-60">
+                            {!hasActiveSubscription ? <Clock size={18} /> : <Lock size={18} />}
+                            Post Apprenticeship
+                            <Lock size={14} className="ml-1" />
                         </div>
                     ) : (
                         <Link

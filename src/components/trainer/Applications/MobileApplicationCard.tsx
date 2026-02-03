@@ -53,7 +53,7 @@ const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
                                 <div className='flex flex-col items-end gap-2'>
                                     <button
                                         onClick={() => { props.fetchApplicantDetails(app.seeker_id); }}
-                                        className="text-xs flex gap-1 items-center text-[#4A2C84] border border-[#4A2C84] px-2 rounded-full py-1"
+                                        className="text-xs flex gap-1 items-center text-[#14B8A6] border border-[#14B8A6] px-2 rounded-full py-1"
                                     >
                                         <LuEye className='text-sm' />View
                                     </button>

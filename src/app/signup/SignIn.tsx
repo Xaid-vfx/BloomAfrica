@@ -4,11 +4,8 @@
 import { Suspense, useEffect, useState } from "react"
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import Image from "next/image"
-import SideImage from '../../assets/images/SignIn/LeftIllustration.png'
-import Logo from '../../assets/images/Logo.png'
 import { FcGoogle } from "react-icons/fc";
-import LeftColomn from "@/components/SignUp/LeftColomn/LeftColomn"
+import LeftColumn from "@/components/SignUp/LeftColumn/LeftColumn"
 import * as pixel from '../../lib/fpixel'
 
 export default function SignIn() {
@@ -208,14 +205,14 @@ export default function SignIn() {
     return (
         <div className="h-screen w-full">
             <div className="flex h-full">
-                <LeftColomn />
+                <LeftColumn />
                 <div className="w-full flex items-center justify-center lg:w-[55%]">
                     <div className="lg:w-1/2 w-full px-10">
                         {currentPage == "signin" ? <h1 className="text-2xl text-center mb-4">Welcome Back</h1> :
                             <div>
                                 <div className="mb-6 flex rounded-3xl justify-center ">
-                                    <button className={`text-xs px-3 py-2 rounded-l-2xl lg:font-semibold ${signUpUserTypeTab == 'seeker' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B]"}`} onClick={() => { setsignUpUserTypeTab('seeker') }}>Apprentices</button>
-                                    <button className={`text-xs px-2 py-1 rounded-r-2xl  lg:font-semibold ${signUpUserTypeTab == 'recruiter' ? "text-[#4A2C84] bg-[#eae8fd]" : "text-[#97999B]"}`} onClick={() => { setsignUpUserTypeTab('recruiter') }}>Trainers</button>
+                                    <button className={`text-xs px-3 py-2 rounded-l-2xl lg:font-semibold ${signUpUserTypeTab == 'seeker' ? "text-[#14B8A6] bg-[#14B8A6]/10]" : "text-[#97999B]"}`} onClick={() => { setsignUpUserTypeTab('seeker') }}>Apprentices</button>
+                                    <button className={`text-xs px-2 py-1 rounded-r-2xl  lg:font-semibold ${signUpUserTypeTab == 'recruiter' ? "text-[#14B8A6] bg-[#14B8A6]/10]" : "text-[#97999B]"}`} onClick={() => { setsignUpUserTypeTab('recruiter') }}>Trainers</button>
                                 </div>
                                 <h1 className="text-2xl text-center mb-4">Create a {signUpUserTypeTab == "seeker" ? "Apprentices" : "Trainers"} Account</h1>
                             </div>
@@ -242,7 +239,7 @@ export default function SignIn() {
                         </div>
 
                         <button
-                            className={`relative text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold mt-4 
+                            className={`relative text-white py-3 text-center bg-[#14B8A6] w-full rounded-lg font-semibold mt-4 
                                 ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#3a2266]'}`}
                             onClick={() => { handleSignIn() }}
                             disabled={isLoading}
@@ -270,16 +267,16 @@ export default function SignIn() {
                         </div>
                         {currentPage == "signin" ?
                             <div>
-                                <button className="text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold" onClick={() => { handleSignIn() }}>Sign In</button>
-                                <div className="my-4 text-center text-[#97999B] text-xs">Don't have an account? <span className="text-[#4A2C84] cursor-pointer" onClick={() => { setCurrentPage('signup') }}>Sign Up</span></div>
+                                <button className="text-white py-3 text-center bg-[#14B8A6] w-full rounded-lg font-semibold" onClick={() => { handleSignIn() }}>Sign In</button>
+                                <div className="my-4 text-center text-[#97999B] text-xs">Don't have an account? <span className="text-[#14B8A6] cursor-pointer" onClick={() => { setCurrentPage('signup') }}>Sign Up</span></div>
                             </div> :
                             <div>
                                 <div>
                                     <p className="font-semibold text-xs my-1 text-[#97999B]">Re-enter Password</p>
                                     <input className="px-4 py-3 rounded-lg border placeholder:text-xs mb-4 w-full text-xs" type="password" placeholder="Enter password again" value={confirmPassword} onChange={(e) => { setconfirmPassword(e.target.value) }} />
                                 </div>
-                                <button className="text-white py-3 text-center bg-[#4A2C84] w-full rounded-lg font-semibold" onClick={() => { handleSignUp() }}>Sign Up</button>
-                                <div className="my-4 text-center text-[#97999B] text-xs">Already have an account? <span className="text-[#4A2C84] cursor-pointer" onClick={() => { setCurrentPage('signin') }}>Sign In</span></div>
+                                <button className="text-white py-3 text-center bg-[#14B8A6] w-full rounded-lg font-semibold" onClick={() => { handleSignUp() }}>Sign Up</button>
+                                <div className="my-4 text-center text-[#97999B] text-xs">Already have an account? <span className="text-[#14B8A6] cursor-pointer" onClick={() => { setCurrentPage('signin') }}>Sign In</span></div>
                             </div>} */}
 
                     </div>
@@ -290,7 +287,7 @@ export default function SignIn() {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white p-4 rounded-lg text-center">
                         <p className="text-sm mb-2">Opening in default browser...</p>
-                        <div className="w-6 h-6 border-2 border-[#4A2C84] border-t-transparent rounded-full animate-spin mx-auto"></div>
+                        <div className="w-6 h-6 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin mx-auto"></div>
                     </div>
                 </div>
             )}

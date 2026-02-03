@@ -26,11 +26,11 @@ export default function Qualifications() {
                     (courses).map((item) => {
                         return (
                             <div className="bg-white rounded-lg p-5 flex flex-col justify-between">
-                                <Image src={Logo} alt="" width={50} className="bg-[#E9EBFD] rounded" />
-                                <p className="text-[#4A2C84] font-medium my-2 w-[70%]">{item}</p>
+                                <Image src={Logo} alt="" width={50} className="bg-[#14B8A6]/10] rounded" />
+                                <p className="text-[#14B8A6] font-medium my-2 w-[70%]">{item}</p>
                                 <p className="text-[#7C8493] text-xs">Offered by Prentis</p>
                                 <hr className="opacity-80 my-4" />
-                                <p className="text-[#4A2C84] text-xs font-bold"> <span className=' line-through font-normal'>Go to course</span> Coming Soon</p>
+                                <p className="text-[#14B8A6] text-xs font-bold"> <span className=' line-through font-normal'>Go to course</span> Coming Soon</p>
                             </div>
                         )
                     })
@@ -41,16 +41,16 @@ export default function Qualifications() {
                     (show ? courses : courses.slice(0, 4)).map((item) => {
                         return (
                             <div className="bg-white rounded-lg p-5 flex flex-col justify-between">
-                                <Image src={Logo} alt="" width={50} className="bg-[#E9EBFD] rounded" />
-                                <p className="text-[#4A2C84] font-medium my-2 w-[70%]">{item}</p>
+                                <Image src={Logo} alt="" width={50} className="bg-[#14B8A6]/10] rounded" />
+                                <p className="text-[#14B8A6] font-medium my-2 w-[70%]">{item}</p>
                                 <p className="text-[#7C8493] text-xs">Offered by Prentis</p>
                                 <hr className="opacity-80 my-4" />
-                                <p className="text-[#4A2C84] text-xs font-bold "><span className=' line-through font-normal'>Go to course</span> Coming Soon</p>
+                                <p className="text-[#14B8A6] text-xs font-bold "><span className=' line-through font-normal'>Go to course</span> Coming Soon</p>
                             </div>
                         )
                     })
                 }
-                {!show ? <div onClick={() => { setshow(true) }} className="text-center text-white rounded-xl py-3 mx-6 bg-[#4A2C84] text-xs font-medium cursor-pointer">Show 7 more</div> : ""}
+                {!show ? <div onClick={() => { setshow(true) }} className="text-center text-white rounded-xl py-3 mx-6 bg-[#14B8A6] text-xs font-medium cursor-pointer">Show 7 more</div> : ""}
             </div>
 
         </div>

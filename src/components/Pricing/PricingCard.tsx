@@ -34,7 +34,7 @@ export default function PricingCard(props: Props) {
                     <p className="flex items-center gap-2 text-sm my-3"><Image src={check} alt="" width={12} />Job board access</p>
                 </div>
                 <a href="/">
-                    <button className="text-white bg-[#4A2C84] rounded-3xl py-3 w-full mt-4 mb-2">Get Started</button>
+                    <button className="text-white bg-[#14B8A6] rounded-3xl py-3 w-full mt-4 mb-2">Get Started</button>
                 </a>
 
             </div>

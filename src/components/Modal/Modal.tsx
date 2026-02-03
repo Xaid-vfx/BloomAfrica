@@ -80,7 +80,7 @@ export function DialogDemo(props) {
         <Dialog>
             <DialogTrigger asChild>
                 <div className=''>
-                    <div className="border border-[#4A2C84] lg:flex gap-2 items-center justify-center hidden text-sm font-medium cursor-pointer text-[#4A2C84] px-4 py-2 lg:font-semibold rounded-xl"><BsChatText className="text-xl" /> Chat</div>
+                    <div className="border border-[#14B8A6] lg:flex gap-2 items-center justify-center hidden text-sm font-medium cursor-pointer text-[#14B8A6] px-4 py-2 lg:font-semibold rounded-xl"><BsChatText className="text-xl" /> Chat</div>
                     <BsChatText className="lg:hidden text-2xl" />
                 </div>
             </DialogTrigger>
@@ -100,7 +100,7 @@ export function DialogDemo(props) {
                 </div>
 
                 <DialogFooter>
-                    <Button onClick={createConversation} className="bg-[#4A2C84]" type="submit">
+                    <Button onClick={createConversation} className="bg-[#14B8A6]" type="submit">
                         Send
                     </Button>
                 </DialogFooter>
