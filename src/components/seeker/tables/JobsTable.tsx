@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Image from 'next/image';
 import User from '../../assets/images/user.jpg'
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import { Trash2, MoreVertical, AlertTriangle } from "lucide-react";
 
 interface Column {
     id: 'title' | 'applicants' | 'date' | 'action';
@@ -87,6 +88,23 @@ export default function JobsTable(props: any) {
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(3);
+    const [deleteConfirm, setDeleteConfirm] = React.useState<{ show: boolean; jobId: string; jobTitle: string }>({ show: false, jobId: '', jobTitle: '' });
+    const [isDeleting, setIsDeleting] = React.useState(false);
+
+    const handleDeleteClick = (jobId: string, jobTitle: string) => {
+        setDeleteConfirm({ show: true, jobId, jobTitle });
+    };
+
+    const handleConfirmDelete = async () => {
+        setIsDeleting(true);
+        await props.delete(deleteConfirm.jobId);
+        setIsDeleting(false);
+        setDeleteConfirm({ show: false, jobId: '', jobTitle: '' });
+    };
+
+    const handleCancelDelete = () => {
+        setDeleteConfirm({ show: false, jobId: '', jobTitle: '' });
+    };
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -146,13 +164,18 @@ export default function JobsTable(props: any) {
 
                                                     {column.id === 'date' ? <div className='text-base text-[#7C8493]'>{value}</div> : ""}
 
-                                                    {column.id === 'action' ? <div className='flex flex-col gap-2 justify-center py-1'>
+                                                    {column.id === 'action' ? <div className='flex items-center gap-2 justify-center py-1'>
                                                         <button onClick={() => {
                                                             props.ApplicationsForSelectedJob(row.uid)
-                                                        }} className='text-center bg-[#14B8A6]/10] text-[#14B8A6] px-4 py-2 font-semibold rounded-xl'>
+                                                        }} className='text-center bg-[#14B8A6] hover:bg-[#0D9488] text-white px-4 py-2 font-semibold rounded-xl transition-colors'>
                                                             View Applicants</button>
-                                                        <button onClick={() => { props.delete(row.uid) }} className='bg-white border border-[#c94040] text-[#c94040] px-4 py-2 font-semibold rounded-xl'>
-                                                            Delete</button>
+                                                        <button
+                                                            onClick={() => handleDeleteClick(row.uid, row.title)}
+                                                            className='p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors'
+                                                            title="Delete listing"
+                                                        >
+                                                            <Trash2 size={18} />
+                                                        </button>
                                                     </div> : ""}
                                                 </TableCell>
                                             );
@@ -172,6 +195,58 @@ export default function JobsTable(props: any) {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
+
+            {/* Delete Confirmation Modal */}
+            {deleteConfirm.show && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    {/* Backdrop */}
+                    <div
+                        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                        onClick={handleCancelDelete}
+                    />
+                    {/* Modal */}
+                    <div className="relative bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full mx-4 animate-in fade-in zoom-in duration-200">
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="bg-red-100 rounded-full p-3">
+                                <AlertTriangle className="text-red-600" size={24} />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900">Delete Apprenticeship</h3>
+                                <p className="text-sm text-gray-500">This action cannot be undone</p>
+                            </div>
+                        </div>
+                        <p className="text-gray-700 mb-6">
+                            Are you sure you want to delete <span className="font-semibold">"{deleteConfirm.jobTitle}"</span>? All applications for this listing will also be removed.
+                        </p>
+                        <div className="flex gap-3 justify-end">
+                            <button
+                                onClick={handleCancelDelete}
+                                className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium transition-colors"
+                                disabled={isDeleting}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleConfirmDelete}
+                                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium transition-colors flex items-center gap-2"
+                                disabled={isDeleting}
+                            >
+                                {isDeleting ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                        Deleting...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Trash2 size={16} />
+                                        Delete
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </Paper>
     );
 }

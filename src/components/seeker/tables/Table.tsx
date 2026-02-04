@@ -168,9 +168,9 @@ export default function StickyHeadTable(props: any) {
                                         backgroundColor: '#F8F9FA',
                                         color: '#4A5568',
                                         fontWeight: '600',
-                                        fontSize: '14px',
+                                        fontSize: '13px',
                                         borderBottom: '2px solid #E5E7EB',
-                                        padding: '16px 24px',
+                                        padding: '10px 16px',
                                     }}
                                 >
                                     {column.label}
@@ -203,7 +203,7 @@ export default function StickyHeadTable(props: any) {
                                                     align={column.align}
                                                     sx={{
                                                         borderBottom: '1px solid #E5E7EB',
-                                                        padding: '16px 24px',
+                                                        padding: '12px 16px',
                                                     }}
                                                 >
 
@@ -256,22 +256,20 @@ export default function StickyHeadTable(props: any) {
                                                     ) : ""}
 
                                                     {column.id === 'action' ? (
-                                                        <div className='flex flex-col gap-2 justify-center items-center'>
+                                                        <div className='flex gap-2 justify-center items-center'>
                                                             <button
                                                                 onClick={() => {
                                                                     props.fetchApplicantDetails(row.uid)
                                                                 }}
-                                                                className='bg-[#14B8A6]/10 text-[#14B8A6] px-6 py-2 font-medium text-sm rounded-xl cursor-pointer text-center w-full hover:bg-[#14B8A6] hover:text-white transition-colors'
+                                                                className='bg-[#14B8A6]/10 text-[#14B8A6] px-4 py-1.5 font-medium text-sm rounded-lg cursor-pointer hover:bg-[#14B8A6] hover:text-white transition-colors'
                                                             >
-                                                                View Application
+                                                                View
                                                             </button>
-                                                            <div className="w-full">
-                                                                <DialogDemo
-                                                                    seeker_id={row.uid}
-                                                                    name={row.name}
-                                                                    user_id={props.user.id}
-                                                                />
-                                                            </div>
+                                                            <DialogDemo
+                                                                seeker_id={row.uid}
+                                                                name={row.name}
+                                                                user_id={props.user.id}
+                                                            />
                                                         </div>
                                                     ) : ""}
                                                 </TableCell>

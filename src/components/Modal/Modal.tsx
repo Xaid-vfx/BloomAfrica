@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
@@ -79,30 +78,35 @@ export function DialogDemo(props) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div className=''>
-                    <div className="border border-[#14B8A6] lg:flex gap-2 items-center justify-center hidden text-sm font-medium cursor-pointer text-[#14B8A6] px-4 py-2 lg:font-semibold rounded-xl"><BsChatText className="text-xl" /> Chat</div>
-                    <BsChatText className="lg:hidden text-2xl" />
-                </div>
+                <button className="text-gray-500 hover:text-[#14B8A6] hover:bg-[#14B8A6]/10 p-1.5 rounded-lg transition-colors">
+                    <BsChatText className="text-base" />
+                </button>
             </DialogTrigger>
-            <DialogContent className="lg:w-[50%] w-[80%] max-w-none">
-                <DialogHeader>
-                    <DialogTitle>Send a Message to {props.name}</DialogTitle>
+            <DialogContent className="sm:max-w-md w-[90%] rounded-2xl p-0 overflow-hidden bg-white">
+                <DialogHeader className="px-5 pt-5 pb-3">
+                    <DialogTitle className="text-lg font-semibold text-gray-800">
+                        Message {props.name}
+                    </DialogTitle>
                 </DialogHeader>
 
-                <div className="">
+                <div className="px-5 pb-4">
                     <textarea
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        className="w-full text-sm rounded p-4 border outline-none"
-                        rows={10}
-                        placeholder="Type a message"
+                        className="w-full text-sm rounded-xl p-4 border border-gray-200 outline-none focus:border-[#14B8A6] focus:ring-1 focus:ring-[#14B8A6] transition-colors resize-none"
+                        rows={5}
+                        placeholder="Write your message..."
                     ></textarea>
                 </div>
 
-                <DialogFooter>
-                    <Button onClick={createConversation} className="bg-[#14B8A6]" type="submit">
-                        Send
-                    </Button>
+                <DialogFooter className="px-5 pb-5 pt-0">
+                    <button
+                        onClick={createConversation}
+                        className="w-full bg-[#0A1F44] hover:bg-[#081832] text-white font-medium py-2.5 rounded-xl transition-colors"
+                        type="submit"
+                    >
+                        Send Message
+                    </button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
