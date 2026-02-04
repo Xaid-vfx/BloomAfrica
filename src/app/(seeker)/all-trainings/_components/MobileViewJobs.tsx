@@ -300,6 +300,7 @@ export default function MobileViewJobs(props: any) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
     const [viewMode, setViewMode] = useState<MobileViewMode>('list')
+    const [isLoading, setIsLoading] = useState(true);
     const pageSize = 8; // 8 jobs per page for mobile view
     const isCompanyTrack = props.track === 'company'
 
@@ -334,6 +335,7 @@ export default function MobileViewJobs(props: any) {
     };
 
     useEffect(() => {
+        setIsLoading(true);
         const track = props.track || 'artisan'
         getJobs(currentPage, pageSize, track).then(({ data, count }) => {
             const renderJobs = data?.filter(job => {
@@ -353,6 +355,7 @@ export default function MobileViewJobs(props: any) {
             });
             setjobs(renderJobs || []); // Provide empty array as fallback
             setTotalJobs(count || 0)
+            setIsLoading(false);
         })
     }, [props.location, props.search, props.track, selectedCategories, selectedTypes, selectedModes, certificateOnly, verifiedOnly, currentPage])
 
@@ -366,7 +369,7 @@ export default function MobileViewJobs(props: any) {
         <div className=" pb-10 flex flex-col px-4 lg:hidden w-full mx-auto justify-center max-w-[700px]">
             <div className="justify-center">
                 {/* Filter Pills */}
-                <div className="mb-6 overflow-x-auto pb-2 flex justify-center">
+                <div className="mb-6 pb-2 flex justify-center">
                     <FilterDropdown
                         selectedTypes={selectedTypes}
                         selectedCategories={selectedCategories}
@@ -392,7 +395,11 @@ export default function MobileViewJobs(props: any) {
                 {/* Cards - List View */}
                 {viewMode === 'list' && (
                     <div className="flex flex-col gap-4 lg:hidden w-full">
-                        {jobs && jobs.length > 0 ? jobs.map((job) => (
+                        {isLoading ? (
+                            <div className="flex justify-center items-center h-[250px]">
+                                <MoonLoader color="#0A1F44" />
+                            </div>
+                        ) : jobs && jobs.length > 0 ? jobs.map((job) => (
                             <div
                                 key={job.uid}
                                 onClick={() => handleJobClick(job.uid)}
@@ -400,7 +407,7 @@ export default function MobileViewJobs(props: any) {
                             >
                                 <MobileCardContent job={job} />
                             </div>
-                        )) : totalJobs === 0 ? (
+                        )) : (
                             <div className="flex flex-col items-center justify-center py-12 text-center">
                                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
@@ -418,10 +425,6 @@ export default function MobileViewJobs(props: any) {
                                     There are no programs available at the moment. Check back soon!
                                 </p>
                             </div>
-                        ) : (
-                            <div className="flex justify-center items-center h-[250px]">
-                                <MoonLoader color="#0A1F44" />
-                            </div>
                         )}
                     </div>
                 )}
@@ -429,13 +432,17 @@ export default function MobileViewJobs(props: any) {
                 {/* Cards - Grid View */}
                 {viewMode === 'grid' && (
                     <div className="grid grid-cols-2 gap-3 lg:hidden w-full">
-                        {jobs && jobs.length > 0 ? jobs.map((job) => (
+                        {isLoading ? (
+                            <div className="col-span-2 flex justify-center items-center h-[250px]">
+                                <MoonLoader color="#0A1F44" />
+                            </div>
+                        ) : jobs && jobs.length > 0 ? jobs.map((job) => (
                             <MobileGridCard
                                 key={job.uid}
                                 job={job}
                                 onClick={() => handleJobClick(job.uid)}
                             />
-                        )) : totalJobs === 0 ? (
+                        )) : (
                             <div className="col-span-2 flex flex-col items-center justify-center py-12 text-center">
                                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
@@ -452,10 +459,6 @@ export default function MobileViewJobs(props: any) {
                                 <p className="text-sm text-gray-500 px-4">
                                     There are no programs available at the moment. Check back soon!
                                 </p>
-                            </div>
-                        ) : (
-                            <div className="col-span-2 flex justify-center items-center h-[250px]">
-                                <MoonLoader color="#0A1F44" />
                             </div>
                         )}
                     </div>

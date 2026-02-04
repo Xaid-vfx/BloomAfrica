@@ -410,6 +410,8 @@ export default function OnboardingQuestionnaire() {
       setLastSaved(new Date())
     } finally {
       setIsSaving(false)
+      // Refresh context so sidebar shows updated completion status
+      await refreshOnboardingStatus()
     }
   }
 

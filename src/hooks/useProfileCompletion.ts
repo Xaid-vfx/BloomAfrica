@@ -33,9 +33,9 @@ export default function useProfileCompletion(userId: string | null): ProfileComp
             setLoading(true);
 
             const [seekerResult, educationResult, experienceResult] = await Promise.all([
-                supabase.from('Seekers').select('name, gender, country, state').eq('unique_id', userId).single(),
-                supabase.from('Education').select('school_name, field, level').eq('unique_id', userId).single(),
-                supabase.from('Experience').select('company_name, cv').eq('unique_id', userId).single(),
+                supabase.from('Seekers').select('name, gender, country, state').eq('unique_id', userId).maybeSingle(),
+                supabase.from('Education').select('school_name, field, level').eq('unique_id', userId).maybeSingle(),
+                supabase.from('Experience').select('company_name, cv').eq('unique_id', userId).maybeSingle(),
             ]);
 
             const seeker = seekerResult.data;

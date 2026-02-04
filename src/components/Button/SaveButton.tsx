@@ -111,10 +111,10 @@ export default function SaveButton(props: Props) {
         return (
             <button
                 disabled
-                className="inline-flex items-center gap-2 text-gray-400 border-2 border-gray-200 py-3 px-6 text-center font-medium rounded-lg cursor-wait"
+                className="inline-flex items-center justify-center gap-2 text-gray-400 border-2 border-gray-200 py-2 px-2 sm:py-3 sm:px-6 text-center font-medium rounded-lg cursor-wait"
             >
                 <Bookmark size={18} />
-                Save
+                <span className="hidden sm:inline">Save</span>
             </button>
         )
     }
@@ -122,10 +122,10 @@ export default function SaveButton(props: Props) {
     if (saved) {
         return (
             <button
-                className="inline-flex items-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white py-3 px-6 text-center font-medium rounded-lg transition-colors shadow-md shadow-[#14B8A6]/20"
+                className="inline-flex items-center justify-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white py-2 px-2 sm:py-3 sm:px-6 text-center font-medium rounded-lg transition-colors shadow-md shadow-[#14B8A6]/20"
             >
                 <BookmarkCheck size={18} />
-                Saved
+                <span className="hidden sm:inline">Saved</span>
             </button>
         )
     }
@@ -133,10 +133,10 @@ export default function SaveButton(props: Props) {
     return (
         <button
             onClick={() => { handleApplyJob() }}
-            className="inline-flex items-center gap-2 text-gray-700 hover:text-[#14B8A6] border-2 border-gray-300 hover:border-[#14B8A6] py-3 px-6 text-center font-medium rounded-lg transition-colors"
+            className="inline-flex items-center justify-center gap-2 text-gray-700 hover:text-[#14B8A6] border-2 border-gray-300 hover:border-[#14B8A6] py-2 px-2 sm:py-3 sm:px-6 text-center font-medium rounded-lg transition-colors"
         >
             <Bookmark size={18} />
-            Save
+            <span className="hidden sm:inline">Save</span>
         </button>
     )
 }

@@ -7,6 +7,7 @@ import { SignOut } from "@/lib/utils/signOut";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner"
 import ProfileCompletionDot from "@/components/ProfileCompletionDot"
+import UnreadMessagesDot from "@/components/UnreadMessagesDot/UnreadMessagesDot"
 
 export default function SeekerNavbar(props: any) {
 
@@ -69,7 +70,10 @@ export default function SeekerNavbar(props: any) {
             </a>
             <hr />
             <a href={props.user ? "/seeker/chat" : "/signup"} className="block">
-              <div className="my-4 font-medium cursor-pointer">Messages</div>
+              <div className="my-4 font-medium cursor-pointer flex items-center gap-2">
+                Messages
+                {props.user?.id && <UnreadMessagesDot userId={props.user.id} />}
+              </div>
             </a>
             <hr />
             <a href={props.user ? "/seeker/edit" : "/signup"} className="block">
@@ -116,7 +120,14 @@ export default function SeekerNavbar(props: any) {
               </a>
               <a href={props.user ? "/seeker/saved" : "/signup"} className={`${currentPage == "saved" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Saved</a>
               <a href={props.user ? "/seeker/applied" : "/signup"} className={`${currentPage == "applied" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Applied</a>
-              <a href={props.user ? "/seeker/chat" : "/signup"} className={`${currentPage == "messages" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer`}>Messages</a>
+              <a href={props.user ? "/seeker/chat" : "/signup"} className={`${currentPage == "messages" ? "border-b-2 border-[#14B8A6] text-[#14B8A6]" : ""} text-sm mx-8 font-medium hover:-translate-y-[2px] hover:border-b-2 hover:border-[#14B8A6] transition-all cursor-pointer relative`}>
+                Messages
+                {props.user?.id && (
+                  <span className="absolute -top-1 -right-2">
+                    <UnreadMessagesDot userId={props.user.id} />
+                  </span>
+                )}
+              </a>
             </div>
           </div>
 

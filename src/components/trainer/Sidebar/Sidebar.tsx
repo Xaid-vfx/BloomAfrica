@@ -324,13 +324,15 @@ export default function Sidebar() {
                                     : "text-gray-700 hover:bg-gray-50"
                             }`}
                         >
-                            <div className="flex items-center gap-3 flex-1">
+                            <div className="relative">
                                 <IoChatboxEllipsesOutline className={`text-xl transition-colors ${
                                     isActive('messages') ? "text-white" : "text-gray-500 group-hover:text-[#14B8A6]"
                                 }`} />
-                                <span className="text-sm">Messages</span>
+                                <div className="absolute -top-1 -right-1">
+                                    <UnreadMessagesDot userId={userId} />
+                                </div>
                             </div>
-                            <UnreadMessagesDot userId={userId} />
+                            <span className="text-sm">Messages</span>
                         </Link>
                     )}
 

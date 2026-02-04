@@ -320,7 +320,7 @@ export default function MobileSidebar() {
 
                 {/* Message badge */}
                 {item.path === '/recruiter/messages' && userId && (
-                  <div className="absolute top-1 left-1 scale-75">
+                  <div className="absolute -top-0.5 -right-0.5">
                     <UnreadMessagesDot userId={userId} />
                   </div>
                 )}
@@ -590,13 +590,15 @@ export default function MobileSidebar() {
                         : "text-gray-200 hover:bg-white/10"
                     }`}
                   >
-                    <div className="flex items-center gap-3 flex-1">
+                    <div className="relative">
                       <IoChatboxEllipsesOutline className={`text-xl transition-colors ${
                         isActive('messages') ? "text-white" : "text-gray-300 group-hover:text-[#14B8A6]"
                       }`} />
-                      <span className="text-sm">Messages</span>
+                      <div className="absolute -top-1 -right-1">
+                        <UnreadMessagesDot userId={userId} />
+                      </div>
                     </div>
-                    <UnreadMessagesDot userId={userId} />
+                    <span className="text-sm">Messages</span>
                   </Link>
                 )}
 

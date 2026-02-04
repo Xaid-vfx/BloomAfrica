@@ -17,7 +17,7 @@ async function fetchSeeker(id: string) {
 async function getEducation(id: string) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
-    const { data, error } = await supabase.from('Education').select().eq('unique_id', id).single()
+    const { data, error } = await supabase.from('Education').select().eq('unique_id', id).maybeSingle()
 
     console.log(data);
     return data;
@@ -26,7 +26,7 @@ async function getEducation(id: string) {
 async function getExperience(id: string) {
     cookies().getAll()
     const supabase = createServerComponentClient({ cookies })
-    const { data, error } = await supabase.from('Experience').select().eq('unique_id', id).single()
+    const { data, error } = await supabase.from('Experience').select().eq('unique_id', id).maybeSingle()
 
     console.log(data);
     return data;
