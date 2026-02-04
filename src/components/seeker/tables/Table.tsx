@@ -31,17 +31,12 @@ interface Column {
     format?: (value: number) => string;
 }
 
-const columns: readonly Column[] = [
+const allColumns: readonly Column[] = [
     {
         id: 'name',
         label: 'CANDIDATES',
         minWidth: 170
     },
-    // {
-    //     id: 'status',
-    //     label: 'ACCEPT/REJECT',
-    //     minWidth: 100
-    // },
     {
         id: 'paymentStatus',
         label: 'PAYMENT STATUS',
@@ -106,6 +101,11 @@ export default function StickyHeadTable(props: any) {
 
     const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
     const [isLoading, setIsLoading] = useState(true);
+
+    // Filter out paymentStatus column if the program is free
+    const columns = props.isFree
+        ? allColumns.filter(col => col.id !== 'paymentStatus')
+        : allColumns;
 
     // useEffect(() => {
     //     const fetchPaymentStatuses = async () => {

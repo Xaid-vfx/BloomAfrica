@@ -5,7 +5,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import CountryList from "@/lib/constants/countries"
 import { useRouter } from "next/navigation"
 import { useRecruiter } from "@/context/RecruiterContext"
-import { User, Building2, Globe, MapPin, Upload, Briefcase, Save, X, Wallet, CreditCard, Shield, Users, GraduationCap, BookOpen, Clock, Crown, Sparkles, ChevronRight, Check, XCircle } from "lucide-react"
+import { User, Building2, Globe, MapPin, Upload, Briefcase, Save, X, Wallet, CreditCard, Shield, Users, GraduationCap, BookOpen, Clock, Crown, Sparkles, ChevronRight, Check, XCircle, Lock, AlertCircle } from "lucide-react"
 import { toast } from "sonner"
 
 const INDUSTRY_OPTIONS = [
@@ -51,7 +51,7 @@ const SUPPORT_PROVIDED = [
 ]
 
 export default function EditRecruiter() {
-    const { user, recruiter, company, trainerProfile, subscription, hasActiveSubscription } = useRecruiter()
+    const { user, recruiter, company, trainerProfile, subscription, hasActiveSubscription, isAccountApproved, accountStatus } = useRecruiter()
     const [name, setname] = useState(recruiter?.name)
     const [gender, setgender] = useState(recruiter?.gender)
     const [stateList, setstateList] = useState([])
@@ -528,6 +528,40 @@ export default function EditRecruiter() {
                     </div>
                 )}
 
+                {/* Pending Approval Banner */}
+                {!isAccountApproved && accountStatus === 'pending_review' && (
+                    <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-5 mb-6">
+                        <div className="flex items-start gap-4">
+                            <div className="bg-amber-100 rounded-full p-3 flex-shrink-0">
+                                <AlertCircle className="text-amber-600" size={24} />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-amber-800 mb-1">Account Pending Approval</h3>
+                                <p className="text-amber-700 text-sm">
+                                    Your account is currently under review. Information submitted during onboarding cannot be edited until your account is approved.
+                                    You can still update your personal information, company details, and bank details.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {accountStatus === 'rejected' && (
+                    <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-5 mb-6">
+                        <div className="flex items-start gap-4">
+                            <div className="bg-red-100 rounded-full p-3 flex-shrink-0">
+                                <XCircle className="text-red-600" size={24} />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-red-800 mb-1">Account Not Approved</h3>
+                                <p className="text-red-700 text-sm">
+                                    Your account application was not approved. Please contact support for more information.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Personal Information Card */}
                 <div className="bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mb-6 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-center gap-3 mb-6">
@@ -851,12 +885,20 @@ export default function EditRecruiter() {
                 </div>
 
                 {/* Registrant Information Card */}
-                <div className="bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="bg-[#14B8A6]/10 rounded-full p-3">
-                                <User className="text-[#14B8A6]" size={24} />
+                <div className={`bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm transition-shadow ${!isAccountApproved ? 'opacity-75' : 'hover:shadow-md'}`}>
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                                    <User className="text-[#14B8A6]" size={24} />
+                                </div>
+                                <h2 className="text-xl font-semibold text-[#0A1F44]">Registrant Information</h2>
                             </div>
-                            <h2 className="text-xl font-semibold text-[#0A1F44]">Registrant Information</h2>
+                            {!isAccountApproved && (
+                                <div className="flex items-center gap-1.5 text-amber-600 text-sm">
+                                    <Lock size={14} />
+                                    <span>Locked</span>
+                                </div>
+                            )}
                         </div>
 
                         <div className="grid gap-4 lg:grid-cols-2">
@@ -866,7 +908,8 @@ export default function EditRecruiter() {
                                     value={registrantFullName}
                                     onChange={(e) => { setRegistrantFullName(e.target.value); setShowSaveRegistrant(true) }}
                                     type="text"
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                             <div>
@@ -875,7 +918,8 @@ export default function EditRecruiter() {
                                     value={registrantPosition}
                                     onChange={(e) => { setRegistrantPosition(e.target.value); setShowSaveRegistrant(true) }}
                                     type="text"
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                             <div>
@@ -884,7 +928,8 @@ export default function EditRecruiter() {
                                     value={registrantNIN}
                                     onChange={(e) => { setRegistrantNIN(e.target.value); setShowSaveRegistrant(true) }}
                                     type="text"
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                             <div>
@@ -893,12 +938,13 @@ export default function EditRecruiter() {
                                     value={registrantPhone}
                                     onChange={(e) => { setRegistrantPhone(e.target.value); setShowSaveRegistrant(true) }}
                                     type="tel"
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                         </div>
 
-                        {showSaveRegistrant && (
+                        {showSaveRegistrant && isAccountApproved && (
                             <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-100">
                                 <button
                                     onClick={() => setShowSaveRegistrant(false)}
@@ -919,12 +965,20 @@ export default function EditRecruiter() {
                     </div>
 
                 {/* Business Identity Card */}
-                <div className="bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="bg-[#0A1F44]/10 rounded-full p-3">
-                                <Building2 className="text-[#0A1F44]" size={24} />
+                <div className={`bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm transition-shadow ${!isAccountApproved ? 'opacity-75' : 'hover:shadow-md'}`}>
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-[#0A1F44]/10 rounded-full p-3">
+                                    <Building2 className="text-[#0A1F44]" size={24} />
+                                </div>
+                                <h2 className="text-xl font-semibold text-[#0A1F44]">Business Identity</h2>
                             </div>
-                            <h2 className="text-xl font-semibold text-[#0A1F44]">Business Identity</h2>
+                            {!isAccountApproved && (
+                                <div className="flex items-center gap-1.5 text-amber-600 text-sm">
+                                    <Lock size={14} />
+                                    <span>Locked</span>
+                                </div>
+                            )}
                         </div>
 
                         <div className="grid gap-4 lg:grid-cols-2">
@@ -934,7 +988,8 @@ export default function EditRecruiter() {
                                     value={businessName}
                                     onChange={(e) => { setBusinessName(e.target.value); setShowSaveBusiness(true) }}
                                     type="text"
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                             <div>
@@ -942,7 +997,8 @@ export default function EditRecruiter() {
                                 <select
                                     value={trainerCategory}
                                     onChange={(e) => { setTrainerCategory(e.target.value); setShowSaveBusiness(true) }}
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 >
                                     <option value="">Select category</option>
                                     <option value="individual">Individual Trainer</option>
@@ -956,7 +1012,8 @@ export default function EditRecruiter() {
                                 <select
                                     value={primaryIndustry}
                                     onChange={(e) => { setPrimaryIndustry(e.target.value); setShowSaveBusiness(true) }}
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 >
                                     <option value="">Select industry</option>
                                     {INDUSTRY_OPTIONS.map((industry) => (
@@ -971,7 +1028,8 @@ export default function EditRecruiter() {
                                     onChange={(e) => { setYearsInOperation(e.target.value); setShowSaveBusiness(true) }}
                                     type="number"
                                     min="0"
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                             <div className="lg:col-span-2">
@@ -980,13 +1038,14 @@ export default function EditRecruiter() {
                                     value={businessBio}
                                     onChange={(e) => { setBusinessBio(e.target.value); setShowSaveBusiness(true) }}
                                     rows={3}
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors resize-none"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors resize-none disabled:bg-gray-50 disabled:cursor-not-allowed"
                                     placeholder="Tell us about your business..."
                                 />
                             </div>
                         </div>
 
-                        {showSaveBusiness && (
+                        {showSaveBusiness && isAccountApproved && (
                             <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-100">
                                 <button
                                     onClick={() => setShowSaveBusiness(false)}
@@ -1007,12 +1066,20 @@ export default function EditRecruiter() {
                     </div>
 
                 {/* Verification & Trust Card */}
-                <div className="bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="bg-[#14B8A6]/10 rounded-full p-3">
-                                <Shield className="text-[#14B8A6]" size={24} />
+                <div className={`bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm transition-shadow ${!isAccountApproved ? 'opacity-75' : 'hover:shadow-md'}`}>
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                                    <Shield className="text-[#14B8A6]" size={24} />
+                                </div>
+                                <h2 className="text-xl font-semibold text-[#0A1F44]">Verification & Trust</h2>
                             </div>
-                            <h2 className="text-xl font-semibold text-[#0A1F44]">Verification & Trust</h2>
+                            {!isAccountApproved && (
+                                <div className="flex items-center gap-1.5 text-amber-600 text-sm">
+                                    <Lock size={14} />
+                                    <span>Locked</span>
+                                </div>
+                            )}
                         </div>
 
                         <div className="grid gap-4 lg:grid-cols-2">
@@ -1022,7 +1089,8 @@ export default function EditRecruiter() {
                                     value={cacNumber}
                                     onChange={(e) => { setCacNumber(e.target.value); setShowSaveVerification(true) }}
                                     type="text"
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                             <div>
@@ -1031,7 +1099,8 @@ export default function EditRecruiter() {
                                     value={tinNumber}
                                     onChange={(e) => { setTinNumber(e.target.value); setShowSaveVerification(true) }}
                                     type="text"
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                             <div>
@@ -1040,7 +1109,8 @@ export default function EditRecruiter() {
                                     value={bvnNumber}
                                     onChange={(e) => { setBvnNumber(e.target.value); setShowSaveVerification(true) }}
                                     type="text"
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                             <div>
@@ -1049,12 +1119,13 @@ export default function EditRecruiter() {
                                     value={businessRegDate}
                                     onChange={(e) => { setBusinessRegDate(e.target.value); setShowSaveVerification(true) }}
                                     type="date"
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                         </div>
 
-                        {showSaveVerification && (
+                        {showSaveVerification && isAccountApproved && (
                             <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-100">
                                 <button
                                     onClick={() => setShowSaveVerification(false)}
@@ -1075,12 +1146,20 @@ export default function EditRecruiter() {
                     </div>
 
                 {/* Workspace & Facility Card */}
-                <div className="bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="bg-[#0A1F44]/10 rounded-full p-3">
-                                <MapPin className="text-[#0A1F44]" size={24} />
+                <div className={`bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm transition-shadow ${!isAccountApproved ? 'opacity-75' : 'hover:shadow-md'}`}>
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-[#0A1F44]/10 rounded-full p-3">
+                                    <MapPin className="text-[#0A1F44]" size={24} />
+                                </div>
+                                <h2 className="text-xl font-semibold text-[#0A1F44]">Workspace & Facility</h2>
                             </div>
-                            <h2 className="text-xl font-semibold text-[#0A1F44]">Workspace & Facility</h2>
+                            {!isAccountApproved && (
+                                <div className="flex items-center gap-1.5 text-amber-600 text-sm">
+                                    <Lock size={14} />
+                                    <span>Locked</span>
+                                </div>
+                            )}
                         </div>
 
                         <div className="grid gap-4">
@@ -1090,7 +1169,8 @@ export default function EditRecruiter() {
                                     value={physicalAddress}
                                     onChange={(e) => { setPhysicalAddress(e.target.value); setShowSaveWorkspace(true) }}
                                     rows={2}
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors resize-none"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors resize-none disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                             <div>
@@ -1100,7 +1180,8 @@ export default function EditRecruiter() {
                                     onChange={(e) => { setTeamSize(e.target.value); setShowSaveWorkspace(true) }}
                                     type="number"
                                     min="1"
-                                    className="w-full lg:w-1/2 border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                    disabled={!isAccountApproved}
+                                    className="w-full lg:w-1/2 border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 />
                             </div>
                             <div>
@@ -1110,11 +1191,12 @@ export default function EditRecruiter() {
                                         <button
                                             key={feature}
                                             type="button"
-                                            onClick={() => { toggleArrayItem(facilityFeatures, feature, setFacilityFeatures); setShowSaveWorkspace(true) }}
-                                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                            onClick={() => { if (isAccountApproved) { toggleArrayItem(facilityFeatures, feature, setFacilityFeatures); setShowSaveWorkspace(true) } }}
+                                            disabled={!isAccountApproved}
+                                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed ${
                                                 facilityFeatures.includes(feature)
                                                     ? 'bg-[#14B8A6] text-white'
-                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:hover:bg-gray-100'
                                             }`}
                                         >
                                             {feature}
@@ -1124,7 +1206,7 @@ export default function EditRecruiter() {
                             </div>
                         </div>
 
-                        {showSaveWorkspace && (
+                        {showSaveWorkspace && isAccountApproved && (
                             <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-100">
                                 <button
                                     onClick={() => setShowSaveWorkspace(false)}
@@ -1145,12 +1227,20 @@ export default function EditRecruiter() {
                     </div>
 
                 {/* Program Intent Card */}
-                <div className="bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="bg-[#14B8A6]/10 rounded-full p-3">
-                                <GraduationCap className="text-[#14B8A6]" size={24} />
+                <div className={`bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm transition-shadow ${!isAccountApproved ? 'opacity-75' : 'hover:shadow-md'}`}>
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                                    <GraduationCap className="text-[#14B8A6]" size={24} />
+                                </div>
+                                <h2 className="text-xl font-semibold text-[#0A1F44]">Program Intent & Certification</h2>
                             </div>
-                            <h2 className="text-xl font-semibold text-[#0A1F44]">Program Intent & Certification</h2>
+                            {!isAccountApproved && (
+                                <div className="flex items-center gap-1.5 text-amber-600 text-sm">
+                                    <Lock size={14} />
+                                    <span>Locked</span>
+                                </div>
+                            )}
                         </div>
 
                         <div className="grid gap-6">
@@ -1159,22 +1249,24 @@ export default function EditRecruiter() {
                                 <div className="flex gap-4">
                                     <button
                                         type="button"
-                                        onClick={() => { setPrentisAccreditation(true); setShowSaveProgram(true) }}
-                                        className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                                        onClick={() => { if (isAccountApproved) { setPrentisAccreditation(true); setShowSaveProgram(true) } }}
+                                        disabled={!isAccountApproved}
+                                        className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed ${
                                             prentisAccreditation === true
                                                 ? 'bg-[#14B8A6] text-white'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:hover:bg-gray-100'
                                         }`}
                                     >
                                         Yes
                                     </button>
                                     <button
                                         type="button"
-                                        onClick={() => { setPrentisAccreditation(false); setShowSaveProgram(true) }}
-                                        className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                                        onClick={() => { if (isAccountApproved) { setPrentisAccreditation(false); setShowSaveProgram(true) } }}
+                                        disabled={!isAccountApproved}
+                                        className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed ${
                                             prentisAccreditation === false
                                                 ? 'bg-[#14B8A6] text-white'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:hover:bg-gray-100'
                                         }`}
                                     >
                                         No
@@ -1189,7 +1281,8 @@ export default function EditRecruiter() {
                                         value={alternativeCertification}
                                         onChange={(e) => { setAlternativeCertification(e.target.value); setShowSaveProgram(true) }}
                                         type="text"
-                                        className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors"
+                                        disabled={!isAccountApproved}
+                                        className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                                         placeholder="Describe your certification approach"
                                     />
                                 </div>
@@ -1202,11 +1295,12 @@ export default function EditRecruiter() {
                                         <button
                                             key={type}
                                             type="button"
-                                            onClick={() => { toggleArrayItem(generalProgramTypes, type, setGeneralProgramTypes); setShowSaveProgram(true) }}
-                                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                            onClick={() => { if (isAccountApproved) { toggleArrayItem(generalProgramTypes, type, setGeneralProgramTypes); setShowSaveProgram(true) } }}
+                                            disabled={!isAccountApproved}
+                                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed ${
                                                 generalProgramTypes.includes(type)
                                                     ? 'bg-[#14B8A6] text-white'
-                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:hover:bg-gray-100'
                                             }`}
                                         >
                                             {type}
@@ -1221,7 +1315,8 @@ export default function EditRecruiter() {
                                     <select
                                         value={avgProgramDuration}
                                         onChange={(e) => { setAvgProgramDuration(e.target.value); setShowSaveProgram(true) }}
-                                        className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white"
+                                        disabled={!isAccountApproved}
+                                        className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
                                     >
                                         <option value="">Select duration</option>
                                         <option value="1-3 months">1-3 months</option>
@@ -1235,7 +1330,8 @@ export default function EditRecruiter() {
                                     <select
                                         value={typicalCommitment}
                                         onChange={(e) => { setTypicalCommitment(e.target.value); setShowSaveProgram(true) }}
-                                        className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white"
+                                        disabled={!isAccountApproved}
+                                        className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
                                     >
                                         <option value="">Select commitment</option>
                                         <option value="part-time">Part-time</option>
@@ -1252,11 +1348,12 @@ export default function EditRecruiter() {
                                         <button
                                             key={intent}
                                             type="button"
-                                            onClick={() => { toggleArrayItem(outcomeIntent, intent, setOutcomeIntent); setShowSaveProgram(true) }}
-                                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                            onClick={() => { if (isAccountApproved) { toggleArrayItem(outcomeIntent, intent, setOutcomeIntent); setShowSaveProgram(true) } }}
+                                            disabled={!isAccountApproved}
+                                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed ${
                                                 outcomeIntent.includes(intent)
                                                     ? 'bg-[#14B8A6] text-white'
-                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:hover:bg-gray-100'
                                             }`}
                                         >
                                             {intent}
@@ -1272,11 +1369,12 @@ export default function EditRecruiter() {
                                         <button
                                             key={support}
                                             type="button"
-                                            onClick={() => { toggleArrayItem(supportProvided, support, setSupportProvided); setShowSaveProgram(true) }}
-                                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                            onClick={() => { if (isAccountApproved) { toggleArrayItem(supportProvided, support, setSupportProvided); setShowSaveProgram(true) } }}
+                                            disabled={!isAccountApproved}
+                                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed ${
                                                 supportProvided.includes(support)
                                                     ? 'bg-[#14B8A6] text-white'
-                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:hover:bg-gray-100'
                                             }`}
                                         >
                                             {support}
@@ -1286,7 +1384,7 @@ export default function EditRecruiter() {
                             </div>
                         </div>
 
-                        {showSaveProgram && (
+                        {showSaveProgram && isAccountApproved && (
                             <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-100">
                                 <button
                                     onClick={() => setShowSaveProgram(false)}
@@ -1307,12 +1405,20 @@ export default function EditRecruiter() {
                     </div>
 
                 {/* Curriculum Card */}
-                <div className="bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="bg-[#0A1F44]/10 rounded-full p-3">
-                                <BookOpen className="text-[#0A1F44]" size={24} />
+                <div className={`bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm transition-shadow ${!isAccountApproved ? 'opacity-75' : 'hover:shadow-md'}`}>
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-[#0A1F44]/10 rounded-full p-3">
+                                    <BookOpen className="text-[#0A1F44]" size={24} />
+                                </div>
+                                <h2 className="text-xl font-semibold text-[#0A1F44]">Curriculum Settings</h2>
                             </div>
-                            <h2 className="text-xl font-semibold text-[#0A1F44]">Curriculum Settings</h2>
+                            {!isAccountApproved && (
+                                <div className="flex items-center gap-1.5 text-amber-600 text-sm">
+                                    <Lock size={14} />
+                                    <span>Locked</span>
+                                </div>
+                            )}
                         </div>
 
                         <div className="grid gap-4">
@@ -1321,7 +1427,8 @@ export default function EditRecruiter() {
                                 <select
                                     value={curriculumType}
                                     onChange={(e) => { setCurriculumType(e.target.value); setShowSaveCurriculum(true) }}
-                                    className="w-full lg:w-1/2 border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white"
+                                    disabled={!isAccountApproved}
+                                    className="w-full lg:w-1/2 border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
                                 >
                                     <option value="">Select type</option>
                                     <option value="own">Own Curriculum</option>
@@ -1336,13 +1443,14 @@ export default function EditRecruiter() {
                                     value={curriculumNotes}
                                     onChange={(e) => { setCurriculumNotes(e.target.value); setShowSaveCurriculum(true) }}
                                     rows={3}
-                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors resize-none"
+                                    disabled={!isAccountApproved}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:border-[#14B8A6] focus:outline-none transition-colors resize-none disabled:bg-gray-50 disabled:cursor-not-allowed"
                                     placeholder="Additional notes about your curriculum..."
                                 />
                             </div>
                         </div>
 
-                        {showSaveCurriculum && (
+                        {showSaveCurriculum && isAccountApproved && (
                             <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-100">
                                 <button
                                     onClick={() => setShowSaveCurriculum(false)}
@@ -1363,12 +1471,20 @@ export default function EditRecruiter() {
                     </div>
 
                 {/* Teaching Team Card */}
-                <div className="bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="bg-[#14B8A6]/10 rounded-full p-3">
-                                <Users className="text-[#14B8A6]" size={24} />
+                <div className={`bg-white border-2 border-gray-100 rounded-2xl px-4 py-6 lg:p-8 mt-6 shadow-sm transition-shadow ${!isAccountApproved ? 'opacity-75' : 'hover:shadow-md'}`}>
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-[#14B8A6]/10 rounded-full p-3">
+                                    <Users className="text-[#14B8A6]" size={24} />
+                                </div>
+                                <h2 className="text-xl font-semibold text-[#0A1F44]">Teaching Team</h2>
                             </div>
-                            <h2 className="text-xl font-semibold text-[#0A1F44]">Teaching Team</h2>
+                            {!isAccountApproved && (
+                                <div className="flex items-center gap-1.5 text-amber-600 text-sm">
+                                    <Lock size={14} />
+                                    <span>Locked</span>
+                                </div>
+                            )}
                         </div>
 
                         <div>
@@ -1376,22 +1492,24 @@ export default function EditRecruiter() {
                             <div className="flex gap-4">
                                 <button
                                     type="button"
-                                    onClick={() => { setRequestPrentisTeaching(true); setShowSaveTeaching(true) }}
-                                    className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                                    onClick={() => { if (isAccountApproved) { setRequestPrentisTeaching(true); setShowSaveTeaching(true) } }}
+                                    disabled={!isAccountApproved}
+                                    className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed ${
                                         requestPrentisTeaching === true
                                             ? 'bg-[#14B8A6] text-white'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:hover:bg-gray-100'
                                     }`}
                                 >
                                     Yes, I need support
                                 </button>
                                 <button
                                     type="button"
-                                    onClick={() => { setRequestPrentisTeaching(false); setShowSaveTeaching(true) }}
-                                    className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                                    onClick={() => { if (isAccountApproved) { setRequestPrentisTeaching(false); setShowSaveTeaching(true) } }}
+                                    disabled={!isAccountApproved}
+                                    className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed ${
                                         requestPrentisTeaching === false
                                             ? 'bg-[#14B8A6] text-white'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:hover:bg-gray-100'
                                     }`}
                                 >
                                     No, I have my own team
@@ -1399,7 +1517,7 @@ export default function EditRecruiter() {
                             </div>
                         </div>
 
-                        {showSaveTeaching && (
+                        {showSaveTeaching && isAccountApproved && (
                             <div className="flex justify-end gap-3 mt-6 pt-6 border-t border-gray-100">
                                 <button
                                     onClick={() => setShowSaveTeaching(false)}

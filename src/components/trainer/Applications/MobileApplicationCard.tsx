@@ -9,6 +9,7 @@ interface MobileApplicationCardProps {
     updateStatus: (status: string, id: string) => void;
     fetchApplicantDetails: (id: string) => void;
     id: string;
+    isFree?: boolean;
 }
 
 const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
@@ -47,15 +48,17 @@ const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
                         <div className='flex justify-between items-center'>
                             <div className="flex items-center gap-3">
                                 <p className="font-medium text-gray-900">{app?.name}</p>
-                                {isLoading ? (
-                                    <div className="animate-pulse h-5 w-12 bg-gray-200 rounded-full"></div>
-                                ) : (
-                                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${paymentStatus === 'success'
-                                        ? 'bg-green-50 text-green-600'
-                                        : 'bg-red-50 text-red-600'
-                                        }`}>
-                                        {paymentStatus === 'success' ? 'Paid' : 'Unpaid'}
-                                    </span>
+                                {!props.isFree && (
+                                    isLoading ? (
+                                        <div className="animate-pulse h-5 w-12 bg-gray-200 rounded-full"></div>
+                                    ) : (
+                                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${paymentStatus === 'success'
+                                            ? 'bg-green-50 text-green-600'
+                                            : 'bg-red-50 text-red-600'
+                                            }`}>
+                                            {paymentStatus === 'success' ? 'Paid' : 'Unpaid'}
+                                        </span>
+                                    )
                                 )}
                             </div>
                             <div className='flex items-center gap-2'>

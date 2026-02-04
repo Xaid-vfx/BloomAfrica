@@ -270,6 +270,7 @@ export default function Applications(props: any) {
                                 applications={props.applications}
                                 fetchApplicantDetails={props.fetchApplicantDetails}
                                 id={props.user.id}
+                                isFree={!jobDetails?.signup_fee || jobDetails?.signup_fee === 0}
                             />
                         </div>
 
@@ -281,6 +282,7 @@ export default function Applications(props: any) {
                                 seekerChatId={setseekerChatId}
                                 fetchApplicantDetails={props.fetchApplicantDetails}
                                 applications={props.applications}
+                                isFree={!jobDetails?.signup_fee || jobDetails?.signup_fee === 0}
                             />
                         </div>
                     </>

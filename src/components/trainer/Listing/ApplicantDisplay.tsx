@@ -1,115 +1,194 @@
 import { useState } from "react";
-import { MdOutlineEmail } from "react-icons/md";
-import { MdPhoneIphone } from "react-icons/md";
+import { Mail, Phone, MapPin, Calendar, User, FileText, Download, ExternalLink } from "lucide-react";
 
 export default function ApplicantDisplay(props) {
     const [currTabIndex, setcurrTabIndex] = useState(0)
 
+    const tabs = [
+        { label: "Profile", index: 0 },
+        { label: "Resume", index: 1 }
+    ];
+
     return (
-        <div className="lg:flex items-start gap-6 h-full">
-            
-            <div className="lg:w-[30%] bg-white p-4 pb-2 px-6">
-                <div>
-                    <h1 className="text-xl text-[#25324B]">{props.applicant?.name}</h1>
-                    <p className="text-[#7C8493] text-sm mt-2">Experience</p>
-                </div>
-                <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-                <div>
-                    <h1 className="font-semibold text-lg">Contact</h1>
-                    <div className="flex gap-2 my-2 items-stretch text-[#7C8493]">
-                        <MdOutlineEmail className="text-xl pt-[2px]" />
-                        <div className="text-sm">
-                            <div className="mb-1">Email</div>
-                            <a href={`mailto:${props.applicant?.email}`} className=" text-[#25324B]">{props.applicant?.email}</a>
+        <div className="flex flex-col lg:flex-row gap-6">
+            {/* Left Sidebar - Contact Card */}
+            <div className="lg:w-[280px] flex-shrink-0">
+                <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+                    {/* Header with Avatar */}
+                    <div className="bg-gradient-to-r from-[#0A1F44] to-[#1a3a6e] p-6 text-center">
+                        <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span className="text-3xl font-bold text-white">
+                                {props.applicant?.name?.charAt(0)?.toUpperCase() || "?"}
+                            </span>
                         </div>
+                        <h2 className="text-xl font-semibold text-white">{props.applicant?.name || "Applicant"}</h2>
+                        <p className="text-white/70 text-sm mt-1">Apprentice Applicant</p>
                     </div>
-                    <div className="flex gap-2 my-2 items-stretch text-[#7C8493]">
-                        <MdPhoneIphone className="text-lg pt-[2px]" />
-                        <div className="text-sm">
-                            <div className="mb-1">Phone</div>
-                            <a href={`mailto:${props.applicant?.number}`} className="mt-1 text-[#25324B]">{props.applicant?.number}</a>
+
+                    {/* Contact Details */}
+                    <div className="p-5">
+                        <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Contact Info</h3>
+
+                        <div className="space-y-4">
+                            <a
+                                href={`mailto:${props.applicant?.email}`}
+                                className="flex items-start gap-3 group"
+                            >
+                                <div className="w-9 h-9 bg-[#14B8A6]/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-[#14B8A6]/20 transition-colors">
+                                    <Mail size={16} className="text-[#14B8A6]" />
+                                </div>
+                                <div className="min-w-0">
+                                    <p className="text-xs text-gray-500">Email</p>
+                                    <p className="text-sm font-medium text-gray-900 truncate group-hover:text-[#14B8A6] transition-colors">
+                                        {props.applicant?.email || "Not provided"}
+                                    </p>
+                                </div>
+                            </a>
+
+                            <a
+                                href={`tel:${props.applicant?.number}`}
+                                className="flex items-start gap-3 group"
+                            >
+                                <div className="w-9 h-9 bg-[#14B8A6]/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-[#14B8A6]/20 transition-colors">
+                                    <Phone size={16} className="text-[#14B8A6]" />
+                                </div>
+                                <div className="min-w-0">
+                                    <p className="text-xs text-gray-500">Phone</p>
+                                    <p className="text-sm font-medium text-gray-900 group-hover:text-[#14B8A6] transition-colors">
+                                        {props.applicant?.number || "Not provided"}
+                                    </p>
+                                </div>
+                            </a>
+
+                            {(props.applicant?.state || props.applicant?.country) && (
+                                <div className="flex items-start gap-3">
+                                    <div className="w-9 h-9 bg-[#14B8A6]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <MapPin size={16} className="text-[#14B8A6]" />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <p className="text-xs text-gray-500">Location</p>
+                                        <p className="text-sm font-medium text-gray-900">
+                                            {[props.applicant?.state, props.applicant?.country].filter(Boolean).join(", ") || "Not provided"}
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
-            <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-            <div className="bg-white lg:w-[70%]">
-                <div className="flex gap-10  text-sm">
-                    <div onClick={() => { setcurrTabIndex(0) }} className={`cursor-pointer pb-3 pt-5 px-5 font-semibold ${currTabIndex == 0 ? "border-b-[3px] border-[#4640DE]  text-black" : "text-[#7C8493]"} `}>Applicant Profile</div>
-                    <div onClick={() => { setcurrTabIndex(1) }} className={`cursor-pointer pb-3 pt-5 px-5 font-semibold ${currTabIndex == 1 ? "border-b-[3px] border-[#4640DE] text-black" : "text-[#7C8493]"} `}>Resume</div>
+
+            {/* Main Content */}
+            <div className="flex-1 min-w-0">
+                <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+                    {/* Tabs */}
+                    <div className="flex border-b border-gray-200">
+                        {tabs.map((tab) => (
+                            <button
+                                key={tab.index}
+                                onClick={() => setcurrTabIndex(tab.index)}
+                                className={`px-6 py-4 text-sm font-medium transition-colors relative ${
+                                    currTabIndex === tab.index
+                                        ? "text-[#14B8A6]"
+                                        : "text-gray-500 hover:text-gray-700"
+                                }`}
+                            >
+                                {tab.label}
+                                {currTabIndex === tab.index && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#14B8A6]" />
+                                )}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Tab Content */}
+                    <div className="p-6">
+                        {currTabIndex === 0 ? (
+                            <div className="space-y-8">
+                                {/* Personal Info Section */}
+                                <div>
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <User size={18} className="text-[#14B8A6]" />
+                                        <h3 className="text-lg font-semibold text-[#0A1F44]">Personal Information</h3>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <InfoCard label="Full Name" value={props.applicant?.name} />
+                                        <InfoCard label="Gender" value={props.applicant?.gender} />
+                                        <InfoCard label="Date of Birth" value={props.applicant?.dob} />
+                                        <InfoCard
+                                            label="Location"
+                                            value={[props.applicant?.state, props.applicant?.country].filter(Boolean).join(", ")}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* About Section */}
+                                {props.applicant?.bio && (
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <FileText size={18} className="text-[#14B8A6]" />
+                                            <h3 className="text-lg font-semibold text-[#0A1F44]">About</h3>
+                                        </div>
+                                        <div className="bg-gray-50 rounded-xl p-4">
+                                            <p className="text-gray-700 leading-relaxed">{props.applicant?.bio}</p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="space-y-6">
+                                {/* Resume/CV Section */}
+                                <div>
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <FileText size={18} className="text-[#14B8A6]" />
+                                        <h3 className="text-lg font-semibold text-[#0A1F44]">Resume / CV</h3>
+                                    </div>
+
+                                    {props.experience?.cv ? (
+                                        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 bg-[#14B8A6]/10 rounded-lg flex items-center justify-center">
+                                                    <FileText size={20} className="text-[#14B8A6]" />
+                                                </div>
+                                                <div>
+                                                    <p className="font-medium text-gray-900">Resume Document</p>
+                                                    <p className="text-sm text-gray-500">Click to view or download</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <a
+                                                    href={props.experience?.cv}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center gap-1.5 px-4 py-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white text-sm font-medium rounded-lg transition-colors"
+                                                >
+                                                    <ExternalLink size={14} />
+                                                    View
+                                                </a>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="bg-gray-50 border border-dashed border-gray-300 rounded-xl p-8 text-center">
+                                            <FileText size={32} className="text-gray-400 mx-auto mb-2" />
+                                            <p className="text-gray-500">No resume uploaded</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
-                {currTabIndex == 0 ?
-                    <div className="px-6 py-6">
-                        <div className="">
-                            <h1 className="font-semibold text-lg mb-6">Personal Info</h1>
-                            <div className="grid grid-cols-2 gap-y-4">
-                                <div>
-                                    <p className="text-[#7C8493] text-sm">Full Name</p>
-                                    <p className="text-sm mt-1 font-medium">{props.applicant?.name}</p>
-                                </div>
-                                <div>
-                                    <p className="text-[#7C8493] text-sm">Gender</p>
-                                    <p className="text-sm mt-1 font-medium">{props.applicant?.gender}</p>
-                                </div>
-                                <div>
-                                    <p className="text-[#7C8493] text-sm">Date of Birth</p>
-                                    <p className="text-sm mt-1 font-medium">{props.applicant?.dob}</p>
-                                </div>
-                                <div>
-                                    <p className="text-[#7C8493] text-sm">Language</p>
-                                    <p className="text-sm mt-1 font-medium">English, Hindi</p>
-                                </div>
-                                <div>
-                                    <p className="text-[#7C8493] text-sm">Address</p>
-                                    <p className="text-sm mt-1 font-medium">{props.applicant?.state},  {props.applicant?.country}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <hr className="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-                        <div>
-                            <h1 className="font-semibold text-lg mb-4">Professional Info</h1>
-                            <div>
-                                <p className="text-[#7C8493] text-sm">About me</p>
-                                <p className="text-sm mt-1 font-[450] leading-6">{props.applicant?.bio}</p>
-                            </div>
-                            <div className="grid mt-4 grid-cols-2 gap-y-4">
-                                <div>
-                                    <p className="text-[#7C8493] text-sm">Current Job</p>
-                                    <p className="text-sm mt-1 font-medium">Product Designer</p>
-                                </div>
-                                <div>
-                                    <p className="text-[#7C8493] text-sm">Experience in Years</p>
-                                    <p className="text-sm mt-1 font-medium">$ Years</p>
-                                </div>
-                                <div>
-                                    <p className="text-[#7C8493] text-sm">Highest Qualification</p>
-                                    <p className="text-sm mt-1 font-medium">Bachelors</p>
-                                </div>
-                                <div>
-                                    <p className="text-[#7C8493] text-sm">Skills</p>
-                                    <p className="text-sm mt-1 font-medium">English, Hindi</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div> :
-                    <div className="px-6 py-6">
-                        <div className="flex gap-4 items-baseline">
-                            <p className="font-semibold text-[#515B6F]">Resume/CV</p>
-                            <div className="flex gap-4 text-sm font-semibold">
-                                <a href={props.experience?.cv} target="_blank" className="text-[#897DD3]">View</a>
-                            </div>
-                        </div>
-                        <hr className="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700"></hr>
-                        <div>
-                            <p className="mb-4 font-semibold text-[#515B6F]">Cover Letter</p>
-                            <div className="flex gap-4 text-sm font-semibold">
-                                <p className="text-[#897DD3]">View</p>
-                                <p>Download</p>
-                            </div>
-                        </div>
-                    </div>}
             </div>
         </div>
     )
+}
+
+// Helper component for info cards
+function InfoCard({ label, value }: { label: string; value?: string }) {
+    return (
+        <div className="bg-gray-50 rounded-xl p-4">
+            <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">{label}</p>
+            <p className="text-sm font-medium text-gray-900">{value || "Not provided"}</p>
+        </div>
+    );
 }
