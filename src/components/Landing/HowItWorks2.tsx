@@ -22,7 +22,7 @@ export default function HowItWorks2() {
                     <p className='text-sm my-2 flex items-center gap-2'>
                         <Image src={check} alt='check' width={15} />Offers a convenient and accessible online environment for users.</p>
 
-                    <button className='px-10 py-3 border border-[#4A2C84] text-xs rounded-full font-medium text-[#4A2C84] mt-6'>Join Waitlist {'>'}</button>
+                    <button className='px-10 py-3 border border-[#14B8A6] text-xs rounded-full font-medium text-[#14B8A6] mt-6'>Join Waitlist {'>'}</button>
 
                 </div>
             </div>

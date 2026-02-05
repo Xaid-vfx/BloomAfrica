@@ -98,11 +98,11 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
         try {
             const { error } = await supabase
                 .from('users')
-                .insert({
+                .upsert({
                     name: fullName,
                     email: currentUser?.email,
                     type: "seeker"
-                });
+                }, { onConflict: 'uid' });
 
             if (error) {
                 console.error("Error inserting into users:", error);
@@ -224,7 +224,7 @@ export default function RightColumnSeeker(props: { redirectUrl: string }) {
             <div className="px-6 lg:px-14 py-10 w-full max-w-[640px] mx-auto overflow-y-auto">
                 <FaArrowLeft onClick={() => { router.push('/signup') }} className="cursor-pointer text-2xl mb-4" />
                 <div className="flex justify-between items-baseline">
-                    <h2 className="text-xl font-semibold">Create a Job Seeker Account</h2>
+                    <h2 className="text-xl font-semibold">Create an Apprentice Account</h2>
                 </div>
                 <div className="">
                     <div className="grid grid-cols-2 gap-4 my-4">

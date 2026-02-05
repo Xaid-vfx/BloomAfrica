@@ -1,8 +1,6 @@
 'use client'
-import Image from "next/image";
-import sideImage from "../../../../assets/images/SignIn/Mail sent-pana 1.png"
-import Logo from '../../../../assets/images/Logo.png'
-import EmailSent from '../../../../assets/images/SignIn/Emails-amico 1.png'
+import PrentisLogoWhite from '@/components/Logo/PrentisLogoWhite'
+import { Mail } from 'lucide-react'
 import { Suspense, useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -154,18 +152,22 @@ export default function Verify() {
                         <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
                     </svg>
 
-                    <div className="flex items-center relative z-10">
-                        <Image src={Logo} alt="" width={60} />
-                        <p className="text-3xl text-white font-semibold">Prentis</p>
-                    </div>
-                    <div className="py-10 flex justify-center relative z-10">
-                        <Image src={sideImage} alt="" width={500} className="drop-shadow-2xl" />
+                    <div className="flex-1 flex flex-col justify-center items-center relative z-10">
+                        <PrentisLogoWhite className="text-4xl mb-8" />
+                        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 max-w-md text-center">
+                            <h2 className="text-white text-2xl font-semibold mb-4">Almost there!</h2>
+                            <p className="text-white/80 text-sm leading-relaxed">
+                                Check your inbox for the verification code. Enter it on the right to complete your registration.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div className="flex items-center justify-center w-[55%]">
                     <div className="w-1/2 flex flex-col justify-center items-center">
-                        <Image src={EmailSent} alt="" width={300} />
-                        <h1 className="font-semibold text-2xl text-center my-4">Verify your email address</h1>
+                        <div className="bg-[#14B8A6]/10 rounded-full p-6 mb-6">
+                            <Mail className="w-12 h-12 text-[#14B8A6]" />
+                        </div>
+                        <h1 className="font-semibold text-2xl text-center text-[#0A1F44] mb-4">Verify your email address</h1>
                         {error && (
                             <p className="text-red-500 text-sm mb-4">{error}</p>
                         )}

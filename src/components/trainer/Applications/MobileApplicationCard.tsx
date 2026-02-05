@@ -9,6 +9,7 @@ interface MobileApplicationCardProps {
     updateStatus: (status: string, id: string) => void;
     fetchApplicantDetails: (id: string) => void;
     id: string;
+    isFree?: boolean;
 }
 
 const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
@@ -38,63 +39,41 @@ const MobileApplicationCard: React.FC<MobileApplicationCardProps> = (props) => {
     }, [props.id]);
 
     return (
-        <div className="lg:hidden my-4 flex flex-col gap-4">
-            <p className="lg:hidden text-lg font-semibold">{props.type} Applicants</p>
+        <div className="lg:hidden flex flex-col gap-2">
             {props.applications && props.applications.map((app: any) => {
                 const paymentStatus = app.payment_status;
 
                 return (
-                    <div className="border rounded-md px-5 py-4 bg-white" key={app.seeker_id}>
-                        <div className="">
-                            <div className='flex justify-between items-start'>
-                                <div>
-                                    <p className="font-semibold">{app?.name}</p>
-                                </div>
-                                <div className='flex flex-col items-end gap-2'>
-                                    <button
-                                        onClick={() => { props.fetchApplicantDetails(app.seeker_id); }}
-                                        className="text-xs flex gap-1 items-center text-[#4A2C84] border border-[#4A2C84] px-2 rounded-full py-1"
-                                    >
-                                        <LuEye className='text-sm' />View
-                                    </button>
-                                    {isLoading ? (
-                                        <div className="animate-pulse h-4 w-14 bg-gray-200 rounded-full"></div>
+                    <div className="border rounded-xl px-4 py-3 bg-white" key={app.seeker_id}>
+                        <div className='flex justify-between items-center'>
+                            <div className="flex items-center gap-3">
+                                <p className="font-medium text-gray-900">{app?.name}</p>
+                                {!props.isFree && (
+                                    isLoading ? (
+                                        <div className="animate-pulse h-5 w-12 bg-gray-200 rounded-full"></div>
                                     ) : (
-                                        <div className={`text-xs font-medium px-4 py-1 rounded-full ${paymentStatus === 'success'
-                                            ? 'bg-green-50 border border-green-300 text-green-600'
+                                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${paymentStatus === 'success'
+                                            ? 'bg-green-50 text-green-600'
                                             : 'bg-red-50 text-red-600'
                                             }`}>
                                             {paymentStatus === 'success' ? 'Paid' : 'Unpaid'}
-                                        </div>
-                                    )}
-                                </div>
+                                        </span>
+                                    )
+                                )}
+                            </div>
+                            <div className='flex items-center gap-2'>
+                                <button
+                                    onClick={() => { props.fetchApplicantDetails(app.seeker_id); }}
+                                    className="text-xs flex gap-1 items-center text-[#14B8A6] hover:bg-[#14B8A6]/10 px-2 py-1 rounded-lg transition-colors"
+                                >
+                                    <LuEye className='text-sm' />View
+                                </button>
+                                <DialogDemo seeker_id={app.seeker_id} name={app.name} user_id={props.id} />
                             </div>
                         </div>
-                        <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr>
-                        <div className="flex gap-2 justify-between items-center">
-                            <div>
-                                <div className="text-[#7C8493] text-sm">Date Enrolled</div>
-                                <div>{app.created_at.substring(0, app.created_at.indexOf('T'))}</div>
-                            </div>
-                            <DialogDemo seeker_id={app.seeker_id} name={app.name} user_id={props.id} />
+                        <div className="text-xs text-gray-500 mt-1">
+                            Applied {app.created_at.substring(0, app.created_at.indexOf('T'))}
                         </div>
-                        {/* <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700 p-0"></hr> */}
-
-                        {/* <div className='flex gap-2'>
-                                <button
-                                    onClick={() => { props.updateStatus("accepted", app.unique_id); }}
-                                    className="text-xs  px-4 rounded-full py-2 text-white font-bold bg-green-600"
-                                >
-                                    Accept
-                                </button>
-                                <button
-                                    onClick={() => { props.updateStatus("rejected", app.unique_id); }}
-                                    className="text-xs text-white font-bold bg-red-400  px-4 rounded-full py-2"
-                                >
-                                    Reject
-                                </button>
-                            </div> */}
-
                     </div>
                 );
             })}

@@ -228,7 +228,7 @@ export default function JobDescription(props: { user: { id: string } }) {
             if (isPaidJob) {
                 toast.success("Application submitted! Please complete the payment to confirm your spot.");
             } else {
-                toast.success("Enrolled for the job!");
+                toast.success("Enrolled for the apprenticeship!");
             }
             router.push('/seeker/applied')
         }

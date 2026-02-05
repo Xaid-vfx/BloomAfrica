@@ -13,23 +13,23 @@ type Props = {
 }
 
 export default function EditSeeker(props: Props) {
-    const [name, setname] = useState(props.seeker?.name)
-    const [bio, setbio] = useState(props.seeker?.bio)
-    const [gender, setgender] = useState(props.seeker?.gender)
+    const [name, setname] = useState(props.seeker?.name ?? '')
+    const [bio, setbio] = useState(props.seeker?.bio ?? '')
+    const [gender, setgender] = useState(props.seeker?.gender ?? '')
     const [stateList, setstateList] = useState([])
-    const [country, setcountry] = useState(props.seeker?.country)
-    const [state, setstate] = useState(props.seeker?.state)
+    const [country, setcountry] = useState(props.seeker?.country ?? '')
+    const [state, setstate] = useState(props.seeker?.state ?? '')
     const countryList = CountryList()
 
-    const [ename, setename] = useState(props.education?.school_name)
-    const [efield, setefield] = useState(props.education?.field)
-    const [eyear, seteyear] = useState(props.education?.year)
-    const [elevel, setelevel] = useState(props.education?.level)
+    const [ename, setename] = useState(props.education?.school_name ?? '')
+    const [efield, setefield] = useState(props.education?.field ?? '')
+    const [eyear, seteyear] = useState(props.education?.year ?? '')
+    const [elevel, setelevel] = useState(props.education?.level ?? '')
 
-    const [cname, setcname] = useState(props.experience?.company_name)
-    const [sdate, setsdate] = useState<Date | undefined>(props.experience?.start_date)
-    const [edate, setedate] = useState<Date | undefined>(props.experience?.end_date);
-    const [ctitle, setctitle] = useState(props.experience?.title)
+    const [cname, setcname] = useState(props.experience?.company_name ?? '')
+    const [sdate, setsdate] = useState(props.experience?.start_date ?? '')
+    const [edate, setedate] = useState(props.experience?.end_date ?? '')
+    const [ctitle, setctitle] = useState(props.experience?.title ?? '')
     const [cv, setcv] = useState<File | null>(null);
     const [cover, setcover] = useState<File | null>(null);
 

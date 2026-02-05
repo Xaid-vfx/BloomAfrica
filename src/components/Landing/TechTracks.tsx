@@ -46,7 +46,7 @@ export default function TechTracks() {
                 </p>
             </div>
             <div className="my-12 ms-auto me-auto max-w-[1500px]">
-                <p className="flex items-center gap-2 justify-end text-[#4A2C84] text-sm text-right px-8 mb-6">
+                <p className="flex items-center gap-2 justify-end text-[#14B8A6] text-sm text-right px-8 mb-6">
                     <a href="/all-trainings" className="hover:underline cursor-pointer font-medium">View All Tracks</a>
                     <FaArrowRightLong />
                 </p>

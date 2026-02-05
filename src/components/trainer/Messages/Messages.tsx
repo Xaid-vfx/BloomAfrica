@@ -77,6 +77,8 @@ export default function Messages() {
                 .from('conversation_participants')
                 .select(`
                     conversation_id,
+                    job_id,
+                    job_title,
                     conversations (
                         last_message,
                         last_message_timestamp,
@@ -162,30 +164,38 @@ export default function Messages() {
             </svg>
 
             {/* Fixed Header */}
-            <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+            <div className="flex-shrink-0 px-4 py-6 lg:p-8 border-b border-gray-100">
                 <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44]">Messages</h1>
-                <p className="text-gray-600 mt-1">Communicate with apprentice applicants</p>
             </div>
 
             <div className="flex flex-col flex-1 overflow-hidden relative">
-                <div className='flex flex-row h-full lg:gap-5 p-6 lg:p-8'>
+                <div className='flex flex-row h-full lg:gap-5 px-4 py-6 lg:p-8'>
                     <div className={`${showChat ? 'lg:w-[40%] hidden lg:block' : 'w-full'} overflow-y-auto lg:relative absolute bottom-0 top-0 left-0 right-0 z-10 border-2 border-gray-100 rounded-xl bg-white`}>
                         {relations?.map((relation) => {
+                            const name = relation?.conversations?.conversation_participants[0]?.Seekers?.name;
+                            const jobTitle = relation?.job_title;
+                            const isSelected = selectedConvo === relation?.conversation_id;
+
                             return (
                                 <div
                                     key={relation.conversation_id}
                                     onClick={() => handleChatClick(relation)}
-                                    className={`flex items-center gap-4 text-black px-4 py-3 border-b border-gray-100 cursor-pointer transition-colors ${selectedUser?.seeker == relation?.conversations?.conversation_participants[0].seeker ? 'bg-[#14B8A6]/10' : ''}  hover:bg-[#14B8A6]/5`}
+                                    className={`flex items-center gap-4 text-black px-4 py-3 border-b border-gray-100 cursor-pointer transition-colors ${isSelected ? 'bg-[#14B8A6]/10' : ''}  hover:bg-[#14B8A6]/5`}
                                 >
                                     <div className="w-full">
                                         <div className="flex justify-between w-full">
-                                            <p className="font-semibold text-sm text-[#0A1F44]">{relation?.conversations?.conversation_participants[0].Seekers.name}</p>
-                                            <p className={`text-xs mt-1 ${relation.unreadMessagesCount > 0 ? 'font-semibold text-[#14B8A6]' : 'text-gray-500'}`}>{convertToLocalTime(formatTimestamp(relation?.conversations?.last_message_timestamp))}</p>
+                                            <div className="min-w-0 flex-1">
+                                                <p className="font-semibold text-sm text-[#0A1F44]">{name}</p>
+                                                {jobTitle && (
+                                                    <p className="text-xs text-[#14B8A6] truncate">{jobTitle}</p>
+                                                )}
+                                            </div>
+                                            <p className={`text-xs mt-1 flex-shrink-0 ml-2 ${relation.unreadMessagesCount > 0 ? 'font-semibold text-[#14B8A6]' : 'text-gray-500'}`}>{convertToLocalTime(formatTimestamp(relation?.conversations?.last_message_timestamp))}</p>
                                         </div>
-                                        <div className="flex justify-between w-full items-center">
-                                            <p className="text-sm mt-1 text-gray-600 truncate pr-2">{relation?.conversations?.last_message}</p>
+                                        <div className="flex justify-between w-full items-center mt-1">
+                                            <p className="text-sm text-gray-600 truncate pr-2">{relation?.conversations?.last_message}</p>
                                             {relation.unreadMessagesCount > 0 && (
-                                                <p className="text-[.55rem] mt-1 text-white bg-[#14B8A6] px-2 py-1 rounded-full flex-shrink-0">{relation.unreadMessagesCount}</p>
+                                                <p className="text-[.55rem] text-white bg-[#14B8A6] px-2 py-1 rounded-full flex-shrink-0">{relation.unreadMessagesCount}</p>
                                             )}
                                         </div>
                                     </div>

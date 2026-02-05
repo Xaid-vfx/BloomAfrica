@@ -1,62 +1,93 @@
-import { Button } from "@/components/ui/button"
-import {
-    Dialog,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { useState } from "react";
-import { MoonLoader } from "react-spinners";
+import { CheckCircle2 } from "lucide-react";
 
-export function AgreementModal(props) {
+interface AgreementModalProps {
+    handleAgreement: () => boolean | void;
+    type: number; // 1 = Employer/Trainer, 2 = Apprentice
+    showAgreements: boolean;
+    setShowAgreements: (show: boolean) => void;
+}
 
-    const [agreementCheckbox, setAgreementCheckbox] = useState(false)
-    const [numPages, setNumPages] = useState<number>();
-    const [loading, setloading] = useState(true);
+const TRAINER_TERMS = [
+    "I will provide quality training as described in my apprenticeship posting",
+    "I will maintain a safe and respectful learning environment",
+    "I will honor all commitments regarding compensation, certificates, and support",
+    "I understand Prentis may review my profile and apprenticeship postings",
+    "I agree to Prentis' Terms of Service and Privacy Policy"
+];
+
+const APPRENTICE_TERMS = [
+    "I understand the terms of this apprenticeship program",
+    "I commit to attending and participating actively in the training",
+    "I will respect the trainer's guidelines and workspace",
+    "I understand any fees or commitments outlined in this program",
+    "I agree to Prentis' Terms of Service and Privacy Policy"
+];
+
+export function AgreementModal({ handleAgreement, type, showAgreements, setShowAgreements }: AgreementModalProps) {
+    const [agreementCheckbox, setAgreementCheckbox] = useState(false);
+
     const handleClick = () => {
         if (agreementCheckbox) {
-            const status = props.handleAgreement()
+            const status = handleAgreement();
             if (status) {
-                setAgreementCheckbox(false)
+                setAgreementCheckbox(false);
             }
         }
-    }
-    function onDocumentLoadSuccess({ numPages: nextNumPages }: PDFDocumentProxy): void {
-        setNumPages(nextNumPages);
-    }
+    };
+
+    const terms = type === 1 ? TRAINER_TERMS : APPRENTICE_TERMS;
+    const title = type === 1 ? "Confirm Your Apprenticeship" : "Confirm Enrollment";
+    const buttonText = type === 1 ? "Post Apprenticeship" : "Enroll Now";
 
     return (
-        <Dialog open={props.showAgreements} onOpenChange={props.setShowAgreements}>
-            <DialogContent className="block lg:w-[80%] h-[90%] w-[80%] max-w-none">
-                <DialogHeader>
-                    <DialogTitle>{props.type == 1 ? "Employers" : "Apprentice"} Agreement</DialogTitle>
-                </DialogHeader>
+        <Dialog open={showAgreements} onOpenChange={setShowAgreements}>
+            <DialogContent className="max-w-sm !bg-white dark:!bg-white p-6 rounded-2xl !border-0 shadow-xl mx-4 w-[calc(100%-2rem)]">
+                <div className="text-center mb-4">
+                    <h2 className="text-lg font-semibold text-[#1a1a1a]">{title}</h2>
+                    <p className="text-xs text-[#666] mt-1">Please review and accept</p>
+                </div>
 
-                <div className="w-full h-[85%] py-4 overflow-x-hidden overflow-y-auto">
-                    {loading &&
-                        <div className="flex justify-center items-center h-full w-full absolute">
-                            <MoonLoader />
-                        </div>}
-                    <iframe
-                        className="w-full h-full"
-                        onLoad={() => {
-                            setloading(false)
-                        }}
-                        src={props.type == 1 ? "https://chfxemferwohrffljtjv.supabase.co/storage/v1/object/public/Docs/Agreement/Oga_Trainer%20Agreement.pdf" : "https://chfxemferwohrffljtjv.supabase.co/storage/v1/object/public/Docs/Agreement/Apprentice%20Agreement.pdf"}
-                        style={{ border: 'none' }}
+                <div className="space-y-2.5">
+                    {terms.map((term, index) => (
+                        <div key={index} className="flex items-start gap-2">
+                            <CheckCircle2 size={14} className="text-[#14B8A6] flex-shrink-0 mt-0.5" />
+                            <p className="text-xs text-[#444] leading-relaxed">{term}</p>
+                        </div>
+                    ))}
+                </div>
+
+                <label className="flex items-center gap-2.5 mt-5 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        checked={agreementCheckbox}
+                        onChange={(e) => setAgreementCheckbox(e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-300 text-[#14B8A6] focus:ring-[#14B8A6] bg-white"
                     />
+                    <span className="text-xs text-[#333]">I agree to these terms</span>
+                </label>
+
+                <div className="flex gap-2 mt-4">
+                    <button
+                        onClick={() => setShowAgreements(false)}
+                        className="flex-1 py-2.5 text-xs font-medium text-[#666] hover:text-[#333] transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        disabled={!agreementCheckbox}
+                        onClick={handleClick}
+                        className={`flex-1 py-2.5 text-xs font-medium rounded-lg transition-colors ${
+                            agreementCheckbox
+                                ? 'bg-[#14B8A6] text-white hover:bg-[#0D9488]'
+                                : 'bg-[#f3f3f3] text-[#999] cursor-not-allowed'
+                        }`}
+                    >
+                        {buttonText}
+                    </button>
                 </div>
-                <div className="flex gap-2 mb-2">
-                    <input onChange={(e) => { setAgreementCheckbox(e.target.checked) }} type="checkbox" />
-                    <p className="text-xs md:text-sm">I agree to the following terms and conditions</p>
-                </div>
-                <Button disabled={!agreementCheckbox} onClick={handleClick} className={`bg-[#4A2C84] px-16 w-full md:w-auto ${agreementCheckbox ? "" : "cursor-not-allowed"}`} type="submit">
-                    {props.type == 1 ? "Post" : "Enroll"}
-                </Button>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

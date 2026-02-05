@@ -3,7 +3,9 @@ import AppliedTable from "@/components/seeker/tables/AppliedTable";
 import PaymentComponent from "@/components/Payment/Payment";
 import { useState, useEffect } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { FileCheck, Search, CheckCircle, AlertCircle, Clock } from "lucide-react"
+import { FileCheck, Search, CheckCircle, AlertCircle, Clock, MessageCircle } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 interface Job {
     id: number;
@@ -16,6 +18,10 @@ interface Job {
     limit: number;
     confirmed_count: number;
     paymentStatus?: string;
+    recruiter: string;
+    Recruiters?: {
+        name: string;
+    };
 }
 
 interface MobilePaymentStatusProps {
@@ -121,6 +127,67 @@ export default function Applied(props: { appliedjobs: Job[], seekerId: string })
     const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
     const [jobCapacityStatus, setJobCapacityStatus] = useState<{ [key: string]: boolean }>({});
     const supabase = createClientComponentClient();
+    const router = useRouter();
+
+    const handleMessageTrainer = async (recruiterId: string, jobId: string, jobTitle: string) => {
+        if (!recruiterId) {
+            toast.error("Unable to message trainer");
+            return;
+        }
+
+        // Check if conversation already exists for this job
+        const { data: existingConvo, error: searchError } = await supabase
+            .from('conversation_participants')
+            .select('conversation_id')
+            .eq('seeker', props.seekerId)
+            .eq('recruiter', recruiterId)
+            .eq('job_id', jobId)
+            .maybeSingle();
+
+        if (searchError) {
+            console.error('Error checking conversation:', searchError);
+            toast.error("Something went wrong");
+            return;
+        }
+
+        if (existingConvo) {
+            // Conversation exists, redirect to chat
+            router.push(`/seeker/chat?convo=${existingConvo.conversation_id}`);
+            return;
+        }
+
+        // Create new conversation
+        const { data: newConvo, error: createError } = await supabase
+            .from('conversations')
+            .insert({})
+            .select()
+            .single();
+
+        if (createError) {
+            console.error('Error creating conversation:', createError);
+            toast.error("Failed to start conversation");
+            return;
+        }
+
+        // Add participants with job info
+        const { error: participantError } = await supabase
+            .from('conversation_participants')
+            .insert({
+                conversation_id: newConvo.id,
+                seeker: props.seekerId,
+                recruiter: recruiterId,
+                job_id: jobId,
+                job_title: jobTitle
+            });
+
+        if (participantError) {
+            console.error('Error adding participants:', participantError);
+            toast.error("Failed to start conversation");
+            return;
+        }
+
+        router.push(`/seeker/chat?convo=${newConvo.id}`);
+    };
 
     const checkJobCapacity = async (jobId: string) => {
         const { data, error } = await supabase
@@ -191,6 +258,7 @@ export default function Applied(props: { appliedjobs: Job[], seekerId: string })
                         <AppliedTable
                             jobs={props.appliedjobs}
                             seekerId={props.seekerId}
+                            onMessageTrainer={handleMessageTrainer}
                         />
                     </div>
 
@@ -201,7 +269,12 @@ export default function Applied(props: { appliedjobs: Job[], seekerId: string })
                                 <div key={job.uid} className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                                     <div className="p-4 border-b border-gray-100">
                                         <div className="flex justify-between items-start mb-3">
-                                            <h3 className="font-semibold text-lg text-[#0A1F44] pr-2">{job.title}</h3>
+                                            <div>
+                                                <h3 className="font-semibold text-lg text-[#0A1F44] pr-2">{job.title}</h3>
+                                                {job.Recruiters?.name && (
+                                                    <p className="text-sm text-gray-500">by {job.Recruiters.name}</p>
+                                                )}
+                                            </div>
                                             <a
                                                 href={`/all-trainings/job?id=${job.uid}`}
                                                 className="text-[#14B8A6] hover:text-[#0D9488] text-sm font-medium whitespace-nowrap"
@@ -228,7 +301,14 @@ export default function Applied(props: { appliedjobs: Job[], seekerId: string })
                                         </div>
                                     </div>
 
-                                    <div className="p-4 bg-gray-50">
+                                    <div className="p-4 bg-gray-50 space-y-3">
+                                        <button
+                                            onClick={() => handleMessageTrainer(job.recruiter, job.uid, job.title)}
+                                            className="w-full inline-flex items-center justify-center gap-2 bg-[#0A1F44] hover:bg-[#0A1F44]/90 text-white px-4 py-3 font-medium rounded-xl transition-colors"
+                                        >
+                                            <MessageCircle size={18} />
+                                            Message Trainer
+                                        </button>
                                         <MobilePaymentStatus
                                             job={job}
                                             seekerId={props.seekerId}

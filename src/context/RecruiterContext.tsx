@@ -1,6 +1,7 @@
 'use client'
 
-import { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext, ReactNode, useState, useEffect, useCallback, useRef } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export type SubscriptionStatus = 'pending' | 'active' | 'expired' | 'cancelled' | null;
 export type AccountStatus = 'pending_review' | 'approved' | 'rejected' | null;
@@ -35,10 +36,24 @@ type RecruiterContextType = {
     hasActiveSubscription: boolean;
     accountStatus: AccountStatus;
     isAccountApproved: boolean;
-    canPostApprenticeships: boolean; // true only if paid AND approved
+    canPostApprenticeships: boolean;
+    isOnboardingComplete: boolean;
+    completedOnboardingSections: number[];
+    refreshOnboardingStatus: () => Promise<void>;
+    isLoading: boolean;
 };
 
 const RecruiterContext = createContext<RecruiterContextType | undefined>(undefined);
+
+type RecruiterProviderProps = {
+    children: ReactNode;
+    user: any;
+    company: any;
+    recruiter: any;
+    trainerProfile: any;
+    subscription: TrainerSubscription;
+    isOnboardingComplete: boolean;
+};
 
 export function RecruiterProvider({
     children,
@@ -46,20 +61,114 @@ export function RecruiterProvider({
     company,
     recruiter,
     trainerProfile,
-    subscription
-}: Omit<RecruiterContextType, 'subscriptionStatus' | 'hasActiveSubscription' | 'accountStatus' | 'isAccountApproved' | 'canPostApprenticeships'> & { children: ReactNode }) {
+    subscription,
+    isOnboardingComplete: serverIsComplete
+}: RecruiterProviderProps) {
+    const supabase = createClientComponentClient();
+
+    // Initialize directly from server props - no loading state
+    const serverComplete = serverIsComplete || trainerProfile?.is_completed || false;
+    const serverSections = serverComplete ? [1, 2, 3, 4, 5, 6, 7, 8] : (trainerProfile?.completed_sections || []);
+
+    const [isOnboardingComplete, setIsOnboardingComplete] = useState(serverComplete);
+    const [completedOnboardingSections, setCompletedOnboardingSections] = useState<number[]>(serverSections);
+    const [isLoading, setIsLoading] = useState(true);
+    const hasCheckedLocalStorage = useRef(false);
+
     const subscriptionStatus: SubscriptionStatus = subscription?.status || null;
     const hasActiveSubscription = subscriptionStatus === 'active';
-
-    // Account status - derived from trainer profile
-    // After onboarding completion, account is "pending_review" until admin approves
-    const accountStatus: AccountStatus = trainerProfile?.is_completed
+    const accountStatus: AccountStatus = isOnboardingComplete
         ? (trainerProfile?.account_status || 'pending_review')
         : null;
     const isAccountApproved = accountStatus === 'approved';
-
-    // Can only post apprenticeships if both paid AND approved
     const canPostApprenticeships = hasActiveSubscription && isAccountApproved;
+
+    // Only check localStorage if server says incomplete (for local dev without DB)
+    useEffect(() => {
+        if (hasCheckedLocalStorage.current) return;
+        hasCheckedLocalStorage.current = true;
+
+        // If server already says complete, we're done loading
+        if (serverComplete) {
+            setIsLoading(false);
+            return;
+        }
+
+        async function checkLocalStorage() {
+            try {
+                const { data: { user: authUser } } = await supabase.auth.getUser();
+                if (!authUser) return;
+
+                const localComplete = localStorage.getItem(`trainer_onboarding_complete_${authUser.id}`);
+                if (localComplete === 'true') {
+                    setIsOnboardingComplete(true);
+                    setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8]);
+                    return;
+                }
+
+                const localData = localStorage.getItem(`trainer_profile_${authUser.id}`);
+                if (localData) {
+                    const data = JSON.parse(localData);
+                    if (data.is_completed) {
+                        setIsOnboardingComplete(true);
+                        setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8]);
+                    } else if (data.completed_sections) {
+                        setCompletedOnboardingSections(data.completed_sections);
+                    }
+                }
+            } catch (e) {
+                // Ignore
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        checkLocalStorage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const refreshOnboardingStatus = useCallback(async () => {
+        try {
+            const { data: { user: authUser } } = await supabase.auth.getUser();
+            if (!authUser) return;
+
+            const { data, error } = await supabase
+                .from('TrainerProfiles')
+                .select('is_completed, completed_sections')
+                .eq('user_id', authUser.id)
+                .single();
+
+            if (!error && data) {
+                if (data.is_completed) {
+                    setIsOnboardingComplete(true);
+                    setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8]);
+                } else {
+                    setCompletedOnboardingSections(data.completed_sections || []);
+                }
+            } else {
+                // Fallback to localStorage for local development
+                const localComplete = localStorage.getItem(`trainer_onboarding_complete_${authUser.id}`);
+                if (localComplete === 'true') {
+                    setIsOnboardingComplete(true);
+                    setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8]);
+                    return;
+                }
+
+                const localData = localStorage.getItem(`trainer_profile_${authUser.id}`);
+                if (localData) {
+                    const parsedData = JSON.parse(localData);
+                    if (parsedData.is_completed) {
+                        setIsOnboardingComplete(true);
+                        setCompletedOnboardingSections([1, 2, 3, 4, 5, 6, 7, 8]);
+                    } else if (parsedData.completed_sections) {
+                        setCompletedOnboardingSections(parsedData.completed_sections);
+                    }
+                }
+            }
+        } catch (e) {
+            // Ignore
+        }
+    }, [supabase]);
 
     return (
         <RecruiterContext.Provider value={{
@@ -72,7 +181,11 @@ export function RecruiterProvider({
             hasActiveSubscription,
             accountStatus,
             isAccountApproved,
-            canPostApprenticeships
+            canPostApprenticeships,
+            isOnboardingComplete,
+            completedOnboardingSections,
+            refreshOnboardingStatus,
+            isLoading,
         }}>
             {children}
         </RecruiterContext.Provider>
@@ -85,4 +198,4 @@ export function useRecruiter() {
         throw new Error('useRecruiter must be used within a RecruiterProvider');
     }
     return context;
-} 
+}

@@ -9,7 +9,7 @@ export default function Hero() {
 
 
     return (
-        <div className='relative overflow-hidden w-full'>
+        <div className='relative overflow-hidden w-full h-full'>
             {/* Video Background */}
             <video
                 autoPlay
@@ -33,8 +33,8 @@ export default function Hero() {
             </svg>
 
             {/* Content */}
-            <div className='lg:px-12 lg:pt-16 lg:pb-24 pb-10 ms-auto me-auto max-w-[1500px] relative z-10'>
-                <div className="px-4 mt-[3.2rem] flex flex-col justify-center items-center lg:mt-0">
+            <div className='h-full flex items-center justify-center px-4 lg:px-12 ms-auto me-auto max-w-[1500px] relative z-10'>
+                <div className="flex flex-col justify-center items-center">
                     <div className="flex items-center w-full justify-center">
                         <div className="px-5 py-3 text-sm rounded-full text-white bg-white/10 font-medium border border-white/20 backdrop-blur-sm">Nigeria's #1 Apprenticeship Platform </div>
                     </div>

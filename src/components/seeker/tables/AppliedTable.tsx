@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import PaymentComponent from '../../Payment/Payment';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useState, useEffect } from 'react';
-import { MapPin, Eye, CheckCircle, AlertCircle, Clock } from "lucide-react";
+import { MapPin, Eye, CheckCircle, AlertCircle, Clock, MessageCircle } from "lucide-react";
 
 interface Column {
     id: 'title' | 'location' | 'date' | 'action';
@@ -48,6 +48,7 @@ interface Data {
     signup_fee: number;
     job_limit: number;
     confirmed_count: number;
+    recruiter: string;
 }
 
 function createData(
@@ -59,9 +60,10 @@ function createData(
     action: string,
     signup_fee: number,
     job_limit: number,
-    confirmed_count: number
+    confirmed_count: number,
+    recruiter: string
 ): Data {
-    return { id, uid, title, location, date, action, signup_fee, job_limit, confirmed_count };
+    return { id, uid, title, location, date, action, signup_fee, job_limit, confirmed_count, recruiter };
 }
 
 interface PaymentStatusProps {
@@ -163,7 +165,13 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({
     return status;
 };
 
-export default function AppliedTable(props: any) {
+interface AppliedTableProps {
+    jobs: any[];
+    seekerId: string;
+    onMessageTrainer: (recruiterId: string, jobId: string, jobTitle: string) => void;
+}
+
+export default function AppliedTable(props: AppliedTableProps) {
     const [paymentStatuses, setPaymentStatuses] = useState<{ [key: string]: string }>({});
     const [jobCapacityStatus, setJobCapacityStatus] = useState<{ [key: string]: boolean }>({});
     const supabase = createClientComponentClient();
@@ -214,7 +222,8 @@ export default function AppliedTable(props: any) {
             "...",
             job.signup_fee,
             job.limit,
-            job.confirmed_count || 0
+            job.confirmed_count || 0,
+            job.recruiter
         );
     })];
 
@@ -304,13 +313,22 @@ export default function AppliedTable(props: any) {
 
                                                         {column.id === 'action' && (
                                                             <div className='flex flex-col gap-3 justify-center py-3'>
-                                                                <a
-                                                                    href={`/all-trainings/job?id=${row.uid}`}
-                                                                    className='inline-flex items-center justify-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white px-4 py-2.5 font-semibold rounded-xl transition-colors shadow-md shadow-[#14B8A6]/20'
-                                                                >
-                                                                    <Eye size={16} />
-                                                                    View Application
-                                                                </a>
+                                                                <div className='flex gap-2'>
+                                                                    <a
+                                                                        href={`/all-trainings/job?id=${row.uid}`}
+                                                                        className='inline-flex items-center justify-center gap-2 bg-[#14B8A6] hover:bg-[#0D9488] text-white px-4 py-2.5 font-semibold rounded-xl transition-colors shadow-md shadow-[#14B8A6]/20'
+                                                                    >
+                                                                        <Eye size={16} />
+                                                                        View
+                                                                    </a>
+                                                                    <button
+                                                                        onClick={() => props.onMessageTrainer(row.recruiter, row.uid, row.title)}
+                                                                        className='inline-flex items-center justify-center gap-2 bg-[#0A1F44] hover:bg-[#0A1F44]/90 text-white px-4 py-2.5 font-semibold rounded-xl transition-colors'
+                                                                    >
+                                                                        <MessageCircle size={16} />
+                                                                        Message
+                                                                    </button>
+                                                                </div>
                                                                 <PaymentStatus
                                                                     row={row}
                                                                     seekerId={props.seekerId}

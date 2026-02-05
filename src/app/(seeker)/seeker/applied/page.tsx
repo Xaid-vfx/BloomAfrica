@@ -26,7 +26,7 @@ async function fetchAppliedJobsWithPayments(id: string) {
     ]);
 
     const appliedJobs = await Promise.all(applicantsResponse.data?.map(async (job) => {
-        const { data, error } = await supabase.from('Jobs').select().eq('uid', job.job_id).single();
+        const { data, error } = await supabase.from('Jobs').select('*, Recruiters(name)').eq('uid', job.job_id).single();
 
         // Find payment status for this job
         const paymentStatus = paymentsResponse.data?.find(payment => payment.job_id === job.job_id)?.status;

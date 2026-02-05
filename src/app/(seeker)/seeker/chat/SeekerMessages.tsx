@@ -2,15 +2,19 @@
 import ChatClient from "@/components/Chat/Chat";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { MessageCircle, Search, Mail } from "lucide-react";
 
 export default function SeekerMessages(props) {
+    const searchParams = useSearchParams();
+    const convoParam = searchParams.get('convo');
 
     const [showChat, setshowChat] = useState(false);
     const [selectedUser, setselectedUser] = useState();
     const [selectedConvo, setselectedConvo] = useState();
     const [relations, setrelations] = useState(props.relations);
     const [supabaseClient] = useState(() => createClientComponentClient());
+    const [initialConvoHandled, setInitialConvoHandled] = useState(false);
 
     function convertToLocalTime(utcTimeStr) {
         // Convert UTC time to local time
@@ -58,12 +62,25 @@ export default function SeekerMessages(props) {
         }
     }
 
+    // Auto-select conversation from URL parameter
+    useEffect(() => {
+        if (convoParam && relations.length > 0 && !initialConvoHandled) {
+            const targetRelation = relations.find(r => r.conversation_id === convoParam);
+            if (targetRelation) {
+                handleChatClick(targetRelation);
+                setInitialConvoHandled(true);
+            }
+        }
+    }, [convoParam, relations, initialConvoHandled]);
+
     useEffect(() => {
         async function fetchRelations() {
             const { data, error } = await supabaseClient
                 .from('conversation_participants')
                 .select(`
                     conversation_id,
+                    job_id,
+                    job_title,
                     conversations (
                         last_message,
                         last_message_timestamp,
@@ -145,7 +162,7 @@ export default function SeekerMessages(props) {
     };
 
     return (
-        <div className="relative min-h-screen">
+        <div className="relative flex flex-col h-full overflow-hidden">
             {/* Decorative Blobs */}
             <svg viewBox="0 0 500 500" className="absolute top-0 right-0 w-[400px] h-[400px] opacity-[0.04] pointer-events-none -z-10" style={{ transform: 'translate(30%, -20%)' }}>
                 <path fill="#14B8A6" d="M432.7,219.4c-15.4,59.7-61.3,105.6-121,121c-59.7,15.4-121.9-5.6-164.1-55.3c-42.2-49.7-56.6-117.7-37.7-179.2C129,44.4,175,2.5,231.2,0.2c56.2-2.3,114.8,35.6,144.8,93.8C406,152.2,448.1,159.7,432.7,219.4z"/>
@@ -155,14 +172,14 @@ export default function SeekerMessages(props) {
             </svg>
 
             {/* Header Section */}
-            <div className="mb-8">
-                <div className="flex items-center gap-3 mb-3">
-                    <div className="bg-[#14B8A6]/10 rounded-full p-3">
-                        <MessageCircle className="text-[#14B8A6]" size={28} />
+            <div className="mb-4 flex-shrink-0">
+                <div className="flex items-center gap-3 mb-2">
+                    <div className="bg-[#14B8A6]/10 rounded-full p-2">
+                        <MessageCircle className="text-[#14B8A6]" size={24} />
                     </div>
-                    <h1 className="text-3xl md:text-4xl font-bold text-[#0A1F44]">Messages</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44]">Messages</h1>
                 </div>
-                <p className="text-gray-600 ml-16">
+                <p className="text-gray-600 ml-12 text-sm">
                     {relations.length > 0
                         ? `${relations.length} ${relations.length === 1 ? 'conversation' : 'conversations'}`
                         : "Start a conversation with trainers"}
@@ -171,13 +188,14 @@ export default function SeekerMessages(props) {
 
             {/* Content */}
             {relations.length > 0 ? (
-                <div className='flex flex-row w-full gap-6 h-[calc(100vh-250px)] lg:h-[600px]'>
+                <div className='flex flex-row w-full gap-4 flex-1 min-h-0'>
                     {/* Conversation List */}
                     <div className={`${showChat ? 'lg:w-[40%] w-full hidden lg:block' : 'w-full'} bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden`}>
                         <div className="overflow-y-auto h-full">
                             {relations.map((relation, index) => {
-                                const name = relation?.conversations?.conversation_participants[0].Recruiters.name;
-                                const check = selectedUser?.Recruiters.name === name;
+                                const name = relation?.conversations?.conversation_participants[0]?.Recruiters?.name;
+                                const jobTitle = relation?.job_title;
+                                const check = selectedConvo === relation?.conversation_id;
                                 const ts = convertToLocalTime(formatTimestamp(relation?.conversations?.last_message_timestamp));
                                 const lm = relation?.conversations?.last_message;
 
@@ -193,13 +211,18 @@ export default function SeekerMessages(props) {
                                         <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center font-semibold text-lg ${
                                             check ? 'bg-[#14B8A6] text-white' : 'bg-gray-200 text-gray-700'
                                         }`}>
-                                            {name?.charAt(0).toUpperCase()}
+                                            {name?.charAt(0)?.toUpperCase()}
                                         </div>
 
                                         {/* Content */}
                                         <div className="flex-1 min-w-0">
                                             <div className="flex justify-between items-start mb-1">
-                                                <p className="font-semibold text-[#0A1F44] truncate">{name}</p>
+                                                <div className="min-w-0 flex-1">
+                                                    <p className="font-semibold text-[#0A1F44] truncate">{name}</p>
+                                                    {jobTitle && (
+                                                        <p className="text-xs text-[#14B8A6] truncate">{jobTitle}</p>
+                                                    )}
+                                                </div>
                                                 <p className={`text-xs ml-2 flex-shrink-0 ${
                                                     relation.unreadMessagesCount > 0 ? 'font-semibold text-[#14B8A6]' : 'text-gray-500'
                                                 }`}>
@@ -243,46 +266,46 @@ export default function SeekerMessages(props) {
                     </div>
 
                     {/* Mobile Chat */}
-                    <div className='flex w-full absolute bottom-0 top-0 left-0 right-0 z-20 lg:hidden'>
-                        {showChat && (
+                    {showChat && (
+                        <div className='flex w-full fixed inset-0 z-20 lg:hidden'>
                             <ChatClient
                                 back={() => setshowChat(false)}
                                 sender={props.user}
                                 receiver={selectedUser}
                                 conversation_id={selectedConvo}
                             />
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             ) : (
                 // Empty State
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 md:p-16">
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 md:p-12 flex-1 flex items-center justify-center">
                     <div className="max-w-md mx-auto text-center">
-                        <div className="flex justify-center mb-6">
+                        <div className="flex justify-center mb-4">
                             <div className="relative">
-                                <div className="bg-[#14B8A6]/10 rounded-full p-8">
-                                    <MessageCircle className="text-[#14B8A6]" size={64} strokeWidth={1.5} />
+                                <div className="bg-[#14B8A6]/10 rounded-full p-6">
+                                    <MessageCircle className="text-[#14B8A6]" size={48} strokeWidth={1.5} />
                                 </div>
-                                <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-2 shadow-lg">
-                                    <Mail className="text-gray-400" size={24} />
+                                <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1.5 shadow-lg">
+                                    <Mail className="text-gray-400" size={18} />
                                 </div>
                             </div>
                         </div>
 
-                        <h2 className="text-2xl font-bold text-[#0A1F44] mb-3">
+                        <h2 className="text-xl font-bold text-[#0A1F44] mb-2">
                             No Messages Yet
                         </h2>
 
-                        <p className="text-gray-600 mb-8 leading-relaxed">
+                        <p className="text-gray-600 mb-6 leading-relaxed text-sm">
                             When you apply to apprenticeships or connect with trainers,
                             your conversations will appear here.
                         </p>
 
                         <a
                             href="/all-trainings"
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-[#14B8A6] text-white rounded-xl font-medium hover:bg-[#0D9488] transition-colors shadow-lg shadow-[#14B8A6]/30"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#14B8A6] text-white rounded-xl font-medium hover:bg-[#0D9488] transition-colors shadow-lg shadow-[#14B8A6]/30 text-sm"
                         >
-                            <Search size={20} />
+                            <Search size={18} />
                             Explore Apprenticeships
                         </a>
                     </div>

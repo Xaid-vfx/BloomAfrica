@@ -26,6 +26,8 @@ async function fetchRelations(id) {
         .from('conversation_participants')
         .select(`
             conversation_id,
+            job_id,
+            job_title,
             conversations (
                 last_message,
                 last_message_timestamp,
@@ -58,9 +60,9 @@ export default async function page() {
 
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="h-screen bg-white flex flex-col overflow-hidden">
             <SeekerNavbar user={user || null} />
-            <main className="px-6 py-10 max-w-7xl mx-auto">
+            <main className="px-6 py-4 max-w-7xl mx-auto w-full flex-1 overflow-hidden flex flex-col">
                 <SeekerMessages relations={relations} user={user} />
             </main>
         </div>

@@ -17,8 +17,10 @@ export default function Home() {
   return (
     <main className="flex flex-col">
       <FacebookBrowserRedirect />
-      <div className='bg-white'>
-        <Navbar color="light" />
+      <div className='bg-white relative h-screen min-h-[600px]'>
+        <div className="absolute top-0 left-0 right-0 z-20">
+          <Navbar color="light" />
+        </div>
         <Hero />
       </div>
       <ChooseCareerPath />

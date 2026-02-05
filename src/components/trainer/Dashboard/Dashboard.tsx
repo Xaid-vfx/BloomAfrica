@@ -19,15 +19,23 @@ import {
     CheckCircle2,
     CreditCard,
     AlertCircle,
-    XCircle
+    XCircle,
+    Crown,
+    Sparkles,
+    GraduationCap,
+    Award,
+    Building2,
+    ChevronRight,
+    Check
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import FAB from "@/components/trainer/FAB/FAB"
 import { SwipeableJobCard } from "@/components/trainer/SwipeableCard/SwipeableCard"
 import { usePullToRefresh } from "@/hooks/useSwipeGesture"
 import { toast } from "sonner"
-import PendingPaymentBanner from "@/components/trainer/PendingPaymentBanner/PendingPaymentBanner"
 import { useRecruiter } from "@/context/RecruiterContext"
+import PricingPopup from "@/components/trainer/PricingPopup/PricingPopup"
+import { type PricingBreakdown } from "@/lib/pricing/calculateSubscription"
 
 interface Job {
     uid: string;
@@ -61,12 +69,27 @@ export default function Dashboard({ user, company, recruiter }: Props) {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
+    const [showPricingPopup, setShowPricingPopup] = useState(false);
+    const [pendingPricing, setPendingPricing] = useState<PricingBreakdown | null>(null);
     const router = useRouter();
+    const searchParams = useSearchParams();
     const supabase = createClientComponentClient();
-    const { hasActiveSubscription, subscriptionStatus, accountStatus, isAccountApproved, canPostApprenticeships, subscription } = useRecruiter();
+    const { hasActiveSubscription, subscriptionStatus, accountStatus, isAccountApproved, canPostApprenticeships, subscription, trainerProfile } = useRecruiter();
 
     // Check if features are locked - need both payment AND approval to post
     const isLocked = !canPostApprenticeships;
+
+    // Handle redirect errors from protected routes
+    useEffect(() => {
+        const error = searchParams?.get('error');
+        if (error === 'subscription_required') {
+            toast.error('Please complete your subscription payment to access that page.');
+            router.replace('/recruiter/dashboard');
+        } else if (error === 'approval_pending') {
+            toast.error('Your account is pending approval. Please wait for admin review.');
+            router.replace('/recruiter/dashboard');
+        }
+    }, [searchParams, router]);
 
     // Handle payment from subscription card
     const handlePayNow = async () => {
@@ -123,7 +146,7 @@ export default function Dashboard({ user, company, recruiter }: Props) {
     const fetchApplications = async (jobs: Job[]) => {
         const jobIds = jobs.map(job => job.uid);
         const { data: application, error } = await supabase
-            .from('Applications')
+            .from('Applicants')
             .select()
             .in('job', jobIds);
 
@@ -155,6 +178,22 @@ export default function Dashboard({ user, company, recruiter }: Props) {
                 fetchApplications(fetchedJobs);
             }
         });
+    }, [user.id]);
+
+    // Check for pending pricing data from onboarding completion
+    useEffect(() => {
+        const pendingPricingData = localStorage.getItem(`trainer_pending_pricing_${user.id}`);
+        if (pendingPricingData) {
+            try {
+                const { pricing } = JSON.parse(pendingPricingData);
+                setPendingPricing(pricing);
+                setShowPricingPopup(true);
+                // Clear the pending data so popup only shows once
+                localStorage.removeItem(`trainer_pending_pricing_${user.id}`);
+            } catch (e) {
+                // Ignore parse errors
+            }
+        }
     }, [user.id]);
 
     const handleJobClick = (jobId: string) => {
@@ -192,6 +231,18 @@ export default function Dashboard({ user, company, recruiter }: Props) {
         return "Good Evening";
     };
 
+    // Handle pricing popup payment success
+    const handlePricingPaymentSuccess = async () => {
+        setShowPricingPopup(false);
+        toast.success('Payment successful! Your subscription is now active.');
+        router.refresh();
+    };
+
+    // Handle pricing popup close (pay later)
+    const handlePricingPayLater = () => {
+        setShowPricingPopup(false);
+    };
+
     return (
         <div className='relative flex flex-col h-full w-full bg-white rounded-none lg:rounded-2xl border-0 lg:border border-gray-100 shadow-none lg:shadow-lg overflow-hidden'>
             {/* Decorative Blobs */}
@@ -200,22 +251,17 @@ export default function Dashboard({ user, company, recruiter }: Props) {
             </svg>
 
             {/* Header Section - Fixed */}
-            <div className="flex-shrink-0 p-6 lg:p-8 border-b border-gray-100">
+            <div className="flex-shrink-0 px-4 py-6 lg:p-8 border-b border-gray-100">
                 <h1 className="text-2xl md:text-3xl font-bold text-[#0A1F44] mb-2">
                     {getGreeting()}, {recruiter?.name || company?.name}
                 </h1>
-                <p className="text-gray-600">Here's what's happening with your apprenticeships today</p>
+                <p className="text-gray-600">Here&apos;s what&apos;s happening with your apprenticeships today</p>
             </div>
 
             {/* Scrollable Content Area */}
             <div ref={pullToRefreshRef} className="flex-1 overflow-y-auto">
-                {/* Pending Payment Banner */}
-                <div className="px-6 lg:px-8 pt-6">
-                    <PendingPaymentBanner />
-                </div>
-
                 {/* Account Status Cards */}
-                <div className="px-6 lg:px-8 pt-4">
+                <div className="px-6 lg:px-8 pt-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Account Status Card */}
                         <div className={`rounded-2xl p-4 border-2 ${
@@ -316,7 +362,7 @@ export default function Dashboard({ user, company, recruiter }: Props) {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="p-6 lg:p-8 pt-4">
+                <div className="px-4 py-6 lg:p-8 pt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                     {/* Posted Jobs Card */}
                     <div className="bg-gradient-to-br from-[#14B8A6]/5 to-[#14B8A6]/10 border-2 border-[#14B8A6]/20 rounded-2xl p-6 hover:shadow-lg hover:shadow-[#14B8A6]/10 transition-all">
@@ -482,6 +528,17 @@ export default function Dashboard({ user, company, recruiter }: Props) {
                 }}
                 variant={isLocked ? "secondary" : "accent"}
             />
+
+            {/* Pricing Popup - shown after completing onboarding */}
+            {pendingPricing && (
+                <PricingPopup
+                    isOpen={showPricingPopup}
+                    onClose={handlePricingPayLater}
+                    onPaymentSuccess={handlePricingPaymentSuccess}
+                    pricing={pendingPricing}
+                    isProcessing={isPaymentProcessing}
+                />
+            )}
         </div>
     )
 }
