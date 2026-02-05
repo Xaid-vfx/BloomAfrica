@@ -1,8 +1,8 @@
 import Navbar from "@/components/Navbar/Navbar"
 import { Metadata } from "next"
 import Image from "next/image"
-import Woman from '../../assets/images/SmilingWoman2.png'
-import WomanMobile from '../../assets/images/Smilingwomanmobile.png'
+import Woman from '@/assets/images/SmilingWoman2.png'
+import WomanMobile from '@/assets/images/Smilingwomanmobile.png'
 import Accreditors from "./Accreditors"
 import GetStarted from "@/components/GetStartedBanner/GetStarted"
 import Footer from "@/components/Footer/Footer"
