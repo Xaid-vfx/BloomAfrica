@@ -42,7 +42,22 @@
       "Bash(npx eslint:*)",
       "Bash(head:*)",
       "Bash(node -e:*)",
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "Bash(git -C /home/ibukun/prentis ls-tree:*)",
+      "Bash(command grep -F '357')",
+      "Bash(command grep 'cp C')",
+      "Bash(python3:*)",
+      "Bash(command grep -c 'browse.*&&')",
+      "Bash(git ls-tree:*)",
+      "Bash(command grep 'browse.*&&')",
+      "Bash(while IFS= read -r line)",
+      "Bash(do git rm \"$line\")",
+      "Bash(git -C /home/ibukun/prentis commit -m \"$\\(cat <<''EOF''\nRemove corrupted filenames from git tree\n\nRemoved two files with broken unicode characters in their names\nthat were accidentally committed \\(botched copy-paste commands\\).\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C /home/ibukun/prentis push origin main)",
+      "Bash(git -C /home/ibukun/prentis remote -v)",
+      "Bash(git -C /home/ibukun/prentis checkout prentis)",
+      "Bash(git -C /home/ibukun/prentis stash pop:*)",
+      "Bash(git -C /home/ibukun/prentis stash drop)"
     ],
     "deny": [],
     "ask": []
